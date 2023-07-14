@@ -20,3 +20,14 @@ export const addProduct= async(req)=>{
     })
 return products
 }
+export const updateProduct =async (req)=>{
+    const id = req.params.id
+    const fileImages=req.files
+    const check = fileImages.flatMap((item)=>item.path)
+    const update = await Product.updateOne({
+         _id: id , 
+         ...req.body,
+         images: check,
+    });
+    return update
+}
