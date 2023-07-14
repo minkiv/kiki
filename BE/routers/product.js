@@ -3,6 +3,6 @@ import productController from '../modules/Product/Controller/index.js'
  const router = express.Router()
  router.get("/", productController.getAllProducts)
  router.get("/:id", productController.getOneproducts)
- router.get("/:id", productController.deleteProducts)
+ router.delete("/:id", productController.deleteProducts)
  
  export default router 
