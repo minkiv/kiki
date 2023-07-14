@@ -5,7 +5,7 @@ interface VorcherHeadePropsProps {
     props?: any
 }
 
-const VorcherHeadeProps: FunctionComponent<VorcherHeadePropsProps> = () => {
+const VorcherHeade: FunctionComponent<VorcherHeadePropsProps> = () => {
     return (
         <div>
             <div className='p-4 flex items-center justify-center bg-[#FFE880]'>
@@ -20,5 +20,5 @@ const VorcherHeadeProps: FunctionComponent<VorcherHeadePropsProps> = () => {
     )
 }
 
-export default VorcherHeadeProps
+export default VorcherHeade
 
