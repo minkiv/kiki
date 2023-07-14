@@ -11,13 +11,12 @@ interface DefaultHomeProps {
 const DefaultHome: FunctionComponent<DefaultHomeProps> = () => {
     return (
         <div>
-            <div className='px-[50px] py-3 bg-white'>
+            <div className='sm:px-[50px] max-sm:px-[10px] py-3 bg-white'>
                 <HeaderComponent />
                 <SubHeader />
             </div>
             <VorcherHeade />
             <Outlet />
-
         </div>
     )
 }

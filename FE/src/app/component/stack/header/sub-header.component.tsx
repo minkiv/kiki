@@ -14,8 +14,9 @@ const SubHeader: FunctionComponent<SubHeaderProps> = () => {
                 <div className='item-left'>Trái cây</div>
                 <div className='item-left'>Trái cây</div>
                 <div className='item-left'>Trái cây</div>
+
             </div>
-            <div className='right flex items-center'>
+            <div className='right flex items-center max-sm:mt-4'>
                 <img
                     src='https://salt.tikicdn.com/ts/upload/88/5c/9d/f5ee506836792eb7775e527ef8350a44.png'
                     alt=''
@@ -43,6 +44,14 @@ const cssSubHeader = css`
     .item-left {
       margin-right: 8px;
       color: var(--color-gray-200);
+    }
+  }
+
+  @media (min-width: 0) and (max-width: 739px) {
+    display: unset;
+    margin-left: 0;
+    .left-sub {
+      display:none
     }
   }
 `

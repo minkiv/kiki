@@ -10,7 +10,9 @@ interface Iinput {
 const InputComponent: FunctionComponent<Iinput> = () => {
     return (
         <div css={cssInput}>
-            <BsSearch />
+            <div className='px-2'>
+                <BsSearch className='text-gray-500' />
+            </div>
             <input className='text' type="text" placeholder='Bạn tìm gì hôm nay ?' />
             <ButtonComponent />
         </div >
@@ -19,16 +21,16 @@ const InputComponent: FunctionComponent<Iinput> = () => {
 
 export default InputComponent
 const cssInput = css`
-    width: 100%;
+    width: full;
     display: flex;
     position: relative;
     border: 1px solid rgb(221, 221, 227);
     border-radius: 8px;
-    -webkit-box-align: center;
     align-items: center;
     flex: 1;
-
 .text{
+    width:full;
+    height:full;
     border: 0px;
     padding: 0px 8px;
     font-weight: 400;
