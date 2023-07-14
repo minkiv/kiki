@@ -16,7 +16,7 @@ export const addProduct= async(req)=>{
     const check = fileImages.flatMap((item)=>item.path)
     const products=await Product.create({
         ...req.body,
-        imgae: check
+        images: check
     })
 return products
 }
