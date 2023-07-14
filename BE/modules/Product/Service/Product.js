@@ -25,9 +25,11 @@ export const updateProduct =async (req)=>{
     const fileImages=req.files
     const check = fileImages.flatMap((item)=>item.path)
     const update = await Product.updateOne({
-         _id: id , 
+        _id:id
+    },
+        {
          ...req.body,
          images: check,
-    });
+        });
     return update
 }
