@@ -26,6 +26,7 @@ const cssInput = css`
     border-radius: 8px;
     -webkit-box-align: center;
     align-items: center;
+    flex: 1;
 
 .text{
     border: 0px;

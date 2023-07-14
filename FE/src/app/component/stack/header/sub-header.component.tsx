@@ -22,7 +22,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = () => {
                     className='w-[20px] mr-1'
                 />
                 <div className='title'>
-                    Giao đến: <strong className='underline'>Q. Bắc Từ Liêm, P. Minh Khai, Hà Nội</strong>
+                    Giao đến: <strong className='underline'>Q. Bắc Từ Liêm, P. Minh Khai, Hà Nội </strong>
                 </div>
             </div>
         </div>
@@ -35,6 +35,7 @@ const cssSubHeader = css`
   display: flex;
   padding: 10px 0;
   justify-content: space-between;
+  margin-left: 88px;
 
   .left-sub {
     display: flex;
