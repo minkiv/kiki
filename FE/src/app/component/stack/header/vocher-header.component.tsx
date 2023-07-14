@@ -8,7 +8,7 @@ interface VorcherHeadePropsProps {
 const VorcherHeade: FunctionComponent<VorcherHeadePropsProps> = () => {
     return (
         <div>
-            <div className='p-4 flex items-center justify-center bg-[#FFE880]'>
+            <div className='p-4 flex items-center justify-center bg-[#FFE880] '>
                 <img
                     src='https://salt.tikicdn.com/ts/upload/5e/ec/fb/150f3c633781ed1da9921e45db90c62d.png'
                     alt=''

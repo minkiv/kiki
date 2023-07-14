@@ -9,10 +9,10 @@ interface HeaderComponentProps {
 
 const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     return (
-        <div className='flex items-center justify-between w-[1440px]'>
-            <img src="https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png" className='w-[57px] mr-12 ' />
+        <div className='flex items-center justify-between sm:w-[1440px]'>
+            <img src="https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png" className='w-[57px] mr-12 max-sm:hidden' />
             <InputComponent />
-            <div css={cssWrapperMenu} className='ml-12 flex align-items: center; '>
+            <div className='ml-12 flex align-items:center max-sm:hidden' css={cssWrapperMenu}>
                 <div className='item-menu active'>
                     <div className='icon'>
                         <ImHome />
@@ -33,11 +33,11 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                     </div>
                     <div className='title'>Trang chủ</div>
                 </div>
-
-                <div css={cssCartMain}>
-                    <FaCartPlus />
-                </div>
             </div>
+            <div css={cssCartMain}>
+                <FaCartPlus />
+            </div>
+
         </div>
     )
 }
@@ -68,6 +68,7 @@ const cssWrapperMenu = css`
         color: var(--color-blue-primary);
       }
  }
+ 
 `
 const cssCartMain = css`
 position: relative;
@@ -81,4 +82,8 @@ cursor: pointer;
 &:hover {
   background-color: var(--color-blue-hover);
 }
+@media (min-width: 0) and (max-width: 739px) {
+    padding: 0;
+    margin-left: 10px;
+  }
 `
