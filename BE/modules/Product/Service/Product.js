@@ -11,3 +11,12 @@ export const deleteProduct = async (req) => {
     const remove = await Product.findByIdAndDelete(req.params.id)
     return remove
 }
+export const addProduct= async(req)=>{
+    const fileImages=req.files
+    const check = fileImages.flatMap((item)=>item.path)
+    const products=await Product.create({
+        ...req.body,
+        imgae: check
+    })
+return products
+}
