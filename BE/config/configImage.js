@@ -1,6 +1,6 @@
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { v2 as cloudinary } from 'cloudinary';
-
+import multer from 'multer';
 
 cloudinary.config({ 
     cloud_name: "df3xmajf8",
