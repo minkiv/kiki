@@ -3,16 +3,13 @@ const productSchema= mongoose.Schema({
     name: String,
     price: Number,
     description: String,
-    imgae:{
+    images:{
         type: Array,
         default: []
     },
     quantily: Number,
     brand: String,
-    size: String,
-    color: String,
-    sale: Number,
-    categoryID: {
+    categoryId: {
         type: mongoose.Types.ObjectId,
         ref: 'Category'
     },
