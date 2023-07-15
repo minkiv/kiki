@@ -1,5 +1,8 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
+import SideBarHome from './sidebar-home/sidebar-home.component'
+import SliceHome from './main-home/component/slice/slice.component'
+import MainHome from './main-home/main-home.component'
 
 interface HomeProps {
     props?: any
@@ -8,7 +11,8 @@ interface HomeProps {
 const Home: FunctionComponent<HomeProps> = () => {
     return (
         <div css={cssHome}>
-            HELLO KIKI
+            <SideBarHome />
+            <MainHome />
         </div>
     )
 }
@@ -16,5 +20,11 @@ const Home: FunctionComponent<HomeProps> = () => {
 export default Home
 
 const cssHome = css`
-color:red
+display: flex;
+justify-content: space-between;
+padding-top: 16px;
+width: 1440px;
+margin-right: auto;
+margin-left: auto;
+
 `
