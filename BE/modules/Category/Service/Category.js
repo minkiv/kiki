@@ -5,8 +5,8 @@ export const getAllCategory= async(req,res)=>{
     return getAll
 }
 export const getOneCategory = async(req) => {
-    const categoryService = await Category.findById(req.params.id)
-    return categoryService
+    const getOne = await Category.findById(req.params.id)
+    return getOne
 }
 export const deleteCategory = async(req,res)=>{
     const remove = await Category.findByIdAndDelete(req.params.id)
@@ -19,4 +19,18 @@ export const addCategory = async (req) => {
         image: fileImage.path
     })
     return categorys
+}
+
+export const updateCategory = async(req) => {
+    const id = req.params.id
+    const fileImage = req.file
+    const update = await Category.updateOne({
+        _id: id
+    },
+    {
+        ...req.body,
+        image: fileImage.path
+    }
+    )
+    return update
 }
