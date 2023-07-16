@@ -40,6 +40,9 @@ const MainHome: FunctionComponent<MainHomeProps> = () => {
 export default MainHome
 
 const cssmain = css`
+height:100%;
+position: sticky;
+top: 0px;
 width: calc(100% - 254px);
 overflow-x: hidden;
 .item-list-slider{

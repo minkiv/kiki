@@ -81,4 +81,9 @@ background: rgb(255, 255, 255);
     color: rgb(128, 128, 137);
     padding:10px 10px;
    }
+   &:hover {
+    transition: transform 0.3s, box-shadow 0.3s;
+    transform: translateY(-3px);
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+  }
 `

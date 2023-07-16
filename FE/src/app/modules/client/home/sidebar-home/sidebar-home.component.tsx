@@ -215,15 +215,6 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                         Bán hàng cùng KIKI
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
             </div>
         </div>
     )
@@ -233,6 +224,12 @@ export default SideBarHome
 
 const cssSidebar = css`
 width: 230px;
+height:100dvh;
+overflow-y: auto;
+scrollbar-width: none; /* Loại bỏ thanh cuộn */
+scrollbar-color: transparent;
+position: sticky;
+top: 0px;
 .sidebar-wrapper {
     padding: 12px 8px;
     background-color: var(--color-white);
