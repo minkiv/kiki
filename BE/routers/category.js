@@ -7,4 +7,5 @@ router.get('/:id', categoryController.getOneCategorys)
 router.use(upload.single('file'))
 router.delete('/:id', categoryController.deleteCategorys)
 router.post('/add', categoryController.addCategorys)
+router.put('/edit/:id', categoryController.editCategory)
 export default router
