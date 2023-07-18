@@ -7,7 +7,9 @@ const productSchema= mongoose.Schema({
         type: Array,
         default: []
     },
-    quantily: Number,
+    listQuantily:[
+        {nameColor: String, nameSize: String, quantily: Number}
+    ],
     brand: String,
     categoryId: {
         type: mongoose.Types.ObjectId,
