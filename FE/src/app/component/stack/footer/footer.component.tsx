@@ -101,7 +101,8 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
 export default FooterComponent
 
 const cssFooter = css`
-    width: 1188px;
+    width: 1440px;
+    margin: auto;
     margin-top: 16px;
     font-size: 12px;
     line-height: 16px;
