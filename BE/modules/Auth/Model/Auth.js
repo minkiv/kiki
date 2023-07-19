@@ -4,14 +4,16 @@ const authSchema= mongoose.Schema({
     nickname: String,
     email:{
         type: String,
-        default:''
+        default:'',
+        unique:true
     },
     birth: {
         type: Date
     },
     phoneNumber:{
         type:String,
-        default:''
+        default:'',
+        unique:true
     },
     password: {
         type: String,
