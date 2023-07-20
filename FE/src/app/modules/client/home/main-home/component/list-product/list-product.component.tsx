@@ -43,7 +43,7 @@ const ListProduct: FunctionComponent<ListProductProps> = () => {
 export default ListProduct
 
 const cssProduct = css`
-padding: 12px 16px;
+padding: 12px 0px;
 border-radius: 8px;
 background-color: var(--color-white);
 .titles {
@@ -59,5 +59,10 @@ background-color: var(--color-white);
     gap: 8px;
     background-color: rgb(245, 245, 250);
     grid-template-columns: repeat(6, 1fr);
+  }
+  @media (min-width: 0) and (max-width: 739px) {
+    .list-product {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 `

@@ -48,4 +48,7 @@ overflow-x: hidden;
 .item-list-slider{
     margin-bottom: 20px;
 }
+@media (min-width: 0) and (max-width: 739px) {
+    width: 100%;
+  }
 `
