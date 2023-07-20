@@ -1,7 +1,6 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import SideBarHome from './sidebar-home/sidebar-home.component'
-import SliceHome from './main-home/component/slice/slice.component'
 import MainHome from './main-home/main-home.component'
 
 interface HomeProps {
@@ -26,5 +25,8 @@ padding-top: 16px;
 width: 1440px;
 margin-right: auto;
 margin-left: auto;
-
+@media (min-width: 0) and (max-width: 739px) {
+    display: unset;
+    width: auto;
+  }
 `

@@ -29,7 +29,7 @@ const SliceHome: FunctionComponent<SliceHomeProps> = () => {
     ]
     return (
         <>
-            <div css={cssSwiper} className='flex  justify-between'>
+            <div css={cssSwiper} className=' flex justify-between'>
                 <div css={cssSlider}>
                     <Swiper
                         cssMode={true}
@@ -41,13 +41,13 @@ const SliceHome: FunctionComponent<SliceHomeProps> = () => {
                         className="mySwiper"
                     >
                         {arrayImage?.map((item, index) => (
-                            <SwiperSlide key={index}><img src={item} alt="" className='w-full h-full object-contain' /></SwiperSlide>
+                            <SwiperSlide key={index}><img src={item} alt="" className='w-full h-full object-contain ' /></SwiperSlide>
                         ))}
                     </Swiper>
                 </div>
-                <div className='image-outstanding max-sm:hidden'>
+                <div className='image-outstanding max-sm:hidden '>
                     <img
-                        src='	https://salt.tikicdn.com/cache/w750/ts/tikimsp/2a/ca/26/bde4383edc6a8cb1393289b686ab9c81.jpg.webp'
+                        src='https://salt.tikicdn.com/cache/w750/ts/tikimsp/2a/ca/26/bde4383edc6a8cb1393289b686ab9c81.jpg.webp'
                         alt=''
                         className='object-contain w-full h-full'
                     />
@@ -62,16 +62,21 @@ export default SliceHome
 const cssSwiper = css`
 .image-outstanding {
     max-width: 280px;
-    height: 280px;
     border-radius: 12px;
     overflow: hidden;
     flex-basis: 25%;
   }
+
 `
 const cssSlider = css`
 flex-basis: 75%;
 border-radius: 12px;
 width: 900px;
 overflow: hidden;
-height: 280px;
+
+
+@media (min-width: 0) and (max-width: 739px) {
+    flex-basis: unset;
+    margin: 10px;
+  }
 `

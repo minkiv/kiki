@@ -8,7 +8,7 @@ interface SideBarHomeProps {
 const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
     return (
         <div css={cssSidebar}>
-            <div className='sidebar-wrapper mb-4'>
+            <div className='sidebar-wrapper mb-4 max-sm:hidden'>
                 <div className='outanding'>
                     Nổi bật
                 </div>
@@ -108,15 +108,15 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
 
             {/*  CATEGORY */}
 
-            <div className='sidebar-wrapper mb-4'>
-                <div className='outanding'>
+            <div className='sidebar-wrapper mb-4 max-sm:flex'>
+                <div className='outanding max-sm:hidden' >
                     Danh mục
                 </div>
                 <div className='item-out '>
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/a0/c9/78/cddabc413834de509f40455498c7ff47.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -125,7 +125,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/cb/64/f7/0ebb0ae297f052e34a8161c9bf8efb96.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -134,7 +134,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/a0/c9/78/cddabc413834de509f40455498c7ff47.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -143,7 +143,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/cb/64/f7/0ebb0ae297f052e34a8161c9bf8efb96.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -152,7 +152,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/a0/c9/78/cddabc413834de509f40455498c7ff47.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -161,7 +161,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/cb/64/f7/0ebb0ae297f052e34a8161c9bf8efb96.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -171,7 +171,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/3c/ce/96/db8c083610e45b78d8f7662f0013faa8.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -181,7 +181,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/a0/c9/78/cddabc413834de509f40455498c7ff47.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -190,7 +190,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/a0/c9/78/cddabc413834de509f40455498c7ff47.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -198,7 +198,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="https://salt.tikicdn.com/cache/100x100/ts/upload/a0/c9/78/cddabc413834de509f40455498c7ff47.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
+                    <div className='title'>
                         Astra Reward
                     </div>
                 </div>
@@ -206,7 +206,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
 
 
             {/*tảo cửa hàng */}
-            <div className='sidebar-wrapper mb-4'>
+            <div className='sidebar-wrapper mb-4 max-sm:hidden'>
                 <div className='item-out '>
                     <div className='icon mr-2'>
                         <img src="	https://salt.tikicdn.com/cache/100x100/ts/upload/08/2f/14/fd9d34a8f9c4a76902649d04ccd9bbc5.png.webp" alt="" className='w-[32px] text-center' />
@@ -230,10 +230,14 @@ scrollbar-width: none; /* Loại bỏ thanh cuộn */
 scrollbar-color: transparent;
 position: sticky;
 top: 0px;
+::-webkit-scrollbar {
+    display: none; /* Loại bỏ thanh cuộn trên trình duyệt WebKit (Chrome, Safari) */
+  }
 .sidebar-wrapper {
     padding: 12px 8px;
     background-color: var(--color-white);
     border-radius: 8px;
+    
 }
 .outanding{
     margin-bottom: 8px;
@@ -254,6 +258,25 @@ top: 0px;
     &:hover {
         background: rgba(39, 39, 42, 0.12);
       }
+}
+@media (min-width: 0) and (max-width: 739px) {
+    height:0px;
+    width: 100%;
+    .sidebar-wrapper{
+        width: 100vw;
+        overflow-x: auto;
+        
+    }
+    
+.item-out{s
+    display: flex;
+    flex-direction: column;
+}
+.title {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+  }
 }
 
 `

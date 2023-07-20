@@ -9,6 +9,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 // import required modules
 import { Pagination } from 'swiper/modules';
+import useWindowSize from '~/app/hook/useWindow';
+
 interface SwiperListProps {
     props?: any
     title?: string
@@ -16,12 +18,13 @@ interface SwiperListProps {
 }
 
 const SwiperList: FunctionComponent<SwiperListProps> = ({ title, children }) => {
+    const windowSize = useWindowSize()
     return (
         <>
             <div css={cssSwiper}>
                 <div className='title'>{title}</div>
                 <Swiper
-                    slidesPerView={6}
+                    slidesPerView={windowSize.width < 739 ? 3 : 6}
                     spaceBetween={30}
                     pagination={{
                         clickable: true,
