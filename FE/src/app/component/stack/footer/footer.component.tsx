@@ -76,7 +76,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
                         </p>
 
                         <h4 className='h4'>Tải ứng dụng trên điện thoại</h4>
-                        <div>
+                        <div className='app'>
                             <img className='w-40' src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/appstore.png" alt="" /><br />
                             <img className='w-40' src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/playstore.png" alt="" />
                         </div>
@@ -85,7 +85,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
                 <div className='div3'></div>
                 <div className='div4'>
                     <div className='text-div4'>
-                        <div className=''>
+                        <div className='text4'>
                             <p className='small-text'> Trụ sở chính: Tòa nhà Viettel, Số 285, đường Cách Mạng Tháng 8, phường 12, quận 10, Thành phố Hồ Chí Minh</p>
                             <p className='small-text'>Tiki nhận đặt hàng trực tuyến và giao hàng tận nơi, chưa hỗ trợ mua và nhận hàng trực tiếp tại văn phòng hoặc trung tâm xử lý đơn hàng</p>
                             <p className='small-text'>Giấy chứng nhận Đăng ký Kinh doanh số 0309532909 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp lần đầu ngày 06/01/2010 và sửa đổi lần thứ 23 ngày 14/02/2022</p>
@@ -111,7 +111,9 @@ const cssFooter = css`
     background-color: white;
     font-family: var(--ff-beviet);
     font-size: 1.4rem;
-
+    @media (min-width: 0) and (max-width: 739px) {
+        max-width:300px
+    }
     .div1{padding: 16px 0px};
 
     .div2{    
@@ -119,6 +121,10 @@ const cssFooter = css`
         justify-content: space-between;
         gap: 20px;
         padding: 0 16px;
+        @media (min-width: 0) and (max-width: 739px) {
+           display:block;
+           text-align:center;           
+        }
     };
 
     .block{ width: 268px};
@@ -132,8 +138,8 @@ const cssFooter = css`
         margin-top: 0px;
 
         display: block;
-        margin-block-start: 1.33em;
-        margin-block-end: 1.33em;
+        margin-block-start: 1.33rem;
+        margin-block-end: 1.33rem;
         margin-inline-start: 0px;
         margin-inline-end: 0px;
         font-weight: bold;
@@ -179,6 +185,10 @@ const cssFooter = css`
         align-items: center;
         flex-wrap: wrap;
         gap: 8px;
+        @media (min-width: 0) and (max-width: 739px) {
+            justify-content:center;
+            margin:auto
+        }
     };
     .logoChungNhan .logo1{
         width:32px;
@@ -197,10 +207,23 @@ const cssFooter = css`
     }
     .icon{
         display:flex;
-        padding:10px
+        padding:10px;
+        @media (min-width: 0) and (max-width: 739px) {
+            justify-content:center
+        }
     }
     .icon span{
         padding:7px
     }
-    .
+    .app img{
+        @media (min-width: 0) and (max-width: 739px) {
+            width: 100%
+        }
+    }
+    .div4 .text-dive4 .text4{
+        @media (min-width: 0) and (max-width: 739px) {
+            display:block;
+            text-align:center
+        }
+    }
 `
