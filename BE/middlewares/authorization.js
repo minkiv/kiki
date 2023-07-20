@@ -4,16 +4,16 @@ import jwt from "jsonwebtoken"
 const veryfiletoken = async (req, res, next) => {
     try {
         const token = req.headers.authorization
-        const accessToken = token.split(" ")[1]
-        if (!token) {
+               if (!token) {
             return res.status(status.BAD_REQUEST).json('Bạn chưa đăng nhập')
         }
+        const accessToken = token.split(" ")[1]
         const decoder = await jwt.verify(accessToken, process.env.SECRET_KEY)
         if (!decoder) {
             return res.status(status.BAD_REQUEST).json('lỗi token')
         }
-        const user = await Auth.findOne({ _id: decoder.id })
-        req.User = user
+        const user = await Auth.findOne({ _id: decoder._id })
+        req.body = user
         next()
 
     } catch (error) {
@@ -22,7 +22,7 @@ const veryfiletoken = async (req, res, next) => {
 }
 const checkAdminAuthorization = (req,res,next) =>{
     veryfiletoken(req,res,()=>{
-        if (req.User.role == "ADMIN"){
+        if (req.body.role == "ADMIN"){
             next()
         }else{
             return res.status(status.UNAUTHORIZED).json('Thất Bại')
