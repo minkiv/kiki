@@ -1,6 +1,8 @@
 import deleteCarts from "./Api/deleteCart.js"
-
-const cartController={
-    deleteCarts,
+import  getAllCarts  from "./Api/getAllCart.js";
+const cartController = {
+    getAllCarts,
+    deleteCarts
 }
+
 export default cartController
