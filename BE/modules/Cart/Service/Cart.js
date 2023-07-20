@@ -9,3 +9,15 @@ export const getAllCart= async(req,res)=>{
     const getAll = await Cart.find().populate("carts");
     return getAll
 }
+
+export const updateCart = async(req,res) => {
+    const id = req.params.id
+    const update = await Cart.updateOne({
+        _id:id
+    },
+    {
+        ...req.body
+    }
+    )
+    return update
+}
