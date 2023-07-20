@@ -6,7 +6,6 @@ import bcrypt from 'bcrypt'
 
 const signIn=catchAsync(async(req,res)=>{
     const {email, password, phoneNumber} = req.body
-    // console.log(req.body);
     if (!(email||phoneNumber) || !password) {
         return res.status(status.BAD_REQUEST).json('Nhập đầy đủ thông tin');
       }
