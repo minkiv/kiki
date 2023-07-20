@@ -4,6 +4,7 @@ import express from 'express'
 const router = express.Router()
 
 router.post('/register', authController.registers)
+router.post('/signin', authController.signIn)
 
 export default router
 
