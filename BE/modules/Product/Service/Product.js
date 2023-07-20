@@ -13,10 +13,12 @@ export const deleteProduct = async (req) => {
 }
 export const addProduct= async(req)=>{
     const fileImages=req.files
+    const listQuantily= Array.from(req.body.listQuantily)
     const check = fileImages.flatMap((item)=>item.path)
     const products=await Product.create({
         ...req.body,
-        images: check
+        images: check,
+        listQuantily
     })
 return products
 }
