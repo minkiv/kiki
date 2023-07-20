@@ -8,7 +8,7 @@ const defaultRouter = [
     { path: "/product", route: ProductRouter },
     { path: "/category", route: CategoryRouter },
     { path: '/auth', route: authRouter },
-    { path: "/color", route: ColorRouter }
+    { path: "/color", route: ColorRouter },
 ]
 defaultRouter.forEach((route) => {
     router.use(route.path, route.route)
