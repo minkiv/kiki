@@ -1,20 +1,28 @@
 import mongoose, { Schema } from 'mongoose';
 import { } from "../../Auth/Model/Auth.js";
 
-const cartSchema = mongoose.Schema({
-    idUser: {
+const cartSchema = new mongoose.Schema({
+    userId: {
         type: mongoose.Types.ObjectId,
-        // ref: "../../Auth/Model/Auth.js"
-        ref: "Auth"
+        ref: 'Auth',
     },
-    carts: {
-        type: mongoose.Types.ObjectId,
-        ref: "Product"
-    },
-    quantity: {
-        type: Number
-    }
-})
+    carts: [
+        {
+            productId: {
+                type: mongoose.Types.ObjectId,
+                ref: "Product",
+            },
+            listQuantity: {
+                nameColor: String,
+                nameSize: String,
+                quatity: Number
+            }
+        }
+    ]
+}, {
+    timestamps: true
+});
+
 export default mongoose.model('Cart', cartSchema);
 
 
