@@ -6,38 +6,38 @@ import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component
 
 
 interface ListProductProps {
-    props?: any
+  props?: any
 }
 
 const ListProduct: FunctionComponent<ListProductProps> = () => {
 
-    return (
-        <div css={cssProduct}>
-            <div className='titles'>Gợi ý hôm nay</div>
-            <div className='list-product'>
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-            </div>
-        </div>
-    )
+  return (
+    <div css={cssProduct}>
+      <div className='titles'>Gợi ý hôm nay</div>
+      <div className='list-product'>
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+        <ItemProduct />
+      </div>
+    </div>
+  )
 }
 
 export default ListProduct
@@ -63,6 +63,7 @@ background-color: var(--color-white);
   @media (min-width: 0) and (max-width: 739px) {
     .list-product {
       grid-template-columns: repeat(2, 1fr);
+      padding:5px 10px;
     }
   }
 `

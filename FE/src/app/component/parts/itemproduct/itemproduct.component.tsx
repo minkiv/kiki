@@ -41,7 +41,6 @@ const ItemProduct: FunctionComponent<ItemProductProps> = () => {
 export default ItemProduct
 
 const cssProduct = css`
-width:183px;
 overflow: hidden;
 border-radius: 4px;
 background: rgb(255, 255, 255);

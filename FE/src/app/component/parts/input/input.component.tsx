@@ -29,10 +29,8 @@ const cssInput = css`
     align-items: center;
     flex: 1;
 .text{
-    width:full;
+    width: 92px;
     height:full;
-    border: 0px;
-    padding: 0px 8px;
     font-weight: 400;
     font-size: 0.875 rem;
     line-height: 150%;
