@@ -7,7 +7,7 @@ interface SideBarHomeProps {
 
 const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
     return (
-        <div css={cssSidebar}>
+        <div css={cssSidebar} className='sm:sticky'>
             <div className='sidebar-wrapper mb-4 max-sm:hidden'>
                 <div className='outanding'>
                     Nổi bật
@@ -226,12 +226,11 @@ const cssSidebar = css`
 width: 230px;
 height:100dvh;
 overflow-y: auto;
-scrollbar-width: none; /* Loại bỏ thanh cuộn */
+scrollbar-width: none;
 scrollbar-color: transparent;
-position: sticky;
 top: 0px;
 ::-webkit-scrollbar {
-    display: none; /* Loại bỏ thanh cuộn trên trình duyệt WebKit (Chrome, Safari) */
+    display: none; 
   }
 .sidebar-wrapper {
     padding: 12px 8px;
@@ -260,15 +259,16 @@ top: 0px;
       }
 }
 @media (min-width: 0) and (max-width: 739px) {
-    height:0px;
+    height:130px;
     width: 100%;
-    .sidebar-wrapper{
-        width: 100vw;
+    .sidebar-wrapper{    
         overflow-x: auto;
-        
+        ::-webkit-scrollbar {
+            display: none;
+          }
     }
     
-.item-out{s
+.item-out{
     display: flex;
     flex-direction: column;
 }
