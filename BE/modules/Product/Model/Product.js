@@ -1,14 +1,18 @@
 import mongoose from 'mongoose'
-const productSchema= mongoose.Schema({
+const productSchema = mongoose.Schema({
     name: String,
     price: Number,
     description: String,
-    images:{
+    images: {
         type: Array,
         default: []
     },
-    listQuantily:[
-        {nameColor: String, nameSize: String, quantily: Number}
+    listQuantityRemain: [
+        {
+            nameColor: String,
+            nameSize: String,
+            quantity: Number,
+        },
     ],
     brand: String,
     categoryId: {
