@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 const cartSchema = new mongoose.Schema({
-    userId: {
+    user: {
         type: mongoose.Types.ObjectId,
         ref: 'Auth',
     },
     carts: [
         {
-            productId: {
+            product: {
                 type: mongoose.Types.ObjectId,
                 ref: "Product",
             },
