@@ -14,7 +14,7 @@ export const register = async(dataBody)=>{
 }
 export const signin= async(req)=>{
     const user = req
-    const token = jwt.sign({ _id: user._id }, "kiki", {
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, {
         expiresIn: "1h",
       });
     user.password = undefined

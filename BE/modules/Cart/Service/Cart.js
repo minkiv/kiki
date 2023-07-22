@@ -5,9 +5,9 @@ export const deleteCart = async(req,res)=>{
     return remove
 }
 
-export const getAllCart= async(req,res)=>{
-    const getAll = await Cart.find().populate("carts");
-    return getAll
+export const getAllCart= async(req)=>{
+    const cart = await Cart.findOne({user: req.userId}).populate('carts.productId')
+    return cart
 }
 export const addCart = async(req,res)=>{
     const add = await Cart.create(
