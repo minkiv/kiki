@@ -1,9 +1,16 @@
 import Cart from "../Model/Cart.js"
 
-export const deleteCart = async(req,res)=>{
-    const remove = await Cart.findByIdAndDelete(req.params.id)
-    return remove
+export const deleteCart = async(bodyRequet)=>{
+    const cart=await Cart.findOne({
+       user:bodyRequet.userId
+    })
+       const newcart=cart.carts.findIndex((item)=>String(item.productId)==bodyRequet.productId)
+       if(newcart>-1){
+           cart.carts.splice(newcart,1)       
+    }
+    await cart.save()
 }
+
 
 export const getAllCart= async(req)=>{
     const cart = await Cart.findOne({user: req.userId}).populate('carts.productId')
