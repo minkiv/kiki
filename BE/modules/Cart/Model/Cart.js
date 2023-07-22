@@ -10,14 +10,14 @@ const cartSchema = new mongoose.Schema({
                 type: mongoose.Types.ObjectId,
                 ref: "Product",
             },
-            quantity: Number
+            typeOrder: {
+                nameColor: String,
+                nameSize: String,
+                quantity: Number
+            }
         }
     ],
-    typeOrder: {
-        nameColor: String,
-        nameSize: String,
-        quantity: Number
-    }
+
 }, {
     timestamps: true
 });
