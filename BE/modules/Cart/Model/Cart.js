@@ -1,6 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
-import { } from "../../Auth/Model/Auth.js";
-
+import mongoose from 'mongoose';
 const cartSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId,
@@ -12,13 +10,14 @@ const cartSchema = new mongoose.Schema({
                 type: mongoose.Types.ObjectId,
                 ref: "Product",
             },
-            listQuantity: {
-                nameColor: String,
-                nameSize: String,
-                quatity: Number
-            }
+            quantity: Number
         }
-    ]
+    ],
+    typeOrder: {
+        nameColor: String,
+        nameSize: String,
+        quantity: Number
+    }
 }, {
     timestamps: true
 });
