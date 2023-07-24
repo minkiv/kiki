@@ -9,7 +9,7 @@ const orderSchema = mongoose.Schema({
     },
     district: {
         type: String,
-        default:""
+        default: ""
     },
     commune: {
         type: String,
@@ -21,26 +21,25 @@ const orderSchema = mongoose.Schema({
     },
     defaultLocation: {
         type: String,
-        default:""
+        default: ""
     },
     orderStatus: {
-        WaitForPay: String,
-        Processing: String,
-        transport: String,
-        Delivered: String,
-        Canceled: String
+        type: String,
+        default: 'WAIT_FOR_CONFIRMATION',
+        enum: ['WAIT_FOR_CONFIRMATION', 'PROCESSING', 'TRANSPORTED', 'DELIVERED', 'CANCELED'],
     },
     city: {
         type: String,
         default: ''
     },
     cartId: {
-      type: mongoose.Types.ObjectId,
-      ref:'Cart'
+        type: mongoose.Types.ObjectId,
+        ref: 'Cart'
     },
 
 },
-{
-    timestamps: true
-}
+    {
+        timestamps: true
+    }
 )
+export default mongoose.model("Order", orderSchema)
