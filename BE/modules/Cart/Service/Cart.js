@@ -17,37 +17,38 @@ export const getAllCart = async (req) => {
     return cart
 }
 export const addCart = async (bodyRequet) => {
-    const productCart = {
-        productId: bodyRequet.product,
-        typeOrder: bodyRequet.typeOrder
+    const product = {
+        product: bodyRequet.productId,
+        quantityOrder: bodyRequet.quantityOrder,
     }
-    const userCart = await Cart.findOne({
-        user: bodyRequet.userId
-    })
 
-    if (userCart) {
-        const findProduct = userCart.carts.find((item) => {
-            String(item.product) == bodyRequet.productId
-                && item.nameColor == bodyRequet.typeOrder.nameColor
-                && item.nameSize == bodyRequet.typeOrder.nameSize
-        })
+    const cartUser = await Cart.findOne({
+        user: bodyRequet.userId,
+    })
+    if (cartUser) {
+        const findProduct = cartUser.carts.find(
+            (item) =>
+                String(item.product) === bodyRequet.productId &&
+                item.quantityOrder.nameSize === bodyRequet.quantityOrder.nameSize &&
+                item.quantityOrder.nameColor === bodyRequet.quantityOrder.nameColor,
+        )
+
         if (findProduct) {
-            findProduct.typeOrder.quantity + bodyRequet.typeOrder.quantity
+            findProduct.quantityOrder.quantity =
+                findProduct.quantityOrder.quantity + bodyRequet.quantityOrder.quantity
+        } else {
+            cartUser.carts.push(product)
         }
-        else {
-            userCart.carts.push(productCart)
-        }
-        await userCart.save()
-    }
-    else {
-        const newCart = await Cart.findOne({
-            _id: bodyRequet.userId
+
+        await cartUser.save()
+    } else {
+        const newCart = new Cart({
+            user: bodyRequet.userId,
         })
-        newCart.carts.push(productCart)
+
+        newCart.carts.push(product)
         await newCart.save()
     }
-
-
 }
 export const updateCart = async (req, res) => {
     const id = req.params.id

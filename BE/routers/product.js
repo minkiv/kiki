@@ -9,7 +9,7 @@ router.get("/:id", productController.getOneproducts)
 
 router.use(upload.array('file', 5))
 router.delete("/:id", checkAdminAuthorization, productController.deleteProducts)
-router.post("/add", checkAdminAuthorization, productController.addProducts)
+router.post("/add", productController.addProducts)
 router.put("/edit/:id", checkAdminAuthorization, productController.editProduct)
 
 export default router 
