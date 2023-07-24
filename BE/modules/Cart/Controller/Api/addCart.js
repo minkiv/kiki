@@ -4,7 +4,7 @@ import status from "http-status"
 import productModel from "../../../Product/Model/Product.js"
 const addCarts = catchAsync(async (req, res) => {
     const bodyRequet = {
-        userId: req.user_id,
+        userId: req.user,
         productId: req.body.productId,
         quantityOrder: req.body.quantityOrder
     }
