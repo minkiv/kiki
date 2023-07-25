@@ -6,3 +6,12 @@ export const addOder = async (req) => {
     })
     return newOrder
 }
+export const updateOrder = async (req) => {
+    const { orderStatus, oderId } = req.body
+    const order = await Order.findOne({
+        _id: oderId
+    })
+
+    order.orderStatus = orderStatus
+    await order.save()
+}
