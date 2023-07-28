@@ -4,10 +4,10 @@ import { addProduct } from "../../Service/Product.js";
 
 
 const addProducts = catchAsync(async (req, res) => {
-
-    // if(!req.body.categoryId){
-    // return res.status(status.NOT_FOUND).json("Đang thiếu danh mục")
-    // }
+    console.log(req.body);
+    if (!req.body.categoryId) {
+        return res.status(status.NOT_FOUND).json("Đang thiếu danh mục")
+    }
     const products = await addProduct(req)
     return res.status(status.OK).json(products)
 })

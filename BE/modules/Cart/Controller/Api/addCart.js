@@ -3,8 +3,9 @@ import { addCart } from "../../Service/Cart.js";
 import status from "http-status"
 import productModel from "../../../Product/Model/Product.js"
 const addCarts = catchAsync(async (req, res) => {
+    console.log(req.user);
     const bodyRequet = {
-        userId: req.user,
+        userId: req.user.id,
         productId: req.body.productId,
         quantityOrder: req.body.quantityOrder
     }
