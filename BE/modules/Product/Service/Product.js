@@ -3,7 +3,7 @@ export const getOneproduct = async (req) => {
     const getOne = await Product.findById(req.params.id)
     return getOne
 }
-export const getAllProduct = async (req, res) => {
+export const getAllProduct = async () => {
     const product = await Product.find()
     return product
 }
