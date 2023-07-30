@@ -3,7 +3,7 @@ import catchAsync from "../../../../utils/catchAsync.js";
 import { getSize } from '../../Service/size.js';
 
 const getAllSize = catchAsync(async (req, res) => {
-    const size = await getSize(req)
+    const size = await getSize()
     return res.status(status.OK).json(size)
 })
 

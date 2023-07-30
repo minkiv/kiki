@@ -6,6 +6,8 @@ import ColorRouter from './color.js'
 import CartRouter from './cart.js'
 import OrderRouter from "./order.js"
 import sizeRouter from './size.js'
+import capacityRouter from './capacity.js'
+
 const router = express.Router();
 const defaultRouter = [
     { path: "/product", route: ProductRouter },
@@ -14,7 +16,8 @@ const defaultRouter = [
     { path: "/color", route: ColorRouter },
     { path: "/cart", route: CartRouter },
     { path: "/order", route: OrderRouter },
-    { path: "/size", route: sizeRouter }
+    { path: "/size", route: sizeRouter },
+    { path: "/capacity", route: capacityRouter }
 ]
 defaultRouter.forEach((route) => {
     router.use(route.path, route.route)
