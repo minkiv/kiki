@@ -35,7 +35,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                 </div>
             </div>
             <div css={cssCartMain}>
-                <FaCartPlus />
+                <FaCartPlus/>
             </div>
 
         </div>
