@@ -10,7 +10,7 @@ const FooterPaymentComponent: FunctionComponent<FooterPaymentComponentProps> = (
   return (
     <footer css={cssFooter}>
       <div className='h-[70px] sm:w-[1240px] mx-auto'>
-        <p className='terms-text mb-[4px]'>
+        <p className='terms-text mb-[4px] px-5'>
           Bằng việc tiến hành Đặt Mua, bạn đồng ý với các Điều kiện Giao dịch chung:
         </p>
         <p className='terms'>
@@ -34,7 +34,7 @@ const FooterPaymentComponent: FunctionComponent<FooterPaymentComponentProps> = (
             Chính sách bảo mật thông tin cá nhân
           </a>
         </p>
-        <p className='copyright mt-[18px]'>© 2019 - Bản quyền của Công Ty Cổ Phần Ki Ki - Kiki.vn</p>
+        <p className='copyright mt-[18px] px-5'>© 2019 - Bản quyền của Công Ty Cổ Phần Ki Ki - Kiki.vn</p>
       </div>
     </footer>
   )
