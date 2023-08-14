@@ -50,45 +50,47 @@ const InstructSeller: FunctionComponent<SellerProps> = () => {
                     </Swiper>
                 </div>
 
-                <div className='menu'>
-                    <div className='menu-item'>
-                        <div className='menu-item-img'>
-                            <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
+                <div className='w-full'>
+                    <div className='menu'>
+                        <div className='menu-item'>
+                            <div className='menu-item-img'>
+                                <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
+                            </div>
+                            <div className='menu-item-text'>
+                                <p>Tại sao nên bán hàng cùng Kiki</p>
+                            </div>
                         </div>
-                        <div className='menu-item-text'>
-                            <p>Tại sao nên bán hàng cùng Kiki</p>
+                        <div className='menu-item'>
+                            <div className='menu-item-img'>
+                                <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
+                            </div>
+                            <div className='menu-item-text'>
+                                <p>Tại sao nên bán hàng cùng Kiki</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className='menu-item'>
-                        <div className='menu-item-img'>
-                            <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
+                        <div className='menu-item'>
+                            <div className='menu-item-img'>
+                                <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
+                            </div>
+                            <div className='menu-item-text'>
+                                <p>Tại sao nên bán hàng cùng Kiki</p>
+                            </div>
                         </div>
-                        <div className='menu-item-text'>
-                            <p>Tại sao nên bán hàng cùng Kiki</p>
+                        <div className='menu-item'>
+                            <div className='menu-item-img'>
+                                <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
+                            </div>
+                            <div className='menu-item-text'>
+                                <p>Tại sao nên bán hàng cùng Kiki</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className='menu-item'>
-                        <div className='menu-item-img'>
-                            <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
-                        </div>
-                        <div className='menu-item-text'>
-                            <p>Tại sao nên bán hàng cùng Kiki</p>
-                        </div>
-                    </div>
-                    <div className='menu-item'>
-                        <div className='menu-item-img'>
-                            <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
-                        </div>
-                        <div className='menu-item-text'>
-                            <p>Tại sao nên bán hàng cùng Kiki</p>
-                        </div>
-                    </div>
-                    <div className='menu-item'>
-                        <div className='menu-item-img'>
-                            <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
-                        </div>
-                        <div className='menu-item-text'>
-                            <p>Tại sao nên bán hàng cùng Kiki</p>
+                        <div className='menu-item'>
+                            <div className='menu-item-img'>
+                                <img src="https://salt.tikicdn.com/cache/200x200/ts/brickv2og/47/b1/9d/b344929873968bd8536d16ce59a4dff2.png.webp" alt="" />
+                            </div>
+                            <div className='menu-item-text'>
+                                <p>Tại sao nên bán hàng cùng Kiki</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +116,7 @@ const InstructSeller: FunctionComponent<SellerProps> = () => {
 
 
                 <div className='w-full'>
-                    <div className='flex justify-center'>
+                    <div className='flex justify-center three-cols'>
                         <img src="https://salt.tikicdn.com/cache/w413/ts/brickv2og/ba/e2/dd/e903bc58825f73b9222de258b78bf313.png.webp" alt="" />
                         <img src="https://salt.tikicdn.com/cache/w413/ts/brickv2og/ba/e2/dd/e903bc58825f73b9222de258b78bf313.png.webp" alt="" />
                         <img src="https://salt.tikicdn.com/cache/w413/ts/brickv2og/ba/e2/dd/e903bc58825f73b9222de258b78bf313.png.webp" alt="" />
@@ -124,7 +126,7 @@ const InstructSeller: FunctionComponent<SellerProps> = () => {
                     <img className="m-auto" src="https://salt.tikicdn.com/cache/w1240/ts/brickv2og/3f/ae/f8/4f76ea5cdb4e9442ee78b541a544eb3c.png.webp" alt="" />
                 </div>
                 <div className='w-full'>
-                    <div className='flex justify-center'>
+                    <div className='flex justify-center three-cols'>
                         <img src="https://salt.tikicdn.com/cache/w413/ts/brickv2og/ff/c9/de/ecaf73b3385be43f159a141d24b70baf.png.webp" alt="" />
                         <img src="https://salt.tikicdn.com/cache/w413/ts/brickv2og/ff/c9/de/ecaf73b3385be43f159a141d24b70baf.png.webp" alt="" />
                         <img src="https://salt.tikicdn.com/cache/w413/ts/brickv2og/ff/c9/de/ecaf73b3385be43f159a141d24b70baf.png.webp" alt="" />
@@ -251,8 +253,6 @@ background: var( --color-white);
     text-align: center;
     font-size: 18px;
     background: #fff;
- 
-    /* Center slide text vertically */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -279,7 +279,49 @@ background: var( --color-white);
 .swiper-pagination-bullet-active {
     color: var(--color-white);
     background: var(--color-blue-primary);
+};
+
+@media (min-width: 0) and (max-width:739px){
+    max-width:100%;
+    .img-slider{
+        padding:8px;
+    }
+    .menu{
+        max-width:390px;
+    }
+    .menu-item{
+        width:7.2rem;
+        text-align: center;
+        padding:0.8rem;  
+    }
+    .menu-item-img{
+        width:5.6rem;
+        margin:auto;
+    }
+    .menu-item-text{
+        margin:auto;
+        padding-top:0.4rem;
+        width:5.6rem;
+        font-size:10px;
+        height:2.4rem;
+    }
+    .menu-item-text p{
+        height:2.4rem;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        letter-spacing: 0px;
+        line-height: 12px;
+        box-sizing: border-box;
+    }
+    .three-cols img{
+        width:33.3%;
+    }
+    .video iframe{
+        margin:16px auto;
+        padding:0 8px;
+        width:100%;
+        height:20rem;
+    }
 }
- 
 `
 
