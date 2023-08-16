@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import ButtonComponent from '~/app/component/parts/ButtonComponent/Button.componet'
+import ButtonComponent from '../ButtonComponent/Button.componet'
 import ButtonIcon from '~/app/component/parts/ButtonIcon/Button-Icon.componet'
 
 interface QuantityProduct {
@@ -12,7 +12,7 @@ const QuantityProduct: FunctionComponent<QuantityProduct> = () => {
       <div className="flex items-center mt-5">
         <ButtonIcon outline className="disable border h-8">
           <img src="https://frontend.tikicdn.com/_desktop-next/static/img/pdp_revamp_v2/icons-remove.svg" alt="remove-icon" width="20" height="20" /></ButtonIcon>
-        <input type="text" value="1" className="border h-8 w-16 text-center" />
+          <input type="text" value="1" className="border h-8 w-16 text-center focus:outline-none focus:border-sky-600" />
         <ButtonIcon outline className="border h-8 text-center">
           <img src="https://frontend.tikicdn.com/_desktop-next/static/img/pdp_revamp_v2/icons-add.svg" alt="add-icon" width="20" height="20" />
         </ButtonIcon>
