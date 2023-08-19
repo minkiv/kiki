@@ -11,14 +11,16 @@ interface CheckOutProps {
 const CheckOut: FunctionComponent<CheckOutProps> = () => {
     return (
         <div css={checkoutcss}>
-            <div>
+            <div className='header max-sm:hidden '>
                 <HeaderCheckOut />
             </div>
-            <div css={formContainer}>
+            <div className='sm:w-[1140px] m-auto'>
                 <Outlet />
             </div>
-            <hr className='text-gray-400'></hr>
-            <FooterPaymentComponent />
+            <hr className=' text-gray-400 '></hr>
+            <div className='footer max-sm:hidden'>
+                <FooterPaymentComponent />
+            </div>
         </div>
     )
 }
@@ -28,9 +30,7 @@ export default CheckOut
 const checkoutcss = css`
     background: rgb(245, 245, 250);
     margin: auto;
+   
 `
 
-const formContainer = css`
-    width: 1140px;
-    margin: 0 auto;
-`
+

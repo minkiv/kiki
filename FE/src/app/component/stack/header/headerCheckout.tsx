@@ -28,6 +28,9 @@ const HeaderCheckOutcss = css`
     background: rgb(255, 255, 255);
     position: relative;
     z-index: 1;
+    @media (min-width: 0) and (max-width: 739px) {
+        display: none;
+    }
 `
 
 const imageContainer = css`
