@@ -11,10 +11,16 @@ interface PaymentProps {
 const Payment: FunctionComponent<PaymentProps> = () => {
   return (
     <div>
-      <div className='sm:px-[50px] max-sm:px-[10px] py-3 bg-white'>
+      <div className=''>
         <PaymentHeaderComponent />
       </div>
-      <div css={cssPayment}>
+      <div className='max-md:hidden'>
+        <div css={cssPayment}>
+          <MainPayment />
+          <SidePayment />
+        </div>
+      </div>
+      <div className='md:hidden'>
         <MainPayment />
         <SidePayment />
       </div>
@@ -31,9 +37,4 @@ const cssPayment = css`
   width: 1240px;
   margin-right: auto;
   margin-left: auto;
-  @media (min-width: 0) and (max-width: 739px) {
-    width: 100%;
-    display: unset;
-    width: auto;
-  }
 `

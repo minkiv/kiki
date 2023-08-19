@@ -18,8 +18,8 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
     setIsClicked(!isClicked)
   }
   return (
-    <div css={cssSidebar} className=''>
-      <div className='sidebar-wrapper p-[16px] mb-4 max-sm:hidden'>
+    <div css={cssSidebar} className='w-[463px] max-md:hidden'>
+      <div className='sidebar-wrapper p-[16px] mb-4 '>
         <div className='block-header'>
           <h3 className='block-header-title'>Giao tới</h3>
           <a href='/checkout/shipping' className='block-header-nav'>
@@ -35,8 +35,6 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           4, ngách 3/8A, Phương Canh, Nam Từ Liêm, Hà Nội
         </div>
       </div>
-
-      {/*  Đơn hàng */}
 
       <div className='sidebar-wrapper max-sm:hidden'>
         <div className='header'>
