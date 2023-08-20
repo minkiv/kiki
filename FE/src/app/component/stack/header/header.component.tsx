@@ -2,7 +2,9 @@ import { css } from '@emotion/react'
 import React, { FunctionComponent } from 'react'
 import InputComponent from '../../parts/input/input.component'
 import { ImHome } from "react-icons/im"
+import { AiOutlineUserAdd } from "react-icons/ai"
 import { FaCartPlus } from "react-icons/fa"
+import Register from '~/app/modules/client/accountLogin/accountLogin.component'
 interface HeaderComponentProps {
     props?: any
 }
@@ -29,13 +31,13 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
 
                 <div className='item-menu'>
                     <div className='icon'>
-                        <ImHome />
+                        <AiOutlineUserAdd />
                     </div>
-                    <div className='title'>Trang chủ</div>
+                    <div className='title'><Register /></div>
                 </div>
             </div>
             <div css={cssCartMain}>
-                <FaCartPlus/>
+                <FaCartPlus />
             </div>
 
         </div>
