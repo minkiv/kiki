@@ -1,50 +1,52 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
-
 interface RightCartProps {
   props?: any
 }
 
 const RightCart: FunctionComponent<RightCartProps> = () => {
+   
   return (
     <div css={cssRightCart}>
       <div className='information'>
-        <div className='block-header flex'>
+        <div className='block-header sm:flex max-sm:flex'>
           <p className='title-right px-4'>Giao tới</p>
-          <a href='#' className='nav py-[16px] ml-52'>
+          <a href='#' className='nav py-[16px] ml-52 max-sm:ml-[200px]'>
             Thay đổi
           </a>
         </div>
-        <div className='info flex justify-between'>
+        <div className='info max-sm:flex sm:flex justify-between'>
           <p className='name px-4'>Phan Huy Hiệp</p>
           <i></i>
           <p className='phoneNumber mr-16'>0971080029</p>
         </div>
 
-        <div className='address flex px-4 py-4'>
+        <div className='address sm:flex max-sm:flex px-4 py-4'>
           <span className='home'>Nhà</span>
           <p>Phường Cổ Nhuế 2, Quận Bắc Từ Liêm, Hà Nội</p>
         </div>
       </div>
       <div className='prices-item'>
         <ul className='price'>
-          <li className='flex justify-between py-5'>
+          <li className='sm:flex max-sm:flex justify-between py-5'>
             <div className='text'>Tạm tính</div>
             <div className='value'>156.000đ</div>
           </li>
-          <li className='flex justify-between'>
+          <li className='sm:flex max-sm:flex justify-between'>
             <div className='text'>Giảm giá</div>
             <div className='value'>0đ</div>
           </li>
         </ul>
-        <div className='prices-total flex justify-between'>
+        <div className='prices-total sm:flex justify-between max-sm:flex'>
           <span className='text-total'>Tổng tiền</span>
           <div className='content'>
             <p className='price-total'>156.000 ₫</p>
             <p className='note pt-2'>(Đã bao gồm VAT nếu có)</p>
           </div>
         </div>
+ 
       </div>
+      <button>Mua hàng</button>
     </div>
   )
 }
@@ -118,6 +120,9 @@ const cssRightCart = css`
     font-size: 14px;
     line-height: 20px;
   }
+  .nav:hover{
+    color: red;
+  }
   .name {
     text-transform: uppercase;
   }
@@ -135,4 +140,23 @@ const cssRightCart = css`
     justify-content: space-between;
     margin: 0px;
   }
+  button{
+    background: rgb(255, 66, 78);
+    color: rgb(255, 255, 255);
+    padding: 13px 10px;
+    text-align: center;
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    display: block;
+    cursor: pointer;
+    margin: 15px 0px 0px;
+    transition: background-color 0.3s;
+  }
+  button: hover {
+    background: rgb(25, 122, 251);
+  }
+
+
+
 `

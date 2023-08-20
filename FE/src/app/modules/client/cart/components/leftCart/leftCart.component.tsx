@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
-
+import { BsShopWindow } from 'react-icons/bs'
+import { RiDeleteBinLine } from 'react-icons/ri'
 interface leftCartProps {
   props?: any
 }
@@ -8,116 +9,114 @@ interface leftCartProps {
 const LeftCart: FunctionComponent<leftCartProps> = () => {
   return (
     <div css={cssLeftCart}>
-      <div className='style-heading mb-[20px] flex justify-between px-2'>
-        <input type='checkbox' className='w-[18px]' />
-        <span className='lable'>Tất cả (2 sản phẩm)</span>
-        <span>Đơn giá</span>
-        <span>Số lượng</span>
-        <span>Thành tiền</span>
+      <div className='style-heading mb-[20px] flex  justify-between max-sm:mt-5'>
+        <div className='flex'>
+          <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' />
+          <span className='lable sm:mr-[290px] max-sm:ml-3'>Tất cả (2 sản phẩm)</span>
+        </div>
+
+        {/* <div className='sm:flex justify-between w-[20%]'> */}
+        <span className='taitle-table mr-[100px]'>Đơn giá</span>
+        <span className='taitle-table mr-[70px]'>Số lượng</span>
+        {/* </div> */}
+        <span className='taitle-table mr-[90px]'>Thành tiền</span>
         <span className='remove-all'>
-          <img src='https://frontend.tikicdn.com/_desktop-next/static/img/icons/trash.svg' alt='deleted' />
+          <RiDeleteBinLine size={17} className='delete-icon sm:mr-4 max-sm:mr-5' />
         </span>
       </div>
 
       {/*  */}
       <div className='container'>
-        <div className='sub-title flex px-6  py-3 '>
+        <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
           <input type='checkbox' className='w-[18px] mr-3' />
+          <BsShopWindow className='icon-home w-6 h-6 mr-2' />
 
-          <img
-            src='https://salt.tikicdn.com/ts/upload/30/24/79/8317b36e87e7c0920e33de0ab5c21b62.png'
-            alt=''
-            className='icon-home w-6 h-6 mr-2'
-          />
-          <a href='#' className='sellername'>
-            Shop Name
-          </a>
+          <a href='#'>Shop Name</a>
         </div>
-        <div className='box flex justify-between text-center mr-auto py-4'>
-          <div className='product-img flex px-[3px] '>
-            
-              <input type='checkbox' className='w-[18px] mr-3 ml-5' />
-          
+        <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4'>
+          <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' />
 
+          <div className='sm:flex max-sm:flex items-center max-sm:mr-1'>
             <img
               src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
               alt=''
               className='w-[76px] h-20'
             />
 
-            <a href='' className='product-name'>
+            <a href='#' className='max-sm:mr-5'>
               The Magic - Phép màu
             </a>
           </div>
-          <span className='real-prices'>156.000 ₫</span>
-          Số Lượng
-          <span className='product-final-prices'>156.000 ₫</span>
+          <span className='real-prices '>156.000 ₫</span>
+
+          <div className='sm:flex w-[20%] justify-between max-sm:mr-7 '>
+            <p className=''>Số lượng</p>
+            <span className='product-final-prices'>156.000 ₫</span>
+          </div>
+
           <span className='product-delete'>
-            <img src='https://frontend.tikicdn.com/_desktop-next/static/img/icons/trash.svg' alt='deleted' className='px-6'  />
+            <RiDeleteBinLine size={17} className='delete-icon mr-11' />
           </span>
         </div>
-        
       </div>
+
       <div className='container mt-5'>
-        <div className='sub-title flex px-6  py-3 '>
+        <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
           <input type='checkbox' className='w-[18px] mr-3' />
+          <BsShopWindow className='icon-home w-6 h-6 mr-2' />
 
-          <img
-            src='https://salt.tikicdn.com/ts/upload/30/24/79/8317b36e87e7c0920e33de0ab5c21b62.png'
-            alt=''
-            className='icon-home w-6 h-6 mr-2'
-          />
-          <a href='#' className='sellername'>
-            Shop Name
-          </a>
+          <a href='#'>Shop Name</a>
         </div>
-        <div className='box flex justify-between text-center mr-auto py-4'>
-          <div className='product-img flex px-[3px] '>
-            
-              <input type='checkbox' className='w-[18px] mr-3 ml-5' />
-          
+        <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4'>
+          <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' />
 
+          <div className='sm:flex max-sm:flex items-center max-sm:mr-1'>
             <img
               src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
               alt=''
               className='w-[76px] h-20'
             />
 
-            <a href='' className='product-name'>
+            <a href='#' className='max-sm:mr-5'>
               The Magic - Phép màu
             </a>
           </div>
-          <span className='real-prices'>156.000 ₫</span>
-          Số Lượng
-          <span className='product-final-prices'>156.000 ₫</span>
+          <span className='real-prices '>156.000 ₫</span>
+
+          <div className='sm:flex w-[20%] justify-between max-sm:mr-7 '>
+            <p className=''>Số lượng</p>
+            <span className='product-final-prices'>156.000 ₫</span>
+          </div>
+
           <span className='product-delete'>
-            <img src='https://frontend.tikicdn.com/_desktop-next/static/img/icons/trash.svg' alt='deleted' className='px-6'  />
+            <RiDeleteBinLine size={17} className='delete-icon mr-11' />
           </span>
         </div>
-        <div className='box flex justify-between text-center mr-auto'>
-          <div className='product-img flex px-[3px] '>
-            
-              <input type='checkbox' className='w-[18px] mr-3 ml-5' />
-          
+        <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4'>
+          <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' />
 
+          <div className='sm:flex max-sm:flex items-center max-sm:mr-1'>
             <img
               src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
               alt=''
               className='w-[76px] h-20'
             />
 
-            <a href='' className='product-name'>
+            <a href='#' className='max-sm:mr-5'>
               The Magic - Phép màu
             </a>
           </div>
-          <span className='real-prices'>156.000 ₫</span>
-          Số Lượng
-          <span className='product-final-prices'>156.000 ₫</span>
+          <span className='real-prices '>156.000 ₫</span>
+
+          <div className='sm:flex w-[20%] justify-between max-sm:mr-7 '>
+            <p className=''>Số lượng</p>
+            <span className='product-final-prices'>156.000 ₫</span>
+          </div>
+
           <span className='product-delete'>
-            <img src='https://frontend.tikicdn.com/_desktop-next/static/img/icons/trash.svg' alt='deleted' className='px-6'  />
+            <RiDeleteBinLine size={17} className='delete-icon mr-11' />
           </span>
         </div>
-        
       </div>
     </div>
   )
@@ -127,9 +126,6 @@ export default LeftCart
 const cssLeftCart = css`
   .style-heading {
     background-color: var(--color-white);
-  }
-  
-  .style-heading {
     padding: 9px 16px;
     border-radius: 4px;
     color: rgb(36, 36, 36);
@@ -139,11 +135,10 @@ const cssLeftCart = css`
     top: 105px;
     z-index: 99;
   }
-  .box{
+  .box {
     background-color: var(--color-white);
-
   }
-  .sub-title{
+  .sub-title {
     background-color: var(--color-white);
     margin-button: 20px;
     border-radius: 4px;
@@ -153,14 +148,31 @@ const cssLeftCart = css`
     color: rgb(36, 36, 36);
     font-weight: 500;
   }
-.product-final-prices{
-  color: red;
-}
-  // chỉnh màu img remove
-.product-delete img: hover{
-  filter: brightness(100%) hue-rotate(0deg) saturate(100%) sepia(100%) hue-rotate(0deg) saturate(100000%) brightness(100%);
-}
-.remove-all img: hover{
-  filter: brightness(100%) hue-rotate(0deg) saturate(100%) sepia(100%) hue-rotate(0deg) saturate(100000%) brightness(100%);
-}
+  .product-final-prices {
+    color: red;
+  }
+  .delete-icon:hover {
+    color: red;
+  }
+
+  // Mobile: w< 740px
+  @media only screen and (max-width: 739px) {
+    .style-heading {
+      display: flex;
+      -webkit-box-pack: justify;
+      ustify-content: space-between;
+      top: 122px;
+      left: 0px;
+      width: 100%;
+      z-index: 5;
+      background: rgb(255, 255, 255);
+      padding: 11px 16px;
+    }
+    .taitle-table {
+      display: none;
+    }
+    .real-prices {
+      display: none;
+    }
+  }
 `
