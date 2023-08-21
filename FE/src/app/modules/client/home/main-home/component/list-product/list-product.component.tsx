@@ -1,47 +1,33 @@
 import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component'
-
-
-
-
+import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
 interface ListProductProps {
   props?: any
 }
-
 const ListProduct: FunctionComponent<ListProductProps> = () => {
-
+  const {
+    data: { products },
+    actions
+  } = useProductRedux()
+  useEffect(() => {
+    actions.getAllProduct()
+  }, [])
+  console.log(products)
   return (
     <div css={cssProduct}>
       <div className='titles'>Gợi ý hôm nay</div>
       <div className='list-product'>
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
-        <ItemProduct />
+        {products.map((item: any) => (
+          <ItemProduct itemProduct={item}/>
+        ))}
+
+
       </div>
     </div>
   )
 }
-
 export default ListProduct
-
 const cssProduct = css`
 padding: 12px 0px;
 border-radius: 8px;

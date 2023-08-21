@@ -23,12 +23,10 @@ const Shipping: FunctionComponent<ShippingProps> = ({ props }) => {
         mode: 'onChange',
         resolver: yupResolver(schema)
     });
-
     const arrayField = [
         {
             title: "Họ và Tên",
             field: "fullname"
-
         },
         {
             title: "Điện thoại di động",
@@ -226,6 +224,5 @@ button{
         margin-top: -10px;
        
     }
-  
-  }
+    }
 `

@@ -1,33 +1,27 @@
 import { ClassNames, css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import StarIcon from '../rating/star.component'
-
-
-
-
 interface ItemProductProps {
     props?: any,
-    className?: string
+    className?: string,
+    itemProduct?: any
 }
-
-const ItemProduct: FunctionComponent<ItemProductProps> = ({className}) => {
-
+const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProduct }) => {
     return (
         <div css={cssProduct} className={className}>
-            <div >
-                <img src="https://salt.tikicdn.com/cache/280x280/ts/product/10/7a/39/28ff02a0b05ed3ae67fae7c9111b9b8b.jpg.webp" alt="" width={183}
+            <div  >
+                <img src={itemProduct?.images[0]} alt="" width={183}
                     height={183} />
             </div>
             <div className='main'>
                 <div className='text-item'>
-                    <h3>Sách Hiểu Về Trái Tim (Tái Bản 2019) - Minh Niệm</h3>
+                    <h3>{itemProduct?.name}</h3>
                 </div>
                 <div className='title flex '>
                     5 <StarIcon />| đã bán 4
                 </div>
-
                 <div className='price'>
-                    399.999 <sup>đ</sup>
+                    {itemProduct.price} <sup>đ</sup>
                 </div>
                 <div className='asa'>Hoàn 12 ASA</div>
             </div>
@@ -38,9 +32,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({className}) => {
         </div>
     )
 }
-
 export default ItemProduct
-
 const cssProduct = css`
 overflow: hidden;
 border-radius: 4px;
