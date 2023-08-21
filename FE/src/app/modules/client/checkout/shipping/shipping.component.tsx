@@ -5,7 +5,7 @@ import InputComponent from '~/app/component/parts/input/input.component';
 import { schema } from '../../utils/validateForm';
 import { css } from '@emotion/react';
 import { AiOutlineLeft } from 'react-icons/ai'
-import ButtonSqua from '~/app/component/parts/buttonSqua/ButtonSqua';
+import ButtonSqua from '~/app/component/parts/button/ButtonSqua';
 import { Link } from 'react-router-dom';
 interface ShippingData {
     fullname: string;

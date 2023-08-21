@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import { BsShopWindow } from 'react-icons/bs'
 import { RiDeleteBinLine } from 'react-icons/ri'
+import QuantityProduct from '~/app/component/parts/quantity/QuantityProduct'
 interface leftCartProps {
   props?: any
 }
@@ -12,7 +13,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
       <div className='style-heading mb-[20px] flex  justify-between max-sm:mt-5'>
         <div className='flex'>
           <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' />
-          <span className='lable sm:mr-[290px] max-sm:ml-3'>Tất cả (2 sản phẩm)</span>
+          <span className='lable sm:mr-[290px] max-sm:ml-3 sm:pl-[4px]'>Tất cả (2 sản phẩm)</span>
         </div>
 
         {/* <div className='sm:flex justify-between w-[20%]'> */}
@@ -36,32 +37,34 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
         <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4'>
           <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' />
 
-          <div className='sm:flex max-sm:flex items-center max-sm:mr-1'>
+          <div className='sm:flex max-sm:flex items-center max-sm:mr-1 max-sm:p-[3px]'>
             <img
               src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
               alt=''
               className='w-[76px] h-20'
             />
 
-            <a href='#' className='max-sm:mr-5'>
+            <a href='#' className='max-sm:mr-5 max-sm:p-[7px]'>
               The Magic - Phép màu
             </a>
           </div>
-          <span className='real-prices '>156.000 ₫</span>
+          <span className='real-prices '>156.000₫</span>
 
           <div className='sm:flex w-[20%] justify-between max-sm:mr-7 '>
-            <p className=''>Số lượng</p>
-            <span className='product-final-prices'>156.000 ₫</span>
+          <div className='max-sm:flex'>
+          <QuantityProduct />
+          </div>
+            <span className='product-final-prices sm:mt-6'>156.000₫</span>
           </div>
 
           <span className='product-delete'>
-            <RiDeleteBinLine size={17} className='delete-icon mr-11' />
+            <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' />
           </span>
         </div>
       </div>
 
       <div className='container mt-5'>
-        <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
+      <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
           <input type='checkbox' className='w-[18px] mr-3' />
           <BsShopWindow className='icon-home w-6 h-6 mr-2' />
 
@@ -70,51 +73,55 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
         <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4'>
           <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' />
 
-          <div className='sm:flex max-sm:flex items-center max-sm:mr-1'>
+          <div className='sm:flex max-sm:flex items-center max-sm:mr-1 max-sm:p-[3px]'>
             <img
               src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
               alt=''
               className='w-[76px] h-20'
             />
 
-            <a href='#' className='max-sm:mr-5'>
+            <a href='#' className='max-sm:mr-5 max-sm:p-[7px]'>
               The Magic - Phép màu
             </a>
           </div>
-          <span className='real-prices '>156.000 ₫</span>
+          <span className='real-prices '>156.000₫</span>
 
           <div className='sm:flex w-[20%] justify-between max-sm:mr-7 '>
-            <p className=''>Số lượng</p>
-            <span className='product-final-prices'>156.000 ₫</span>
+          <div className='max-sm:flex'>
+          <QuantityProduct />
+          </div>
+            <span className='product-final-prices sm:mt-6'>156.000₫</span>
           </div>
 
           <span className='product-delete'>
-            <RiDeleteBinLine size={17} className='delete-icon mr-11' />
+            <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' />
           </span>
         </div>
-        <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4'>
+               <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4'>
           <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' />
 
-          <div className='sm:flex max-sm:flex items-center max-sm:mr-1'>
+          <div className='sm:flex max-sm:flex items-center max-sm:mr-1 max-sm:p-[3px]'>
             <img
               src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
               alt=''
               className='w-[76px] h-20'
             />
 
-            <a href='#' className='max-sm:mr-5'>
+            <a href='#' className='max-sm:mr-5 max-sm:p-[7px]'>
               The Magic - Phép màu
             </a>
           </div>
-          <span className='real-prices '>156.000 ₫</span>
+          <span className='real-prices '>156.000₫</span>
 
           <div className='sm:flex w-[20%] justify-between max-sm:mr-7 '>
-            <p className=''>Số lượng</p>
-            <span className='product-final-prices'>156.000 ₫</span>
+          <div className='max-sm:flex'>
+          <QuantityProduct />
+          </div>
+            <span className='product-final-prices sm:mt-6'>156.000₫</span>
           </div>
 
           <span className='product-delete'>
-            <RiDeleteBinLine size={17} className='delete-icon mr-11' />
+            <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' />
           </span>
         </div>
       </div>

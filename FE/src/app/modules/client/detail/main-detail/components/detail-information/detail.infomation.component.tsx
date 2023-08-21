@@ -53,8 +53,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
               </li>
             </ul>
           </div>
-          <div className='max-sm:ml-5'>
-          <QuantityProduct />
+          <div className='max-sm:ml-5 max-sm:flex sm:flex'>
+          <label htmlFor="quantity" className='max-sm:mt-5 sm:mt-5'>Số Lượng:</label>
+          <div className='mx-3'>
+          <QuantityProduct/>
+          </div>
           </div>
           <div className='flex mt-5'>
             <ButtonSqua outline className='rounded-xl border w-1/2 p-3  mx-2 text-white'>Chọn mua</ButtonSqua>
