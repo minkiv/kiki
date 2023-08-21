@@ -27,7 +27,7 @@ margin-right: auto;
 margin-left: auto;
 @media (min-width: 0) and (max-width: 739px) {
     width:100%;
-    display: unset;
+    display: unset; 
     width: auto;
   }
 `

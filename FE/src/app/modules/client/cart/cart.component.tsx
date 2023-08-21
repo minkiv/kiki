@@ -9,7 +9,7 @@ interface CartProps {
 
 const Cart: FunctionComponent<CartProps> = () =>{
     return(
-        <div css ={cssCart}> 
+        <div css ={cssCart} className="box-cart"> 
  
           
           <div className="flex">
@@ -52,4 +52,25 @@ margin-top: 20px;
     width: 25%;
     margin-top: 40px
 }
+// Mobile: w< 740px
+@media only screen and (max-width: 739px){
+    width:100%;
+    display: unset;
+    width: auto;
+.title{
+    display: none;
+}
+.flex{
+    display: block;
+}
+.left-cart {
+    width: 100%;
+}
+.right-cart{
+    width: 100%;
+    display: inline-block;
+}
+}
+
+
 `
