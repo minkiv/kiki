@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import ButtonComponent from '../ButtonComponent/Button.componet'
-import ButtonIcon from '~/app/component/parts/ButtonIcon/Button-Icon.componet'
+import ButtonComponent from '../button/Button.componet'
+import ButtonIcon from '~/app/component/parts/button/Button-Icon.componet'
 
 interface QuantityProduct {
   props?: any

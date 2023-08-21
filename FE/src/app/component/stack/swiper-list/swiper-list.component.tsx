@@ -24,7 +24,7 @@ const SwiperList: FunctionComponent<SwiperListProps> = ({ title, children }) => 
             <div css={cssSwiper}>
                 <div className='title'>{title}</div>
                 <Swiper
-                    slidesPerView={windowSize.width < 739 ? 3 : 6}
+                    slidesPerView={windowSize.width < 739 ? 2 : 6}
                     spaceBetween={30}
                     pagination={{
                         clickable: true,

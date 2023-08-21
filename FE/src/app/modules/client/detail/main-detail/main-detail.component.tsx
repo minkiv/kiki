@@ -13,14 +13,14 @@ interface MainDetailProps {
 const MainDetail: FunctionComponent<MainDetailProps> = () => {
   return (
     <div css={cssmain}>
-        <div className='item-list-silder'>
-            <ProductAddress/>
+        <div className='item-list-silder hidden sm:block mb-3'>
+          <ProductAddress />
         </div>
-        <div className="grid grid-cols-7 bg-white mt-3">
-           <div className="col-span-3">
+        <div className="grid xl:grid-cols-7 bg-white sm:grid-cols-12">
+           <div className="xl:col-span-3 sm:grid-cols-7 ">
             <PreviewImg/>
           </div>
-          <div className="col-span-4">
+          <div className="md:col-span-4 sm:grid-cols-7 ">
             <DetailInformation/>
           </div>
         </div>
