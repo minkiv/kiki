@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { css } from '@emotion/react';
@@ -15,22 +15,32 @@ const PreviewImg: FunctionComponent<DemoCarouselProps> = () => {
   ];
 
   const onClickItem = () => { };
-
+  const [showThumbs, setShowThumbs] = useState(true);
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      setShowThumbs(!isMobile);
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <div css={cssPreviewImg}>
-      <Carousel
-        autoPlay={true}
-        onClickItem={onClickItem}
-        showThumbs={true}
-        showArrows={false}
-        swipeable={true}
-      >
-        {images.map((item, index) => (
-          <div key={index} className="img">
-            <img className='imgchildren' src={item.src} alt={item.alt} />
-          </div>
-        ))}
-      </Carousel>
+    <Carousel
+      autoPlay={true}
+      onClickItem={onClickItem}
+      showThumbs={showThumbs}
+      showArrows={false}
+      swipeable={true}
+      className="carousel-container"
+  >
+    {images.map((item, index) => (
+        <div className="img" key={index}>
+        <img className="imgchildren" src={item.src} alt={item.alt} />
+      </div>
+    ))}
+  </Carousel>
     </div>
   );
 };
@@ -38,16 +48,13 @@ const PreviewImg: FunctionComponent<DemoCarouselProps> = () => {
 export default PreviewImg;
 
 const cssPreviewImg = css`
-  .img {
-    text-align: center;
-    width: 90%;
-    height: 90%;
-  }
   .imgchildren{
     width: 100%;
   }
-  
   .carousel-root {
+    width: 100%;
+  }
+  .list_img{
     width: 100%;
   }
   .carousel .slider-wrapper {
@@ -58,4 +65,8 @@ const cssPreviewImg = css`
     justify-content: center;
     align-items: center;
   }
+  .carousel .carousel-container{
+    border: none !important;
+  }
+  
 `;

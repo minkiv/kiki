@@ -5,29 +5,29 @@ import SwiperList from '~/app/component/stack/swiper-list/swiper-list.component'
 import { SwiperSlide } from 'swiper/react'
 
 interface Listproduct {
-    props?: any
+  props?: any
 }
+
 const Listproduct: FunctionComponent<Listproduct> = () => {
-    const arrayImage = [
-        '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
-    ]
-    return (
-        <div className='bg-slate-50 p-5 bg-white'>
-            <h2 className='text-3xl pb-5'>Sản phẩm tương tự</h2>
-            <div className='flex'>
-                <SwiperList>
-                    {arrayImage?.map((item, index) => (
-                        <SwiperSlide key={index}>
-                            <ItemProduct />
-                        </SwiperSlide>
-                    ))}
-                </SwiperList>
-            </div>
-        </div>
-    )
+  const arrayImage = ['1', '2','3','4','5','6','7']
+
+  return (
+    <div className='bg-slate-50 p-5 bg-white'>
+      <h2 className='text-3xl pb-5'>Sản phẩm tương tự</h2>
+      <div>
+        <SwiperList css={cssSlide}>
+          {arrayImage?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <ItemProduct className='product'/>
+            </SwiperSlide>
+          ))}
+        </SwiperList>
+      </div>
+    </div>
+  )
 }
 
 export default Listproduct
-const cssList = css`
 
+const cssSlide = css`
 `

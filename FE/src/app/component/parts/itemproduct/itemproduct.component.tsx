@@ -1,4 +1,4 @@
-import { css } from '@emotion/react'
+import { ClassNames, css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import StarIcon from '../rating/star.component'
 
@@ -6,13 +6,14 @@ import StarIcon from '../rating/star.component'
 
 
 interface ItemProductProps {
-    props?: any
+    props?: any,
+    className?: string
 }
 
-const ItemProduct: FunctionComponent<ItemProductProps> = () => {
+const ItemProduct: FunctionComponent<ItemProductProps> = ({className}) => {
 
     return (
-        <div css={cssProduct}>
+        <div css={cssProduct} className={className}>
             <div >
                 <img src="https://salt.tikicdn.com/cache/280x280/ts/product/10/7a/39/28ff02a0b05ed3ae67fae7c9111b9b8b.jpg.webp" alt="" width={183}
                     height={183} />
