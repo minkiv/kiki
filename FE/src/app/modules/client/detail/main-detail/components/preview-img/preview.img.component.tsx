@@ -2,18 +2,10 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { css } from '@emotion/react';
+import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer';
 
 interface DemoCarouselProps { }
-
 const PreviewImg: FunctionComponent<DemoCarouselProps> = () => {
-  const images = [
-    { src: "https://salt.tikicdn.com/cache/750x750/ts/product/72/5e/2a/06e8f3acccd645f0c8b6f385d74ad441.jpg.webp", alt: "Image 1" },
-    { src: "https://salt.tikicdn.com/cache/750x750/ts/product/5f/6a/31/3b52d012b7bb84c948e3f9d36ba9d2a1.jpg.webp", alt: "Image 2" },
-    { src: "https://salt.tikicdn.com/cache/750x750/ts/product/61/38/4e/a712d1669503c3c5a98ebc846fe50e86.jpg.webp", alt: "Image 3" },
-    { src: "https://salt.tikicdn.com/cache/750x750/ts/product/31/2b/59/a3175d2e9e890509481a3835504dcdde.jpg.webp", alt: "Image 4" },
-    { src: "https://salt.tikicdn.com/cache/750x750/ts/product/d4/9b/3d/7ebcd09eb8372a18c8dacddb6d8ae736.jpg.webp", alt: "Image 5" },
-  ];
-
   const onClickItem = () => { };
   const [showThumbs, setShowThumbs] = useState(true);
   useEffect(() => {
@@ -25,22 +17,25 @@ const PreviewImg: FunctionComponent<DemoCarouselProps> = () => {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const { data: { product: productDetail } } = useProductRedux()
+  console.log(productDetail)
   return (
     <div css={cssPreviewImg}>
-    <Carousel
-      autoPlay={true}
-      onClickItem={onClickItem}
-      showThumbs={showThumbs}
-      showArrows={false}
-      swipeable={true}
-      className="carousel-container"
-  >
-    {images.map((item, index) => (
-        <div className="img" key={index}>
-        <img className="imgchildren" src={item.src} alt={item.alt} />
-      </div>
-    ))}
-  </Carousel>
+      <Carousel
+        autoPlay={true}
+        onClickItem={onClickItem}
+        showThumbs={showThumbs}
+        showArrows={false}
+        swipeable={true}
+        className="carousel-container"
+      >
+        {productDetail?.images?.map((item: any, index: any) => (
+          <div className="img" key={index}>
+            <img className="imgchildren" src={item} />
+          </div>
+        ))}
+      </Carousel>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
+import { Link } from "react-router-dom"
 interface ListProductProps {
   props?: any
 }
@@ -19,7 +20,10 @@ const ListProduct: FunctionComponent<ListProductProps> = () => {
       <div className='titles'>Gợi ý hôm nay</div>
       <div className='list-product'>
         {products.map((item: any) => (
-          <ItemProduct itemProduct={item}/>
+          <Link to={`/detail/${item._id}`}>
+            <ItemProduct itemProduct={item} />
+          </Link>
+
         ))}
 
 

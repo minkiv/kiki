@@ -13,13 +13,13 @@ export const clientRouter: RouteObject[] = [
     path: '/seller',
     element: <InstructSeller />
   },
-  {      
+  {
     path: "/cart",
-  element: <Cart/>
+    element: <Cart />
   },
-  {      
-    path: "/detail",
-  element: <Detail/>
+  {
+    path: "/detail/:id",
+    element: <Detail />
   }
 
 
