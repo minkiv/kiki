@@ -1,19 +1,23 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent} from 'react'
 import { css } from '@emotion/react'
 import StarIcon from '~/app/component/parts/rating/star.component'
 import QuantityProduct from '~/app/component/parts/quantity/QuantityProduct'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import ButtonIcon from '../../../../../../component/parts/button/Button-Icon.componet'
+import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
 interface DetailInformation { }
 
-
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
-  
+  const { data: { product: productDetail } } = useProductRedux()
+
+  console.log(productDetail)
+
   return (
     <div css={cssInfomation}>
+
       <div>
-        <p className='text-2xl hidden sm:block'>Thương hiệu: <a className='text-cyan-400' href="">Pond's</a></p>
-        <h1 className="pt-3 xl:text-4xl xl:opacity-75 title">Bộ Đôi Kem Dưỡng Da Ngày Và Đêm Trắng Hồng Rạng Rỡ Pond's White Beauty (50g)</h1>
+        <p className='text-2xl hidden sm:block'>Thương hiệu: <a className='text-cyan-400' href="">{productDetail?.brand}</a></p>
+        <h1 className="pt-3 xl:text-4xl xl:opacity-75 title"> {productDetail?.name}</h1>
         <i className="fas fa-star"></i>
       </div>
       <div className='flex mt-2'>
@@ -32,9 +36,9 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       <div className="grid grid-cols-7 xl:mt-10">
         <div className="col-span-12 xl:col-span-4">
           <div className='flex pt-5 p-3 xl:bg-slate-50 xl:p-5'>
-          <h1 className="text-red-500 font-bold text-4xl  xl:text-6xl">235.000 ₫</h1>
-            <h3 className='pl-5 text-xl pt-3 xl:text-2xl'><s className=' opacity-50 '>300.000 ₫</s> 
-            <b className='text-red-500 sale'>-22%</b> </h3>
+            <h1 className="text-red-500 font-bold text-4xl  xl:text-6xl">{productDetail?.price}</h1>
+            <h3 className='pl-5 text-xl pt-3 xl:text-2xl'><s className=' opacity-50 '>300.000 ₫</s>
+              <b className='text-red-500 sale'>-22%</b> </h3>
           </div>
           <div className='mt-5 max-sm:ml-5'>
             <ul>
@@ -54,10 +58,10 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
             </ul>
           </div>
           <div className='max-sm:ml-5 max-sm:flex sm:flex'>
-          <label htmlFor="quantity" className='max-sm:mt-5 sm:mt-5'>Số Lượng:</label>
-          <div className='mx-3'>
-          <QuantityProduct/>
-          </div>
+            <label htmlFor="quantity" className='max-sm:mt-5 sm:mt-5'>Số Lượng:</label>
+            <div className='mx-3'>
+              <QuantityProduct />
+            </div>
           </div>
           <div className='flex mt-5'>
             <ButtonSqua outline className='rounded-xl border w-1/2 p-3  mx-2 text-white'>Chọn mua</ButtonSqua>
@@ -80,8 +84,8 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                 <span className="mr-1">4.7</span>
                 <span className="text-gray-500">/</span>
                 <span className="ml-1">5</span><StarIcon />
-                </b> 
-                <p className='opacity-75'>5.7tr+</p>
+              </b>
+              <p className='opacity-75'>5.7tr+</p>
             </p>
             <p className='w-1/2 text-2xl'>
               <b className='flex justify-center'>480.3k</b>
@@ -89,14 +93,14 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
             </p>
           </div>
           <div className='flex'>
-          <ButtonIcon outline className='rounded-xl border-sky-600 border text-xl w-1/2 p-3 m-2 text-sky-600 flex items-center justify-center'>
-            <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/49/27/ff/d735c33edfdc6cf6aeb6e183bec28869.png" alt="view-store" />
-            Xem shop
-        </ButtonIcon>
-        <ButtonIcon outline className='border border-sky-600 w-1/2 rounded-xl text-xl p-3 m-2 text-sky-600 flex items-center justify-center'>
-          <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/5b/bf/3c/eeda00767e26b5873030e44f951441c4.png" alt="follow-store" />
-          Theo Dõi
-      </ButtonIcon>
+            <ButtonIcon outline className='rounded-xl border-sky-600 border text-xl w-1/2 p-3 m-2 text-sky-600 flex items-center justify-center'>
+              <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/49/27/ff/d735c33edfdc6cf6aeb6e183bec28869.png" alt="view-store" />
+              Xem shop
+            </ButtonIcon>
+            <ButtonIcon outline className='border border-sky-600 w-1/2 rounded-xl text-xl p-3 m-2 text-sky-600 flex items-center justify-center'>
+              <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/5b/bf/3c/eeda00767e26b5873030e44f951441c4.png" alt="follow-store" />
+              Theo Dõi
+            </ButtonIcon>
           </div>
           <div className='pl-5 pt-3'>
             <p className='opacity-75'>Hướng dẫn bảo hành</p>

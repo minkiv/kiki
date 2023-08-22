@@ -1,20 +1,27 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { css } from '@emotion/react'
 import MainDetail from './main-detail/main-detail.component'
+import { useProductRedux } from '../redux/hook/useProductReducer'
+import { useParams } from 'react-router-dom'
 
-interface DetailProps{
+interface DetailProps {
 
 }
 
 const Detail: FunctionComponent<DetailProps> = () => {
+  const { actions } = useProductRedux()
+  const { id } = useParams()
+  useEffect(() => {
+    actions.getOneProduct(id)
+  }, [])
   return (
     <div css={cssDetail}>
-      <MainDetail/>
+      <MainDetail />
     </div>
   )
 }
 
-export default Detail 
+export default Detail
 
 const cssDetail = css`
 display: flex;
