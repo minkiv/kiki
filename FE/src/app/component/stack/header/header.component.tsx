@@ -1,15 +1,25 @@
 import { css } from '@emotion/react'
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import InputComponent from '../../parts/input/input.component'
 import { ImHome } from "react-icons/im"
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { FaCartPlus } from "react-icons/fa"
 import Register from '~/app/modules/client/accountLogin/accountLogin.component'
+import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
+
 interface HeaderComponentProps {
     props?: any
 }
 
 const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
+    const {
+        data: { carts },
+        actions
+    } = useCartRedux()
+
+    useEffect(() => {
+        actions.getAllCart()
+    }, [])
     return (
         <div className='flex items-center justify-between sm:w-[1440px]'>
             <img src="https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png" className='w-[57px] mr-12 max-sm:hidden' />
@@ -36,8 +46,9 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                     <div className='title'><Register /></div>
                 </div>
             </div>
-            <div css={cssCartMain}>
+            <div css={cssCartMain} className='cart-main relative'>
                 <FaCartPlus />
+                {carts?.length > 0 && <span className='absolute show-count'>{carts?.length}</span>}
             </div>
 
         </div>
@@ -73,6 +84,19 @@ const cssWrapperMenu = css`
  
 `
 const cssCartMain = css`
+.show-count {
+    top: 0px;
+    right: 0px;
+    border-radius: 50px;
+    background: #ef4444;
+    font-size: 1.3rem;
+    color: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 position: relative;
 display: block;
 height: 100%;
