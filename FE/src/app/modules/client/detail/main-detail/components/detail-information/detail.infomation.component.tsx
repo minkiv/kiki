@@ -141,7 +141,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           <div className='max-sm:ml-5 max-sm:flex sm:flex'>
             <label htmlFor="quantity" className='max-sm:mt-5 sm:mt-5'>Số Lượng:</label>
             <div className='mx-3'>
-              <QuantityProduct />
+              <QuantityProduct
+                quantity={quantity}
+                listQuantityRemain={productDetail?.listQuantityRemain}
+                setQuantity={setQuantity}
+                sizeSelect={sizeSelect}
+                colorSelect={colorSelect}
+              />
             </div>
           </div>
           <div className='flex mt-5'>
