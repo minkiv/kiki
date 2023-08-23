@@ -13,8 +13,19 @@ export const deleteCart = async (bodyRequet) => {
 
 
 export const getAllCart = async (req) => {
-    const cart = await Cart.findOne({ user: req.userId }).populate('carts.productId')
+    const cart = await Cart
+        .findOne({
+            user: req.user.id,
+        })
+        .populate({
+            path: 'carts',
+            populate: {
+                path: 'product',
+            },
+        })
+
     return cart
+
 }
 export const addCart = async (bodyRequet) => {
     const product = {
@@ -61,8 +72,8 @@ export const updateCart = async (bodyRequet) => {
                 item.quantityOrder.nameSize == bodyRequet.quantityOrder.nameSize &&
                 item.quantityOrder.nameColor == bodyRequet.quantityOrder.nameColor,
         )
-        findProduct.quantityOrder.quantity=bodyRequet.quantityOrder.quantity
-            await cartUser.save()
+        findProduct.quantityOrder.quantity = bodyRequet.quantityOrder.quantity
+        await cartUser.save()
     }
-    
+
 }
