@@ -1,16 +1,65 @@
-import { FunctionComponent} from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { css } from '@emotion/react'
 import StarIcon from '~/app/component/parts/rating/star.component'
 import QuantityProduct from '~/app/component/parts/quantity/QuantityProduct'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import ButtonIcon from '../../../../../../component/parts/button/Button-Icon.componet'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
+import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.data'
 interface DetailInformation { }
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const { data: { product: productDetail } } = useProductRedux()
+  const [quantity, setQuantity] = useState(1) // quantity ban đầu
+  const [colorSelect, setColorSelect] = useState<any>()// lựa chọn color
+  const [sizeSelect, setSizeSelect] = useState<any>()// lựa chọn size
+  const [checkQuantity, setCheckQuantity] = useState<any[]>([]) // check khi chưa lựa chọn color and size
+  const [quantityRemainProduct, setquantityRemainProduct] = useState<any>({}) // số lượng còn
+  const [listColor, setListColor] = useState([])
+  const [listSize, setListSize] = useState([])
+  useEffect(() => {
+    setCheckQuantity([])
+    const tempColor = getListColor(productDetail)
+    const tempSize = getListSize(productDetail)
+    setListColor(tempColor)
+    setListSize(tempSize)
+  }, [productDetail])
 
-  console.log(productDetail)
+
+  const handleSelectColor = (colorId: any) => {
+    console.log(colorId)
+    const findElement = listColor.find((item: any) => item.id == colorId)
+    if (colorId == colorSelect?.id) {
+      setColorSelect(null)
+    }
+    else {
+      setColorSelect(findElement)
+    }
+  }
+
+  const handleSelectSize = (sizeId: any) => {
+    const findElement = listSize.find((item: any) => item.id == sizeId)
+    if (sizeId == sizeSelect?.id) {
+      setSizeSelect(null)
+    }
+    else {
+      setSizeSelect(findElement)
+    }
+  }
+
+
+  useEffect(() => {
+    const filterListQuantity = productDetail.listQuantityRemain?.filter(
+      (item: any) => item.nameColor === colorSelect?.nameColor || item.nameSize === sizeSelect?.nameSize
+    )
+    console.log(filterListQuantity)
+    const findQuantityRemain = productDetail.listQuantityRemain?.find(
+      (item: any) => item.nameColor === colorSelect?.nameColor && item.nameSize === sizeSelect?.nameSize
+    )
+    console.log(filterListQuantity)
+    setCheckQuantity(filterListQuantity)
+    setquantityRemainProduct(findQuantityRemain)
+  }, [colorSelect, sizeSelect])
 
   return (
     <div css={cssInfomation}>
@@ -43,19 +92,51 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           <div className='mt-5 max-sm:ml-5'>
             <ul>
               <li className='pb-6'>Giao đến: <a className='underline font-bold' href="">Q. Hoàn Kiếm, P. Hàng Trống, Hà Nội</a><a className='changeAdress pl-1 font-bold' href="">- Đổi địa chỉ</a></li>
-              <li className='pb-6'>Màu Sắc:
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>Đỏ</ButtonSqua>
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>Xanh</ButtonSqua>
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>Vàng</ButtonSqua>
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>Cam</ButtonSqua>
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>Tím</ButtonSqua>
-              </li>
-              <li className='pb-6'>Kích Cỡ:
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>39</ButtonSqua>
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>40</ButtonSqua>
-                <ButtonSqua className='p-3 border w-20 mx-2 hover:border-cyan-400'>41</ButtonSqua>
-              </li>
+              <div className='mt-3 flex items-center'>
+                <div className=''>
+                  Màu Sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
+                </div>
+                {listColor?.map((item: any) => (
+                  <div
+                    key={item.id}
+                    className={`p-3 border rounded-md mr-4 cursor-pointer ${colorSelect?.id === item.id && 'bg-blue-100 border-blue-700'
+                      } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                      checkQuantity.length > 0 &&
+                      'bg-slate-100 pointer-events-none text-gray-400'
+                      }`}
+                    onClick={() => handleSelectColor(item.id)}
+                  >
+                    {item.nameColor}
+                  </div>
+                ))}
+              </div>
+              <div className='mt-3 flex items-center'>
+                <div className=''>
+                  Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
+                </div>
+                {listSize?.map((item: any) => (
+                  <div
+                    key={item.id}
+                    className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-blue-100 border-blue-600'
+                      } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                      checkQuantity.length > 0 &&
+                      'bg-slate-100 pointer-events-none text-gray-400'
+                      }`}
+                    onClick={() => handleSelectSize(item.id)}
+                  >
+                    {item.nameSize}
+                  </div>
+                ))}
+              </div>
+
             </ul>
+          </div>
+          <div>
+            {quantityRemainProduct &&
+              <div className='pb-7 my-4 ml-4 text-gray-400 text-[1.6rem]'>
+                {quantityRemainProduct?.quantity} sản phẩm có sẵn
+              </div>}
+
           </div>
           <div className='max-sm:ml-5 max-sm:flex sm:flex'>
             <label htmlFor="quantity" className='max-sm:mt-5 sm:mt-5'>Số Lượng:</label>
