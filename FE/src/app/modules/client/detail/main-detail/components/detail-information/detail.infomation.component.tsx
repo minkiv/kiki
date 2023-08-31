@@ -107,8 +107,8 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       <div className="grid grid-cols-7 xl:mt-10">
         <div className="col-span-12 xl:col-span-4">
           <div className='flex pt-5 p-3 xl:bg-slate-50 xl:p-5'>
-            <h1 className="text-red-500 font-bold text-4xl  xl:text-6xl">{productDetail?.price}</h1>
-            <h3 className='pl-5 text-xl pt-3 xl:text-2xl'><s className=' opacity-50 '>300.000 ₫</s>
+            <h1 className="text-red-500 font-bold text-4xl  xl:text-6xl">{productDetail?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h1>
+            <h3 className='pl-5 text-xl pt-3 xl:text-2xl'><s className=' opacity-50 '>{productDetail?.cost?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</s>
               <b className='text-red-500 sale'>-22%</b> </h3>
           </div>
           <div className='mt-5 max-sm:ml-5'>

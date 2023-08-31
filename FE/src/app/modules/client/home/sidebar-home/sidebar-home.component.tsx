@@ -185,7 +185,7 @@ top: 0px;
       }
 }
 @media (min-width: 0) and (max-width: 739px) {
-    height:130px;
+    height:80px;
     width: 100%;
     .sidebar-wrapper{    
         overflow-x: auto;

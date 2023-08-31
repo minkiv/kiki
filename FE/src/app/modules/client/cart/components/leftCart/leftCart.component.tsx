@@ -32,7 +32,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   const [checkQuantityType, setCheckQuantityType] = useState<any[]>([])
   const [quantityRemainProduct, setquantityRemainProduct] = useState<any>({})
   const [clickProductDetail, setClickProductDetail] = useState<any>()
-  console.log(clickProductDetail)
   useEffect(() => {
     function handleClickOutside(event: any) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -263,7 +262,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   }
                 />
               </div>
-              <span className='product-final-prices sm:mt-6'>{item?.product?.price * item.quantityOrder.quantity}₫</span>
+              <span className='product-final-prices sm:mt-6'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
             </div>
 
             <span className='product-delete'>
