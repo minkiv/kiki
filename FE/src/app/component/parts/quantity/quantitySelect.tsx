@@ -33,11 +33,6 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             (item) => item.nameColor === colorSelect?.nameColor && item.nameSize === sizeSelect?.nameSize
         )
         if (findElement) {
-            // if (Number(quantity) > Number(findElement.quantity)) {
-            //   setQuantity(findElement.quantity)
-            //   actions.updateSelectQuantityCart()
-            // }
-
             setQuantityWithCondition(findElement.quantity)
         } else {
             setQuantityWithCondition(0)
