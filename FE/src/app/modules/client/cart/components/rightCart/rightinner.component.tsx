@@ -1,11 +1,26 @@
 import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { useCartRedux } from '../../../redux/hook/useCartReducer'
 interface RightCartProps {
   props?: any
 }
 
 const RightCart: FunctionComponent<RightCartProps> = () => {
-   
+  const [totalPrice, setTotalPrice] = useState<any>(0)
+  const {
+    data: { carts },
+    actions
+  } = useCartRedux()
+
+  useEffect(() => {
+    actions.getAllCart()
+  }, [])
+  useEffect(() => {
+    if (carts) {
+      const calculatedTotal = carts.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+      setTotalPrice(calculatedTotal);
+    }
+  }, [carts]);
   return (
     <div css={cssRightCart}>
       <div className='information'>
@@ -30,7 +45,7 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         <ul className='price'>
           <li className='sm:flex max-sm:flex justify-between py-5'>
             <div className='text'>Tạm tính</div>
-            <div className='value'>156.000đ</div>
+            <div className='value'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
           </li>
           <li className='sm:flex max-sm:flex justify-between'>
             <div className='text'>Giảm giá</div>
@@ -40,11 +55,11 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         <div className='prices-total sm:flex justify-between max-sm:flex'>
           <span className='text-total'>Tổng tiền</span>
           <div className='content'>
-            <p className='price-total'>156.000 ₫</p>
+            <p className='price-total'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
             <p className='note pt-2'>(Đã bao gồm VAT nếu có)</p>
           </div>
         </div>
- 
+
       </div>
       <button>Mua hàng</button>
     </div>

@@ -21,7 +21,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
                     5 <StarIcon />| đã bán 4
                 </div>
                 <div className='price'>
-                    {itemProduct?.price} <sup>đ</sup>
+                    {itemProduct?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
                 </div>
                 <div className='asa'>Hoàn 12 ASA</div>
             </div>

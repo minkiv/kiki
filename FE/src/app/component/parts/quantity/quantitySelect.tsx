@@ -20,9 +20,11 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
         increment: false,
         decrement: false
     })
-
+    const [quantity, setQuantity] = useState<any>()
+    useEffect(() => {
+        setQuantity(quantityOrder)
+    }, [quantityOrder])
     const {
-        data: { carts },
         actions
     } = useCartRedux()
 
@@ -70,25 +72,25 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
     }
 
     const handleChangeInput = (event: any) => {
-        // if (event.target.value.match('^[0-9]*$')) {
-        //   if (event.target.value.trim() !== '' && Number(event.target.value.trim()) < 1) {
-        //     setQuantity(1)
-        //   } else {
-        //     if (Number(event.target.value) > Number(quantityWithCondition)) {
-        //       setQuantity(quantityWithCondition)
-        //       setObjectError((prev) => ({
-        //         ...prev,
-        //         increment: true
-        //       }))
-        //     } else {
-        //       setQuantity(event.target.value)
-        //       setObjectError((prev) => ({
-        //         ...prev,
-        //         increment: false
-        //       }))
-        //     }
-        //   }
-        // }
+        if (event.target.value.match('^[0-9]*$')) {
+            if (event.target.value.trim() !== '' && Number(event.target.value.trim()) < 1) {
+                setQuantity(1)
+            } else {
+                if (Number(event.target.value) > Number(quantityWithCondition)) {
+                    setQuantity(quantityWithCondition)
+                    setObjectError((prev) => ({
+                        ...prev,
+                        increment: true
+                    }))
+                } else {
+                    setQuantity(event.target.value)
+                    setObjectError((prev) => ({
+                        ...prev,
+                        increment: false
+                    }))
+                }
+            }
+        }
     }
 
     return (
@@ -103,7 +105,7 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
                 </div>
                 <input
                     type='text'
-                    value={quantityOrder}
+                    value={quantity}
                     className='outline-none w-[40px] text-center focus:border-blue-400'
                     onChange={handleChangeInput}
                 />
