@@ -14,13 +14,12 @@ const ListProduct: FunctionComponent<ListProductProps> = () => {
   useEffect(() => {
     actions.getAllProduct()
   }, [])
-  console.log(products)
   return (
     <div css={cssProduct}>
       <div className='titles'>Gợi ý hôm nay</div>
       <div className='list-product'>
-        {products.map((item: any) => (
-          <Link to={`/detail/${item._id}`}>
+        {products.map((item: any, index: any) => (
+          <Link to={`/detail/${item._id}`} key={index}>
             <ItemProduct itemProduct={item} />
           </Link>
 

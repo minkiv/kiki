@@ -24,7 +24,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     show: false,
     index: null
   })
-  console.log(showPopupSelect.index)
   const [listColor, setListColor] = useState([])
   const [listSize, setListSize] = useState([])
 
@@ -121,7 +120,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
       <div className='style-heading mb-[20px] flex  justify-between max-sm:mt-5'>
         <div className='flex'>
           <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' />
-          <span className='lable sm:mr-[290px] max-sm:ml-3 sm:pl-[4px]'>Tất cả (2 sản phẩm)</span>
+          <span className='lable sm:mr-[290px] max-sm:ml-3 sm:pl-[4px]'>Tất cả ({carts?.length} sản phẩm)</span>
         </div>
 
         {/* <div className='sm:flex justify-between w-[20%]'> */}

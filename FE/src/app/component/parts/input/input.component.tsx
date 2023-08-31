@@ -3,38 +3,38 @@ import React from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 
 interface InputProps {
-    prop?: any
-    hideIcon?: boolean
-    placeholder?: string
-    ref?: any
-    onChange?: any
-    value?: any
-    hasErorr?: any
+  prop?: any
+  hideIcon?: boolean
+  placeholder?: string
+  ref?: any
+  onChange?: any
+  value?: any
+  hasErorr?: any
 }
 type RefType = any
 const InputComponent = React.forwardRef<RefType, InputProps>(
-    ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, value, hasErorr }, ref) => {
-        return (
-            <div css={cssInput(hideIcon, hasErorr)}>
-                {hideIcon && (
-                    <div className='icon pl-[18px]'>
-                        <AiOutlineSearch />
-                    </div>
-                )}
-                <input
-                    ref={ref}
-                    type='text'
-                    className='h-full w-full flex-1 block outline-none mx-2 input'
-                    placeholder={placeholder}
-                    value={value || ''}
-                    onChange={onChange}
-                    css={cssInputMain}
-                />
-                {hideIcon && <button className='button-search'>Tìm kiếm</button>}
+  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, value, hasErorr }, ref) => {
+    return (
+      <div css={cssInput(hideIcon, hasErorr)}>
+        {hideIcon && (
+          <div className='icon pl-[18px]'>
+            <AiOutlineSearch />
+          </div>
+        )}
+        <input
+          ref={ref}
+          type='text'
+          className='h-full w-full flex-1 block outline-none mx-2 input'
+          placeholder={placeholder}
+          defaultValue={value || ''}
+          onChange={onChange}
+          css={cssInputMain}
+        />
+        {hideIcon && <button className='button-search'>Tìm kiếm</button>}
 
-            </div>
-        )
-    }
+      </div>
+    )
+  }
 )
 
 export default InputComponent

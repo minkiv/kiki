@@ -30,7 +30,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
 
 
   const handleSelectColor = (colorId: any) => {
-    console.log(colorId)
     const findElement = listColor.find((item: any) => item.id == colorId)
     if (colorId == colorSelect?.id) {
       setColorSelect(null)
