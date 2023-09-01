@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { useCartRedux } from '../../../redux/hook/useCartReducer'
 
 interface SidePaymentProps {
   props?: any
@@ -8,7 +9,7 @@ interface SidePaymentProps {
 const SidePayment: FunctionComponent<SidePaymentProps> = () => {
   const [isClicked, setIsClicked] = useState(false)
   const [textContent, setTextContent] = useState('Xem thông tin')
-
+  const [totalPrice, setTotalPrice] = useState<any>(0)
   const handleClick = () => {
     if (isClicked) {
       setTextContent('Xem thông tin')
@@ -17,6 +18,21 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
     }
     setIsClicked(!isClicked)
   }
+  const {
+    data: { carts },
+    actions
+  } = useCartRedux()
+
+  useEffect(() => {
+    actions.getAllCart()
+  }, [])
+
+  useEffect(() => {
+    if (carts) {
+      const calculatedTotal = carts.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+      setTotalPrice(calculatedTotal);
+    }
+  }, [carts]);
   return (
     <div css={cssSidebar} className='w-[463px] max-md:hidden'>
       <div className='sidebar-wrapper p-[16px] mb-4 '>
@@ -45,7 +61,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
             </a>
           </div>
           <div className='block-header-subtitle flex'>
-            <p className='sub-title-text'>4 sản phẩm.</p>
+            <p className='sub-title-text'> sản phẩm.</p>
             <p className='sub-title-link ' onClick={handleClick}>
               {textContent}
               <svg
@@ -68,32 +84,26 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         </div>
         {isClicked && (
           <div className='itemLists'>
-            <div className='list-container '>
-              <div className='item flex items-center justify-between mx-auto'>
-                <div className='item-info flex mr-[8px] flex-start'>
-                  <div className='item-info-qty'>2x</div>
-                  <div className='item-info-name'>
-                    Miếng Lót Chuột Phím Tắt Văn Phòng Cao Cấp , Bàn Di Chuột Công Thức , Pad Chuột - 25x30 cm
+            {carts?.map((item: any, index: any) => (
+              <div className='list-container' key={index}>
+                <div className='item flex items-center justify-between mx-auto'>
+                  <div className='item-info flex mr-[8px] flex-start'>
+                    <div className='item-info-qty'>{item?.quantityOrder?.quantity}x</div>
+                    <div className='item-info-name'>
+                      {item?.product?.name}
+                    </div>
                   </div>
+                  <div className='item-price'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
                 </div>
-                <div className='item-price'>51.000 đ</div>
               </div>
-              <div className='item flex items-center justify-between mx-auto'>
-                <div className='item-info flex mr-[8px] flex-start'>
-                  <div className='item-info-qty'>2x</div>
-                  <div className='item-info-name'>
-                    Miếng Lót Chuột Phím Tắt Văn Phòng Cao Cấp , Bàn Di Chuột Công Thức , Pad Chuột - 25x30 cm
-                  </div>
-                </div>
-                <div className='item-price'>51.000 đ</div>
-              </div>
-            </div>
+            ))}
+
           </div>
         )}
         <div className='summary'>
           <div className='summary-flexRow'>
             <div className='summary-label'>Tạm tính</div>
-            <div className='summary-value'>2.798.000đ</div>
+            <div className='summary-value'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
           </div>
           <div className='summary-flexRow'>
             <div className='summary-label'>Phí vận chuyển</div>
@@ -138,7 +148,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         <div className='order-total'>
           <div className='order-total-label'>Tổng tiền</div>
           <div className='order-total-value'>
-            <div className='order-total-total'>2.717.000 đ</div>
+            <div className='order-total-total'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
             <div className='order-total-additional-text'>(Đã bao gồm VAT nếu có)</div>
           </div>
         </div>

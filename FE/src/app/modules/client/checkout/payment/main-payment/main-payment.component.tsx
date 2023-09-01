@@ -1,14 +1,29 @@
 import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
-import SwiperList from '~/app/component/stack/swiper-list/swiper-list.component'
+import { FunctionComponent, useEffect, useState } from 'react'
 import DeliverPayment from './component/deliver/deliver.component'
 import Payments from './component/banks/payments.componet'
+import { useCartRedux } from '../../../redux/hook/useCartReducer'
 
 interface MainPaymentProps {
   props?: any
 }
 
 const MainPayment: FunctionComponent<MainPaymentProps> = () => {
+  const [totalPrice, setTotalPrice] = useState<any>(0)
+  const {
+    data: { carts },
+    actions
+  } = useCartRedux()
+
+  useEffect(() => {
+    actions.getAllCart()
+  }, [])
+  useEffect(() => {
+    if (carts) {
+      const calculatedTotal = carts.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+      setTotalPrice(calculatedTotal);
+    }
+  }, [carts]);
   return (
     <div css={cssmain}>
       <div className=' sidebar-wrapper p-[16px] mb-4 md:hidden flex items-center justify-between'>
@@ -59,7 +74,7 @@ const MainPayment: FunctionComponent<MainPaymentProps> = () => {
         <div className='summary'>
           <div className='summary-flexRow'>
             <div className='summary-label'>Tạm tính</div>
-            <div className='summary-value'>2.798.000đ</div>
+            <div className='summary-value'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
           </div>
           <div className='summary-flexRow'>
             <div className='summary-label'>Phí vận chuyển</div>
@@ -102,7 +117,7 @@ const MainPayment: FunctionComponent<MainPaymentProps> = () => {
         </div>
         <div className='row last-row flex items-center justify-between space-between'>
           <div className='last-row-title'>Tổng cộng</div>
-          <div className='last-row-value'>222.640đ</div>
+          <div className='last-row-value'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
         </div>
       </div>
       <div className='lazy-load md:hidden'>
