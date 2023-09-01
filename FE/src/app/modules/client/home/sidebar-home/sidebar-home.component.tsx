@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import { useCategoryRedux } from '../../redux/hook/useCategoryReducer'
+import { Link } from 'react-router-dom'
 
 interface SideBarHomeProps {
     props?: any
@@ -119,7 +120,7 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                 </div>
                 {categorys?.categorys?.map((item: any, index: any) => (
 
-                    <div className='item-out ' key={index}>
+                    <div className='item-out' key={index}>
                         <div className='icon mr-2'>
                             <img src={item?.image} alt="" className='w-[32px] text-center' />
                         </div>
@@ -137,9 +138,12 @@ const SideBarHome: FunctionComponent<SideBarHomeProps> = () => {
                     <div className='icon mr-2'>
                         <img src="	https://salt.tikicdn.com/cache/100x100/ts/upload/08/2f/14/fd9d34a8f9c4a76902649d04ccd9bbc5.png.webp" alt="" className='w-[32px] text-center' />
                     </div>
-                    <div>
-                        Bán hàng cùng KIKI
-                    </div>
+                    <Link to={"/seller"}>
+                        <div>
+                            Bán hàng cùng KIKI
+                        </div>
+                    </Link>
+
                 </div>
             </div>
         </div>

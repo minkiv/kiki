@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import { css } from '@emotion/react'
+import { Link } from 'react-router-dom'
 
 interface HeaderCheckOutProps {
     props?: any
@@ -10,7 +11,10 @@ const HeaderCheckOut: FunctionComponent<HeaderCheckOutProps> = () => {
         <div css={HeaderCheckOutcss}>
             <div className='flex items-center justify-between max-w-1170 mx-auto'>
                 <div css={imageContainer}>
-                    <img src="https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png" alt="" className='w-[100px] h-[60px]' />
+                    <Link to={"/"}>
+                        <img src="https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png" alt="" className='w-[100px] h-[60px]' />
+                    </Link>
+
                 </div>
                 <div css={imageContainer} >
                     <img src="https://frontend.tikicdn.com/_desktop-next/static/img/hotline.png" alt="" />

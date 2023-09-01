@@ -1,10 +1,18 @@
 import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 interface DeliverPaymentProps {
   props?: any
 }
-
 const DeliverPayment: FunctionComponent<DeliverPaymentProps> = () => {
+  const {
+    data: { carts },
+    actions
+  } = useCartRedux()
+
+  useEffect(() => {
+    actions.getAllCart()
+  }, [])
   return (
     <div className='deliver'>
       <div css={delivercss} className='w-[463px] max-md:hidden'>
@@ -95,60 +103,35 @@ const DeliverPayment: FunctionComponent<DeliverPaymentProps> = () => {
                   </div>
                 </div>
               </div>
-              <div className='package-item-list'>
-                <div className='packageItem flex py-[12px]'>
-                  <div className='item-icon inline-block mr-[8px]'>
-                    <img
-                      src='https://salt.tikicdn.com/cache/96x96/ts/product/47/e6/dc/f8efc9eeba9f708e6908404ddcda0755.jpg'
-                      alt='icon'
-                      width='48'
-                      height='48'
-                    />
-                  </div>
-                  <div className='item-info'>
-                    <div className='item-info-firstLine'>
-                      <span
-                        className='item-info_product-name'
-                        title='Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
-                      khẩu'
-                      >
-                        Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
-                        khẩu
-                      </span>
+              {carts?.map((item: any, index: any) => (
+                <div className='package-item-list' key={index}>
+                  <div className='packageItem flex py-[12px]'>
+                    <div className='item-icon inline-block mr-[8px]'>
+                      <img
+                        src={item?.product?.images[0]}
+                        width='48'
+                        height='48'
+                      />
                     </div>
-                    <div className='item-info-secondLine flex items-center justify-between  mx-auto'>
-                      <div className='item-info_qty'>SL: x2</div>
-                      <div className='item-info_price'>1.348.000 đ</div>
+                    <div className='item-info'>
+                      <div className='item-info-firstLine'>
+                        <span
+                          className='item-info_product-name'
+                          title='Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
+                      khẩu'
+                        >
+                          {item?.product?.name}
+                        </span>
+                      </div>
+                      <div className='item-info-secondLine flex items-center justify-between  mx-auto'>
+                        <div className='item-info_qty'>SL: X{item?.quantityOrder?.quantity}</div>
+                        <div className='item-info_price'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className='packageItem flex py-[12px]'>
-                  <div className='item-icon inline-block mr-[8px]'>
-                    <img
-                      src='https://salt.tikicdn.com/cache/96x96/ts/product/47/e6/dc/f8efc9eeba9f708e6908404ddcda0755.jpg'
-                      alt='icon'
-                      width='48'
-                      height='48'
-                    />
-                  </div>
-                  <div className='item-info'>
-                    <div className='item-info-firstLine'>
-                      <span
-                        title='Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
-                      khẩu'
-                        className='item-info_product-name'
-                      >
-                        Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
-                        khẩu
-                      </span>
-                    </div>
-                    <div className='item-info-secondLine flex items-center justify-between  mx-auto'>
-                      <div className='item-info_qty'>SL: x2</div>
-                      <div className='item-info_price'>1.348.000 đ</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
+
             </div>
             <div className='right-content'>
               <div className='fullfillments'>
@@ -304,49 +287,35 @@ const DeliverPayment: FunctionComponent<DeliverPaymentProps> = () => {
                       height='48'
                     />
                   </div>
-                  <div className='item-info'>
-                    <div className='item-info-firstLine'>
-                      <span
-                        className='item-info_product-name'
-                        title='Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
-                      khẩu'
-                      >
-                        Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
-                        khẩu
-                      </span>
-                    </div>
-                    <div className='item-info-secondLine flex items-center justify-between  mx-auto'>
-                      <div className='item-info_qty'>SL: x2</div>
-                      <div className='item-info_price'>1.348.000 đ</div>
-                    </div>
-                  </div>
                 </div>
-                <div className='packageItem flex py-[12px]'>
-                  <div className='item-icon inline-block mr-[8px]'>
-                    <img
-                      src='https://salt.tikicdn.com/cache/96x96/ts/product/47/e6/dc/f8efc9eeba9f708e6908404ddcda0755.jpg'
-                      alt='icon'
-                      width='48'
-                      height='48'
-                    />
-                  </div>
-                  <div className='item-info'>
-                    <div className='item-info-firstLine'>
-                      <span
-                        title='Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
+                {carts?.map((item: any, index: any) => (
+                  <div className='packageItem flex py-[12px]'>
+                    <div className='item-icon inline-block mr-[8px]'>
+                      <img
+                        src={item?.product?.images[0]}
+                        alt='icon'
+                        width='48'
+                        height='48'
+                      />
+                    </div>
+                    <div className='item-info'>
+                      <div className='item-info-firstLine'>
+                        <span
+                          title='Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
                       khẩu'
-                        className='item-info_product-name'
-                      >
-                        Ghế xoay văn phòng công thái học ergonomic có ngả lưng Premium 02, ghế xoay Gaming cao cấp nhập
-                        khẩu
-                      </span>
-                    </div>
-                    <div className='item-info-secondLine flex items-center justify-between  mx-auto'>
-                      <div className='item-info_qty'>SL: x2</div>
-                      <div className='item-info_price'>1.348.000 đ</div>
+                          className='item-info_product-name'
+                        >
+                          {item?.product?.name}
+                        </span>
+                      </div>
+                      <div className='item-info-secondLine flex items-center justify-between  mx-auto'>
+                        <div className='item-info_qty'>SL: x{item?.quantityOrder?.quantity}</div>
+                        <div className='item-info_price'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
+
               </div>
             </div>
             <div className='right-content'>

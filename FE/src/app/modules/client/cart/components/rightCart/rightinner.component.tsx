@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useCartRedux } from '../../../redux/hook/useCartReducer'
+import { Link } from 'react-router-dom'
 interface RightCartProps {
   props?: any
 }
@@ -61,7 +62,10 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         </div>
 
       </div>
-      <button>Mua hàng</button>
+      <Link to={`/checkout/payment`}>
+        <button>Mua hàng</button>
+      </Link>
+
     </div>
   )
 }

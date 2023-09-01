@@ -132,7 +132,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
         </span>
       </div>
 
-      {/*  */}
       <div className='container'>
         <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
           <input type='checkbox' className='w-[18px] mr-3' />

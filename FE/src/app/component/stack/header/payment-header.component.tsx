@@ -3,6 +3,7 @@ import React, { FunctionComponent } from 'react'
 import InputComponent from '../../parts/input/input.component'
 import { ImHome } from 'react-icons/im'
 import { FaCartPlus } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 interface PaymentHeaderComponentProps {
   props?: any
 }
@@ -13,10 +14,13 @@ const PaymentHeaderComponent: FunctionComponent<PaymentHeaderComponentProps> = (
       <div className='max-sm:px-[10px]  sm:px-[50px]  bg-white'>
         <div className='flex items-center py-3 justify-between w-[1240px] h-[100px] mx-auto max-md:hidden '>
           <div className='logo flex' css={cssLogo}>
-            <img
-              src='https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png'
-              className='w-[60px] h-[40px] '
-            />
+            <Link to={"/"}>
+              <img
+                src='https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png'
+                className='w-[60px] h-[40px] '
+              />
+            </Link>
+
             <span className='divider'></span>
             <span className='title'>Thanh toán</span>
           </div>
