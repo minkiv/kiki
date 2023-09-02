@@ -1,4 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react'
+import { UpdateProductToCart } from '~/app/api/cart/cart.api'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 interface SelectQuantityCartProps {
     props?: any
@@ -40,7 +41,6 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             setQuantityWithCondition(0)
         }
     }, [colorSelect, sizeSelect])
-
     const handleDecrement = () => {
         const objectDecrement = {
             type: 'DECREMENT',
@@ -53,6 +53,15 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             ...prev,
             increment: false
         }))
+        const requestObjectProduct = {
+            productId: itemCart.product._id,
+            quantityOrder: {
+                ...itemCart.quantityOrder,
+                quantity: itemCart.quantityOrder.quantity - 1
+            }
+        }
+
+        UpdateProductToCart(requestObjectProduct)
     }
 
     const handleIncrement = () => {
@@ -69,9 +78,25 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
                 increment: true
             }))
         }
+        const requestObjectProduct = {
+            productId: itemCart.product._id,
+            quantityOrder: {
+                ...itemCart.quantityOrder,
+                quantity: itemCart.quantityOrder.quantity + 1
+            }
+        }
+
+        UpdateProductToCart(requestObjectProduct)
     }
 
     const handleChangeInput = (event: any) => {
+        const objectIncrement = {
+            type: 'ONCHANGE_INPUT',
+            quantityWithCondition,
+            itemCart,
+            newQuantity: event.target.value,
+        }
+        actions.updateSelectQuantityCart(objectIncrement)
         if (event.target.value.match('^[0-9]*$')) {
             if (event.target.value.trim() !== '' && Number(event.target.value.trim()) < 1) {
                 setQuantity(1)
@@ -91,6 +116,15 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
                 }
             }
         }
+        const requestObjectProduct = {
+            productId: itemCart.product._id,
+            quantityOrder: {
+                ...itemCart.quantityOrder,
+                quantity: event.target.value
+            }
+        }
+
+        UpdateProductToCart(requestObjectProduct)
     }
 
     return (

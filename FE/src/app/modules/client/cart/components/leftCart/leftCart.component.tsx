@@ -6,6 +6,7 @@ import { useCartRedux } from '../../../redux/hook/useCartReducer'
 import { getListColor, getListSize } from '../../../helper/tranform.data'
 import SelectQuantityCart from '~/app/component/parts/quantity/quantitySelect'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
+import { UpdateProductToCart } from '~/app/api/cart/cart.api'
 interface leftCartProps {
   props?: any
 }
@@ -113,6 +114,15 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     }
 
     actions.updateSelectQuantityCart(objectIncrement)
+    const requestObjectProduct = {
+      productId: clickProductDetail.product._id,
+      quantityOrder: {
+        nameColor: colorSelect.nameColor,
+        nameSize: sizeSelect.nameSize,
+        quantity: clickProductDetail.quantityOrder.quantity
+      }
+    }
+    UpdateProductToCart(requestObjectProduct)
   }
   return (
     <div css={cssLeftCart}>
@@ -249,14 +259,14 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                     clickProductDetail
                       ? colorSelect
                       : item?.product?.listQuantityRemain.find(
-                        (item: any) => item?.nameColor == item?.quantityOrder?.nameColor
+                        (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
                       )
                   }
                   sizeSelect={
                     clickProductDetail
                       ? sizeSelect
                       : item?.product?.listQuantityRemain.find(
-                        (item: any) => item?.nameSize == item?.quantityOrder?.nameSize
+                        (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
                       )
                   }
                 />
