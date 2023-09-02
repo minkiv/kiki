@@ -65,15 +65,10 @@ export const updateCart = async (bodyRequet) => {
     const cartUser = await Cart.findOne({
         user: bodyRequet.userId,
     })
+    console.log(cartUser)
     if (cartUser) {
-        const findProduct = cartUser.carts.find(
-            (item) =>
-                String(item.product) === bodyRequet.productId &&
-                item.quantityOrder.nameSize == bodyRequet.quantityOrder.nameSize &&
-                item.quantityOrder.nameColor == bodyRequet.quantityOrder.nameColor,
-        )
-        findProduct.quantityOrder.quantity = bodyRequet.quantityOrder.quantity
+        const findProduct = cartUser.carts.find((item) => String(item.product) == bodyRequet.productId)
+        findProduct.quantityOrder = bodyRequet.quantityOrder
         await cartUser.save()
     }
-
 }
