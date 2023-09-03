@@ -19,7 +19,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
     setIsClicked(!isClicked)
   }
   const {
-    data: { carts },
+    data: { listProductBuy },
     actions
   } = useCartRedux()
 
@@ -28,11 +28,11 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
   }, [])
 
   useEffect(() => {
-    if (carts) {
-      const calculatedTotal = carts.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+    if (listProductBuy) {
+      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
       setTotalPrice(calculatedTotal);
     }
-  }, [carts]);
+  }, [listProductBuy]);
   return (
     <div css={cssSidebar} className='w-[463px] max-md:hidden'>
       <div className='sidebar-wrapper p-[16px] mb-4 '>
@@ -84,7 +84,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         </div>
         {isClicked && (
           <div className='itemLists'>
-            {carts?.map((item: any, index: any) => (
+            {listProductBuy?.map((item: any, index: any) => (
               <div className='list-container' key={index}>
                 <div className='item flex items-center justify-between mx-auto'>
                   <div className='item-info flex mr-[8px] flex-start'>
@@ -223,7 +223,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           đã được áp dụng!
         </div>
         <div className='flexRow'>
-          <button className='button-order'>Đặt hàng</button>
+          <button className='button-order'>Đặt hàng ({listProductBuy.length})</button>
         </div>
       </div>
     </div>

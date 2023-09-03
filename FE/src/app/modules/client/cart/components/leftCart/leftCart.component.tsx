@@ -13,13 +13,14 @@ interface leftCartProps {
 
 const LeftCart: FunctionComponent<leftCartProps> = () => {
   const {
-    data: { carts },
+    data: { carts, listProductBuy },
     actions
   } = useCartRedux()
 
   useEffect(() => {
     actions.getAllCart()
   }, [])
+  console.log(listProductBuy)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [showPopupSelect, setShowPopupSelect] = useState<any>({
     show: false,
@@ -90,6 +91,9 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
       show: false
     }))
   }
+  const handleSelectProductBuy = (productBuy: any) => {
+    actions.selectListProductBuy(productBuy)
+  }
 
   const handleSubmitChangeProperties = () => {
     const objectProperties = {
@@ -151,7 +155,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
         </div>
         {carts?.map((item: any, index: any) => (
           <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4' key={index}>
-            <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' />
+            <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' onChange={() => handleSelectProductBuy(item)} checked={listProductBuy.flatMap((items: any) => items?._id).includes(item?._id)} />
 
             <div className='sm:flex max-sm:flex items-center max-sm:mr-1 max-sm:p-[3px]'>
               <img

@@ -11,7 +11,7 @@ interface MainPaymentProps {
 const MainPayment: FunctionComponent<MainPaymentProps> = () => {
   const [totalPrice, setTotalPrice] = useState<any>(0)
   const {
-    data: { carts },
+    data: { listProductBuy },
     actions
   } = useCartRedux()
 
@@ -19,11 +19,11 @@ const MainPayment: FunctionComponent<MainPaymentProps> = () => {
     actions.getAllCart()
   }, [])
   useEffect(() => {
-    if (carts) {
-      const calculatedTotal = carts.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+    if (listProductBuy) {
+      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
       setTotalPrice(calculatedTotal);
     }
-  }, [carts]);
+  }, [listProductBuy]);
   return (
     <div css={cssmain}>
       <div className=' sidebar-wrapper p-[16px] mb-4 md:hidden flex items-center justify-between'>

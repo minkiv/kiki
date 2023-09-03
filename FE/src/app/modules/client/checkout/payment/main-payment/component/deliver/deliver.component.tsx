@@ -6,7 +6,7 @@ interface DeliverPaymentProps {
 }
 const DeliverPayment: FunctionComponent<DeliverPaymentProps> = () => {
   const {
-    data: { carts },
+    data: { listProductBuy },
     actions
   } = useCartRedux()
 
@@ -103,7 +103,7 @@ const DeliverPayment: FunctionComponent<DeliverPaymentProps> = () => {
                   </div>
                 </div>
               </div>
-              {carts?.map((item: any, index: any) => (
+              {listProductBuy?.map((item: any, index: any) => (
                 <div className='package-item-list' key={index}>
                   <div className='packageItem flex py-[12px]'>
                     <div className='item-icon inline-block mr-[8px]'>
@@ -288,7 +288,7 @@ const DeliverPayment: FunctionComponent<DeliverPaymentProps> = () => {
                     />
                   </div>
                 </div>
-                {carts?.map((item: any, index: any) => (
+                {listProductBuy?.map((item: any, index: any) => (
                   <div className='packageItem flex py-[12px]'>
                     <div className='item-icon inline-block mr-[8px]'>
                       <img

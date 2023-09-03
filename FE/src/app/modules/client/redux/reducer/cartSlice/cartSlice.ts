@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getAllCart } from "./thunk/cart.thunk";
 const initialState = {
-    carts: []
+    carts: [],
+    listProductBuy: JSON.parse(localStorage.getItem('listSelectCart')!) ?? []
 } as any
 const cartSlice = createSlice({
     name: "cart",
@@ -68,7 +69,22 @@ const cartSlice = createSlice({
                 default:
                     break
             }
+        },
+        selectListProductBuy: (state, action) => {
+            const productBuy = action.payload
+
+            if (state.listProductBuy.flatMap((item: any) => item?._id).includes(productBuy?._id)) {
+
+                const index = state.listProductBuy.findIndex((itemIndex: any) => itemIndex._id === productBuy?._id)
+                state.listProductBuy.splice(index, 1)
+            }
+            else {
+                state.listProductBuy.push(action.payload)
+            }
+
+            localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy))
         }
+
     },
     extraReducers: (builder) => {
         builder.addCase(getAllCart.fulfilled, (state, action) => {
