@@ -5,7 +5,7 @@ import { veryfiletoken } from '../middlewares/authorization.js'
 const router = express.Router()
 router.use(veryfiletoken)
 router.get('/', cartController.getAllCarts)
-router.delete('/', cartController.deleteCarts)
+router.delete('/:productId', cartController.deleteCarts)
 router.post("/edit", cartController.editCart)
 router.post('/add', cartController.addCarts)
 export default router

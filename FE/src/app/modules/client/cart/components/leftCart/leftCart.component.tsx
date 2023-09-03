@@ -6,12 +6,14 @@ import { useCartRedux } from '../../../redux/hook/useCartReducer'
 import { getListColor, getListSize } from '../../../helper/tranform.data'
 import SelectQuantityCart from '~/app/component/parts/quantity/quantitySelect'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
-import { UpdateProductToCart } from '~/app/api/cart/cart.api'
+import { UpdateProductToCart, deleteProductToCart } from '~/app/api/cart/cart.api'
+import { message, Modal } from 'antd'
 interface leftCartProps {
   props?: any
 }
 
 const LeftCart: FunctionComponent<leftCartProps> = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const {
     data: { carts, listProductBuy },
     actions
@@ -20,7 +22,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   useEffect(() => {
     actions.getAllCart()
   }, [])
-  console.log(listProductBuy)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [showPopupSelect, setShowPopupSelect] = useState<any>({
     show: false,
@@ -128,8 +129,27 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     }
     UpdateProductToCart(requestObjectProduct)
   }
+
+  const handleDeleteProductCart = (productId: any) => {
+    Modal.confirm({
+      title: 'Xác nhận xóa',
+      content: 'Bạn có muốn xoá sản phẩm khỏi giỏ hàng không ?',
+      okButtonProps: { className: 'bg-blue-500 hover:bg-blue-600' },
+      onOk() {
+        actions.deleteProductCart(productId._id);
+        deleteProductToCart(productId._id).then((res) => {
+          if (res) {
+            messageApi.success('Đã xoá sản phẩm khỏi giỏ hàng');
+          }
+        });
+      },
+      onCancel() {
+      },
+    });
+  }
   return (
     <div css={cssLeftCart}>
+      {contextHolder}
       <div className='style-heading mb-[20px] flex  justify-between max-sm:mt-5'>
         <div className='flex'>
           <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' />
@@ -279,7 +299,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
             </div>
 
             <span className='product-delete'>
-              <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' />
+              <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' onClick={() => handleDeleteProductCart(item)} />
             </span>
           </div>
         ))}

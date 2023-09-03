@@ -5,6 +5,9 @@ export const addProductToCart = async (data: any) => {
 }
 
 export const UpdateProductToCart = async (data: any) => {
-    console.log(data)
     return await axiosPrivate.post("/cart/edit", data)
+}
+
+export const deleteProductToCart = async (productId: any) => {
+    return await axiosPrivate.delete("/cart/" + productId)
 }
