@@ -8,18 +8,20 @@ import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReduc
 import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.data'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { addProductToCart } from '~/app/api/cart/cart.api';
+import { message } from 'antd'
 interface DetailInformation { }
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const { data: { product: productDetail } } = useProductRedux()
   const { actions } = useCartRedux()
-  const [quantity, setQuantity] = useState(1) // quantity ban đầu
-  const [colorSelect, setColorSelect] = useState<any>()// lựa chọn color
-  const [sizeSelect, setSizeSelect] = useState<any>()// lựa chọn size
-  const [checkQuantity, setCheckQuantity] = useState<any[]>([]) // check khi chưa lựa chọn color and size
-  const [quantityRemainProduct, setquantityRemainProduct] = useState<any>({}) // số lượng còn
+  const [quantity, setQuantity] = useState(1)
+  const [colorSelect, setColorSelect] = useState<any>()
+  const [sizeSelect, setSizeSelect] = useState<any>()
+  const [checkQuantity, setCheckQuantity] = useState<any[]>([])
+  const [quantityRemainProduct, setquantityRemainProduct] = useState<any>({})
   const [listColor, setListColor] = useState([])
   const [listSize, setListSize] = useState([])
+  const [messageApi, contextHolder] = message.useMessage();
   useEffect(() => {
     setCheckQuantity([])
     const tempColor = getListColor(productDetail)
@@ -62,6 +64,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   }, [colorSelect, sizeSelect])
 
   const handelAddProductToCart = () => {
+    if (!colorSelect || !sizeSelect) {
+      // Nếu một trong hai chưa được chọn, hiển thị thông báo lỗi
+      messageApi.error('Vui lòng chọn màu và kích thước trước khi thêm vào giỏ hàng');
+      return; // Dừng hàm và không thực hiện thêm sản phẩm vào giỏ hàng
+    }
     const requestProduct = {
       product: productDetail,
       quantityOrder: {
@@ -81,11 +88,12 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       }
     }
     addProductToCart(requestApiCart)
+    messageApi.success('đã thêm vào giỏ hàng');
   }
 
   return (
     <div css={cssInfomation}>
-
+      {contextHolder}
       <div>
         <p className='text-2xl hidden sm:block'>Thương hiệu: <a className='text-cyan-400' href="">{productDetail?.brand}</a></p>
         <h1 className="pt-3 xl:text-4xl xl:opacity-75 title"> {productDetail?.name}</h1>

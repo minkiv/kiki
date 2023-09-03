@@ -4,7 +4,7 @@ export const deleteCart = async (bodyRequet) => {
     const cart = await Cart.findOne({
         user: bodyRequet.userId
     })
-    const newcart = cart.carts.findIndex((item) => String(item.productId) == bodyRequet.productId)
+    const newcart = cart.carts.findIndex((item) => String(item._id) == bodyRequet.productId)
     if (newcart > -1) {
         cart.carts.splice(newcart, 1)
     }

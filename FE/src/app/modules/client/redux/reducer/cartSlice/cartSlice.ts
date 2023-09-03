@@ -83,6 +83,10 @@ const cartSlice = createSlice({
             }
 
             localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy))
+        },
+        deleteProductCart: (state, action) => {
+            const productId = action.payload
+            state.carts = state.carts.filter((item: any) => item._id !== productId)
         }
 
     },
