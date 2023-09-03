@@ -1,12 +1,26 @@
 import { css } from '@emotion/react'
-import React, { FunctionComponent } from 'react'
-import { FaFacebook, FaYoutube, FaTelegram } from 'react-icons/fa'
-
+import { FunctionComponent, useEffect, useState } from 'react'
+import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 interface FooterPaymentComponentProps {
   props?: any
 }
 
 const FooterPaymentComponent: FunctionComponent<FooterPaymentComponentProps> = () => {
+  const [totalPrice, setTotalPrice] = useState<any>(0)
+  const {
+    data: { listProductBuy },
+    actions
+  } = useCartRedux()
+
+  useEffect(() => {
+    actions.getAllCart()
+  }, [])
+  useEffect(() => {
+    if (listProductBuy) {
+      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+      setTotalPrice(calculatedTotal);
+    }
+  }, [listProductBuy]);
   return (
     <>
       <footer css={cssFooter}>
@@ -77,7 +91,7 @@ const FooterPaymentComponent: FunctionComponent<FooterPaymentComponentProps> = (
           </div>
           <div className='left'>
             <div className='left-title'>Tổng cộng</div>
-            <div className='left-total'>222.640 đ</div>
+            <div className='left-total'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
           </div>
           <div className='right'>
             <button className='right-btn'>Đặt Hàng</button>

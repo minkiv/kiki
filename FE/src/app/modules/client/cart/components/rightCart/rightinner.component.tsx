@@ -9,7 +9,7 @@ interface RightCartProps {
 const RightCart: FunctionComponent<RightCartProps> = () => {
   const [totalPrice, setTotalPrice] = useState<any>(0)
   const {
-    data: { carts },
+    data: { listProductBuy },
     actions
   } = useCartRedux()
 
@@ -17,11 +17,11 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
     actions.getAllCart()
   }, [])
   useEffect(() => {
-    if (carts) {
-      const calculatedTotal = carts.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+    if (listProductBuy) {
+      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
       setTotalPrice(calculatedTotal);
     }
-  }, [carts]);
+  }, [listProductBuy]);
   return (
     <div css={cssRightCart}>
       <div className='information'>
@@ -63,7 +63,7 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
 
       </div>
       <Link to={`/checkout/payment`}>
-        <button>Mua hàng</button>
+        <button>Mua hàng ({listProductBuy.length})</button>
       </Link>
 
     </div>
