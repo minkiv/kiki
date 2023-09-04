@@ -150,23 +150,20 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   return (
     <div css={cssLeftCart}>
       {contextHolder}
-      <div className='style-heading mb-[20px] flex  justify-between max-sm:mt-5'>
+      <div className='style-heading mb-[20px] max-sm:flex sm:flex bg-white  sm:justify-between max-sm:mt-5'>
         <div className='flex'>
           <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' />
           <span className='lable sm:mr-[290px] max-sm:ml-3 sm:pl-[4px]'>Tất cả ({carts?.length} sản phẩm)</span>
         </div>
-
-        {/* <div className='sm:flex justify-between w-[20%]'> */}
         <span className='taitle-table mr-[100px]'>Đơn giá</span>
         <span className='taitle-table mr-[70px]'>Số lượng</span>
-        {/* </div> */}
         <span className='taitle-table mr-[90px]'>Thành tiền</span>
-        <span className='remove-all'>
+        <div className='remove-all'>
           <RiDeleteBinLine size={17} className='delete-icon sm:mr-4 max-sm:mr-5' />
-        </span>
+        </div>
       </div>
 
-      <div className='container'>
+      <div className='container bg-white '>
         <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
           <input type='checkbox' className='w-[18px] mr-3' />
           <BsShopWindow className='icon-home w-6 h-6 mr-2' />
@@ -174,130 +171,129 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
           <a href='#'>Shop Name</a>
         </div>
         {carts?.map((item: any, index: any) => (
-          <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-4' key={index}>
-            <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' onChange={() => handleSelectProductBuy(item)} checked={listProductBuy.flatMap((items: any) => items?._id).includes(item?._id)} />
+          <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-3' key={index}>
 
-            <div className='sm:flex max-sm:flex items-center max-sm:mr-1 max-sm:p-[3px]'>
+
+            <div className='sm:flex max-sm:flex items-center max-sm:mr-1 max-sm:p-[3px] '>
+              <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' onChange={() => handleSelectProductBuy(item)} checked={listProductBuy.flatMap((items: any) => items?._id).includes(item?._id)} />
               <img
                 src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
                 alt=''
                 className='w-[76px] h-20'
               />
 
-              <a href='#' className='max-sm:mr-5 max-sm:p-[7px]'>
+              <div className='max-sm:mr-2 max-sm:p-[7px]  '>
                 {item?.product?.name}
-              </a>
-            </div>
-            <span className='real-prices '>{item?.product?.price}₫</span>
-            <div className='sm:w-[130px] max-sm:w-full relative'>
-              <p
-                className='product-wrap-prices sm:w-[190px] max-sm:flex cursor-pointer'
-                onClick={() => {
-                  setShowPopupSelect((prev: any) => ({
-                    show: !prev.show,
-                    index: index
-                  })),
-                    setClickProductDetail(item)
-                }}
-              >
-                <div className='mr-6'>
-                  <span className='mr-2'>Màu:</span>
-                  <span className='product-real-prices'>{item?.quantityOrder.nameColor}</span>
-                </div>
-                <span className='mr-2'>Kích cỡ:</span>
-                <div className='product-real-prices'>{item?.quantityOrder.nameSize}</div>
-              </p>
-              {showPopupSelect.index === index && showPopupSelect.show && (
-                <div ref={wrapperRef} className=' bg-white shadow-3xl s absolute p-3 rounded-lg z-10'>
-                  <div className='my-6'>
-                    <div className=''>
-                      Màu sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
+                <div className=' max-sm:w-full relative'>
+                  <div
+                    className='product-wrap-prices sm:w-[190px] flex cursor-pointer'
+                    onClick={() => {
+                      setShowPopupSelect((prev: any) => ({
+                        show: !prev.show,
+                        index: index
+                      })),
+                        setClickProductDetail(item)
+                    }}
+                  >
+                    <div >
+                      <span className='mr-2'>Màu:</span>
+                      <span className='product-real-prices'>{item?.quantityOrder.nameColor}</span>
                     </div>
-                    <div className='mt-3 flex items-center'>
-                      {getListColor(item, 'cart')?.map((item: any) => (
-                        <div
-                          key={item.id}
-                          className={`p-3 border rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item.nameColor && 'bg-blue-100 border-blue-600'
-                            } ${!checkQuantityType
-                              ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
-                              .includes(item.nameColor) &&
-                            checkQuantityType.length > 0 &&
-                            item.quantity === 0 &&
-                            'bg-slate-100 pointer-events-none text-gray-400'
-                            }
+                    <span className='mr-2'>Kích cỡ:</span>
+                    <div className='product-real-prices'>{item?.quantityOrder.nameSize}</div>
+                  </div>
+                  {showPopupSelect.index === index && showPopupSelect.show && (
+                    <div ref={wrapperRef} className=' bg-white shadow-3xl s absolute p-3 rounded-lg z-10'>
+                      <div className='my-2'>
+                        <div>
+                          Màu sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
+                        </div>
+                        <div className='mt-3 sm:flex max-sm:flex items-center'>
+                          {getListColor(item, 'cart')?.map((item: any) => (
+                            <div
+                              key={item.id}
+                              className={`p-3 border rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item.nameColor && 'bg-blue-100 border-blue-600'
+                                } ${!checkQuantityType
+                                  ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
+                                  .includes(item.nameColor) &&
+                                checkQuantityType.length > 0 &&
+                                item.quantity === 0 &&
+                                'bg-slate-100 pointer-events-none text-gray-400'
+                                }
                               ${Number(item.quantity) === 0 &&
-                            checkQuantityType.length === 0 &&
-                            'bg-slate-100 pointer-events-none text-gray-400'
-                            }
+                                checkQuantityType.length === 0 &&
+                                'bg-slate-100 pointer-events-none text-gray-400'
+                                }
                                 `}
-                          onClick={() => handleSelectColor(item.id)}
-                        >
-                          {item.nameColor}
+                              onClick={() => handleSelectColor(item.id)}
+                            >
+                              {item.nameColor}
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className='my-6'>
-                    <div className=''>
-                      Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
-                    </div>
-                    <div className='mt-3 flex items-center'>
-                      {getListSize(item, 'cart')?.map((item: any) => (
-                        <div
-                          key={item.id}
-                          className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.nameSize === item.nameSize && 'bg-blue-100 border-blue-600'
-                            } ${!checkQuantityType
-                              ?.flatMap((itemType: any) => itemType?.nameSize)
-                              .includes(item.nameSize) &&
-                            checkQuantityType.length > 0 &&
-                            'bg-slate-100 pointer-events-none text-gray-400'
-                            }`}
-                          onClick={() => handleSelectSize(item.id)}
-                        >
-                          {item.nameSize}
+                      </div>
+                      <div className='my-2'>
+                        <div className=''>
+                          Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
                         </div>
-                      ))}
-                    </div>
-                  </div>
+                        <div className='mt-3 sm:flex max-sm:flex items-center'>
+                          {getListSize(item, 'cart')?.map((item: any) => (
+                            <div
+                              key={item.id}
+                              className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.nameSize === item.nameSize && 'bg-blue-100 border-blue-600'
+                                } ${!checkQuantityType
+                                  ?.flatMap((itemType: any) => itemType?.nameSize)
+                                  .includes(item.nameSize) &&
+                                checkQuantityType.length > 0 &&
+                                'bg-slate-100 pointer-events-none text-gray-400'
+                                }`}
+                              onClick={() => handleSelectSize(item.id)}
+                            >
+                              {item.nameSize}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
 
-                  <div className='flex'>
-                    <ButtonSqua outline className='mr-4' onClick={cancelChangeProperties}>
-                      Hủy
-                    </ButtonSqua>
-                    <ButtonSqua onClick={handleSubmitChangeProperties}>
-                      Xác nhận
-                    </ButtonSqua>
-                  </div>
+                      <div className='flex'>
+                        <ButtonSqua outline className='mr-4' onClick={cancelChangeProperties}>
+                          Hủy
+                        </ButtonSqua>
+                        <ButtonSqua onClick={handleSubmitChangeProperties}>
+                          Xác nhận
+                        </ButtonSqua>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-
-
-            <div className='sm:flex w-[20%] justify-between max-sm:mr-7 '>
-              <div className='max-sm:flex'>
-                <SelectQuantityCart
-                  itemCart={item}
-                  listQuantityRemain={item?.product?.listQuantityRemain}
-                  quantityOrder={item?.quantityOrder?.quantity}
-                  colorSelect={
-                    clickProductDetail
-                      ? colorSelect
-                      : item?.product?.listQuantityRemain.find(
-                        (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
-                      )
-                  }
-                  sizeSelect={
-                    clickProductDetail
-                      ? sizeSelect
-                      : item?.product?.listQuantityRemain.find(
-                        (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
-                      )
-                  }
-                />
               </div>
-              <span className='product-final-prices sm:mt-6'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
-            </div>
 
+              <div className='sm:flex justify-between'>
+                <span className='real-prices sm:ml-[145px]'>{item?.product?.price}₫</span>
+                <div className='sm:ml-[100px]'>
+                  <SelectQuantityCart
+                    itemCart={item}
+                    listQuantityRemain={item?.product?.listQuantityRemain}
+                    quantityOrder={item?.quantityOrder?.quantity}
+                    colorSelect={
+                      clickProductDetail
+                        ? colorSelect
+                        : item?.product?.listQuantityRemain.find(
+                          (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
+                        ) || {}
+                    }
+                    sizeSelect={
+                      clickProductDetail
+                        ? sizeSelect
+                        : item?.product?.listQuantityRemain.find(
+                          (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
+                        ) || {}
+                    }
+                  />
+                </div>
+                <span className='product-final-prices sm:mt-6 text-[17px] sm:ml-[50px]'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
+              </div>
+            </div>
             <span className='product-delete'>
               <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' onClick={() => handleDeleteProductCart(item)} />
             </span>
@@ -312,7 +308,6 @@ export default LeftCart
 
 const cssLeftCart = css`
       .style-heading {
-        background - color: var(--color-white);
       padding: 9px 16px;
       border-radius: 4px;
       color: rgb(36, 36, 36);
@@ -341,13 +336,11 @@ const cssLeftCart = css`
       .delete-icon:hover {
         color: red;
   }
-
-  // Mobile: w< 740px
-      @media only screen and (max-width: 739px) {
-    .style - heading {
-        display: flex;
+  @media only screen and (max-width: 739px) {
+    .style-heading {
+      display: flex;
       -webkit-box-pack: justify;
-      ustify-content: space-between;
+      justify-content: space-between;
       top: 122px;
       left: 0px;
       width: 100%;
@@ -355,11 +348,9 @@ const cssLeftCart = css`
       background: rgb(255, 255, 255);
       padding: 11px 16px;
     }
-      .taitle-table {
-        display: none;
-    }
-      .real-prices {
-        display: none;
+    .taitle-table {
+      display: none;
     }
   }
+  
       `

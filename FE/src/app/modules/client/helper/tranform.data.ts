@@ -16,7 +16,6 @@ export const getListColor = (productDetail: any, type?: any) => {
             _temp[indexTemp] = {
                 ...findElement
             }
-
             acc[index] = {
                 id: findElement._id,
                 nameColor: findElement.nameColor,
