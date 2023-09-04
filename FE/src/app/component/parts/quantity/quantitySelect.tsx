@@ -128,9 +128,9 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
     }
 
     return (
-        <div className='py-4 my-4'>
+        <div>
 
-            <div className='flex border border-solid border-gray-300 max-w-max rounded-lg'>
+            <div className='sm:flex max-sm:flex border border-solid border-gray-300 max-w-max rounded-lg'>
                 <div
                     className='px-4 py-3 border-r border-solid border-gray-300 cursor-pointer hover:bg-slate-200'
                     onClick={handleDecrement}
@@ -139,7 +139,7 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
                 </div>
                 <input
                     type='text'
-                    value={quantity}
+                    defaultValue={quantity}
                     className='outline-none w-[40px] text-center focus:border-blue-400'
                     onChange={handleChangeInput}
                 />

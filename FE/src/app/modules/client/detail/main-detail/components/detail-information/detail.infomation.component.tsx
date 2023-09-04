@@ -8,7 +8,7 @@ import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReduc
 import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.data'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { addProductToCart } from '~/app/api/cart/cart.api';
-import { message } from 'antd'
+import { Modal, message } from 'antd'
 interface DetailInformation { }
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
@@ -66,7 +66,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const handelAddProductToCart = () => {
     if (!colorSelect || !sizeSelect) {
       // Nếu một trong hai chưa được chọn, hiển thị thông báo lỗi
-      messageApi.error('Vui lòng chọn màu và kích thước trước khi thêm vào giỏ hàng');
+      messageApi.error('Vui lòng chọn thông tin trước khi thêm vào giỏ hàng');
       return; // Dừng hàm và không thực hiện thêm sản phẩm vào giỏ hàng
     }
     const requestProduct = {
@@ -88,7 +88,15 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       }
     }
     addProductToCart(requestApiCart)
-    messageApi.success('đã thêm vào giỏ hàng');
+    const modal = Modal.success({
+      content: 'Thêm sản phẩm vào giỏ hàng thành công',
+      okButtonProps: { className: 'bg-blue-500 hover:bg-blue-600' }
+    });
+
+    // Đóng modal sau 3 giây
+    setTimeout(() => {
+      modal.destroy();
+    }, 3000);
   }
 
   return (
@@ -212,7 +220,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           <div className='flex'>
             <ButtonIcon outline className='rounded-xl border-sky-600 border text-xl w-1/2 p-3 m-2 text-sky-600 flex items-center justify-center'>
               <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/49/27/ff/d735c33edfdc6cf6aeb6e183bec28869.png" alt="view-store" />
-              Xem shop
+              Xem Shop
             </ButtonIcon>
             <ButtonIcon outline className='border border-sky-600 w-1/2 rounded-xl text-xl p-3 m-2 text-sky-600 flex items-center justify-center'>
               <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/5b/bf/3c/eeda00767e26b5873030e44f951441c4.png" alt="follow-store" />
