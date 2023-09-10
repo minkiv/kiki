@@ -1,0 +1,6 @@
+export const STEP_AUTH = {
+    LOGIN_PHONE_NUMBER: 1,
+    LOGIN_EMAIL: 2,
+    FORGOT_PASSWORD: 3,
+    CREATE_ACCOUNT: 4
+}

@@ -1,33 +1,18 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'antd';
-import SignIn from './form/signIn.component';
-import SignUp from './form/signUp.component';
+import { Modal } from 'antd';
 import { css } from '@emotion/react';
-
-
-
+import SignInWithEmail from './form/signInWithEmail.component';
+import SignInAndRegister from './form/signInAndRegister.component';
+import { MdArrowBackIos } from 'react-icons/md';
+import { STEP_AUTH } from '~/app/contants/contants.client';
+import ForgotPassword from './form/forgotPassword.component';
 
 const Register: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isShowSignUp, setIsShowSignUp] = useState(false)
-    const [isShowSignIn, setIsShowSignIn] = useState(true)
-
-    const handleCreate = () => {
-        setIsShowSignUp(!isShowSignUp)
-        setIsShowSignIn(!isShowSignIn)
-    }
-
+    const [stepAuth, setStepAuth] = useState(STEP_AUTH.LOGIN_PHONE_NUMBER)
 
     const showModal = () => {
         setIsModalOpen(true);
-    };
-
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
     };
 
 
@@ -36,20 +21,19 @@ const Register: React.FC = () => {
             <button onClick={showModal}>
                 Tài khoản
             </button>
-            <Modal title="Xin chào" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okType='default' width={800} footer={null} >
+            <Modal open={isModalOpen} okType='default' width={800} footer={null} >
+                {stepAuth === STEP_AUTH.LOGIN_EMAIL && (
+                    <div onClick={() => setStepAuth(STEP_AUTH.LOGIN_PHONE_NUMBER)}><MdArrowBackIos className='text-5xl' /></div>
+                )}
+                {stepAuth === STEP_AUTH.FORGOT_PASSWORD && (
+                    <div onClick={() => setStepAuth(STEP_AUTH.LOGIN_PHONE_NUMBER)}><MdArrowBackIos className='text-5xl' /></div>
+                )}
                 <div css={register} className='register'>
                     <div className='form'>
-                        {isShowSignIn && <SignIn />}
+                        {stepAuth === STEP_AUTH.LOGIN_PHONE_NUMBER && <SignInAndRegister setStepAuth={setStepAuth} />}
+                        {stepAuth === STEP_AUTH.LOGIN_EMAIL && <SignInWithEmail setStepAuth={setStepAuth} />}
+                        {stepAuth === STEP_AUTH.FORGOT_PASSWORD && <ForgotPassword setStepAuth={setStepAuth} />}
 
-                        {isShowSignIn && <Button type="link" onClick={() => handleCreate()} >
-                            Tạo tài khoản
-                        </Button>}
-
-                        {isShowSignUp && <SignUp />}
-
-                        {isShowSignUp && <Button type="link" onClick={() => handleCreate()} >
-                            Đăng nhập
-                        </Button>}
 
                     </div>
 
@@ -97,11 +81,11 @@ const register = css`
     .content h4{
         margin: 0px 0px 5px;
         color: rgb(11, 116, 229);
-        font-size: 1.063rem;
+        font-size: var(--fs-4);
         font-weight: 500;
     }
     .content span{
-        font-size: 0.831rem;
+        font-size: var(--fs-8);
         color: rgb(11, 116, 229);
         font-weight: 500;
     }
