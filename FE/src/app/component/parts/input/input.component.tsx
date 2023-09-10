@@ -13,7 +13,7 @@ interface InputProps {
 }
 type RefType = any
 const InputComponent = React.forwardRef<RefType, InputProps>(
-  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, value, hasErorr }, ref) => {
+  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, value, hasErorr }, ref, outline = false) => {
     return (
       <div css={cssInput(hideIcon, hasErorr)}>
         {hideIcon && (
@@ -28,7 +28,7 @@ const InputComponent = React.forwardRef<RefType, InputProps>(
           placeholder={placeholder}
           defaultValue={value || ''}
           onChange={onChange}
-          css={cssInputMain}
+          css={cssInputMain(outline)}
         />
         {hideIcon && <button className='button-search'>Tìm kiếm</button>}
 
@@ -71,4 +71,6 @@ const cssInput = (hideIcon: boolean, hasErorr: any) => css`
   }
 `
 
-const cssInputMain = css``
+const cssInputMain = (outline: boolean) => css`
+  border:${outline ? 'none' : ''}
+`
