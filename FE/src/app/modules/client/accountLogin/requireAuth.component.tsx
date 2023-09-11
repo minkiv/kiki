@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
 import { Modal } from 'antd';
 import { css } from '@emotion/react';
 import SignInWithEmail from './form/signInWithEmail.component';
@@ -6,22 +6,23 @@ import SignInAndRegister from './form/signInAndRegister.component';
 import { MdArrowBackIos } from 'react-icons/md';
 import { STEP_AUTH } from '~/app/contants/contants.client';
 import ForgotPassword from './form/forgotPassword.component';
+import { useAuthRedux } from '../redux/hook/useAuthReducer';
+interface PropsTypes {
+    props?: any
+    children?: any
+}
+const RequireAuth: FC<PropsTypes> = ({ children }) => {
 
-const Register: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [stepAuth, setStepAuth] = useState(STEP_AUTH.LOGIN_PHONE_NUMBER)
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-
+    const {
+        data: { isOpen },
+        actions: actionsAuth
+    } = useAuthRedux()
 
     return (
         <div className='account'>
-            <button onClick={showModal}>
-                Tài khoản
-            </button>
-            <Modal open={isModalOpen} okType='default' width={800} footer={null} >
+            <Modal okType='default' width={800} open={isOpen} footer={null} onCancel={() => actionsAuth.closeModal()}>
                 {stepAuth === STEP_AUTH.LOGIN_EMAIL && (
                     <div onClick={() => setStepAuth(STEP_AUTH.LOGIN_PHONE_NUMBER)}><MdArrowBackIos className='text-5xl' /></div>
                 )}
@@ -46,11 +47,12 @@ const Register: React.FC = () => {
                     </div>
                 </div>
             </Modal>
+            {children}
         </div >
     );
 };
 
-export default Register;
+export default RequireAuth;
 const register = css`    
     background: rgb(248, 248, 248);
     display: flex;
