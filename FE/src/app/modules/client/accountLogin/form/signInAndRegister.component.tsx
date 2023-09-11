@@ -83,7 +83,7 @@ const form = css`
 
     .heading2{
         text-align: center;
-        margin: 80px 0px 0px;
+        margin: 20px 0px 0px;
     }
     .heading2 .social{
         margin: 0px 0px 15px;

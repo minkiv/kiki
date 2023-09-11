@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { css } from '@emotion/react';
 import InputComponent from '~/app/component/parts/input/input.component';
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua';
@@ -32,8 +32,6 @@ const SignInWithEmail: FunctionComponent<SignInWithEmailProps> = ({ setStepAuth 
         </div>
     )
 }
-
-
 
 export default SignInWithEmail;
 

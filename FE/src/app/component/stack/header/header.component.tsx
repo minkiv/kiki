@@ -4,23 +4,40 @@ import InputComponent from '../../parts/input/input.component'
 import { ImHome } from "react-icons/im"
 import { AiOutlineUserAdd } from "react-icons/ai"
 import { FaCartPlus } from "react-icons/fa"
-import Register from '~/app/modules/client/accountLogin/accountLogin.component'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
+import RequireAuth from '~/app/modules/client/accountLogin/requireAuth.component'
 
 interface HeaderComponentProps {
     props?: any
 }
 
 const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
+    let navigate = useNavigate()
     const {
         data: { carts },
         actions
     } = useCartRedux()
+    const {
+        data: { isLogin, isOpen },
+        actions: actionsAuth
+    } = useAuthRedux()
 
     useEffect(() => {
-        actions.getAllCart()
-    }, [])
+        if (isLogin || localStorage.getItem('accessToken')) {
+            actions.getAllCart()
+        }
+    }, [isLogin, isOpen])
+
+    const handleRedirectCart = () => {
+        if (isLogin) {
+            navigate('/cart')
+        } else {
+            actionsAuth.checkLogin()
+        }
+    }
+
     return (
         <div className='flex items-center justify-between sm:w-[1440px]'>
             <Link to={"/"}>
@@ -48,15 +65,15 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                     <div className='icon'>
                         <AiOutlineUserAdd />
                     </div>
-                    <div className='title'><Register /></div>
+                    <div className='title' onClick={() => actionsAuth.checkLogin()}>Tài khoản</div>
                 </div>
             </div>
-            <Link to={"/cart"}>
-                <div css={cssCartMain} className='cart-main relative'>
-                    <FaCartPlus />
-                    {carts?.length > 0 && <span className='absolute show-count'>{carts?.length}</span>}
-                </div>
-            </Link>
+
+            <div css={cssCartMain} className='cart-main relative' onClick={handleRedirectCart}>
+                <FaCartPlus />
+                {carts?.length > 0 && <span className='absolute show-count'>{carts?.length}</span>}
+            </div>
+            <RequireAuth />
         </div >
     )
 }

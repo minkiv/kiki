@@ -1,36 +1,45 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { css } from '@emotion/react'
 import LeftCart from './components/leftCart/leftCart.component';
 import RightCart from "./components/rightCart/rightinner.component";
-
+import { useAuthRedux } from "../redux/hook/useAuthReducer";
+import { Skeleton } from 'antd';
 interface CartProps {
     props?: any
 }
 
-const Cart: FunctionComponent<CartProps> = () =>{
-    return(
-        <div css ={cssCart} className="box-cart"> 
- 
-          
-          <div className="flex">
-             <div className="left-cart">
-                <div className="title">
-                    <h1 className="mb-5">Giỏ Hàng</h1>
-                </div>
-            <LeftCart/>
-            </div>
-            <div className="right-cart"><RightCart/></div>
-          </div>
-           
+const Cart: FunctionComponent<CartProps> = () => {
+    const {
+        data: { isLogin },
+        actions: actionsAuth
+    } = useAuthRedux()
+    useEffect(() => {
+        if (!isLogin) {
+            actionsAuth.checkLogin()
+        }
+    }, [])
+    return (
+        <div css={cssCart} className="box-cart">
+            {
+                isLogin ? (
+                    <div className="flex">
+                        <div className="left-cart">
+                            <div className="title">
+                                <h1 className="mb-5">Giỏ Hàng</h1>
+                            </div>
+                            <LeftCart />
+                        </div>
+                        <div className="right-cart"><RightCart /></div>
+                    </div>
+                ) : (
+                    <Skeleton active />
+                )
+            }
         </div>
     )
-
 }
 export default Cart
-
-// css
 const cssCart = css`
-
 width: 1240px;
 margin: auto;
 margin-top: 20px;

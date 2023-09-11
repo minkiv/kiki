@@ -26,9 +26,6 @@ const ForgotPassword: FunctionComponent<ForgotPasswordProps> = () => {
         </div>
     )
 }
-
-
-
 export default ForgotPassword;
 
 const form = css`
