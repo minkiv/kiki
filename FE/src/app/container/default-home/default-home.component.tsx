@@ -5,6 +5,7 @@ import HeaderComponent from './../../component/stack/header/header.component';
 import SubHeader from '~/app/component/stack/header/sub-header.component';
 import VorcherHeade from '~/app/component/stack/header/vocher-header.component';
 import FooterComponent from '~/app/component/stack/footer/footer.component';
+import RequireAuth from '~/app/modules/client/accountLogin/requireAuth.component';
 interface DefaultHomeProps {
     prop?: unknown
 }
@@ -18,6 +19,7 @@ const DefaultHome: FunctionComponent<DefaultHomeProps> = () => {
             </div>
             <VorcherHeade />
             <Outlet />
+            <RequireAuth />
             <FooterComponent />
         </div>
     )

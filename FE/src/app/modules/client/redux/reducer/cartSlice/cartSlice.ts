@@ -41,6 +41,7 @@ const cartSlice = createSlice({
 
         updateSelectQuantityCart: (state, action) => {
             const { itemCart, quantityWithCondition, quantityRemainProduct, newQuantity } = action.payload
+            console.log(newQuantity)
             const findItemCart = state.carts.findIndex((item: any) => item._id === itemCart._id)
             switch (action.payload.type) {
                 case 'INCREMENT':
@@ -57,8 +58,11 @@ const cartSlice = createSlice({
                     break
 
                 case 'ONCHANGE_INPUT':
-                    if (!isNaN(newQuantity) && newQuantity >= 1 && newQuantity <= quantityWithCondition) {
-                        state.carts[findItemCart].quantityOrder.quantity = newQuantity;
+                    if (Number(newQuantity) > Number(quantityWithCondition)) {
+                        state.carts[findItemCart].quantityOrder.quantity = quantityWithCondition;
+                    }
+                    if (Number(newQuantity) < 1) {
+                        state.carts[findItemCart].quantityOrder.quantity = 1;
                     }
                     break;
 

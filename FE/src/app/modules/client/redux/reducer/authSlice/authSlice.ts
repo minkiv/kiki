@@ -2,16 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface AuthType {
     isLogin: boolean
     isOpen: boolean
+    redirectLink: string
+    accessTokenRedux: string
 }
 const initialState: AuthType = {
     isLogin: false,
-    isOpen: false
+    isOpen: false,
+    redirectLink: '',
+    accessTokenRedux: ''
 } as any
 const authSlice = createSlice({
     name: "auth",
     initialState,
+
     reducers: {
-        checkLogin: (state) => {
+        checkLoginLink: (state, action) => {
+            state.redirectLink = action.payload
             if (!localStorage.getItem('accessToken')) {
                 state.isLogin = false
                 state.isOpen = true
@@ -23,6 +29,9 @@ const authSlice = createSlice({
         },
         closeModal: (state) => {
             state.isOpen = false
+        },
+        setToken: (state, action) => {
+            state.accessTokenRedux = action.payload
         }
     },
 })
