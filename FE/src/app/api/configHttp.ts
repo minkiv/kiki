@@ -1,6 +1,5 @@
 import axios from 'axios'
-const accessToken = localStorage.getItem('accessToken') ||
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGU1NmM5ZTEzOTYzNTk4NWQ0OGQ4ODIiLCJpYXQiOjE2OTQzNTU3NjMsImV4cCI6MTY5NDc4Nzc2M30.fRwyBJrK_mcg5T1ivif5E5I39y8rP4AEhaLmYZbTUSw"
+const accessToken = localStorage.getItem("accessToken")
 export const axiosPrivate = axios.create({
     baseURL: "http://localhost:8081/api",
     headers: {

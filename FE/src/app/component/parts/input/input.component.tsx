@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import React from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
+import { type } from 'os';
 
 interface InputProps {
   prop?: any
@@ -10,10 +11,11 @@ interface InputProps {
   onChange?: any
   value?: any
   hasErorr?: any
+  type?: any
 }
 type RefType = any
 const InputComponent = React.forwardRef<RefType, InputProps>(
-  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, value, hasErorr }, ref, outline = false) => {
+  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, value, type, hasErorr }, ref, outline = false) => {
     return (
       <div css={cssInput(hideIcon, hasErorr)}>
         {hideIcon && (
@@ -23,7 +25,7 @@ const InputComponent = React.forwardRef<RefType, InputProps>(
         )}
         <input
           ref={ref}
-          type='text'
+          type={type}
           className='h-full w-full flex-1 block outline-none mx-2 input'
           placeholder={placeholder}
           defaultValue={value || ''}

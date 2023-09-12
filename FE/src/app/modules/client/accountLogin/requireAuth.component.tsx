@@ -9,9 +9,8 @@ import ForgotPassword from './form/forgotPassword.component';
 import { useAuthRedux } from '../redux/hook/useAuthReducer';
 interface PropsTypes {
     props?: any
-    children?: any
 }
-const RequireAuth: FC<PropsTypes> = ({ children }) => {
+const RequireAuth: FC<PropsTypes> = () => {
 
     const [stepAuth, setStepAuth] = useState(STEP_AUTH.LOGIN_PHONE_NUMBER)
 
@@ -47,7 +46,6 @@ const RequireAuth: FC<PropsTypes> = ({ children }) => {
                     </div>
                 </div>
             </Modal>
-            {children}
         </div >
     );
 };

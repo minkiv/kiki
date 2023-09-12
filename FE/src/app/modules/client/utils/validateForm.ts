@@ -20,3 +20,8 @@ export const schema = yup.object().shape({
         .string()
         .required('bạn cần nhập đầy đủ thông tin'),
 })
+
+export const validateLogin = yup.object().shape({
+    email: yup.string().required('bạn cần nhập đầy đủ thông tin'),
+    password: yup.string().required('bạn cần nhập đầy đủ thông tin')
+})

@@ -30,7 +30,6 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
     } = useCartRedux()
 
     const [quantityWithCondition, setQuantityWithCondition] = useState<any>({})
-
     useEffect(() => {
         const findElement = listQuantityRemain?.find(
             (item) => item.nameColor === colorSelect?.nameColor && item.nameSize === sizeSelect?.nameSize

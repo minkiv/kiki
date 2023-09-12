@@ -16,17 +16,12 @@ export const clientRouter: RouteObject[] = [
   },
   {
     path: "/cart",
-    element: (
-      <RequireAuth>
-        <Cart />
-      </RequireAuth>
-    )
+    element: <Cart />
   },
   {
     path: "/detail/:id",
     element: <Detail />
   }
-
 
 ]
 

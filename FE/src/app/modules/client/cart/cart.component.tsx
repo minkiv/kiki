@@ -15,7 +15,7 @@ const Cart: FunctionComponent<CartProps> = () => {
     } = useAuthRedux()
     useEffect(() => {
         if (!isLogin) {
-            actionsAuth.checkLogin()
+            actionsAuth.checkLoginLink("/cart")
         }
     }, [])
     return (

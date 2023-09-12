@@ -31,13 +31,10 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     }, [isLogin, isOpen])
 
     const handleRedirectCart = () => {
-        if (isLogin) {
-            navigate('/cart')
-        } else {
-            actionsAuth.checkLogin()
-        }
-    }
+        actionsAuth.checkLoginLink("/cart")
 
+    }
+    const accessToken = localStorage.getItem("accessToken")
     return (
         <div className='flex items-center justify-between sm:w-[1440px]'>
             <Link to={"/"}>
@@ -65,12 +62,14 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                     <div className='icon'>
                         <AiOutlineUserAdd />
                     </div>
-                    <div className='title' onClick={() => actionsAuth.checkLogin()}>Tài khoản</div>
+                    <div className='title' onClick={() => actionsAuth.checkLoginLink("/")}>{accessToken ? "xin chào" : "Tài khoản"}</div>
                 </div>
             </div>
 
-            <div css={cssCartMain} className='cart-main relative' onClick={handleRedirectCart}>
-                <FaCartPlus />
+            <div css={cssCartMain} className='cart-main relative'>
+                <Link to={isLogin ? '/cart' : '#'} onClick={isLogin ? undefined : handleRedirectCart}>
+                    <FaCartPlus />
+                </Link>
                 {carts?.length > 0 && <span className='absolute show-count'>{carts?.length}</span>}
             </div>
             <RequireAuth />
