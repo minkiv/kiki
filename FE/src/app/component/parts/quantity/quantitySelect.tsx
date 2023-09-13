@@ -56,10 +56,9 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             productId: itemCart.product._id,
             quantityOrder: {
                 ...itemCart.quantityOrder,
-                quantity: itemCart.quantityOrder.quantity - 1
+                quantity: itemCart.quantityOrder.quantity
             }
         }
-
         UpdateProductToCart(requestObjectProduct)
     }
 
@@ -81,7 +80,7 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             productId: itemCart.product._id,
             quantityOrder: {
                 ...itemCart.quantityOrder,
-                quantity: itemCart.quantityOrder.quantity + 1
+                quantity: itemCart.quantityOrder.quantity
             }
         }
 
@@ -138,7 +137,7 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
                 </div>
                 <input
                     type='text'
-                    defaultValue={quantity}
+                    value={quantity}
                     className='outline-none w-[40px] text-center focus:border-blue-400'
                     onChange={handleChangeInput}
                 />

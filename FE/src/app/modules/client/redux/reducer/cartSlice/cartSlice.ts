@@ -50,7 +50,7 @@ const cartSlice = createSlice({
                     }
                     break
                 case 'DECREMENT':
-                    if (Number(itemCart?.quantityOrder?.quantity) === 1) {
+                    if (itemCart.quantityOrder.quantity == 1) {
                         state.carts[findItemCart].quantityOrder.quantity = 1
                     } else {
                         state.carts[findItemCart].quantityOrder.quantity -= 1
