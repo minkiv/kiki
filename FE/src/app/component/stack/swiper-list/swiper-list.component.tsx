@@ -1,13 +1,9 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import React, { useRef, useState } from 'react';
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
+import { Swiper } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-// import required modules
 import { Pagination } from 'swiper/modules';
 import useWindowSize from '~/app/hook/useWindow';
 

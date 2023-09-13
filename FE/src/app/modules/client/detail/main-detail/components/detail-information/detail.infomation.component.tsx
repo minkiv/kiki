@@ -9,10 +9,15 @@ import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { addProductToCart } from '~/app/api/cart/cart.api';
 import { Modal, message } from 'antd'
+import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
 interface DetailInformation { }
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const { data: { product: productDetail } } = useProductRedux()
+  const {
+    data: { isLogin },
+    actions: authAction
+  } = useAuthRedux()
   const { actions } = useCartRedux()
   const [quantity, setQuantity] = useState(1)
   const [colorSelect, setColorSelect] = useState<any>()
@@ -65,38 +70,41 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
 
   const handelAddProductToCart = () => {
     if (!colorSelect || !sizeSelect) {
-      // Nếu một trong hai chưa được chọn, hiển thị thông báo lỗi
-      messageApi.error('Vui lòng chọn thông tin trước khi thêm vào giỏ hàng');
-      return; // Dừng hàm và không thực hiện thêm sản phẩm vào giỏ hàng
+      messageApi.error('Vui lòng chọn thông tin');
+      return;
     }
-    const requestProduct = {
-      product: productDetail,
-      quantityOrder: {
-        quantity,
-        nameColor: colorSelect.nameColor,
-        nameSize: sizeSelect.nameSize
-      }
-    }
-    actions.addProductToCart(requestProduct)
 
-    const requestApiCart = {
-      productId: productDetail._id,
-      quantityOrder: {
-        quantity,
-        nameColor: colorSelect.nameColor,
-        nameSize: sizeSelect.nameSize
+    if (isLogin) {
+      const requestProduct = {
+        product: productDetail,
+        quantityOrder: {
+          quantity,
+          nameColor: colorSelect.nameColor,
+          nameSize: sizeSelect.nameSize
+        }
       }
-    }
-    addProductToCart(requestApiCart)
-    const modal = Modal.success({
-      content: 'Thêm sản phẩm vào giỏ hàng thành công',
-      okButtonProps: { className: 'bg-blue-500 hover:bg-blue-600' }
-    });
+      actions.addProductToCart(requestProduct)
 
-    // Đóng modal sau 3 giây
-    setTimeout(() => {
-      modal.destroy();
-    }, 3000);
+      const requestApiCart = {
+        productId: productDetail._id,
+        quantityOrder: {
+          quantity,
+          nameColor: colorSelect.nameColor,
+          nameSize: sizeSelect.nameSize
+        }
+      }
+      addProductToCart(requestApiCart)
+      const modal = Modal.success({
+        content: 'Thêm sản phẩm vào giỏ hàng thành công',
+        okButtonProps: { className: 'bg-blue-500 hover:bg-blue-600' }
+      });
+      setTimeout(() => {
+        modal.destroy();
+      }, 3000);
+    }
+    else {
+      authAction.checkLoginLink("/cart")
+    }
   }
 
   return (
@@ -189,8 +197,8 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
             </div>
           </div>
           <div className='flex mt-5'>
-            <ButtonSqua outline className='rounded-xl border w-1/2 p-3  mx-2 text-white' onClick={handelAddProductToCart}>Chọn mua</ButtonSqua>
-            <ButtonSqua className='border border-sky-500 w-1/2 rounded-xl p-3 mx-2 text-blue-600'>Mua trước trả sau <p>Lãi xuất 0%</p></ButtonSqua>
+            <ButtonSqua outline className='rounded-xl border w-1/2 p-3  mx-2 text-white' onClick={handelAddProductToCart}>Thêm vào giỏ hàng</ButtonSqua>
+            <ButtonSqua className='border border-sky-500 w-1/2 rounded-xl p-3 mx-2 text-blue-600'>Mua Ngay</ButtonSqua>
           </div>
         </div>
         <div className="xl:col-span-3 max-sm:col-span-12 max-sm:my-10 max-sm:py-5 mx-5 border rounded-xl">
