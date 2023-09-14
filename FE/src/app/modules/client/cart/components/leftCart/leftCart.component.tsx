@@ -18,7 +18,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     data: { carts, listProductBuy },
     actions
   } = useCartRedux()
-
   useEffect(() => {
     actions.getAllCart()
   }, [])
@@ -95,6 +94,9 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   const handleSelectProductBuy = (productBuy: any) => {
     actions.selectListProductBuy(productBuy)
   }
+  const handelAllProduct = (productBuy: any) => {
+    actions.selectAllProductBuy(productBuy)
+  }
 
   const handleSubmitChangeProperties = () => {
     const objectProperties = {
@@ -147,12 +149,16 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
       },
     });
   }
+
+  const isAllSelected = listProductBuy.length >= carts.length && listProductBuy.every((itemBuy: any) =>
+    carts.some((item: any) => item._id === itemBuy._id)
+  );
   return (
     <div css={cssLeftCart}>
       {contextHolder}
       <div className='style-heading mb-[20px] max-sm:flex sm:flex bg-white  sm:justify-between max-sm:mt-5'>
         <div className='flex'>
-          <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' />
+          {/* <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' /> */}
           <span className='lable sm:mr-[290px] max-sm:ml-3 sm:pl-[4px]'>Tất cả ({carts?.length} sản phẩm)</span>
         </div>
         <span className='taitle-table mr-[100px]'>Đơn giá</span>
@@ -165,7 +171,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
 
       <div className='container bg-white '>
         <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
-          <input type='checkbox' className='w-[18px] mr-3' />
+          <input type='checkbox' className='w-[18px] mr-3' onChange={() => { handelAllProduct(carts) }} checked={isAllSelected} />
           <BsShopWindow className='icon-home w-6 h-6 mr-2' />
 
           <a href='#'>Shop Name</a>
@@ -186,7 +192,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                 {item?.product?.name}
                 <div className=' max-sm:w-full relative'>
                   <div
-                    className='product-wrap-prices sm:w-[190px] flex cursor-pointer'
+                    className='product-wrap-prices sm:w-[190px] flex  cursor-pointer'
                     onClick={() => {
                       setShowPopupSelect((prev: any) => ({
                         show: !prev.show,
@@ -195,7 +201,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                         setClickProductDetail(item)
                     }}
                   >
-                    <div >
+                    <div className='sm:px-3'>
                       <span className='mr-2'>Màu:</span>
                       <span className='product-real-prices'>{item?.quantityOrder.nameColor}</span>
                     </div>
@@ -256,10 +262,10 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                       </div>
 
                       <div className='flex'>
-                        <ButtonSqua outline className='mr-4' onClick={cancelChangeProperties}>
+                        <ButtonSqua outline className='mr-4 p-3' onClick={cancelChangeProperties}>
                           Hủy
                         </ButtonSqua>
-                        <ButtonSqua onClick={handleSubmitChangeProperties}>
+                        <ButtonSqua className='p-3' onClick={handleSubmitChangeProperties}>
                           Xác nhận
                         </ButtonSqua>
                       </div>
@@ -270,7 +276,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
 
               <div className='sm:flex justify-between'>
                 <span className='real-prices sm:ml-[145px]'>{item?.product?.price}₫</span>
-                <div className='sm:ml-[100px]'>
+                <div className='sm:ml-[100px] max-sm:my-2'>
                   <SelectQuantityCart
                     itemCart={item}
                     listQuantityRemain={item?.product?.listQuantityRemain}

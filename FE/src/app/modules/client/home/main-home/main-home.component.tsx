@@ -1,11 +1,13 @@
 import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import SliceHome from './component/slice/slice.component'
 import CollectionHome from './component/collection/collection.component'
 import SwiperList from '~/app/component/stack/swiper-list/swiper-list.component'
 import UnderstandHome from './component/understand/understand.component'
 import FeaturedCategory from './component/featured-category/featured-category.component'
 import ListProduct from './component/list-product/list-product.component'
+import { useProductRedux } from '../../redux/hook/useProductReducer'
+import { Skeleton } from 'antd'
 
 
 interface MainHomeProps {
@@ -13,6 +15,13 @@ interface MainHomeProps {
 }
 
 const MainHome: FunctionComponent<MainHomeProps> = () => {
+    const {
+        data: { products },
+        actions
+    } = useProductRedux()
+    useEffect(() => {
+        actions.getAllProduct()
+    }, [])
     return (
         <div css={cssmain}>
             <div className='item-list-slider'>
@@ -29,10 +38,12 @@ const MainHome: FunctionComponent<MainHomeProps> = () => {
                 <FeaturedCategory />
             </div>
 
-
-            <div className='item-list-slider'>
-                <ListProduct />
-            </div>
+            {
+                products.length > 0 ? (
+                    <div className='item-list-slider'>
+                        <ListProduct />
+                    </div>) : (<Skeleton active />)
+            }
         </div>
     )
 }
