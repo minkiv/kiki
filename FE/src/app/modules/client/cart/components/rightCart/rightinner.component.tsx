@@ -18,7 +18,7 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
   }, [])
   useEffect(() => {
     if (listProductBuy) {
-      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
+      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder?.quantity), 0);
       setTotalPrice(calculatedTotal);
     }
   }, [listProductBuy]);

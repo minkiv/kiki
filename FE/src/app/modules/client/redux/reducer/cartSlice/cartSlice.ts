@@ -88,11 +88,28 @@ const cartSlice = createSlice({
 
             localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy))
         },
+        selectAllProductBuy: (state) => {
+            const productIndex = state.listProductBuy.length == state.carts.length;
+            if (productIndex) {
+                localStorage.removeItem("listSelectCart");
+                state.listProductBuy = [];
+            } else {
+                state.listProductBuy = [...state.carts];
+                localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy));
+            }
+        },
+
         deleteProductCart: (state, action) => {
             const productId = action.payload
             state.carts = state.carts.filter((item: any) => item._id !== productId)
+            const listSelectCart = JSON.parse(localStorage.getItem("listSelectCart") || "[]");
+            const productIndex = listSelectCart.findIndex((product: any) => product._id === productId);
+            if (productIndex !== -1) {
+                listSelectCart.splice(productIndex, 1);
+                localStorage.setItem("listSelectCart", JSON.stringify(listSelectCart));
+                state.listProductBuy = listSelectCart;
+            }
         }
-
     },
     extraReducers: (builder) => {
         builder.addCase(getAllCart.fulfilled, (state, action) => {
