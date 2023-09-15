@@ -1,39 +1,40 @@
 import { css } from '@emotion/react'
 import React from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
-import { type } from 'os';
-
 interface InputProps {
   prop?: any
   hideIcon?: boolean
   placeholder?: string
-  ref?: any
   onChange?: any
   value?: any
   hasErorr?: any
   type?: any
+  onFocus?: any
+  onClick?: any
+  css?: any
 }
 type RefType = any
+
 const InputComponent = React.forwardRef<RefType, InputProps>(
-  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, value, type, hasErorr }, ref, outline = false) => {
+
+  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, onClick, onFocus, value, type, hasErorr, prop }, ref) => {
+
     return (
-      <div css={cssInput(hideIcon, hasErorr)}>
-        {hideIcon && (
-          <div className='icon pl-[18px]'>
-            <AiOutlineSearch />
-          </div>
-        )}
+      <div css={cssInput(hideIcon, hasErorr)} className='relative z-22'>
+        {hideIcon && <div className='icon pl-[18px]'>
+          <AiOutlineSearch />
+        </div>
+        }
         <input
           ref={ref}
           type={type}
           className='h-full w-full flex-1 block outline-none mx-2 input'
           placeholder={placeholder}
-          defaultValue={value || ''}
+          value={value || ''}
           onChange={onChange}
-          css={cssInputMain(outline)}
+          onFocus={onFocus}
         />
-        {hideIcon && <button className='button-search'>Tìm kiếm</button>}
-
+        {hideIcon && <button className='button-search' onClick={onClick}>Tìm kiếm</button>}
       </div>
     )
   }
@@ -44,6 +45,8 @@ export default InputComponent
 const cssInput = (hideIcon: boolean, hasErorr: any) => css`
   display: flex;
   align-items: center;
+  z-index:22;
+  background-color: white;
   flex: 1;
   /* padding: 10px 0; */
   ${hasErorr ? 'border: 1px solid rgb(255, 93, 93);' : 'border: 1px solid rgb(221, 221, 227);'}
@@ -71,8 +74,8 @@ const cssInput = (hideIcon: boolean, hasErorr: any) => css`
       background-color: var(--color-blue-hover);
     }
   }
+ 
 `
 
-const cssInputMain = (outline: boolean) => css`
-  border:${outline ? 'none' : ''}
-`
+
+

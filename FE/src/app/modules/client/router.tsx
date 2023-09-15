@@ -5,6 +5,7 @@ import InstructSeller from './instruct-seller/instruct-seller.component'
 import Cart from './cart/cart.component'
 import Detail from './detail/detail.component'
 import RequireAuth from './accountLogin/requireAuth.component'
+import Search from './search/search.component'
 export const clientRouter: RouteObject[] = [
   {
     path: '/',
@@ -21,8 +22,11 @@ export const clientRouter: RouteObject[] = [
   {
     path: "/detail/:id",
     element: <Detail />
-  }
-
+  },
+  {
+    path: "/search",
+    element: <Search />
+  },
 ]
 
 
