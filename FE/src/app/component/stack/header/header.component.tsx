@@ -62,8 +62,13 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
 
     }
     const accessToken = localStorage.getItem("accessToken")
-
-
+    const handleLoginLogout = () => {
+        if (accessToken) {
+            localStorage.removeItem("accessToken")
+        } else {
+            navigate("/")
+        }
+    }
     return (
         <div className='flex items-center justify-between sm:w-[1440px]'>
             <Link to={"/"}>
@@ -130,7 +135,19 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                     <div className='icon'>
                         <AiOutlineUserAdd />
                     </div>
-                    <div className='title' onClick={() => actionsAuth.checkLoginLink("/")}>{accessToken ? "xin chào" : "Tài khoản"}</div>
+                    <div className='title' onClick={() => actionsAuth.checkLoginLink("/")}>{accessToken ? (
+                        <div>
+                            <span className='font-semibold px-5 text-black max-sm:hidden'>
+                                XIN CHÀO
+                                <ul className='links'>
+                                    <li>
+                                        <button onClick={handleLoginLogout}>
+                                            <p className='hover:text-orange-500 font-normal text-[15px]'>Đăng xuất</p>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </span>
+                        </div>) : "Tài khoản"}</div>
                 </div>
             </div>
 
@@ -148,6 +165,24 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
 export default HeaderComponent
 
 const cssWrapperMenu = css`
+.links {
+    list-style: none;
+    background-color: white;
+    box-shadow: 0 0 7px gray;
+    position: absolute;
+    top: 100%;
+     width:100px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 4px;
+    z-index: 1;
+    visibility: hidden;
+  }
+
+  .title:hover .links {
+    visibility: visible;
+  }
  .item-menu{
     display: flex;
     padding: 8px 16px;
@@ -163,6 +198,8 @@ const cssWrapperMenu = css`
     .title{
         font-weight: 500;
         font-size: 14px;
+        cursor: pointer;
+        position: relative;
     }
     &:hover {
         background-color: var(--color-blue-hover);
