@@ -19,8 +19,20 @@ const ButtonSqua: FunctionComponent<ButtonComponent> = ({ children, className, o
 
 export default ButtonSqua
 const cssButton = (outline: boolean) => css`
-background-color: ${outline ? '#EF4444' : '#fff'};
-color: ${outline ? 'white' : '#2597F3'};
-    height: auto;
-    font-size: 1.5rem;
+// background-color: ${outline ? '#EF4444' : '#fff'};
+// color: ${outline ? 'white' : '#2597F3'};
+//     height: auto;
+//     font-size: 1.5rem;
+
+font-size: 14px;
+padding: 7px 16px;  
+background: #FFF;
+border: 1px solid #221F20;
+box-sizing: border-box;
+border-radius: 24px 0px;
+margin-right: 0;
+:hover{
+  background-color: black;
+  color:#ffff
+}
 `
