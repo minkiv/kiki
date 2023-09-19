@@ -87,7 +87,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
                         <h2 className='text-title'>Nhận thông tin các chương trình của IVY moda</h2>
                         <form className='flex justify-between'>
                             <input className='email' type="text" name="email" placeholder="Nhập địa chỉ email" />
-                            <ButtonSqua>
+                            <ButtonSqua className='btnSqua'>
                                 Đăng ký
                             </ButtonSqua>
                         </form>
@@ -181,5 +181,9 @@ const cssFooter = css`
     line-height: 20px;
     color: #57585A;
     text-align: center;
+  }
+  .btnSqua{
+    padding:12px 27px;
+    border-radius:24px 0;
   }
 `

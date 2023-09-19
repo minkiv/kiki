@@ -1,6 +1,9 @@
 import { ClassNames, css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import StarIcon from '../rating/star.component'
+import { PiHandbagSimpleThin } from "react-icons/pi"
+import { AiOutlineHeart } from "react-icons/ai"
+import ButtonSqua from '../button/ButtonSqua'
 interface ItemProductProps {
     props?: any,
     className?: string,
@@ -9,26 +12,34 @@ interface ItemProductProps {
 const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProduct }) => {
     return (
         <div css={cssProduct} className={className}>
-            <div  >
-                <img src={itemProduct?.images[0]} alt="" width={183}
-                    height={183} />
+            <div className='w-full mb-[17px]'>
+                <img src={itemProduct?.images} alt="" width={264} height={369} />
             </div>
             <div className='main'>
+                <div className='flex justify-between mb-[13px]'>
+                    <ul className='color flex'>
+                        <li className='bg-black'></li>
+                        <li className='bg-black'></li>
+                        <li className='bg-black'></li>
+                    </ul>
+                    <div>
+                        <AiOutlineHeart className='text-[20px]' />
+                    </div>
+                </div>
                 <div className='text-item'>
                     <h3>{itemProduct?.name}</h3>
                 </div>
-                <div className='title flex '>
-                    5 <StarIcon />| đã bán 4
+                <div className='flex justify-between items-end'>
+                    <div className='price'>
+                        {itemProduct?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                    </div>
+                    <div>
+                        <ButtonSqua css={cssBtn} children={<PiHandbagSimpleThin className='text-[16px]' />} outline={true} />
+                    </div>
                 </div>
-                <div className='price'>
-                    {itemProduct?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
-                </div>
-                <div className='asa'>Hoàn 12 ASA</div>
             </div>
             <hr />
-            <div className='time'>
-                giao chủ nhật, ngày 18/07
-            </div>
+
         </div>
     )
 }
@@ -37,28 +48,26 @@ const cssProduct = css`
 overflow: hidden;
 border-radius: 4px;
 background: rgb(255, 255, 255);
-.main{
-    padding:0px 10px;
-}
+    .color li{
+       width:18px;
+       height:18px; 
+       border-radius:50%;
+       margin-right: 10px;
+    }
    .text-item{
+    color: #373737;;
+    font-size: 16px;
+    line-height: 16px;
     font-weight: 400;
-    font-size: 1.3rem;
-    line-height: 150%;
-    color: rgb(39, 39, 42);
-   }
-   .title{
-    font-weight: 400;
-    font-size: 1.3rem;
-    line-height: 150%;
-    color: rgb(128, 128, 137);
+    margin-bottom: 10px;
+    text-transform: capitalize;
    }
    .price{
-    text-align: left;
-    font-size: 2rem;
-    line-height: 24px;
-    font-weight: 500;
-    margin-top: 6px;
-    color: var(--color-red-primary);
+    font-size: 100%;
+    font-size: 16px;
+    color: #3E3E3F;
+    font-weight: 600;
+    vertical-align: baseline;
    }
    .asa{
     margin-top:5px;
@@ -78,4 +87,8 @@ background: rgb(255, 255, 255);
     transform: translateY(-3px);
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   }
+`
+const cssBtn = css`
+padding:8px;
+border-radius:8px 0;
 `

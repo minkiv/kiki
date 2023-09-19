@@ -10,7 +10,7 @@ interface HomeProps {
 const Home: FunctionComponent<HomeProps> = () => {
     return (
         <div css={cssHome}>
-            <SideBarHome />
+            {/* <SideBarHome /> */}
             <MainHome />
         </div>
     )
@@ -19,10 +19,8 @@ const Home: FunctionComponent<HomeProps> = () => {
 export default Home
 
 const cssHome = css`
-display: flex;
-justify-content: space-between;
 padding-top: 16px;
-width: 1440px;
+width: 100%;
 margin-right: auto;
 margin-left: auto;
 @media (min-width: 0) and (max-width: 739px) {
