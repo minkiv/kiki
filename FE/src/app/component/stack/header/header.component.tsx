@@ -1,18 +1,18 @@
 import { css } from '@emotion/react'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import InputComponent from '../../parts/input/input.component'
-import { ImHome } from "react-icons/im"
 import { AiOutlineSearch, AiOutlineUserAdd } from "react-icons/ai"
-import { FaCartPlus } from "react-icons/fa"
+import { PiHandbagSimpleThin } from "react-icons/pi"
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
-import RequireAuth from '~/app/modules/client/accountLogin/requireAuth.component'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
+
 
 interface HeaderComponentProps {
     props?: any
 }
+
 
 const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     let navigate = useNavigate()
@@ -52,6 +52,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         else setSearchTerm("")
     }, [keyword])
 
+
     useEffect(() => {
         if (isLogin || localStorage.getItem('accessToken')) {
             actions.getAllCart()
@@ -59,6 +60,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     }, [isLogin, isOpen])
     const handleRedirectCart = () => {
         actionsAuth.checkLoginLink("/cart")
+
 
     }
     const accessToken = localStorage.getItem("accessToken")
@@ -70,100 +72,100 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         }
     }
     return (
-        <div className='flex items-center justify-between sm:w-[1440px]'>
-            <Link to={"/"}>
-                <img src="https://salt.tikicdn.com/ts/upload/e4/49/6c/270be9859abd5f5ec5071da65fab0a94.png" className='w-[57px] mr-12 max-sm:hidden' />
-            </Link>
-            <div className='w-[100%] max-w-[921px] relative'>
-                <InputComponent
-                    onChange={handleSearchInputChange}
-                    onClick={handelSubmitData}
-                    onFocus={() => setStateInput(true)}
-                    type="text"
-                    value={searchTerm || ""
-
-                    }
-                />
-                {stateInput &&
-                    <div className='absolute z-20 rounded-lg bg-white top-full left-0 w-full'>
-                        {
-                            products?.map((product: any) => {
-                                if (product?.name.toLowerCase().includes(searchTerm.toLowerCase())
-                                ) {
-                                    return (
-                                        <ul key={product?._id} className=''>
-                                            <Link to={`/search?q=${product?.name}`} onClick={() => {
-                                                setStateInput(false)
-                                            }}>
-                                                <li className='mx-5 my-3 flex justify-start'>
-                                                    <div className='pl-[18px] pr-2'>
-                                                        <AiOutlineSearch />
-                                                    </div>
-                                                    {product?.name}
-                                                </li>
-                                            </Link>
-                                        </ul>
-                                    );
-                                }
+        <div className='mx-auto flex items-center justify-between sm:w-[1440px]'>
+            <div css={cssMenu} className='space-x-8'>
+                <div><Link to={'/'}>TRANG CHỦ</Link></div>
+                <div><Link to={'/'}>SẢN PHẨM</Link></div>
+                <div><Link to={'/'}>GIỚI THIỆU</Link></div>
+                <div><Link to={'/'}>LIÊN HỆ</Link></div>
+                <div><Link to={'/'}>VỀ CHÚNG TÔI</Link></div>
 
 
-                            })}
-                    </div>}
             </div>
-            {stateInput && <div
-                css={cssDarkScreen}
-                onClick={() => setStateInput(false)}
-            >
-            </div>}
-            <div className='ml-12 flex align-items:center max-sm:hidden' css={cssWrapperMenu}>
-                <Link to={"/"}>
-                    <div className='item-menu active'>
-                        <div className='icon'>
-                            <ImHome />
-                        </div>
-                        <div className='title'>Trang chủ</div>
-                    </div>
-                </Link>
-                <div className='item-menu'>
-                    <div className='icon'>
-                        <ImHome />
-                    </div>
-                    <div className='title'>Trang chủ</div>
-                </div>
+            <Link to={"/"}>
+                <img src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" className='w-[139px] mr-12 max-sm:hidden' />
+            </Link>
 
+
+            <div className='flex align-items:center max-sm:hidden' css={cssWrapperMenu}>
+                <div className='  relative'>
+                    <InputComponent
+                        onChange={handleSearchInputChange}
+                        onClick={handelSubmitData}
+                        onFocus={() => setStateInput(true)}
+                        type="text"
+                        value={searchTerm || ""
+                        }
+                    />
+                    {stateInput &&
+                        <div className='absolute z-20 rounded-lg bg-white top-full left-0 w-full'>
+                            {
+                                products?.map((product: any) => {
+                                    if (product?.name.toLowerCase().includes(searchTerm.toLowerCase())
+                                    ) {
+                                        return (
+                                            <ul key={product?._id} className=''>
+                                                <Link to={`/search?q=${product?.name}`} onClick={() => {
+                                                    setStateInput(false)
+                                                }}>
+                                                    <li className='px-5 py-3 flex justify-start hover:bg-gray-100'>
+                                                        <div className='pl-[18px] pr-2'>
+                                                            <AiOutlineSearch />
+                                                        </div>
+                                                        {product?.name}
+                                                    </li>
+                                                </Link>
+                                            </ul>
+                                        );
+                                    }
+                                })}
+                        </div>}
+                </div>
+                {stateInput && <div
+                    css={cssDarkScreen}
+                    onClick={() => setStateInput(false)}
+                >
+                </div>}
                 <div className='item-menu'>
                     <div className='icon'>
                         <AiOutlineUserAdd />
                     </div>
                     <div className='title' onClick={() => actionsAuth.checkLoginLink("/")}>{accessToken ? (
                         <div>
-                            <span className='font-semibold px-5 text-black max-sm:hidden'>
+                            <span className='px-5 text-black max-sm:hidden'>
                                 XIN CHÀO
                                 <ul className='links'>
                                     <li>
                                         <button onClick={handleLoginLogout}>
-                                            <p className='hover:text-orange-500 font-normal text-[15px]'>Đăng xuất</p>
+                                            <p className='hover:text-red-500 font-normal text-[15px]'>Đăng xuất</p>
                                         </button>
                                     </li>
                                 </ul>
                             </span>
                         </div>) : "Tài khoản"}</div>
                 </div>
+                <div css={cssCartMain} className='cart-main relative'>
+                    <Link to={isLogin ? '/cart' : '#'} onClick={isLogin ? undefined : handleRedirectCart}>
+                        <PiHandbagSimpleThin className='font-bold' />
+                    </Link>
+                    {carts?.length > 0 && <span className='absolute show-count'>{carts?.length}</span>}
+                </div>
             </div>
-
-            <div css={cssCartMain} className='cart-main relative'>
-                <Link to={isLogin ? '/cart' : '#'} onClick={isLogin ? undefined : handleRedirectCart}>
-                    <FaCartPlus />
-                </Link>
-                {carts?.length > 0 && <span className='absolute show-count'>{carts?.length}</span>}
-            </div>
-            <RequireAuth />
         </div >
     )
 }
 
-export default HeaderComponent
 
+export default HeaderComponent
+const cssMenu = css`
+display:flex;
+font-size: 12px;
+color: #221F20;
+font-weight: 500;
+text-transform: uppercase;
+
+
+`
 const cssWrapperMenu = css`
 .links {
     list-style: none;
@@ -180,6 +182,7 @@ const cssWrapperMenu = css`
     visibility: hidden;
   }
 
+
   .title:hover .links {
     visibility: visible;
   }
@@ -193,7 +196,7 @@ const cssWrapperMenu = css`
     .icon{
        margin-right: 4px;
       font-size: 22px;
-      
+     
     }
     .title{
         font-weight: 500;
@@ -201,12 +204,7 @@ const cssWrapperMenu = css`
         cursor: pointer;
         position: relative;
     }
-    &:hover {
-        background-color: var(--color-blue-hover);
-      }
-      &.active {
-        color: var(--color-blue-primary);
-      }
+   
  }
  
 `
@@ -230,11 +228,10 @@ height: 100%;
 padding: 8px 14px;
 font-size: 22px;
 border-radius: 8px;
-color: var(--color-blue-primary);
+color: var(--color-black);
 cursor: pointer;
-&:hover {
-  background-color: var(--color-blue-hover);
-}
+
+
 @media (min-width: 0) and (max-width: 739px) {
     padding: 0;
     margin-left: 10px;
@@ -245,9 +242,9 @@ const cssDarkScreen = css`
   opacity: 0.5;
   position: fixed;
   width: 100%;
-  top: 0;
+  top: 95px;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: gray;
+//   background-color: gray;
 `

@@ -7,19 +7,19 @@ import 'swiper/css/pagination';
 import { Pagination, Autoplay } from 'swiper/modules';
 import useWindowSize from '~/app/hook/useWindow';
 
-interface SwiperListProps {
+interface SwiperGalleryListProps {
     props?: any
     title?: string
     children?: any
 }
 
-const SwiperList: FunctionComponent<SwiperListProps> = ({ title, children }) => {
+const SwiperGalleryList: FunctionComponent<SwiperGalleryListProps> = ({ title, children }) => {
     const windowSize = useWindowSize()
     return (
         <>
             <div css={cssSwiper}>
                 <Swiper
-                    slidesPerView={windowSize.width < 739 ? 1 : 2}
+                    slidesPerView={windowSize.width < 739 ? 2 : 5}
                     spaceBetween={30}
                     autoplay={{
                         delay: 3000,
@@ -39,7 +39,7 @@ const SwiperList: FunctionComponent<SwiperListProps> = ({ title, children }) => 
     )
 }
 
-export default SwiperList
+export default SwiperGalleryList
 
 const cssSwiper = css`
 padding: 12px 0;

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import React from 'react'
-import { AiOutlineSearch } from 'react-icons/ai'
+import { CiSearch } from 'react-icons/ci'
 interface InputProps {
   prop?: any
   hideIcon?: boolean
@@ -15,32 +15,37 @@ interface InputProps {
 }
 type RefType = any
 
+
 const InputComponent = React.forwardRef<RefType, InputProps>(
 
-  ({ hideIcon = true, placeholder = 'Bạn tìm gì hôm nay', onChange, onClick, onFocus, value, type, hasErorr, prop }, ref) => {
+
+  ({ hideIcon = true, placeholder = 'TÌM KIẾM SẢN PHẨM', onChange, onClick, onFocus, value, type, hasErorr, prop }, ref) => {
+
 
     return (
       <div css={cssInput(hideIcon, hasErorr)} className='relative z-22'>
-        {hideIcon && <div className='icon pl-[18px]'>
-          <AiOutlineSearch />
-        </div>
+        {hideIcon && <button onClick={onClick} className='icon px-[9px]'>
+          <CiSearch />
+        </button>
         }
         <input
           ref={ref}
           type={type}
-          className='h-full w-full flex-1 block outline-none mx-2 input'
+          className='h-full w-full flex-1 block outline-none input'
           placeholder={placeholder}
           value={value || ''}
           onChange={onChange}
           onFocus={onFocus}
         />
-        {hideIcon && <button className='button-search' onClick={onClick}>Tìm kiếm</button>}
+        {/* {hideIcon && <button className='button-search' >Tìm kiếm</button>} */}
       </div>
     )
   }
 )
 
+
 export default InputComponent
+
 
 const cssInput = (hideIcon: boolean, hasErorr: any) => css`
   display: flex;
@@ -50,19 +55,21 @@ const cssInput = (hideIcon: boolean, hasErorr: any) => css`
   flex: 1;
   /* padding: 10px 0; */
   ${hasErorr ? 'border: 1px solid rgb(255, 93, 93);' : 'border: 1px solid rgb(221, 221, 227);'}
-  border-radius: 8px;
+  border-radius: 4px;
   min-height: 38px;
   transition: all 0.3s ease;
-  &:focus-within {
-    border-color: rgb(102, 175, 233);
-  }
   .icon {
-    font-size: 20px;
+    font-size: 22px;
     color: var(--color-gray-200);
   }
-  .input {
-    padding-left: 10px;
-    ${hideIcon && 'border-right: 1px solid var(--color-gray-100);'}
+  .input{
+    padding-left:10px;
+    width: 100%;
+    height: 40px;
+    background: #FFF;
+    font-weight: 400;
+    font-size: 12px;
+    border-radius: 0 4px 4px 0;
   }
   .button-search {
     color: var(--color-blue-primary);
@@ -76,6 +83,3 @@ const cssInput = (hideIcon: boolean, hasErorr: any) => css`
   }
  
 `
-
-
-
