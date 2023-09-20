@@ -14,7 +14,6 @@ const NewProduct: FunctionComponent<NewProductProps> = () => {
   } = useProductRedux()
   useEffect(() => {
     actions.getAllProduct()
-    console.log(products);
   }, [])
   return (
     <div css={cssProduct}>

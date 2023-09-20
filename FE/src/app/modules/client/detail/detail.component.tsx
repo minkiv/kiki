@@ -27,9 +27,8 @@ const cssDetail = css`
 display: flex;
 justify-content: space-between;
 padding-top: 16px;
-width: 1440px;
-margin-right: auto;
-margin-left: auto;
+// width: 1600px;
+margin:auto;
 @media (min-width: 0) and (max-width: 739px) {
     width:100%;
     display: unset;

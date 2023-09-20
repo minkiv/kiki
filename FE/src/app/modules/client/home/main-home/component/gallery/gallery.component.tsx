@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import { SwiperSlide } from 'swiper/react'
-import SwiperGalleryList from '~/app/component/stack/swiper-list/swiper-gallery-list.component'
+import SwiperListFiveProduct from '~/app/component/stack/swiper-list/swiperList-fiveProduct.component'
 
 interface GalleryProps {
     props?: any
@@ -22,13 +22,13 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
     return (
         <div className='mt-4'>
             <h3 className='text-center font-semibold text-[38px] pb-6'>GALLERY</h3>
-            <SwiperGalleryList >
+            <SwiperListFiveProduct >
                 {arrayImage?.map((item, index) => (
                     <SwiperSlide key={index}>
                         <img css={cssImg} src={item} alt='' className='w-full h-full rou' />
                     </SwiperSlide>
                 ))}
-            </SwiperGalleryList>
+            </SwiperListFiveProduct>
         </div>
     )
 }

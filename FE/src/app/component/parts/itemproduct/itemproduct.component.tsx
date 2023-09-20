@@ -26,7 +26,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
                         <AiOutlineHeart className='text-[20px]' />
                     </div>
                 </div>
-                <div className='text-item'>
+                <div className='text-item truncate'>
                     <h3>{itemProduct?.name}</h3>
                 </div>
                 <div className='flex justify-between items-end'>
