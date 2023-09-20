@@ -3,13 +3,13 @@ import { css } from '@emotion/react'
 import StarIcon from '~/app/component/parts/rating/star.component'
 import QuantityProduct from '~/app/component/parts/quantity/QuantityProduct'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
-import ButtonIcon from '../../../../../../component/parts/button/Button-Icon.componet'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
 import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.data'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { addProductToCart } from '~/app/api/cart/cart.api';
 import { Modal, message } from 'antd'
 import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
+import { AiOutlineHeart, AiOutlineDownCircle } from "react-icons/ai";
 interface DetailInformation { }
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
@@ -108,14 +108,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   }
 
   return (
-    <div css={cssInfomation}>
+    <div css={cssInfomation} >
       {contextHolder}
       <div>
-        <p className='text-2xl hidden sm:block'>Thương hiệu: <a className='text-cyan-400' href="">{productDetail?.brand}</a></p>
-        <h1 className="pt-3 xl:text-4xl xl:opacity-75 title"> {productDetail?.name}</h1>
-        <i className="fas fa-star"></i>
+        <h1 className="font-semibold text-[30px] "> {productDetail?.name}</h1>
       </div>
-      <div className='flex mt-2'>
+      <div className='flex mt-2 space-x-5'>
+        <p className='text-2xl hidden sm:block'>Thương hiệu: {productDetail?.brand}</p>
         <div className='flex star'>
           <StarIcon />
           <StarIcon />
@@ -123,69 +122,67 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           <StarIcon />
           <StarIcon />
         </div>
-        <div className='text-gray-600'>
-          <button className='btn mx-3'><a href="">(Xem 1072 đánh giá)</a></button>
-          Đã bán 5000+
-        </div>
+        <div>(0 đánh giá)</div>
       </div>
       <div className="grid grid-cols-7 xl:mt-10">
-        <div className="col-span-12 xl:col-span-4">
-          <div className='flex pt-5 p-3 xl:bg-slate-50 xl:p-5'>
-            <h1 className="text-red-500 font-bold text-4xl  xl:text-6xl">{productDetail?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h1>
-            <h3 className='pl-5 text-xl pt-3 xl:text-2xl'><s className=' opacity-50 '>{productDetail?.cost?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</s>
-              <b className='text-red-500 sale'>-22%</b> </h3>
+        <div className="col-span-12 ">
+          <div className='flex pt-5 p-3'>
+            <h1 className="text-black font-semibold text-[26px] ">{productDetail?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h1>
+            <h3 className='pl-5 text-[18px] text-[#a8a9ad]'>
+              <del>{productDetail?.cost?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</del>
+            </h3>
+            <div className='px-6'>
+              <p className='text-white bg-[#dc633a] p-2'>-22%</p>
+            </div>
           </div>
           <div className='mt-5 max-sm:ml-5'>
-            <ul>
-              <li className='pb-6'>Giao đến: <a className='underline font-bold' href="">Q. Hoàn Kiếm, P. Hàng Trống, Hà Nội</a><a className='changeAdress pl-1 font-bold' href="">- Đổi địa chỉ</a></li>
-              <div className='mt-3 flex items-center'>
-                <div className=''>
+            <div>
+              <div className='mt-3 '>
+                <div className='mb-3 text-[22px]'>
                   Màu Sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
                 </div>
-                {listColor?.map((item: any) => (
-                  <div
-                    key={item.id}
-                    className={`p-3 border rounded-md mr-4 cursor-pointer ${colorSelect?.id === item.id && 'bg-blue-100 border-blue-700'
-                      } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
-                      checkQuantity.length > 0 &&
-                      'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
-                    onClick={() => handleSelectColor(item.id)}
-                  >
-                    {item.nameColor}
-                  </div>
-                ))}
+                <div className='flex items-center my-6'>
+                  {listColor?.map((item: any) => (
+                    <div
+                      key={item.id}
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${colorSelect?.id === item.id && 'bg-red-100 border-red-600'
+                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                        checkQuantity.length > 0 &&
+                        'bg-slate-100 pointer-events-none text-gray-400'
+                        }`}
+                      onClick={() => handleSelectColor(item.id)}
+                    >
+                      {item.nameColor}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className='mt-3 flex items-center'>
-                <div className=''>
+              <div className='mt-3 '>
+                <div className='mb-3 text-[22px]'>
                   Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
                 </div>
-                {listSize?.map((item: any) => (
-                  <div
-                    key={item.id}
-                    className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-blue-100 border-blue-600'
-                      } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
-                      checkQuantity.length > 0 &&
-                      'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
-                    onClick={() => handleSelectSize(item.id)}
-                  >
-                    {item.nameSize}
-                  </div>
-                ))}
+                <div className='flex items-center my-6'>
+                  {listSize?.map((item: any) => (
+                    <div
+                      key={item.id}
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                        checkQuantity.length > 0 &&
+                        'bg-slate-100 pointer-events-none text-gray-400'
+                        }`}
+                      onClick={() => handleSelectSize(item.id)}
+                    >
+                      {item.nameSize}
+                    </div>
+                  ))}
+                </div>
               </div>
 
-            </ul>
+            </div>
           </div>
-          <div>
-            {quantityRemainProduct &&
-              <div className='pb-7 my-4 ml-4 text-gray-400 text-[1.6rem]'>
-                {quantityRemainProduct?.quantity} sản phẩm có sẵn
-              </div>}
 
-          </div>
-          <div className='max-sm:ml-5 max-sm:flex sm:flex'>
-            <label htmlFor="quantity" className='max-sm:mt-5 sm:mt-5'>Số Lượng:</label>
+          <div className='flex items-center'>
+            <label htmlFor="quantity" className='text-[18px]'>Số Lượng:</label>
             <div className='mx-3'>
               <QuantityProduct
                 quantity={quantity}
@@ -195,61 +192,39 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                 colorSelect={colorSelect}
               />
             </div>
-          </div>
-          <div className='flex mt-5'>
-            <ButtonSqua outline className='rounded-xl border w-1/2 p-3  mx-2 text-white' onClick={handelAddProductToCart}>Thêm vào giỏ hàng</ButtonSqua>
-            <ButtonSqua className='border border-sky-500 w-1/2 rounded-xl p-3 mx-2 text-blue-600'>Mua Ngay</ButtonSqua>
-          </div>
-        </div>
-        <div className="xl:col-span-3 max-sm:col-span-12 max-sm:my-10 max-sm:py-5 mx-5 border rounded-xl">
-          <div className="flex p-3">
-            <img className="w-16 rounded-full" src="https://vcdn.tikicdn.com/ts/seller/ee/fa/a0/98f3f134f85cff2c6972c31777629aa0.png" alt="Tiki Trading" />
             <div>
-              <h6 className="flex items-center pl-5 leading-10">
-                Kiki Trading
-              </h6>
-              <button className="ml-5 w-40 bg-sky-300 text-white">OFFICIAL</button>
+              {quantityRemainProduct &&
+                <div className='pb-7 my-4 ml-4 text-gray-600 text-[1.6rem]'>
+                  {quantityRemainProduct?.quantity} sản phẩm có sẵn
+                </div>}
+
             </div>
           </div>
-          <div className='flex text-center w-full mt-3'>
-            <p className='w-1/2 text-2xl'>
-              <b className='flex justify-center'>
-                <span className="mr-1">4.7</span>
-                <span className="text-gray-500">/</span>
-                <span className="ml-1">5</span><StarIcon />
-              </b>
-              <p className='opacity-75'>5.7tr+</p>
-            </p>
-            <p className='w-1/2 text-2xl'>
-              <b className='flex justify-center'>480.3k</b>
-              <p className='opacity-75'>Theo dõi</p>
-            </p>
+
+          <div className='flex mt-5 space-x-5'>
+            <ButtonSqua outline className='btn' onClick={handelAddProductToCart}>THÊM VÀO GIỎ</ButtonSqua>
+            <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua>
+            <ButtonSqua className='btn'><AiOutlineHeart /></ButtonSqua>
           </div>
-          <div className='flex'>
-            <ButtonIcon outline className='rounded-xl border-sky-600 border text-xl w-1/2 p-3 m-2 text-sky-600 flex items-center justify-center'>
-              <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/49/27/ff/d735c33edfdc6cf6aeb6e183bec28869.png" alt="view-store" />
-              Xem Shop
-            </ButtonIcon>
-            <ButtonIcon outline className='border border-sky-600 w-1/2 rounded-xl text-xl p-3 m-2 text-sky-600 flex items-center justify-center'>
-              <img className='w-10 pr-3' src="https://salt.tikicdn.com/ts/upload/5b/bf/3c/eeda00767e26b5873030e44f951441c4.png" alt="follow-store" />
-              Theo Dõi
-            </ButtonIcon>
-          </div>
-          <div className='pl-5 pt-3'>
-            <p className='opacity-75'>Hướng dẫn bảo hành</p>
-            <p><a href="" className='text-blue-600 opacity-75'>Xem chi tiết</a></p>
-          </div>
-          <div className='w-full flex pt-7 px-5 text-center'>
-            <p className='xl:w-1/3 px-5'>
-              <img className='max-sm:w-5/6 mx-auto px-3 pb-2' alt="compensation-icon" src="https://salt.tikicdn.com/ts/upload/2c/48/44/720434869e103b03aaaf1a104d91ad25.png" height="32" width="32" />
-              Hoàn tiền <b>111% </b>
-              nếu hàng giả</p>
-            <p className='xl:w-1/3 px-5'>
-              <img className='max-sm:w-5/6 mx-auto px-3 pb-2' alt="compensation-icon" src="https://salt.tikicdn.com/ts/upload/4b/a1/23/1606089d5423e5cba05e3820ad39708e.png" height="32" width="32" />
-              Mở hộp kiểm tra nhận hàng</p>
-            <p className='xl:w-1/3 px-5'>
-              <img className='max-sm:w-5/6 mx-auto px-3 pb-2' alt="compensation-icon" src="https://salt.tikicdn.com/ts/upload/63/75/6a/144ada409519d72e2978ad2c61bc02a7.png" height="32" width="32" />
-              Đổi trả trong 30 ngày nếu sp lỗi.</p>
+
+          <div className='mt-[80px]'>
+            <div className='tab-header flex space-x-8 '>
+              <div className='active'>GIỚI THIỆU</div>
+              <div>CHI TIẾT SẢN PHẨM</div>
+              <div>BẢO QUẢN</div>
+            </div>
+            <div className="tab-body pt-6">
+              <div className=''>
+                Thiết kế áo Tapta trễ vai là một lựa chọn thời trang đầy cuốn hút và quyến rũ cho các
+                cô gái yêu thích phong cách nữ tính và hiện đại. Với chất liệu vải Tapta cao cấp, sản
+                phẩm mang lại sự mềm mại, êm ái và bóng bẩy cho người mặc.
+              </div>
+              <div className='h-[2px] bg-gray-300 flex items-center'>
+                <a className='mx-auto bg-white text-[34px]  text-gray-300 '>
+                  <AiOutlineDownCircle />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -260,14 +235,45 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
 export default DetailInformation
 
 const cssInfomation = css`
- margin: 5px 10px 0px 10px;
- font-family: serif;
+ margin: 5px 10px 0px 90px;
+ font-family: sans-serif;
  .fa-star {
     color: gold;
     font-size: 24px;
   }
   .changeAdress{
     color: rgb(11, 116, 229)
+  }
+  .btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px 0;
+    padding: 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    height: 48px;
+  }
+  .tab-header div{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 18px 0;
+    color: #6c6d70;
+    cursor: pointer;
+    position: relative;
+  }
+  .tab-body div{
+    font-size: 16px;
+    line-height: 24px;
+    color: #3e3e3f;
+    margin-bottom: 2em;
+    width:555px;
+  }
+  .active{
+    border-bottom: 2px solid #000;
   }
   @media (max-width: 640px){
     .title{

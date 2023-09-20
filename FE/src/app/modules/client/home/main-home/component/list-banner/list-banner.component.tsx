@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
 import { SwiperSlide } from 'swiper/react'
-import SwiperList from '~/app/component/stack/swiper-list/swiper-list.component'
+import SwiperListTwoProduct from '~/app/component/stack/swiper-list/swiperList-twoProduct.component'
 
 interface ListBannerProps {
     props?: any
@@ -17,13 +17,13 @@ const ListBanner: FunctionComponent<ListBannerProps> = () => {
     ]
     return (
         <div className='mt-4 mb-[107px]'>
-            <SwiperList >
+            <SwiperListTwoProduct >
                 {arrayImage?.map((item, index) => (
                     <SwiperSlide key={index}>
                         <img css={cssImg} src={item} alt='' className='w-full h-full rou' />
                     </SwiperSlide>
                 ))}
-            </SwiperList>
+            </SwiperListTwoProduct>
 
             <hr className=' text-gray h-[4px] mt-14' />
         </div>
