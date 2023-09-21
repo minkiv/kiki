@@ -44,7 +44,7 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         </div>
 
       </div>
-      <Link to={`/checkout/payment`}>
+      <Link to={`/payment`}>
         <button>Mua hàng ({listProductBuy.length})</button>
       </Link>
 
