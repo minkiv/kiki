@@ -5,6 +5,7 @@ import Detail from './detail/detail.component'
 import Search from './search/search.component'
 import MenuSideBar from '~/app/component/stack/menu-sidebar/menu-sidebar.component'
 import ManageOrder from './manage-order/manage-order.component'
+import Products from './products/products.component'
 export const clientRouter: RouteObject[] = [
   {
     path: '/',
@@ -25,6 +26,10 @@ export const clientRouter: RouteObject[] = [
   {
     path: "/manage",
     element: <ManageOrder />
+  },
+  {
+    path: "/products",
+    element: <Products />
   }
 ]
 
