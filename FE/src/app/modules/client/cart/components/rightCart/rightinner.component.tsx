@@ -25,7 +25,7 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
   return (
     <div css={cssRightCart}>
       <div className='prices-item mt-[45px]'>
-        <h2 className='text-[20px] font-semibold'>Tổng tiền giỏ hàng</h2>
+        <h2 className='text-[20px] font-semibold text-center'>Tổng tiền giỏ hàng</h2>
         <ul className='price'>
           <li className='sm:flex max-sm:flex justify-between py-5'>
             <div className='text-[16px]'>Tạm tính</div>
