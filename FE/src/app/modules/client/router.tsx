@@ -3,9 +3,10 @@ import Home from './home/home.component'
 import Cart from './cart/cart.component'
 import Detail from './detail/detail.component'
 import Search from './search/search.component'
-import MenuSideBar from '~/app/component/stack/menu-sidebar/menu-sidebar.component'
 import ManageOrder from './manage-order/manage-order.component'
 import Products from './products/products.component'
+import CheckOut from './checkout/checkout.component'
+
 export const clientRouter: RouteObject[] = [
   {
     path: '/',
@@ -30,6 +31,10 @@ export const clientRouter: RouteObject[] = [
   {
     path: "/products",
     element: <Products />
+  },
+  {
+    path: "/payment",
+    element: <CheckOut />
   }
 ]
 

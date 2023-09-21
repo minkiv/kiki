@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react'
-import { Outlet } from 'react-router-dom'
 import { css } from '@emotion/react'
-import HeaderCheckOut from '~/app/component/stack/header/headerCheckout'
-import FooterPaymentComponent from '~/app/component/stack/footer/paymentFooter.componet'
+import SidePayment from './component/side-payment/side-payment.component'
+import Shipping from './component/shipping/shipping.component'
+import Payments from './component/payments/payments.componet'
 
 interface CheckOutProps {
     props?: any
@@ -11,16 +11,17 @@ interface CheckOutProps {
 const CheckOut: FunctionComponent<CheckOutProps> = () => {
     return (
         <div css={checkoutcss}>
-            <div className='header max-sm:hidden '>
-                <HeaderCheckOut />
+
+            <div className='flex justify-center'>
+                <div className='flex w-[64%]'>
+                    <Shipping />
+                    <Payments />
+                </div>
+                <div className='w-[25%]'>
+                    <SidePayment />
+                </div>
             </div>
-            <div className='sm:w-[1140px] m-auto'>
-                <Outlet />
-            </div>
-            <hr className=' text-gray-400 '></hr>
-            <div className='footer max-sm:hidden'>
-                <FooterPaymentComponent />
-            </div>
+
         </div>
     )
 }
@@ -28,9 +29,8 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
 export default CheckOut
 
 const checkoutcss = css`
-    background: rgb(245, 245, 250);
     margin: auto;
-   
+    width:1440px;
 `
 
 
