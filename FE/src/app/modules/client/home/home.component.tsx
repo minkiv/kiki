@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
-import SideBarHome from './sidebar-home/sidebar-home.component'
 import MainHome from './main-home/main-home.component'
 
 interface HomeProps {
@@ -10,7 +9,6 @@ interface HomeProps {
 const Home: FunctionComponent<HomeProps> = () => {
     return (
         <div css={cssHome}>
-            {/* <SideBarHome /> */}
             <MainHome />
         </div>
     )

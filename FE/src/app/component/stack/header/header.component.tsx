@@ -75,7 +75,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         <div className='mx-auto flex items-center justify-between sm:w-[1440px]'>
             <div css={cssMenu} className='space-x-8'>
                 <div><Link to={'/'}>TRANG CHỦ</Link></div>
-                <div><Link to={'/'}>SẢN PHẨM</Link></div>
+                <div><Link to={'/products'}>SẢN PHẨM</Link></div>
                 <div><Link to={'/'}>GIỚI THIỆU</Link></div>
                 <div><Link to={'/'}>LIÊN HỆ</Link></div>
                 <div><Link to={'/'}>VỀ CHÚNG TÔI</Link></div>

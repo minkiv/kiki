@@ -11,7 +11,7 @@ interface FooterComponentProps {
 const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
     return (
         <footer css={cssFooter}>
-            <div className='main-footer flex justify-around'>
+            <div className='main-footer flex justify-around py-40'>
                 <div className='column-one'>
                     <div className='logo flex justify-around gap-9 pb-6'>
                         <div>
@@ -115,6 +115,7 @@ const cssFooter = css`
     padding: 60px 0 0;    
     .main-footer{
     border-bottom: 2px solid #D1D2D4;    
+    border-top: 2px solid #D1D2D4;    
     }
   .column-one{
     max-width:22.05%
