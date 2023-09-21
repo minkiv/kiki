@@ -24,40 +24,22 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
   }, [listProductBuy]);
   return (
     <div css={cssRightCart}>
-      <div className='information'>
-        <div className='block-header sm:flex max-sm:flex'>
-          <p className='title-right px-4'>Giao tới</p>
-          <a href='#' className='nav py-[16px] ml-52 max-sm:ml-[200px]'>
-            Thay đổi
-          </a>
-        </div>
-        <div className='info max-sm:flex sm:flex justify-between'>
-          <p className='name px-4'>Phan Huy Hiệp</p>
-          <i></i>
-          <p className='phoneNumber mr-16'>0971080029</p>
-        </div>
-
-        <div className='address sm:flex max-sm:flex px-4 py-4'>
-          <span className='home'>Nhà</span>
-          <p>Phường Cổ Nhuế 2, Quận Bắc Từ Liêm, Hà Nội</p>
-        </div>
-      </div>
-      <div className='prices-item'>
+      <div className='prices-item mt-[45px]'>
+        <h2 className='text-[20px] font-semibold'>Tổng tiền giỏ hàng</h2>
         <ul className='price'>
           <li className='sm:flex max-sm:flex justify-between py-5'>
-            <div className='text'>Tạm tính</div>
-            <div className='value'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+            <div className='text-[16px]'>Tạm tính</div>
+            <div className='value text-[16px]'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
           </li>
           <li className='sm:flex max-sm:flex justify-between'>
-            <div className='text'>Giảm giá</div>
-            <div className='value'>0đ</div>
+            <div className='text-[16px]'>Giảm giá</div>
+            <div className='value text-[16px]'>{(0).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
           </li>
         </ul>
         <div className='prices-total sm:flex justify-between max-sm:flex'>
-          <span className='text-total'>Tổng tiền</span>
+          <span className='text-[16px]'>Tổng tiền</span>
           <div className='content'>
             <p className='price-total'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
-            <p className='note pt-2'>(Đã bao gồm VAT nếu có)</p>
           </div>
         </div>
 
@@ -162,6 +144,7 @@ const cssRightCart = css`
   button{
     background: rgb(255, 66, 78);
     color: rgb(255, 255, 255);
+    font-size:18px;
     padding: 13px 10px;
     text-align: center;
     border-radius: 4px;

@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 
 
 // import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules';
 interface SliceHomeProps {
     props?: any
 }
@@ -33,7 +33,11 @@ const SliceHome: FunctionComponent<SliceHomeProps> = () => {
                         pagination={true}
                         mousewheel={true}
                         keyboard={true}
-                        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+                        autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }}
+                        modules={[Navigation, Pagination, Mousewheel, Keyboard, Autoplay]}
                         className="mySwiper"
                     >
                         {arrayImage?.map((item, index) => (
@@ -53,8 +57,15 @@ const cssSlider = css`
 border-radius: 80px 0;
 width: 100%;
 overflow: hidden;
-
-
+.swiper-button-prev{
+    color:white;
+}
+.swiper-button-next{
+    color:white;
+}
+.swiper-pagination-bullet-active {
+    background: #fff;
+}
 @media (min-width: 0) and (max-width: 739px) {
     flex-basis: unset;
     margin: 10px;

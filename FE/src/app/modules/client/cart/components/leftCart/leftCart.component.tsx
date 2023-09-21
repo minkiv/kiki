@@ -1,11 +1,9 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
-import { BsShopWindow } from 'react-icons/bs'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { useCartRedux } from '../../../redux/hook/useCartReducer'
 import { getListColor, getListSize } from '../../../helper/tranform.data'
 import SelectQuantityCart from '~/app/component/parts/quantity/quantitySelect'
-import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import { UpdateProductToCart, deleteProductToCart } from '~/app/api/cart/cart.api'
 import { message, Modal } from 'antd'
 interface leftCartProps {
@@ -156,127 +154,133 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   return (
     <div css={cssLeftCart}>
       {contextHolder}
-      <div className='style-heading mb-[20px] max-sm:flex sm:flex bg-white  sm:justify-between max-sm:mt-5'>
-        <div className='flex'>
-          {/* <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' /> */}
-          <span className='lable sm:mr-[290px] max-sm:ml-3 sm:pl-[4px]'>Tất cả ({carts?.length} sản phẩm)</span>
-        </div>
-        <span className='taitle-table mr-[100px]'>Đơn giá</span>
-        <span className='taitle-table mr-[70px]'>Số lượng</span>
-        <span className='taitle-table mr-[90px]'>Thành tiền</span>
-        <div className='remove-all'>
-          <RiDeleteBinLine size={17} className='delete-icon sm:mr-4 max-sm:mr-5' />
-        </div>
+
+      <div className='flex'>
+        {/* <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' /> */}
+        <span className='text-[20px] pb-[15px]'>Tất cả ({carts?.length} sản phẩm)</span>
       </div>
 
-      <div className='container bg-white '>
-        <div className='sub-title sm:flex max-sm:flex px-6  py-3'>
-          <input type='checkbox' className='w-[18px] mr-3' onChange={() => { handelAllProduct(carts) }} checked={isAllSelected} />
-          <BsShopWindow className='icon-home w-6 h-6 mr-2' />
+      <table className='w-full'>
+        <thead>
+          <tr>
+            <th className='taitle-table sm:flex max-sm:flex px-5  py-3'>
+              <input type='checkbox' className='w-[18px] mr-3' onChange={() => { handelAllProduct(carts) }} checked={isAllSelected} />
+              <a href='#'>Lựa chọn tất cả</a>
+            </th>
+            <th className='taitle-table'>Đơn giá</th>
+            <th className='taitle-table'>Số lượng</th>
+            <th className='taitle-table'>Thành tiền</th>
+            <th className='remove-all'>
+              <RiDeleteBinLine size={17} className='delete-icon sm:mr-4 max-sm:mr-5' />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {carts?.map((item: any, index: any) => (
+            <tr className='trbody' key={index}>
+              <td className='flex items-center space-x-3'>
+                <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' onChange={() => handleSelectProductBuy(item)} checked={listProductBuy.flatMap((items: any) => items?._id).includes(item?._id)} />
+                <img
+                  src={item?.product?.images[0]}
+                  alt=''
+                  className='w-[76px] h-[100px]'
+                />
 
-          <a href='#'>Shop Name</a>
-        </div>
-        {carts?.map((item: any, index: any) => (
-          <div className='box items-center sm:flex max-sm:flex justify-between text-center mr-auto py-3' key={index}>
-
-
-            <div className='sm:flex max-sm:flex items-center max-sm:mr-1 max-sm:p-[3px] '>
-              <input type='checkbox' className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2' onChange={() => handleSelectProductBuy(item)} checked={listProductBuy.flatMap((items: any) => items?._id).includes(item?._id)} />
-              <img
-                src='https://salt.tikicdn.com/cache/w1200/ts/product/42/32/ed/12c36b4f893332b2bfcdb6b510786937.jpg'
-                alt=''
-                className='w-[76px] h-20'
-              />
-
-              <div className='max-sm:mr-2 max-sm:p-[7px]  '>
-                {item?.product?.name}
-                <div className=' max-sm:w-full relative'>
-                  <div
-                    className='product-wrap-prices sm:w-[190px] flex  cursor-pointer'
-                    onClick={() => {
-                      setShowPopupSelect((prev: any) => ({
-                        show: !prev.show,
-                        index: index
-                      })),
-                        setClickProductDetail(item)
-                    }}
-                  >
-                    <div className='sm:px-3'>
-                      <span className='mr-2'>Màu:</span>
-                      <span className='product-real-prices'>{item?.quantityOrder.nameColor}</span>
-                    </div>
-                    <span className='mr-2'>Kích cỡ:</span>
-                    <div className='product-real-prices'>{item?.quantityOrder.nameSize}</div>
+                <div className='max-sm:mr-2 max-sm:p-[7px]'>
+                  <div className='text-[18px] font-medium pb-3'>
+                    {item?.product?.name}
                   </div>
-                  {showPopupSelect.index === index && showPopupSelect.show && (
-                    <div ref={wrapperRef} className=' bg-white shadow-3xl s absolute p-3 rounded-lg z-10'>
-                      <div className='my-2'>
-                        <div>
-                          Màu sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
-                        </div>
-                        <div className='mt-3 sm:flex max-sm:flex items-center'>
-                          {getListColor(item, 'cart')?.map((item: any) => (
-                            <div
-                              key={item.id}
-                              className={`p-3 border rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item.nameColor && 'bg-blue-100 border-blue-600'
-                                } ${!checkQuantityType
-                                  ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
-                                  .includes(item.nameColor) &&
-                                checkQuantityType.length > 0 &&
-                                item.quantity === 0 &&
-                                'bg-slate-100 pointer-events-none text-gray-400'
-                                }
-                              ${Number(item.quantity) === 0 &&
-                                checkQuantityType.length === 0 &&
-                                'bg-slate-100 pointer-events-none text-gray-400'
-                                }
-                                `}
-                              onClick={() => handleSelectColor(item.id)}
-                            >
-                              {item.nameColor}
-                            </div>
-                          ))}
-                        </div>
+                  <div className=' max-sm:w-full relative'>
+                    <div
+                      className='product-wrap-prices sm:w-[190px] flex  cursor-pointer '
+                      onClick={() => {
+                        setShowPopupSelect((prev: any) => ({
+                          show: !prev.show,
+                          index: index
+                        })),
+                          setClickProductDetail(item)
+                      }}
+                    >
+                      <div className='sm:px-3'>
+                        <span className='mr-2'>Màu:</span>
+                        <span className='product-real-prices'>{item?.quantityOrder.nameColor}</span>
                       </div>
-                      <div className='my-2'>
-                        <div className=''>
-                          Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
-                        </div>
-                        <div className='mt-3 sm:flex max-sm:flex items-center'>
-                          {getListSize(item, 'cart')?.map((item: any) => (
-                            <div
-                              key={item.id}
-                              className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.nameSize === item.nameSize && 'bg-blue-100 border-blue-600'
-                                } ${!checkQuantityType
-                                  ?.flatMap((itemType: any) => itemType?.nameSize)
-                                  .includes(item.nameSize) &&
-                                checkQuantityType.length > 0 &&
-                                'bg-slate-100 pointer-events-none text-gray-400'
-                                }`}
-                              onClick={() => handleSelectSize(item.id)}
-                            >
-                              {item.nameSize}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className='flex'>
-                        <ButtonSqua outline className='mr-4 p-3' onClick={cancelChangeProperties}>
-                          Hủy
-                        </ButtonSqua>
-                        <ButtonSqua className='p-3' onClick={handleSubmitChangeProperties}>
-                          Xác nhận
-                        </ButtonSqua>
-                      </div>
+                      <span className='mr-2'>Kích cỡ:</span>
+                      <div className='product-real-prices'>{item?.quantityOrder.nameSize}</div>
                     </div>
-                  )}
-                </div>
-              </div>
+                    {showPopupSelect.index === index && showPopupSelect.show && (
+                      <div ref={wrapperRef} className=' bg-white shadow-3xl s absolute p-3 rounded-lg z-10'>
+                        <div className='my-2'>
+                          <div>
+                            Màu sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
+                          </div>
+                          <div className='mt-3 sm:flex max-sm:flex items-center'>
+                            {getListColor(item, 'cart')?.map((item: any) => (
+                              <div
+                                key={item.id}
+                                className={`p-3 border rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item.nameColor && 'bg-red-100 border-red-600'
+                                  } ${!checkQuantityType
+                                    ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
+                                    .includes(item.nameColor) &&
+                                  checkQuantityType.length > 0 &&
+                                  item.quantity === 0 &&
+                                  'bg-slate-100 pointer-events-none text-gray-400'
+                                  }
+                      ${Number(item.quantity) === 0 &&
+                                  checkQuantityType.length === 0 &&
+                                  'bg-slate-100 pointer-events-none text-gray-400'
+                                  }
+                        `}
+                                onClick={() => handleSelectColor(item.id)}
+                              >
+                                {item.nameColor}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className='my-2'>
+                          <div className=''>
+                            Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
+                          </div>
+                          <div className='mt-3 sm:flex max-sm:flex items-center'>
+                            {getListSize(item, 'cart')?.map((item: any) => (
+                              <div
+                                key={item.id}
+                                className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.nameSize === item.nameSize && 'bg-red-100 border-red-600'
+                                  } ${!checkQuantityType
+                                    ?.flatMap((itemType: any) => itemType?.nameSize)
+                                    .includes(item.nameSize) &&
+                                  checkQuantityType.length > 0 &&
+                                  'bg-slate-100 pointer-events-none text-gray-400'
+                                  }`}
+                                onClick={() => handleSelectSize(item.id)}
+                              >
+                                {item.nameSize}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
 
-              <div className='sm:flex justify-between'>
-                <span className='real-prices sm:ml-[145px]'>{item?.product?.price}₫</span>
-                <div className='sm:ml-[100px] max-sm:my-2'>
+                        <div className='flex space-x-2'>
+                          <button className='px-3 py-2 bg-red-500 text-white' onClick={cancelChangeProperties}>
+                            Hủy
+                          </button>
+                          <button className='px-3 py-2 bg-blue-500 text-white' onClick={handleSubmitChangeProperties}>
+                            Xác nhận
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </td>
+              <td className='text-[16px]'>
+                <span className='real-prices'>{item?.product?.price}₫</span>
+
+              </td>
+
+              <td>
+                <div className=''>
                   <SelectQuantityCart
                     itemCart={item}
                     listQuantityRemain={item?.product?.listQuantityRemain}
@@ -297,16 +301,18 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                     }
                   />
                 </div>
-                <span className='product-final-prices sm:mt-6 text-[17px] sm:ml-[50px]'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
-              </div>
-            </div>
-            <span className='product-delete'>
-              <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' onClick={() => handleDeleteProductCart(item)} />
-            </span>
-          </div>
-        ))}
+              </td>
+              <td>
+                <span className='product-final-prices sm:mt-6 text-[17px]'>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
+              </td>
+              <td className='product-delete'>
+                <RiDeleteBinLine size={17} className='delete-icon mr-11 max-sm:mr-12' onClick={() => handleDeleteProductCart(item)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      </div>
     </div>
   )
 }
@@ -322,6 +328,10 @@ const cssLeftCart = css`
       margin-bottom: 12px;
       top: 105px;
       z-index: 99;
+  }
+  .taitle-table {
+    text-align:left;
+    font-size:18px;
   }
       .box {
         background - color: var(--color-white);
@@ -341,6 +351,9 @@ const cssLeftCart = css`
   }
       .delete-icon:hover {
         color: red;
+  }
+  .trbody td{
+    margin: 12px 0;
   }
   @media only screen and (max-width: 739px) {
     .style-heading {
