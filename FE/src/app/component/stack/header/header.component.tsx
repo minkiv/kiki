@@ -136,8 +136,9 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                                 XIN CHÀO
                                 <ul className='links'>
                                     <li>
-                                        <button onClick={handleLoginLogout}>
-                                            <p className='hover:text-red-500 font-normal text-[15px]'>Đăng xuất</p>
+                                        <button >
+                                            <p className='hover:text-red-500 font-normal text-[15px] py-3' onClick={handleLoginLogout}>Đăng xuất</p>
+                                            <Link to={"/manage"}><p className='hover:text-red-500 font-normal text-[15px] py-3'>Quản lý </p></Link>
                                         </button>
                                     </li>
                                 </ul>
@@ -148,7 +149,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                     <Link to={isLogin ? '/cart' : '#'} onClick={isLogin ? undefined : handleRedirectCart}>
                         <PiHandbagSimpleThin className='font-bold' />
                     </Link>
-                    {carts?.length > 0 && <span className='absolute show-count'>{carts?.length}</span>}
+                    {carts?.length > 0 && accessToken ? (<span className='absolute show-count'>{carts?.length}</span>) : ("")}
                 </div>
             </div>
         </div >
