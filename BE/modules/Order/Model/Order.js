@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 
 const orderSchema = mongoose.Schema({
-    fullName: String,
+    fullname: String,
     phoneNumber: {
         type: String,
         default: ""
@@ -32,10 +32,17 @@ const orderSchema = mongoose.Schema({
         type: String,
         default: ''
     },
-    cartId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Cart'
-    },
+    productOrder:[
+        {
+            product:{
+                type:mongoose.Types.ObjectId,
+                ref:"Product"
+            },
+            quantityOrder:{
+                type:Object
+            }
+        }
+    ]
 
 },
     {

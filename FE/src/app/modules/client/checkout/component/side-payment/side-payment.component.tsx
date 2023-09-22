@@ -114,7 +114,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           <ButtonSqua children="Áp dụng" className='btnSqua' />
         </div>
         <div className='flexRow'>
-          <button className='button-order'>Đặt hàng ({listProductBuy.length})</button>
+          <button className='button-order' type='submit'>Đặt hàng ({listProductBuy.length})</button>
         </div>
       </div>
     </div>
