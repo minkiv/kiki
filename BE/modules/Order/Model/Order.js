@@ -2,44 +2,30 @@ import mongoose from "mongoose";
 
 
 const orderSchema = mongoose.Schema({
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Auth',
+    },
     fullname: String,
-    phoneNumber: {
-        type: String,
-        default: ""
-    },
-    district: {
-        type: String,
-        default: ""
-    },
-    commune: {
-        type: String,
-        default: ""
-    },
-    locationDetail: {
-        type: String,
-        default: ""
-    },
-    defaultLocation: {
-        type: String,
-        default: ""
-    },
+    phoneNumber: String,
+    district: String,
+    commune: String,
+    locationDetail: String,
+    defaultLocation: String,
     orderStatus: {
         type: String,
-        default: 'WAIT_FOR_CONFIRMATION',
-        enum: ['WAIT_FOR_CONFIRMATION', 'PROCESSING', 'TRANSPORTED', 'DELIVERED', 'CANCELED'],
+        default: 'đang chờ duyệt',
+        enum: ['đang chờ duyệt', 'duyệt thành công', 'đang vận chuyển'],
     },
-    city: {
-        type: String,
-        default: ''
-    },
-    productOrder:[
+    city: String,
+    productOrder: [
         {
-            product:{
-                type:mongoose.Types.ObjectId,
-                ref:"Product"
+            product: {
+                type: mongoose.Types.ObjectId,
+                ref: "Product"
             },
-            quantityOrder:{
-                type:Object
+            quantityOrder: {
+                type: Object
             }
         }
     ]

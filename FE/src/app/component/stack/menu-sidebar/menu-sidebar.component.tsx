@@ -10,10 +10,10 @@ const MenuSideBar: FunctionComponent<MenuSideBarProps> = () => {
         <div css={cssMenuSideBar} className='w-[200px]'>
             <div className='flex items-center'>
                 <div>
-                    <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt="" className='w-[50px]' />
+                    <img src="https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg" alt="" className='w-[50px]' />
                 </div>
                 <div>
-                    <p className='font-semibold text-[17px] px-4'>lý tuấn</p>
+                    <p className='font-semibold text-[15px] px-4'>xin chào</p>
                 </div>
             </div>
 
