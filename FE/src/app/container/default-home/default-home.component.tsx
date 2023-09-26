@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react'
 import { Outlet } from 'react-router-dom'
 import HeaderComponent from './../../component/stack/header/header.component';
 import FooterComponent from '~/app/component/stack/footer/footer.component';
-import RequireAuth from '~/app/modules/client/accountLogin/requireAuth.component';
 interface DefaultHomeProps {
     prop?: unknown
 }
@@ -15,7 +14,6 @@ const DefaultHome: FunctionComponent<DefaultHomeProps> = () => {
                 <HeaderComponent />
             </div>
             <Outlet />
-            <RequireAuth />
             <FooterComponent />
         </div>
     )

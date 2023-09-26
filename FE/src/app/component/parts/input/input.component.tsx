@@ -69,7 +69,9 @@ const cssInput = (hideIcon: boolean, hasErorr: any) => css`
     background: #FFF;
     font-weight: 400;
     font-size: 12px;
-    border-radius: 0 4px 4px 0;
+    
+  ${hideIcon ? 'border-radius: 0 4px 4px 0 ;' : 'border-radius: 4px;'}
+
   }
   .button-search {
     color: var(--color-blue-primary);

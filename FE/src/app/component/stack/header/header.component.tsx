@@ -112,7 +112,9 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                                                         <div className='pl-[18px] pr-2'>
                                                             <AiOutlineSearch />
                                                         </div>
-                                                        {product?.name}
+                                                        <div className='truncate'>
+                                                            {product?.name}
+                                                        </div>
                                                     </li>
                                                 </Link>
                                             </ul>
@@ -143,7 +145,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                                     </li>
                                 </ul>
                             </span>
-                        </div>) : "Tài khoản"}</div>
+                        </div>) : (<Link to={'/customer/login'}>Tài khoản</Link>)}</div>
                 </div>
                 <div css={cssCartMain} className='cart-main relative'>
                     <Link to={isLogin ? '/cart' : '#'} onClick={isLogin ? undefined : handleRedirectCart}>
@@ -247,5 +249,4 @@ const cssDarkScreen = css`
   bottom: 0;
   left: 0;
   right: 0;
-//   background-color: gray;
 `
