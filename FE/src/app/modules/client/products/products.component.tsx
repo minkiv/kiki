@@ -11,7 +11,9 @@ interface ProductProps {
 const Products: FunctionComponent<ProductProps> = () => {
     return (
         <div css={cssProduct}>
-            <TitleProducts />
+            <TitleProducts>
+                All PRODUCTS
+            </TitleProducts>
             <div className='flex'>
                 <SidebarProducts />
                 <ListProducts />
@@ -23,5 +25,8 @@ const Products: FunctionComponent<ProductProps> = () => {
 export default Products
 
 const cssProduct = css`
-
+max-width: 1440px;
+box-sizing: border-box;
+margin:auto;
+justify-content:center;
 `

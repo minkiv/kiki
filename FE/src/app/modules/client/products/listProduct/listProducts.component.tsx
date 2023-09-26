@@ -1,17 +1,22 @@
 import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { Select, Space, Pagination } from 'antd';
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component';
+import { useProductRedux } from '../../redux/hook/useProductReducer';
 
 interface ListProductProps {
     props?: any
 }
 
 const ListProducts: FunctionComponent<ListProductProps> = () => {
+    const { data: { products }, actions } = useProductRedux()
+    useEffect(() => {
+        actions.getAllProduct()
+    }, [])
     return (
         <div css={cssListProducts}>
-            <div className='title flex'>
-                <h1 className="text-title">NEW ARRIVAL </h1>
+            <div className='title flex justify-between'>
+                <h1 className="text-title">All Product </h1>
                 <div className='arrange-title'>
                     <Space wrap>
                         <Select
@@ -31,14 +36,7 @@ const ListProducts: FunctionComponent<ListProductProps> = () => {
                 </div>
             </div>
             <div className='grid grid-cols-4 gap-10 p-10'>
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
-                <ItemProduct />
+                <ItemProduct itemProduct={products} />
             </div>
             <div className='w-[100%] text-center'>
                 <Pagination defaultCurrent={1} total={50} />
@@ -64,10 +62,14 @@ const cssListProducts = css`
 .select-title{
     min-width: 240px;
     width: 100%;
+    min-height: 50px;
     border: 1px solid #E7E8E9;
     border-radius: 24px;
-    padding: 12px 40px 12px 16px;    
+    padding: 4px 20px 4px 16px;    
     position: relative;
     display: block;
+}
+.arrange-title{
+    l
 }
 `

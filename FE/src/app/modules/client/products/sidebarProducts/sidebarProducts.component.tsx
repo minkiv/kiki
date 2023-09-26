@@ -52,8 +52,15 @@ const items: MenuItem[] = [
         </div>, '3'),
 
     ]),
-    getItem('Mức giá', 'sub3', <GiPriceTag />, [
-        getItem(<Slider defaultValue={30} onChange={onChange} min={100000} max={1000000} onAfterChange={onAfterChange} />, '4')
+    getItem('Size', 'sub3', <SiZenn />, [
+        getItem('S', '4'),
+        getItem('M', '5'),
+        getItem('XL', '6'),
+        getItem('XXL', '7'),
+        getItem('L', '8'),
+    ]),
+    getItem('Mức giá', 'sub4', <GiPriceTag />, [
+        getItem(<Slider defaultValue={30} onChange={onChange} min={100000} max={1000000} onAfterChange={onAfterChange} />, '9')
     ]),
 ];
 
