@@ -6,4 +6,5 @@ const router = express.Router()
 router.use(veryfiletoken)
 router.post('/add', controllerOrder.addOrders)
 router.post('/edit', controllerOrder.updateOders)
+router.get('/', controllerOrder.getAllOrder)
 export default router

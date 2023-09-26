@@ -10,7 +10,6 @@ const cartSlice = createSlice({
     reducers: {
         addProductToCart: (state, action) => {
             const productPayload = action.payload as any
-            console.log(productPayload)
             const findProductInToCart = state.carts.findIndex((itemProduct: any) => {
                 itemProduct.product.name == productPayload.product.name &&
                     itemProduct.quantityOrder.nameColor == productPayload.quantityOrder.nameColor &&
