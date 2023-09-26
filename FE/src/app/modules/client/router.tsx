@@ -6,6 +6,9 @@ import Search from './search/search.component'
 import ManageOrder from './manage-order/manage-order.component'
 import Products from './products/products.component'
 import CheckOut from './checkout/checkout.component'
+import GeneralIntroduction from './aboutUs/generalIntroduction.component'
+import FashionShow from './aboutUs/fashionShow.component'
+import CommunityActivities from './aboutUs/communityActivities.component'
 
 export const clientRouter: RouteObject[] = [
   {
@@ -35,7 +38,19 @@ export const clientRouter: RouteObject[] = [
   {
     path: "/payment",
     element: <CheckOut />
-  }
+  },
+  {
+    path: "/general",
+    element: < GeneralIntroduction />
+  },
+  {
+    path: "/fashion-Show",
+    element: <FashionShow />
+  },
+  {
+    path: "/Community-Activities",
+    element: <CommunityActivities />
+  },
 ]
 
 

@@ -75,10 +75,16 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         <div className='mx-auto flex items-center justify-between sm:w-[1440px]'>
             <div css={cssMenu} className='space-x-8'>
                 <div><Link className='hover:text-red-500' to={'/'}>TRANG CHỦ</Link></div>
-                <div><Link className='hover:text-red-500' to={'/'}>SẢN PHẨM</Link></div>
+                <div><Link className='hover:text-red-500' to={'/products'}>SẢN PHẨM</Link></div>
                 <div><Link className='hover:text-red-500' to={'/'}>GIỚI THIỆU</Link></div>
                 <div><Link className='hover:text-red-500' to={'/'}>LIÊN HỆ</Link></div>
-                <div><Link className='hover:text-red-500' to={'/'}>VỀ CHÚNG TÔI</Link></div>
+                <div className='title'><Link className='hover:text-red-500' to={'/'}>VỀ CHÚNG TÔI</Link>
+                    <div className='news-product'>
+                        <Link to={'/general'} className='py-4 font-semibold'> Về Ivy modar</Link >
+                        <Link to={'/Community-Activities'} className='py-4 font-semibold'> Fashion Show</Link >
+                        <Link to={'/fashion-Show'} className='py-4 font-semibold'> Hoạt động cộng đồng</Link >
+                    </div>
+                </div>
 
 
             </div>
@@ -167,7 +173,27 @@ color: #221F20;
 font-weight: 500;
 text-transform: uppercase;
 
-
+.news-product{
+    list-style: none;
+    background-color: white;
+    box-shadow: 0 0 7px gray;
+    position: absolute;
+    top: 100%;
+     width:200px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 4px;
+    z-index: 1;
+    visibility: hidden;    
+}
+.title:hover .news-product {
+    visibility: visible;
+  }
+  .title{        
+    cursor: pointer;
+    position: relative;
+}
 `
 const cssWrapperMenu = css`
 .links {

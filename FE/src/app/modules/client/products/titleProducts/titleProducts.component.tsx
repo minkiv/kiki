@@ -5,11 +5,12 @@ import { AiOutlineMinus } from 'react-icons/ai';
 
 interface TitleProductProps {
     props?: any
+    children?: React.ReactNode
 }
 
-const TitleProducts: FunctionComponent<TitleProductProps> = () => {
+const TitleProducts: FunctionComponent<TitleProductProps> = ({ children }) => {
     return (
-        <div css={cssTitleProduct}>
+        <div css={cssTitleProduct} >
             <ol className='arrival'>
                 <li>
                     <Link className='arrival_link text-[#6c6d70;]' to={'/'}>Trang chủ</Link>
@@ -18,7 +19,9 @@ const TitleProducts: FunctionComponent<TitleProductProps> = () => {
                     <AiOutlineMinus className='mx-6' />
                 </li>
                 <li>
-                    <Link className='arrival_link text-[#221f20]' to={'/products'}>NEW ARRIVAL</Link>
+                    <Link className='arrival_link text-[#221f20]' to={''}>
+                        {children}
+                    </Link>
                 </li>
             </ol>
         </div>
@@ -28,11 +31,12 @@ const TitleProducts: FunctionComponent<TitleProductProps> = () => {
 export default TitleProducts
 
 const cssTitleProduct = css`
+width:1440px;
 .arrival{
     display: flex;
     list-style-type: none;
     align-items: center;
-    padding: 16px;
+    padding: 16px 5px;
     border-bottom: 1px solid #f7f8f9
 }
 .arrival_link{
