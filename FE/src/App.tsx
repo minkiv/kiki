@@ -2,6 +2,10 @@ import { useRoutes } from 'react-router-dom'
 import DefaultLayout from './app/container/default-layout/default-layout.component'
 import { clientRouter } from './app/modules/client/router'
 import DefaultHome from './app/container/default-home/default-home.component'
+import DefaultAuthentication from './app/container/default-authentication/default-authentication.component'
+import ForgotPassword from './app/modules/client/accountLogin/forgotPassword.component'
+import Login from './app/modules/client/accountLogin/login.component'
+import Register from './app/modules/client/accountLogin/register.component'
 
 function App() {
   let element: any = useRoutes([
@@ -13,8 +17,25 @@ function App() {
           path: '',
           element: <DefaultHome />,
           children: clientRouter
+        },
+        {
+          path: 'customer',
+          element: <DefaultAuthentication />,
+          children: [
+            {
+              path: 'login',
+              element: <Login />,
+            },
+            {
+              path: 'register',
+              element: <Register />,
+            },
+            {
+              path: 'forgotpass',
+              element: <ForgotPassword />,
+            },
+          ]
         }
-
       ]
     }
   ])

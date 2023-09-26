@@ -1,31 +1,27 @@
 import mongoose from 'mongoose'
-const authSchema= mongoose.Schema({
+const authSchema = mongoose.Schema({
     fullname: String,
     nickname: String,
-    email:{
+    email: {
         type: String,
-        default:'',
-        unique:true
+        default: '',
+        unique: true
     },
-    birth: {
+    birthday: {
         type: Date
     },
-    phoneNumber:{
-        type:String,
-        default:'',
-        unique:true
+    phoneNumber: {
+        type: String,
+        default: '',
+        unique: true
     },
     password: {
         type: String,
         require: true,
         min: 8
     },
-    gender: {
-        type: String,
-        enum: ["male", "female", "orther"],
-        default: "male"
-    },
-    nationality: {
+    gender: String,
+    address: {
         type: String,
         default: "",
         require: true
