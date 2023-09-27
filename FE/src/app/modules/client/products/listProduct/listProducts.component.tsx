@@ -1,8 +1,10 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import { Select, Space, Pagination } from 'antd';
-import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component';
+
 import { useProductRedux } from '../../redux/hook/useProductReducer';
+import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component';
+import { Link } from 'react-router-dom';
 
 interface ListProductProps {
     props?: any
@@ -10,6 +12,7 @@ interface ListProductProps {
 
 const ListProducts: FunctionComponent<ListProductProps> = () => {
     const { data: { products }, actions } = useProductRedux()
+    console.log(products)
     useEffect(() => {
         actions.getAllProduct()
     }, [])
@@ -36,7 +39,11 @@ const ListProducts: FunctionComponent<ListProductProps> = () => {
                 </div>
             </div>
             <div className='grid grid-cols-4 gap-10 p-10'>
-                <ItemProduct itemProduct={products} />
+                {products.map((item: any, index: any) => (
+                    <Link to={`/detail/${item._id}`} key={index}>
+                        <ItemProduct itemProduct={item} />
+                    </Link>
+                ))}
             </div>
             <div className='w-[100%] text-center'>
                 <Pagination defaultCurrent={1} total={50} />

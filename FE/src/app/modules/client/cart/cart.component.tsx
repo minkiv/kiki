@@ -4,6 +4,7 @@ import LeftCart from './components/leftCart/leftCart.component';
 import RightCart from "./components/rightCart/rightinner.component";
 import { useAuthRedux } from "../redux/hook/useAuthReducer";
 import { Skeleton } from 'antd';
+import { useCartRedux } from "../redux/hook/useCartReducer";
 interface CartProps {
     props?: any
 }
@@ -13,29 +14,44 @@ const Cart: FunctionComponent<CartProps> = () => {
         data: { isLogin },
         actions: actionsAuth
     } = useAuthRedux()
+
+    const {
+        data: { carts }, actions
+    } = useCartRedux()
     useEffect(() => {
         if (!isLogin) {
             actionsAuth.checkLoginLink("/cart")
         }
     }, [])
+
+    useEffect(() => {
+        actions.getAllCart()
+    }, [])
+
     return (
-        <div css={cssCart} className="box-cart">
-            {
-                isLogin ? (
-                    <div className="flex">
-                        <div className="left-cart">
-                            <div className="title">
-                                <h1 className="mb-5">Giỏ Hàng</h1>
+        <>
+            {carts.length == 0 ? (<div className="m-auto mt-16 w-[300px]"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1lPL5-AheM5iaLdtwYA9_u09ggaYn0TR5b4M6ji2nQUaVKZEwTkjzCfo2d6d4zu7Zf-4&usqp=CAU" alt="" /></div>) : (
+                <div css={cssCart} className="box-cart">
+                    {
+                        isLogin ? (
+                            <div className="flex">
+                                <div className="left-cart">
+                                    <div className="title">
+                                        <h1 className="mb-5">Giỏ Hàng</h1>
+                                    </div>
+                                    <LeftCart />
+                                </div>
+                                <div className="right-cart"><RightCart /></div>
                             </div>
-                            <LeftCart />
-                        </div>
-                        <div className="right-cart"><RightCart /></div>
-                    </div>
-                ) : (
-                    <Skeleton active />
-                )
-            }
-        </div>
+                        ) : (
+                            <Skeleton active />
+                        )
+                    }
+                </div>
+            )}
+
+        </>
+
     )
 }
 export default Cart

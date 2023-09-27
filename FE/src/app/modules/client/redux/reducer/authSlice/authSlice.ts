@@ -23,8 +23,6 @@ const authSlice = createSlice({
                 state.isLogin = true
             }
         },
-        closeModal: (state) => {
-        },
         setToken: (state, action) => {
             state.accessTokenRedux = action.payload
         }

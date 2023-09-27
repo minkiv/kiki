@@ -41,7 +41,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
                     localStorage.removeItem("listSelectCart")
                     toast.success('tạo đơn hàng thành công')
                     navigate("/manage")
-                }, 2000)
+                }, 4000)
             }
             else {
                 toast.error('tạo đơn hàng lỗi')

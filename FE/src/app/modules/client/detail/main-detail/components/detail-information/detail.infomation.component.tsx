@@ -9,13 +9,14 @@ import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { addProductToCart } from '~/app/api/cart/cart.api'
 import { Modal, message } from 'antd'
 import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
-import { AiOutlineHeart, AiOutlineDownCircle } from 'react-icons/ai'
-interface DetailInformation {}
+import { AiOutlineHeart, AiOutlineDownCircle } from "react-icons/ai";
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+interface DetailInformation { }
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
-  const {
-    data: { product: productDetail }
-  } = useProductRedux()
+  const { data: { product: productDetail } } = useProductRedux()
+  const navigate = useNavigate()
   const {
     data: { isLogin },
     actions: authAction
@@ -99,15 +100,16 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
         }
       }
       addProductToCart(requestApiCart)
-      const modal = Modal.success({
-        content: 'Thêm sản phẩm vào giỏ hàng thành công',
-        okButtonProps: { className: 'bg-blue-500 hover:bg-blue-600' }
-      })
+      toast.success('thêm vào giỏ hàng thành công')
+    }
+    if (!isLogin) {
+      messageApi.error("bạn chưa đăng nhập tài khoản")
       setTimeout(() => {
-        modal.destroy()
-      }, 3000)
-    } else {
-      authAction.checkLoginLink('/cart')
+        navigate("/customer/login")
+      }, 2000)
+    }
+    else {
+      authAction.checkLoginLink("/cart")
     }
   }
 
@@ -151,13 +153,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   {listColor?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
-                        colorSelect?.id === item.id && 'bg-red-100 border-red-600'
-                      } ${
-                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${colorSelect?.id === item.id && 'bg-red-100 border-red-600'
+                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
+                        }`}
                       onClick={() => handleSelectColor(item.id)}
                     >
                       {item.nameColor}
@@ -173,13 +173,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   {listSize?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
-                        sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
-                      } ${
-                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
+                        }`}
                       onClick={() => handleSelectSize(item.id)}
                     >
                       {item.nameSize}
