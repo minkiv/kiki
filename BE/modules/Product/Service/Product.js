@@ -12,13 +12,13 @@ export const deleteProduct = async (req) => {
     return remove
 }
 export const addProduct = async (req) => {
-    // const fileImages=req.files
-    const listQuantityRemain = Array.from(req.body.listQuantityRemain)
-    // const check = fileImages.flatMap((item)=>item.path)
+    const fileImages = req.files
+    // const listQuantityRemain = Array.from(req.body.listQuantityRemain)
+    const check = fileImages.flatMap((item) => item.path)
     const products = await Product.create({
         ...req.body,
-        // images: check,
-        listQuantityRemain: listQuantityRemain
+        images: check,
+        // listQuantityRemain: listQuantityRemain
     })
     return products
 }

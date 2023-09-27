@@ -27,7 +27,7 @@ const NewProduct: FunctionComponent<NewProductProps> = () => {
         ))}
       </div>
       <div className='text-center mt-10'>
-        <ButtonSqua children="Xem tất cả" css={cssButton} />
+        <Link to={"/products"}> <ButtonSqua children="Xem tất cả" css={cssButton} /></Link>
       </div>
     </div>
   )

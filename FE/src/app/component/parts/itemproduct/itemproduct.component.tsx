@@ -1,6 +1,5 @@
-import { ClassNames, css } from '@emotion/react'
+import { css } from '@emotion/react'
 import { FunctionComponent } from 'react'
-import StarIcon from '../rating/star.component'
 import { PiHandbagSimpleThin } from "react-icons/pi"
 import { AiOutlineHeart } from "react-icons/ai"
 import ButtonSqua from '../button/ButtonSqua'
@@ -12,18 +11,18 @@ interface ItemProductProps {
 const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProduct }) => {
     return (
         <div css={cssProduct} className={className}>
-            <div className='w-full mb-[17px]'>
-                <img src={itemProduct?.images} alt="" width={264} height={369} />
+            <div className=' mb-[17px]'>
+                <img src={itemProduct?.images[0]} alt="" className='w-[260px] h-[300px] m-auto' />
             </div>
             <div className='main'>
                 <div className='flex justify-between mb-[13px]'>
-                    <ul className='color flex'>
-                        <li className='bg-black'></li>
-                        <li className='bg-black'></li>
-                        <li className='bg-black'></li>
-                    </ul>
+                    {/* <ul className='color flex'>
+                        <li className='bg-red-500'></li>
+                        <li className='bg-blue-600'></li>
+                        <li className='bg-yellow-400'></li>
+                    </ul> */}
                     <div>
-                        <AiOutlineHeart className='text-[20px]' />
+                        <AiOutlineHeart className='text-[20px] text-red-600' />
                     </div>
                 </div>
                 <div className='text-item'>
@@ -34,7 +33,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
                         {itemProduct?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
                     </div>
                     <div>
-                        <ButtonSqua css={cssBtn} children={<PiHandbagSimpleThin className='text-[16px]' />} outline={true} />
+                        <ButtonSqua css={cssBtn} children={<PiHandbagSimpleThin className='text-[16px] ' />} outline={true} />
                     </div>
                 </div>
             </div>
@@ -47,7 +46,7 @@ export default ItemProduct
 const cssProduct = css`
 overflow: hidden;
 border-radius: 4px;
-background: rgb(255, 255, 255);
+// background: rgb(255, 255, 255);
     .color li{
        width:18px;
        height:18px; 

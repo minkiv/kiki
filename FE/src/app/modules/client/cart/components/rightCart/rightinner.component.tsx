@@ -1,13 +1,15 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useCartRedux } from '../../../redux/hook/useCartReducer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 interface RightCartProps {
   props?: any
 }
 
 const RightCart: FunctionComponent<RightCartProps> = () => {
   const [totalPrice, setTotalPrice] = useState<any>(0)
+  const navigate = useNavigate()
   const {
     data: { listProductBuy },
     actions
@@ -16,12 +18,21 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
   useEffect(() => {
     actions.getAllCart()
   }, [])
+  const checkProductBuy = localStorage.getItem("listSelectCart")
   useEffect(() => {
     if (listProductBuy) {
       const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder?.quantity), 0);
       setTotalPrice(calculatedTotal);
     }
   }, [listProductBuy]);
+  const handelNavigate = () => {
+    if (!checkProductBuy) {
+      toast.error("chưa chọn mua sản phẩm nào")
+    }
+    else {
+      navigate("/payment")
+    }
+  }
   return (
     <div css={cssRightCart}>
       <div className='prices-item mt-[45px]'>
@@ -29,7 +40,7 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         <ul className='price'>
           <li className='sm:flex max-sm:flex justify-between py-5'>
             <div className='text-[16px]'>Tạm tính</div>
-            <div className='value text-[16px]'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+            <div className='value text-[16px]'>{checkProductBuy ? (totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })) : (0?.toLocaleString('vi', { style: 'currency', currency: 'VND' }))}</div>
           </li>
           <li className='sm:flex max-sm:flex justify-between'>
             <div className='text-[16px]'>Giảm giá</div>
@@ -39,14 +50,12 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         <div className='prices-total sm:flex justify-between max-sm:flex'>
           <span className='text-[16px]'>Tổng tiền</span>
           <div className='content'>
-            <p className='price-total'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
+            <p className='price-total'>{checkProductBuy ? (totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })) : (0?.toLocaleString('vi', { style: 'currency', currency: 'VND' }))}</p>
           </div>
         </div>
 
       </div>
-      <Link to={`/payment`}>
-        <button>Mua hàng ({listProductBuy.length})</button>
-      </Link>
+      <button onClick={handelNavigate}>Mua hàng ({checkProductBuy ? (listProductBuy.length) : (0)})</button>
 
     </div>
   )
