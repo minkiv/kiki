@@ -6,14 +6,16 @@ import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
 import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.data'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
-import { addProductToCart } from '~/app/api/cart/cart.api';
+import { addProductToCart } from '~/app/api/cart/cart.api'
 import { Modal, message } from 'antd'
 import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
-import { AiOutlineHeart, AiOutlineDownCircle } from "react-icons/ai";
-interface DetailInformation { }
+import { AiOutlineHeart, AiOutlineDownCircle } from 'react-icons/ai'
+interface DetailInformation {}
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
-  const { data: { product: productDetail } } = useProductRedux()
+  const {
+    data: { product: productDetail }
+  } = useProductRedux()
   const {
     data: { isLogin },
     actions: authAction
@@ -26,7 +28,14 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const [quantityRemainProduct, setquantityRemainProduct] = useState<any>({})
   const [listColor, setListColor] = useState([])
   const [listSize, setListSize] = useState([])
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage()
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, [])
   useEffect(() => {
     setCheckQuantity([])
     const tempColor = getListColor(productDetail)
@@ -35,13 +44,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
     setListSize(tempSize)
   }, [productDetail])
 
-
   const handleSelectColor = (colorId: any) => {
     const findElement = listColor.find((item: any) => item.id == colorId)
     if (colorId == colorSelect?.id) {
       setColorSelect(null)
-    }
-    else {
+    } else {
       setColorSelect(findElement)
     }
   }
@@ -50,12 +57,10 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
     const findElement = listSize.find((item: any) => item.id == sizeId)
     if (sizeId == sizeSelect?.id) {
       setSizeSelect(null)
-    }
-    else {
+    } else {
       setSizeSelect(findElement)
     }
   }
-
 
   useEffect(() => {
     const filterListQuantity = productDetail.listQuantityRemain?.filter(
@@ -70,8 +75,8 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
 
   const handelAddProductToCart = () => {
     if (!colorSelect || !sizeSelect) {
-      messageApi.error('Vui lòng chọn thông tin');
-      return;
+      messageApi.error('Vui lòng chọn thông tin')
+      return
     }
 
     if (isLogin) {
@@ -97,21 +102,20 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       const modal = Modal.success({
         content: 'Thêm sản phẩm vào giỏ hàng thành công',
         okButtonProps: { className: 'bg-blue-500 hover:bg-blue-600' }
-      });
+      })
       setTimeout(() => {
-        modal.destroy();
-      }, 3000);
-    }
-    else {
-      authAction.checkLoginLink("/cart")
+        modal.destroy()
+      }, 3000)
+    } else {
+      authAction.checkLoginLink('/cart')
     }
   }
 
   return (
-    <div css={cssInfomation} >
+    <div css={cssInfomation}>
       {contextHolder}
       <div>
-        <h1 className="font-semibold text-[30px] "> {productDetail?.name}</h1>
+        <h1 className='font-semibold text-[30px] '> {productDetail?.name}</h1>
       </div>
       <div className='flex mt-2 space-x-5'>
         <p className='text-2xl hidden sm:block'>Thương hiệu: {productDetail?.brand}</p>
@@ -124,10 +128,12 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
         </div>
         <div>(0 đánh giá)</div>
       </div>
-      <div className="grid grid-cols-7 xl:mt-10">
-        <div className="col-span-12 ">
+      <div className='grid grid-cols-7 xl:mt-10'>
+        <div className='col-span-12 '>
           <div className='flex pt-5 p-3'>
-            <h1 className="text-black font-semibold text-[26px] ">{productDetail?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</h1>
+            <h1 className='text-black font-semibold text-[26px] '>
+              {productDetail?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+            </h1>
             <h3 className='pl-5 text-[18px] text-[#a8a9ad]'>
               <del>{productDetail?.cost?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</del>
             </h3>
@@ -145,11 +151,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   {listColor?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${colorSelect?.id === item.id && 'bg-red-100 border-red-600'
-                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
+                        colorSelect?.id === item.id && 'bg-red-100 border-red-600'
+                      } ${
+                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                        }`}
+                      }`}
                       onClick={() => handleSelectColor(item.id)}
                     >
                       {item.nameColor}
@@ -165,11 +173,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   {listSize?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
-                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
+                        sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                      } ${
+                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                        }`}
+                      }`}
                       onClick={() => handleSelectSize(item.id)}
                     >
                       {item.nameSize}
@@ -177,12 +187,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   ))}
                 </div>
               </div>
-
             </div>
           </div>
 
           <div className='flex items-center'>
-            <label htmlFor="quantity" className='text-[18px]'>Số Lượng:</label>
+            <label htmlFor='quantity' className='text-[18px]'>
+              Số Lượng:
+            </label>
             <div className='mx-3'>
               <QuantityProduct
                 quantity={quantity}
@@ -193,18 +204,22 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
               />
             </div>
             <div>
-              {quantityRemainProduct &&
+              {quantityRemainProduct && (
                 <div className='pb-7 my-4 ml-4 text-gray-600 text-[1.6rem]'>
                   {quantityRemainProduct?.quantity} sản phẩm có sẵn
-                </div>}
-
+                </div>
+              )}
             </div>
           </div>
 
           <div className='flex mt-5 space-x-5'>
-            <ButtonSqua outline className='btn' onClick={handelAddProductToCart}>THÊM VÀO GIỎ</ButtonSqua>
+            <ButtonSqua outline className='btn' onClick={handelAddProductToCart}>
+              THÊM VÀO GIỎ
+            </ButtonSqua>
             <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua>
-            <ButtonSqua className='btn'><AiOutlineHeart /></ButtonSqua>
+            <ButtonSqua className='btn'>
+              <AiOutlineHeart />
+            </ButtonSqua>
           </div>
 
           <div className='mt-[80px]'>
@@ -213,11 +228,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
               <div>CHI TIẾT SẢN PHẨM</div>
               <div>BẢO QUẢN</div>
             </div>
-            <div className="tab-body pt-6">
+            <div className='tab-body pt-6'>
               <div className=''>
-                Thiết kế áo Tapta trễ vai là một lựa chọn thời trang đầy cuốn hút và quyến rũ cho các
-                cô gái yêu thích phong cách nữ tính và hiện đại. Với chất liệu vải Tapta cao cấp, sản
-                phẩm mang lại sự mềm mại, êm ái và bóng bẩy cho người mặc.
+                Thiết kế áo Tapta trễ vai là một lựa chọn thời trang đầy cuốn hút và quyến rũ cho các cô gái yêu thích
+                phong cách nữ tính và hiện đại. Với chất liệu vải Tapta cao cấp, sản phẩm mang lại sự mềm mại, êm ái và
+                bóng bẩy cho người mặc.
               </div>
               <div className='h-[2px] bg-gray-300 flex items-center'>
                 <a className='mx-auto bg-white text-[34px]  text-gray-300 '>
@@ -235,16 +250,16 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
 export default DetailInformation
 
 const cssInfomation = css`
- margin: 5px 10px 0px 90px;
- font-family: sans-serif;
- .fa-star {
+  margin: 5px 10px 0px 90px;
+  font-family: sans-serif;
+  .fa-star {
     color: gold;
     font-size: 24px;
   }
-  .changeAdress{
-    color: rgb(11, 116, 229)
+  .changeAdress {
+    color: rgb(11, 116, 229);
   }
-  .btn{
+  .btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -256,7 +271,7 @@ const cssInfomation = css`
     line-height: 24px;
     height: 48px;
   }
-  .tab-header div{
+  .tab-header div {
     font-weight: 600;
     font-size: 14px;
     line-height: 18px;
@@ -265,25 +280,25 @@ const cssInfomation = css`
     cursor: pointer;
     position: relative;
   }
-  .tab-body div{
+  .tab-body div {
     font-size: 16px;
     line-height: 24px;
     color: #3e3e3f;
     margin-bottom: 2em;
-    width:555px;
+    width: 555px;
   }
-  .active{
+  .active {
     border-bottom: 2px solid #000;
   }
-  @media (max-width: 640px){
-    .title{
+  @media (max-width: 640px) {
+    .title {
       font-size: 20px;
       padding: 0px 5px;
     }
-    .star{
+    .star {
       padding: 3px 5px;
     }
-    .sale{
+    .sale {
       border: 1px solid rgb(252 165 165);
       padding: 2px;
       margin-left: 5px;
