@@ -16,11 +16,6 @@ interface LoginProps {
 const Login: FunctionComponent<LoginProps> = () => {
     const [messageApi, contextHolder] = message.useMessage();
     let navigate = useNavigate()
-    let location = useLocation()
-    const {
-        data: { redirectLink },
-        actions: actionsAuth
-    } = useAuthRedux()
     const { handleSubmit, control, formState: { errors } } = useForm({
         mode: 'onChange',
         resolver: yupResolver(validateLogin)
@@ -28,11 +23,11 @@ const Login: FunctionComponent<LoginProps> = () => {
     const onSubmit = (data: any) => {
         loginSystem(data).then((res) => {
             if (res) {
-                localStorage.setItem('accessToken', res.data.accessToken)
-                actionsAuth.checkLoginLink(location.pathname)
-                actionsAuth.setToken(res.data.accessToken)
-                navigate(redirectLink)
-                message.success("đăng nhập thành công")
+                localStorage.setItem('accessToken', res.data.accessToken);
+                message.success("Đăng nhập thành công", () => {
+                    navigate("/");
+                    location.reload();
+                });
             }
         },
 

@@ -20,10 +20,6 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         data: { carts },
         actions
     } = useCartRedux()
-    const {
-        data: { isLogin, isOpen },
-        actions: actionsAuth
-    } = useAuthRedux()
     const [searchTerm, setSearchTerm] = useState("");
     const [stateInput, setStateInput] = useState(false);
     let keyword = new URLSearchParams(location.search).get('q');
@@ -51,22 +47,18 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         }
         else setSearchTerm("")
     }, [keyword])
-
+    const accessToken = localStorage.getItem("accessToken")
 
     useEffect(() => {
-        if (isLogin || localStorage.getItem('accessToken')) {
+        if (accessToken) {
             actions.getAllCart()
         }
-    }, [isLogin, isOpen])
-    const handleRedirectCart = () => {
-        actionsAuth.checkLoginLink("/cart")
+    }, [accessToken])
 
-
-    }
-    const accessToken = localStorage.getItem("accessToken")
     const handleLoginLogout = () => {
         if (accessToken) {
             localStorage.removeItem("accessToken")
+            navigate("/customer/login")
         } else {
             navigate("/")
         }
@@ -138,7 +130,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                     <div className='icon'>
                         <AiOutlineUserAdd />
                     </div>
-                    <div className='title' onClick={() => actionsAuth.checkLoginLink("/")}>{accessToken ? (
+                    <div className='title'>{accessToken ? (
                         <div>
                             <span className='px-5 text-black max-sm:hidden'>
                                 XIN CHÀO
@@ -154,10 +146,10 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                         </div>) : (<Link to={'/customer/login'}>Tài khoản</Link>)}</div>
                 </div>
                 <div css={cssCartMain} className='cart-main relative'>
-                    <Link to={isLogin ? '/cart' : '#'} onClick={isLogin ? undefined : handleRedirectCart}>
+                    <Link to={'/cart'}>
                         <PiHandbagSimpleThin className='font-bold' />
                     </Link>
-                    {carts?.length > 0 && accessToken ? (<span className='absolute show-count'>{carts?.length}</span>) : ("")}
+                    {carts?.length >= 0 && accessToken ? (<span className='absolute show-count'>{carts?.length}</span>) : ("")}
                 </div>
             </div>
         </div >

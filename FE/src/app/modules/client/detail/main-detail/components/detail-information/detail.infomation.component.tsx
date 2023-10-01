@@ -6,9 +6,8 @@ import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
 import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.data'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
-import { addProductToCart } from '~/app/api/cart/cart.api'
-import { Modal, message } from 'antd'
-import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
+import { addProductToCarts } from '~/app/api/cart/cart.api'
+import { message } from 'antd'
 import { AiOutlineHeart, AiOutlineDownCircle } from "react-icons/ai";
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -17,10 +16,6 @@ interface DetailInformation { }
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const { data: { product: productDetail } } = useProductRedux()
   const navigate = useNavigate()
-  const {
-    data: { isLogin },
-    actions: authAction
-  } = useAuthRedux()
   const { actions } = useCartRedux()
   const [quantity, setQuantity] = useState(1)
   const [colorSelect, setColorSelect] = useState<any>()
@@ -75,21 +70,19 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   }, [colorSelect, sizeSelect])
 
   const handelAddProductToCart = () => {
+    const accessToken = localStorage.getItem("accessToken")
+    if (!accessToken) {
+      messageApi.error("bạn chưa đăng nhập tài khoản")
+      setTimeout(() => {
+        navigate("/customer/login")
+      }, 2000)
+    }
     if (!colorSelect || !sizeSelect) {
       messageApi.error('Vui lòng chọn thông tin')
       return
     }
 
-    if (isLogin) {
-      const requestProduct = {
-        product: productDetail,
-        quantityOrder: {
-          quantity,
-          nameColor: colorSelect.nameColor,
-          nameSize: sizeSelect.nameSize
-        }
-      }
-      actions.addProductToCart(requestProduct)
+    if (accessToken) {
 
       const requestApiCart = {
         productId: productDetail._id,
@@ -99,18 +92,26 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           nameSize: sizeSelect.nameSize
         }
       }
-      addProductToCart(requestApiCart)
-      toast.success('thêm vào giỏ hàng thành công')
+      addProductToCarts(requestApiCart).then((res) => {
+        if (res) {
+          const requestProduct = {
+            product: productDetail,
+            quantityOrder: {
+              quantity,
+              nameColor: colorSelect.nameColor,
+              nameSize: sizeSelect.nameSize
+            }
+          }
+          actions.addProductToCart(requestProduct)
+          toast.success('thêm vào giỏ hàng thành công')
+        }
+        else {
+          toast.error("lỗi khi thêm sản phẩm vào giỏ hàng")
+        }
+      })
+
     }
-    if (!isLogin) {
-      messageApi.error("bạn chưa đăng nhập tài khoản")
-      setTimeout(() => {
-        navigate("/customer/login")
-      }, 2000)
-    }
-    else {
-      authAction.checkLoginLink("/cart")
-    }
+
   }
 
   return (

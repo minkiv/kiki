@@ -6,6 +6,8 @@ import DefaultAuthentication from './app/container/default-authentication/defaul
 import ForgotPassword from './app/modules/client/accountLogin/forgotPassword.component'
 import Login from './app/modules/client/accountLogin/login.component'
 import Register from './app/modules/client/accountLogin/register.component'
+import { adminRouter } from './app/modules/admin/router'
+import DefaultAdmin from './app/container/defaul-admin/defaul-admin.component'
 
 function App() {
   let element: any = useRoutes([
@@ -17,6 +19,11 @@ function App() {
           path: '',
           element: <DefaultHome />,
           children: clientRouter
+        },
+        {
+          path: 'admin',
+          element: <DefaultAdmin />,
+          children: adminRouter
         },
         {
           path: 'customer',

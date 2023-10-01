@@ -11,6 +11,7 @@ import { useCartRedux } from '../redux/hook/useCartReducer'
 import toast from 'react-hot-toast'
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component'
 import { useNavigate } from 'react-router-dom'
+import { Skeleton } from 'antd'
 
 interface CheckOutProps {
     props?: any
@@ -18,6 +19,7 @@ interface CheckOutProps {
 
 const CheckOut: FunctionComponent<CheckOutProps> = () => {
     const [loadingCreate, setLoadingCreate] = useState(false)
+    const accessToken = localStorage.getItem("accessToken")
     const navigate = useNavigate()
     const {
         data: { listProductBuy }
@@ -49,21 +51,25 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
         })
     }
     return (
-        <LayoutLoading condition={loadingCreate}>
-            <div css={checkoutcss}>
-                <form action="" onSubmit={handleSubmit(onSubmit)}>
-                    <div className='flex justify-center'>
-                        <div className='flex w-[64%]'>
-                            <Shipping control={control} />
-                            <Payments />
+        <>
+            {accessToken ? (<LayoutLoading condition={loadingCreate}>
+                <div css={checkoutcss}>
+                    <form action="" onSubmit={handleSubmit(onSubmit)}>
+                        <div className='flex justify-center'>
+                            <div className='flex w-[64%]'>
+                                <Shipping control={control} />
+                                <Payments />
+                            </div>
+                            <div className='w-[25%]'>
+                                <SidePayment />
+                            </div>
                         </div>
-                        <div className='w-[25%]'>
-                            <SidePayment />
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </LayoutLoading>
+                    </form>
+                </div>
+            </LayoutLoading>) : (<Skeleton active />)}
+
+        </>
+
 
     )
 }
