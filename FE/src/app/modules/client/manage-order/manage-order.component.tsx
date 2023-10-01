@@ -10,19 +10,11 @@ interface ManageOrderProps {
 }
 
 const ManageOrder: FunctionComponent<ManageOrderProps> = () => {
-    const {
-        data: { isLogin },
-        actions: actionsAuth
-    } = useAuthRedux()
-    useEffect(() => {
-        if (!isLogin) {
-            actionsAuth.checkLoginLink("/manage")
-        }
-    }, [])
+    const accessToken = localStorage.getItem("accessToken")
     return (
         <>
             {
-                isLogin ? (
+                accessToken ? (
                     <div css={cssManageOrder} className='w-[1440px] m-auto flex mt-16' >
                         <div>
                             <MenuSideBar />

@@ -143,7 +143,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
           }
         })
       },
-      onCancel() {}
+      onCancel() { }
     })
   }
 
@@ -209,10 +209,10 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                       >
                         <div className='sm:px-3'>
                           <span className='mr-2'>Màu:</span>
-                          <span className='product-real-prices'>{item?.quantityOrder.nameColor}</span>
+                          <span className='product-real-prices'>{item?.quantityOrder?.nameColor}</span>
                         </div>
                         <span className='mr-2'>Kích cỡ:</span>
-                        <div className='product-real-prices'>{item?.quantityOrder.nameSize}</div>
+                        <div className='product-real-prices'>{item?.quantityOrder?.nameSize}</div>
                       </div>
                     </div>
                     {showPopupSelect.index === index && showPopupSelect.show && (
@@ -225,26 +225,23 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                             <div className='mt-3 sm:flex max-sm:flex items-center'>
                               {getListColor(item, 'cart')?.map((item: any) => (
                                 <div
-                                  key={item.id}
-                                  className={`p-3 border rounded-md  mr-4 cursor-pointer ${
-                                    colorSelect?.nameColor === item.nameColor && 'bg-red-100 border-red-600'
-                                  } ${
-                                    !checkQuantityType
+                                  key={item?.id}
+                                  className={`p-3 border rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item?.nameColor && 'bg-red-100 border-red-600'
+                                    } ${!checkQuantityType
                                       ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
-                                      .includes(item.nameColor) &&
-                                    checkQuantityType.length > 0 &&
+                                      .includes(item?.nameColor) &&
+                                    checkQuantityType?.length > 0 &&
                                     item.quantity === 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
-                                  }
-                      ${
-                        Number(item.quantity) === 0 &&
-                        checkQuantityType.length === 0 &&
-                        'bg-slate-100 pointer-events-none text-gray-400'
-                      }
+                                    }
+                      ${Number(item.quantity) === 0 &&
+                                    checkQuantityType.length === 0 &&
+                                    'bg-slate-100 pointer-events-none text-gray-400'
+                                    }
                         `}
-                                  onClick={() => handleSelectColor(item.id)}
+                                  onClick={() => handleSelectColor(item?.id)}
                                 >
-                                  {item.nameColor}
+                                  {item?.nameColor}
                                 </div>
                               ))}
                             </div>
@@ -257,18 +254,16 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                               {getListSize(item, 'cart')?.map((item: any) => (
                                 <div
                                   key={item.id}
-                                  className={`p-3 border rounded-md mr-4 cursor-pointer ${
-                                    sizeSelect?.nameSize === item.nameSize && 'bg-red-100 border-red-600'
-                                  } ${
-                                    !checkQuantityType
+                                  className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.nameSize === item?.nameSize && 'bg-red-100 border-red-600'
+                                    } ${!checkQuantityType
                                       ?.flatMap((itemType: any) => itemType?.nameSize)
-                                      .includes(item.nameSize) &&
+                                      .includes(item?.nameSize) &&
                                     checkQuantityType.length > 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
-                                  }`}
-                                  onClick={() => handleSelectSize(item.id)}
+                                    }`}
+                                  onClick={() => handleSelectSize(item?.id)}
                                 >
-                                  {item.nameSize}
+                                  {item?.nameSize}
                                 </div>
                               ))}
                             </div>
@@ -301,15 +296,15 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                       clickProductDetail
                         ? colorSelect
                         : item?.product?.listQuantityRemain.find(
-                            (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
-                          ) || {}
+                          (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
+                        ) || {}
                     }
                     sizeSelect={
                       clickProductDetail
                         ? sizeSelect
                         : item?.product?.listQuantityRemain.find(
-                            (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
-                          ) || {}
+                          (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
+                        ) || {}
                     }
                   />
                 </div>

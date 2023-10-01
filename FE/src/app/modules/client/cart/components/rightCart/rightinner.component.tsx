@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useCartRedux } from '../../../redux/hook/useCartReducer'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 interface RightCartProps {
   props?: any
@@ -26,7 +26,7 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
     }
   }, [listProductBuy]);
   const handelNavigate = () => {
-    if (!checkProductBuy) {
+    if (listProductBuy.length == 0) {
       toast.error("chưa chọn mua sản phẩm nào")
     }
     else {
