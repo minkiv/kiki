@@ -42,7 +42,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
                     setLoadingCreate(false)
                     localStorage.removeItem("listSelectCart")
                     toast.success('tạo đơn hàng thành công')
-                    navigate("/manage")
+                    navigate("/thankcustomers")
                 }, 4000)
             }
             else {
