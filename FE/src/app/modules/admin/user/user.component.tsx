@@ -1,9 +1,20 @@
-import { FunctionComponent } from 'react'
+import { useEffect, useState } from "react"
+import TemplateTable from "../common/template-table/template-table.component"
+import { getAllUser } from "./service/user.service"
 
-interface UserManagemnetProps { }
 
-const UserManagemnet: FunctionComponent<UserManagemnetProps> = () => {
-  return <div className=''>User</div>
+const UserManagemnet = () => {
+  const [dataUser, setDataUser] = useState([])
+  useEffect(() => {
+    getAllUser().then((res) =>{
+      setDataUser(res.data)
+    })
+  }, [])
+  return (
+    <div>
+      <TemplateTable dataTable={dataUser} />
+    </div>
+  )
 }
 
 export default UserManagemnet

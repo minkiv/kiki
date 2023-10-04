@@ -34,7 +34,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                     </thead>
                     <tbody>
                         {orders.map((order: any, index: any) => {
-                            const totalAmount = order.productOrder.reduce((total: any, product: any) => total + (product.quantityOrder.quantity * product.product.price), 0);
+                            const totalAmount = order?.productOrder?.reduce((total: any, product: any) => total + (product?.quantityOrder?.quantity * product?.product?.price), 0);
                             return (
                                 <tr key={order?._id}>
                                     <td>{index + 1}</td>
