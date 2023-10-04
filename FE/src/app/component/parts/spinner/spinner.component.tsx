@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-export const Spinner = () => {
+interface ISpinner {
+    title?: any
+}
+
+export const Spinner: FC<ISpinner> = ({title}) => {
     return (
         <div aria-label='Loading...' role='status' className='flex items-center space-x-2'>
             <svg className='h-20 w-20 animate-spin stroke-white' viewBox='0 0 256 256'>
@@ -61,7 +65,7 @@ export const Spinner = () => {
                     stroke-width='24'
                 ></line>
             </svg>
-            <span className='text-4xl font-medium text-white'>Đang xử lý...</span>
+            <span className='text-4xl font-medium text-white'>{title}</span>
         </div>
     )
 }

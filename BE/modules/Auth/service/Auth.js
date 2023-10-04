@@ -21,3 +21,8 @@ export const signin = async (req) => {
     const auth = { user, accessToken: token }
     return auth
 }
+
+export const getAllUsers = async(req) => {
+    const users = await Auth.find()
+    return users
+}

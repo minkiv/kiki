@@ -13,7 +13,7 @@ const LayoutLoading: FC<PropTypes> = ({ condition, children }) => {
             {condition && (
                 <div css={cssLayoutLoading}>
                     <div className='spinner'>
-                        <Spinner />
+                        <Spinner title={"Đang xử lý..."} />
                     </div>
                 </div>
             )}

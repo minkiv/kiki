@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post('/register', authController.registers)
 router.post('/signin', authController.signIn)
+router.get('/', authController.getAllUser)
 
 export default router
 
