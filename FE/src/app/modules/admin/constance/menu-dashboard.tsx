@@ -1,9 +1,9 @@
 import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    UploadOutlined,
+    FileOutlined,
     UserOutlined,
-    VideoCameraOutlined
+    OrderedListOutlined,
+    ShoppingCartOutlined
+    
 } from '@ant-design/icons'
 
 export const menuDashBoard = [
@@ -13,13 +13,19 @@ export const menuDashBoard = [
         label: 'User'
     },
     {
+        key: '/admin/category',
+        icon: <FileOutlined />,
+        label: 'Category'
+    },
+    {
         key: '/admin/product',
-        icon: <VideoCameraOutlined />,
+        icon: <OrderedListOutlined />,
         label: 'Product'
     },
     {
         key: '/admin/order',
-        icon: <UploadOutlined />,
+        icon: <ShoppingCartOutlined/>,
         label: 'Order'
-    }
+    },
+
 ]

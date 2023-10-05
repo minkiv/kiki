@@ -2,6 +2,7 @@ import { RouteObject } from 'react-router-dom'
 import UserManagemnet from './user/user.component'
 import OrderManagement from './order/order.component'
 import ProductManagement from './product/product.component'
+import CategoryManagement from './category/category.component'
 
 export const adminRouter: RouteObject[] = [
     {
@@ -10,12 +11,18 @@ export const adminRouter: RouteObject[] = [
         children: []
     },
     {
-        path: 'product',
+        path: 'order',
         element: <OrderManagement />,
         children: []
     },
     {
-        path: 'order',
+        path: 'category',
+        element: <CategoryManagement />,
+        children: []
+    },
+    
+    {
+        path: 'product',
         element: <ProductManagement />,
         children: []
     }
