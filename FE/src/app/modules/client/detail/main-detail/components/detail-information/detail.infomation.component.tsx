@@ -8,13 +8,15 @@ import { getListColor, getListSize } from '~/app/modules/client/helper/tranform.
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { addProductToCarts } from '~/app/api/cart/cart.api'
 import { message } from 'antd'
-import { AiOutlineHeart, AiOutlineDownCircle } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineDownCircle, AiOutlineUpCircle } from 'react-icons/ai'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
-interface DetailInformation { }
+interface DetailInformation {}
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
-  const { data: { product: productDetail } } = useProductRedux()
+  const {
+    data: { product: productDetail }
+  } = useProductRedux()
   const navigate = useNavigate()
   const { actions } = useCartRedux()
   const [quantity, setQuantity] = useState(1)
@@ -25,6 +27,9 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const [listColor, setListColor] = useState([])
   const [listSize, setListSize] = useState([])
   const [messageApi, contextHolder] = message.useMessage()
+  const [showInfo, setIsShowInfo] = useState()
+  const [optionInfo, setOptionInfo] = useState('intro')
+  const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
     window.scrollTo({
@@ -38,6 +43,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
     const tempSize = getListSize(productDetail)
     setListColor(tempColor)
     setListSize(tempSize)
+    setIsShowInfo(productDetail?.description)
   }, [productDetail])
 
   const handleSelectColor = (colorId: any) => {
@@ -70,11 +76,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   }, [colorSelect, sizeSelect])
 
   const handelAddProductToCart = () => {
-    const accessToken = localStorage.getItem("accessToken")
+    const accessToken = localStorage.getItem('accessToken')
     if (!accessToken) {
-      messageApi.error("bạn chưa đăng nhập tài khoản")
+      messageApi.error('bạn chưa đăng nhập tài khoản')
       setTimeout(() => {
-        navigate("/customer/login")
+        navigate('/customer/login')
       }, 2000)
     }
     if (!colorSelect || !sizeSelect) {
@@ -83,7 +89,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
     }
 
     if (accessToken) {
-
       const requestApiCart = {
         productId: productDetail._id,
         quantityOrder: {
@@ -104,14 +109,17 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           }
           actions.addProductToCart(requestProduct)
           toast.success('thêm vào giỏ hàng thành công')
-        }
-        else {
-          toast.error("lỗi khi thêm sản phẩm vào giỏ hàng")
+        } else {
+          toast.error('lỗi khi thêm sản phẩm vào giỏ hàng')
         }
       })
-
     }
-
+  }
+  const changeInfo = (type: any) => {
+    setOptionInfo(type)
+    if (type === 'intro') setIsShowInfo(productDetail?.description)
+    if (type === 'detail') setIsShowInfo(productDetail?.detail)
+    if (type === 'protect') setIsShowInfo(productDetail?.protect)
   }
 
   return (
@@ -154,11 +162,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   {listColor?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${colorSelect?.id === item.id && 'bg-red-100 border-red-600'
-                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
+                        colorSelect?.id === item.id && 'bg-red-100 border-red-600'
+                      } ${
+                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                        }`}
+                      }`}
                       onClick={() => handleSelectColor(item.id)}
                     >
                       {item.nameColor}
@@ -174,11 +184,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   {listSize?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
-                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
+                        sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                      } ${
+                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                        }`}
+                      }`}
                       onClick={() => handleSelectSize(item.id)}
                     >
                       {item.nameSize}
@@ -220,24 +232,29 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
               <AiOutlineHeart />
             </ButtonSqua>
           </div>
-
           <div className='mt-[80px]'>
             <div className='tab-header flex space-x-8 '>
-              <div className='active'>GIỚI THIỆU</div>
-              <div>CHI TIẾT SẢN PHẨM</div>
-              <div>BẢO QUẢN</div>
+              <div className={optionInfo === 'intro' ? 'active' : ''} onClick={() => changeInfo('intro')}>
+                GIỚI THIỆU
+              </div>
+              <div className={optionInfo === 'detail' ? 'active' : ''} onClick={() => changeInfo('detail')}>
+                CHI TIẾT SẢN PHẨM
+              </div>
+              <div className={optionInfo === 'protect' ? 'active' : ''} onClick={() => changeInfo('protect')}>
+                BẢO QUẢN
+              </div>
             </div>
             <div className='tab-body pt-6'>
-              <div className=''>
-                Thiết kế áo Tapta trễ vai là một lựa chọn thời trang đầy cuốn hút và quyến rũ cho các cô gái yêu thích
-                phong cách nữ tính và hiện đại. Với chất liệu vải Tapta cao cấp, sản phẩm mang lại sự mềm mại, êm ái và
-                bóng bẩy cho người mặc.
-              </div>
-              <div className='h-[2px] bg-gray-300 flex items-center'>
-                <a className='mx-auto bg-white text-[34px]  text-gray-300 '>
-                  <AiOutlineDownCircle />
-                </a>
-              </div>
+              <div className={hidden ? `tab-body pt-6` : 'tab-body pt-6 h-[100px] overflow-hidden'}>{showInfo}</div>
+            </div>
+            <div className='h-[2px] bg-gray-300 flex items-center '>
+              <a className='mx-auto bg-white text-[34px]  text-gray-300 '>
+                {hidden ? (
+                  <AiOutlineUpCircle onClick={() => setHidden(!hidden)} />
+                ) : (
+                  <AiOutlineDownCircle onClick={() => setHidden(!hidden)} />
+                )}
+              </a>
             </div>
           </div>
         </div>
