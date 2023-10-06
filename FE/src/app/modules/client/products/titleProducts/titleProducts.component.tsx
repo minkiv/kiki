@@ -43,4 +43,23 @@ width:1440px;
     font-size: 17px;
     line-height: 24px
 }
+@media (min-width: 0) and (max-width: 739px){    
+    .arrival{
+        text-align: center; 
+        padding-left:15px;
+    }
+    .arrival_link{
+        font-size: 15px;    
+    }
+}
+@media (min-width: 740px) and (max-width: 1023px) {
+    .arrival{
+        text-align: center; 
+        padding-left:15px;
+    }
+    .arrival_link{
+        font-size: 15px;    
+    }
+}
+
 `
