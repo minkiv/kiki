@@ -68,8 +68,8 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
             <div css={cssMenu} className='space-x-8'>
                 <div><Link className='hover:text-red-500' to={'/'}>TRANG CHỦ</Link></div>
                 <div><Link className='hover:text-red-500' to={'/products'}>SẢN PHẨM</Link></div>
-                <div><Link className='hover:text-red-500' to={'/'}>GIỚI THIỆU</Link></div>
-                <div><Link className='hover:text-red-500' to={'/'}>LIÊN HỆ</Link></div>
+                <div><Link className='hover:text-red-500' to={'/LifeStyle'}>THÀNH TỰU</Link></div>
+                <div><Link className='hover:text-red-500' to={'/Contacts'}>LIÊN HỆ</Link></div>
                 <div className='title'><Link className='hover:text-red-500' to={'/'}>VỀ CHÚNG TÔI</Link>
                     <div className='news-product'>
                         <Link to={'/general'} className='py-4 font-semibold'> Về Ivy modar</Link >
