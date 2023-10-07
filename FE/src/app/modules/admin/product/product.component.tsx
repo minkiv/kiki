@@ -1,9 +1,84 @@
-import { FunctionComponent } from 'react'
+import { Form, Input, Select } from 'antd'
+import { Fragment, useEffect, useState } from 'react'
+import TemplateTable from "../common/template-table/template-table.component"
 
-interface ProductManagementProps { }
+import { getAllProduct } from './service/product.service'
 
-const ProductManagement: FunctionComponent<ProductManagementProps> = () => {
-    return <div className=''>ProductManagement</div>
+
+const ProductManagemnet = () => {
+    const [column, setColumn] = useState([])
+    const [dataProduct, setDataProduct] = useState<any>([])
+    useEffect(() => {
+        getAllProduct().then((res) => {
+            setDataProduct(res.data)
+        })
+    }, [])
+
+    useEffect(() => {
+        const columTemp: any = []
+        if (dataProduct.length > 0) {
+            Object?.keys(dataProduct[0]).map((itemKey) => {
+                if (!['_id', '__v', 'password', 'createdAt','listQuantityRemain'].includes(itemKey)) {
+                    return columTemp.push({
+                        title: itemKey,
+                        dataIndex: itemKey,
+                        key: itemKey
+                    })
+                }
+            }
+            )
+        }
+        setColumn(columTemp)
+    }, [dataProduct])
+    return (
+        <div>
+            <TemplateTable dataTable={dataProduct} columnTable={column}
+                formEdit={
+                    <Fragment>
+                        <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
+                            <Input />
+                        </Form.Item>
+                        {/* <Form.Item label='Role' name='role' rules={[{ required: true, message: 'Please input your username!' }]}>
+                            <Select placeholder='Please select'>
+                                <Option value='ADMIN'>ADMIN</Option>
+                                <Option value='USER_STORE'>USER_STORE</Option>
+                                <Option value='USER'>USER</Option>
+                            </Select>
+                        </Form.Item> */}
+
+                        <Form.Item
+                            label='PhoneNumber'
+                            name='phoneNumber'
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label='nickName'
+                            name='nickName'
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label='gender'
+                            name='gender'
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label='nationality'
+                            name='nationality'
+                            rules={[{ required: true, message: 'Please input your password!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                    </Fragment>
+                }
+            />
+        </div>
+    )
 }
 
-export default ProductManagement
+export default ProductManagemnet
