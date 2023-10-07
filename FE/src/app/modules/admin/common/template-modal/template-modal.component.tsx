@@ -5,28 +5,15 @@ interface ITemplateModel {
     isModelOpen: boolean,
     handleOk(): void
     handleCancel(): void
+    children?: any
 }
 
 
-const TemplateModal: FC<ITemplateModel> = ({isModelOpen, handleOk,handleCancel}) => {
-    // const showModal = () => {
-    //     setIsModalOpen(true);
-    // };
-
-    // const handleOk = () => {
-    //     setIsModalOpen(false);
-    // };
-
-    // const handleCancel = () => {
-    //     setIsModalOpen(false);
-    // };
-
+const TemplateModal: FC<ITemplateModel> = ({ isModelOpen, handleOk, handleCancel, children }) => {
     return (
         <>
             <Modal title="Basic Modal" open={isModelOpen} onOk={handleOk} onCancel={handleCancel}>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                {children}
             </Modal>
         </>
     );
