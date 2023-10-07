@@ -13,12 +13,11 @@ const ProductManagemnet = () => {
             setDataProduct(res.data)
         })
     }, [])
-
     useEffect(() => {
         const columTemp: any = []
         if (dataProduct.length > 0) {
             Object?.keys(dataProduct[0]).map((itemKey) => {
-                if (!['_id', '__v', 'password', 'createdAt','listQuantityRemain'].includes(itemKey)) {
+                if (!['_id', '__v', 'password', 'createdAt', 'listQuantityRemain'].includes(itemKey)) {
                     return columTemp.push({
                         title: itemKey,
                         dataIndex: itemKey,
@@ -27,6 +26,24 @@ const ProductManagemnet = () => {
                 }
             }
             )
+        }
+        if (dataProduct[0]?.listQuantityRemain && dataProduct[0]?.listQuantityRemain.length > 0) {
+            const firstItem = dataProduct[0].listQuantityRemain[0];
+            if (firstItem) {
+                Object.keys(firstItem).forEach((itemKey) => {
+                    if (!['_id', 'createdAt'].includes(itemKey)) {
+                        columTemp.push({
+                            title: `${itemKey}`,
+                            dataIndex: `${itemKey}`,
+                            key: `${itemKey}`,
+                            render: (text: any, record: any, index: any) => {
+                                return dataProduct[index]?.listQuantityRemain.map((item: any) => item[itemKey]).join(', ');
+                            }
+                        });
+                    }
+
+                });
+            }
         }
         setColumn(columTemp)
     }, [dataProduct])
