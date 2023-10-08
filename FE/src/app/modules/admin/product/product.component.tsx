@@ -13,15 +13,29 @@ const ProductManagemnet = () => {
             setDataProduct(res.data)
         })
     }, [])
+
+
     useEffect(() => {
         const columTemp: any = []
         if (dataProduct.length > 0) {
             Object?.keys(dataProduct[0]).map((itemKey) => {
-                if (!['_id', '__v', 'password', 'createdAt', 'listQuantityRemain'].includes(itemKey)) {
+                if (!['_id', '__v', 'updatedAt', 'listQuantityRemain'].includes(itemKey)) {
                     return columTemp.push({
                         title: itemKey,
                         dataIndex: itemKey,
-                        key: itemKey
+                        key: itemKey,
+                        render: (text: any, record: any, index: any) => {
+                            if (itemKey === 'images' && dataProduct[index]?.images && dataProduct[index].images.length > 0) {
+                                return (
+                                    <img
+                                        src={dataProduct[index].images[0]}
+                                        alt="Product Image"
+                                        style={{ maxWidth: '50px' }}
+                                    />
+                                );
+                            }
+                            return text;
+                        },
                     })
                 }
             }
@@ -31,7 +45,7 @@ const ProductManagemnet = () => {
             const firstItem = dataProduct[0].listQuantityRemain[0];
             if (firstItem) {
                 Object.keys(firstItem).forEach((itemKey) => {
-                    if (!['_id', 'createdAt'].includes(itemKey)) {
+                    if (!['_id', 'updatedAt'].includes(itemKey)) {
                         columTemp.push({
                             title: `${itemKey}`,
                             dataIndex: `${itemKey}`,

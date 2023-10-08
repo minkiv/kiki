@@ -59,12 +59,14 @@ const TemplateTable: FC<ITemplateTableProp> = ({ dataTable, createFunc, deleteFu
                         if (res) {
                             setTimeout(() => {
                                 setTriggerLoadding(false)
+                                message.success("thêm thành công")
                             }, 1000)
                         }
                     },
                     (err: any) => {
                         setTimeout(() => {
                             setTriggerLoadding(false)
+                            message.error(" thêm thất bại")
                         }, 1000)
                     }
                 )
@@ -83,12 +85,14 @@ const TemplateTable: FC<ITemplateTableProp> = ({ dataTable, createFunc, deleteFu
                             if (res) {
                                 setTimeout(() => {
                                     setTriggerLoadding(false)
+                                    message.success("sửa thành công")
                                 }, 1000)
                             }
                         },
                         (err: any) => {
                             setTimeout(() => {
                                 setTriggerLoadding(false)
+                                message.error(" sửa thất bại")
                             }, 1000)
                         }
                     )
