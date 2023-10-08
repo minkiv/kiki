@@ -278,7 +278,7 @@ const Register: FunctionComponent<RegisterProps> = () => {
                       ref={ref}
                       hasErorr={error}
                     />
-                    {error && <span className='text-red-600 mt-3 mb-3 text-[1.2rem]'>Mật khẩu không khớp </span>}
+                    {error && <span className='text-red-600 mt-3 mb-3 text-[1.2rem]'>{error.message}</span>}
                   </div>
                 )
               }}
