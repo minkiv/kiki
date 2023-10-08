@@ -1,4 +1,3 @@
-import { type } from 'os'
 import React, { Children, FunctionComponent } from 'react'
 import { css } from '@emotion/react'
 interface ButtonComponent {
@@ -7,11 +6,12 @@ interface ButtonComponent {
   children?: React.ReactNode
   outline?: boolean
   onClick?: any
+  type?: any
 }
 
-const ButtonSqua: FunctionComponent<ButtonComponent> = ({ children, className, outline = false, onClick }) => {
+const ButtonSqua: FunctionComponent<ButtonComponent> = ({ children, className, outline = false, onClick, type }) => {
   return (
-    <button css={cssButton(outline)} className={className} onClick={onClick}>
+    <button css={cssButton(outline)} className={className} onClick={onClick} type={type}>
       {children}
     </button>
   )

@@ -12,6 +12,8 @@ import CommunityActivities from './aboutUs/communityActivities.component'
 import ThankCustomers from './thank-Customers/thankCustomers.component'
 import LifeStyle from './lifeStyle/lifeStyle.component'
 import Contacts from './contact/contact.component'
+import Support from './support/support.component'
+import ManageInfoCustomer from './manager-info-customer/manage-info-customer.component'
 
 export const clientRouter: RouteObject[] = [
   {
@@ -65,6 +67,14 @@ export const clientRouter: RouteObject[] = [
   {
     path: "/Contacts",
     element: <Contacts />
+  },
+  {
+    path: "/support",
+    element: <Support />
+  },
+  {
+    path: "/manage-info",
+    element: <ManageInfoCustomer />
   },
 ]
 

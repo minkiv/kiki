@@ -1,11 +1,19 @@
 import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
+import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
 
 interface MenuSideBarProps {
     props?: any
 }
 
 const MenuSideBar: FunctionComponent<MenuSideBarProps> = () => {
+    const { data: { user }, actions } = useAuthRedux();
+    const id = localStorage.getItem('userID')
+    useEffect(() => {
+        if (id) {
+            actions.getOneUser(id)
+        }
+    }, [id])
     return (
         <div css={cssMenuSideBar} className='w-[200px]'>
             <div className='flex items-center'>
@@ -13,20 +21,20 @@ const MenuSideBar: FunctionComponent<MenuSideBarProps> = () => {
                     <img src="https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg" alt="" className='w-[50px]' />
                 </div>
                 <div>
-                    <p className='font-semibold text-[15px] px-4'>xin chào</p>
+                    <p className='font-semibold text-[15px] px-4'>{user?.fullname}</p>
                 </div>
             </div>
 
             <div>
                 <ul>
                     <li>
-                        Thông tin tài khoản
+                        <a href="/manage-info">Thông tin tài khoản</a>
                     </li>
                     <li>
-                        Quản lý đơn hàng
+                        <a href="/manage">Quản lý đơn hàng</a>
                     </li>
                     <li>
-                        Hỗ trợ
+                        <a href="/support">Hỗ trợ</a>
                     </li>
 
                 </ul>

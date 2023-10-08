@@ -22,7 +22,11 @@ export const signin = async (req) => {
     return auth
 }
 
-export const getAllUsers = async(req) => {
+export const getAllUsers = async (req) => {
     const users = await Auth.find()
+    return users
+}
+export const getOneUsers = async (req) => {
+    const users = await Auth.findById(req.params.id)
     return users
 }

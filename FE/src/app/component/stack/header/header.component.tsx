@@ -138,7 +138,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                                     <li>
                                         <button >
                                             <p className='hover:text-red-500 font-normal text-[15px] py-3' onClick={handleLoginLogout}>Đăng xuất</p>
-                                            <Link to={"/manage"}><p className='hover:text-red-500 font-normal text-[15px] py-3'>Quản lý </p></Link>
+                                            <Link to={"/manage-info"}><p className='hover:text-red-500 font-normal text-[15px] py-3'>Quản lý </p></Link>
                                         </button>
                                     </li>
                                 </ul>
