@@ -3,12 +3,11 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 export const register = async (dataBody) => {
-    const { password, email, phoneNumber } = dataBody
+    const { password } = dataBody
     const bcryptPassword = await bcrypt.hash(password, 10)
     const user = await Auth.create({
-        password: bcryptPassword,
-        email,
-        phoneNumber
+        ...dataBody,
+        password: bcryptPassword
     })
     return user
 }
@@ -29,4 +28,8 @@ export const getAllUsers = async (req) => {
 export const getOneUsers = async (req) => {
     const users = await Auth.findById(req.params.id)
     return users
+}
+export const deleteUsers = async (req) => {
+    const remove = await Auth.findByIdAndDelete(req.params.id)
+    return remove
 }

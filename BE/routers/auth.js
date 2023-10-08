@@ -7,5 +7,7 @@ router.post('/register', authController.registers)
 router.post('/signin', authController.signIn)
 router.get('/', authController.getAllUser)
 router.get('/:id', authController.getOneUser)
+router.delete('/:id', authController.deleteUser)
+
 export default router
 

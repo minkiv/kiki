@@ -21,7 +21,7 @@ const DefaultAdmin: React.FC = () => {
     return (
         <Layout style={{ height: '100vh' }}>
             <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div css={cssLogoAdmin}>LOGO</div>
+                <div css={cssLogoAdmin}><img src="https://media.licdn.com/dms/image/C5616AQFKA9K5XNDHng/profile-displaybackgroundimage-shrink_200_800/0/1635300349670?e=2147483647&v=beta&t=dJrpp04w-OXIfj7vAS9pqfgsizt5TRlVNU1hXCDaf0A" alt="" /></div>
                 <Menu
                     theme='dark'
                     mode='inline'
@@ -68,7 +68,7 @@ export default DefaultAdmin
 const cssLogoAdmin = css`
   color: white;
   margin: 10px;
-  padding: 20px 10px;
+  padding: 10px 10px;
   text-align: center;
-  background-color: #ffffff44;
+  background-color: white;
 `

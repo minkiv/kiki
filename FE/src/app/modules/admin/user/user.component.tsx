@@ -1,7 +1,7 @@
 import { Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from "../common/template-table/template-table.component"
-import { getAllUser } from "./service/user.service"
+import { createUser, deleteUser, getAllUser } from "./service/user.service"
 
 
 const UserManagemnet = () => {
@@ -13,11 +13,12 @@ const UserManagemnet = () => {
     })
   }, [])
 
+
   useEffect(() => {
     const columTemp: any = []
     if (dataUser.length > 0) {
       Object?.keys(dataUser[0]).map((itemKey) => {
-        if (!['_id', '__v', 'password', 'createdAt'].includes(itemKey)) {
+        if (!['_id', '__v', 'password', 'updatedAt', 'nationality'].includes(itemKey)) {
           return columTemp.push({
             title: itemKey,
             dataIndex: itemKey,
@@ -31,20 +32,26 @@ const UserManagemnet = () => {
   }, [dataUser])
   return (
     <div>
-      <TemplateTable dataTable={dataUser} columnTable={column}
+      <TemplateTable dataTable={dataUser} columnTable={column} createFunc={createUser} deleteFunc={deleteUser}
         formEdit={
           <Fragment>
-            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]} >
               <Input />
             </Form.Item>
             <Form.Item label='Role' name='role' rules={[{ required: true, message: 'Please input your username!' }]}>
               <Select placeholder='Please select'>
-                <Option value='ADMIN'>ADMIN</Option>
-                <Option value='USER_STORE'>USER_STORE</Option>
-                <Option value='USER'>USER</Option>
+                <Select.Option value='ADMIN'>ADMIN</Select.Option>
+                <Select.Option value='USER_STORE'>USER_STORE</Select.Option>
+                <Select.Option value='USER'>USER</Select.Option>
               </Select>
             </Form.Item>
-
+            <Form.Item
+              label='password'
+              name='password'
+              rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+              <Input />
+            </Form.Item>
             <Form.Item
               label='PhoneNumber'
               name='phoneNumber'
@@ -53,8 +60,8 @@ const UserManagemnet = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              label='nickName'
-              name='nickName'
+              label='nickname'
+              name='nickname'
               rules={[{ required: true, message: 'Please input your password!' }]}
             >
               <Input />
@@ -67,8 +74,8 @@ const UserManagemnet = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              label='nationality'
-              name='nationality'
+              label='address'
+              name='address'
               rules={[{ required: true, message: 'Please input your password!' }]}
             >
               <Input />
