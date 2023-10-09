@@ -1,76 +1,86 @@
-import { css } from '@emotion/react';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { css } from '@emotion/react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { BsArrowLeftCircle } from 'react-icons/bs'
+import { Link, useNavigate } from 'react-router-dom'
 
 interface ThankCustomersProps {}
 
 const ThankCustomers: FunctionComponent<ThankCustomersProps> = () => {
-    const [countdown, setCountdown] = useState(10);
-    const navigate = useNavigate()
+  const [countdown, setCountdown] = useState(10)
+  const navigate = useNavigate()
 
-    useEffect(() => {
-      const countdownInterval = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          if (prevCountdown === 0) {
-            clearInterval(countdownInterval);
-            navigate("/")
-            return prevCountdown;
-          } else {
-            return prevCountdown - 1;
-          }
-        });
-      }, 1000);
-    
-      return () => clearInterval(countdownInterval);
-    }, []);
-    console.log(countdown)
+  useEffect(() => {
+    const countdownInterval = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown === 0) {
+          clearInterval(countdownInterval)
+          navigate('/')
+          return prevCountdown
+        } else {
+          return prevCountdown - 1
+        }
+      })
+    }, 1000)
+
+    return () => clearInterval(countdownInterval)
+  }, [])
+  console.log(countdown)
   return (
     <div css={cssmain} className='container mx-auto px-4 mt-5'>
       <div className='grid'>
         <div className='thankyou'>
-            <img  src='https://video-public.canva.com/VADn8cjyIzc/videos/f772cf2eb6.gif' alt='' />
+          <img src='https://video-public.canva.com/VADn8cjyIzc/videos/f772cf2eb6.gif' alt='' />
         </div>
         <h3 className='name'>
           <b>IVY</b>moda
         </h3>
         <div className='flex justify-between'>
-            <div>
-            <img className='ml-5 w-20 h-50 max-sm:hidden max-xl:block' src='https://media-public.canva.com/S6_4E/MAEW7yS6_4E/1/tl.png' alt='' />
-            </div>
-            <div className='flex-1'>
+          <div>
+            <img
+              className='ml-5 w-20 h-50 max-sm:hidden max-xl:block'
+              src='https://media-public.canva.com/S6_4E/MAEW7yS6_4E/1/tl.png'
+              alt=''
+            />
+          </div>
+          <div className='flex-1'>
             <div className='desc text-center max-sm:w-full w-2/4'>
-  Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của <b>IVY</b>moda. Mong rằng bạn đã có 1 trải nghiệm mua sắm hài lòng tại <b>IVY</b>moda. Rất vui khi được phục vụ bạn và mong rằng sẽ được tiếp tục đồng hành cùng bạn.
-  <br />
-  <p className='thank'>Xin Chân Thành Cảm Ơn Quý Khách!</p>
-</div>
+              Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của <b>IVY</b>moda. Mong rằng bạn đã có 1 trải nghiệm mua sắm
+              hài lòng tại <b>IVY</b>moda. Rất vui khi được phục vụ bạn và mong rằng sẽ được tiếp tục đồng hành cùng
+              bạn.
+              <br />
+              <p className='thank'>Xin Chân Thành Cảm Ơn Quý Khách!</p>
             </div>
-            <div>
-            <img className='mt-5 w-20 h-50 max-sm:hidden max-xl:block' src='https://media-public.canva.com/S6_4E/MAEW7yS6_4E/1/tl.png' alt='' />
-            </div>
-            </div>
+          </div>
+          <div>
+            <img
+              className='mt-5 w-20 h-50 max-sm:hidden max-xl:block'
+              src='https://media-public.canva.com/S6_4E/MAEW7yS6_4E/1/tl.png'
+              alt=''
+            />
+          </div>
+        </div>
       </div>
-      <div className='flex justify-center items-center'>
-            Sẽ quay về trang chủ trong {countdown}s nữa
+      <div className='flex justify-center items-center'>Sẽ quay về trang chủ trong {countdown}s nữa</div>
+      <div className='flex justify-center gap-[20px]'>
+        <div className='flex justify-center items-center mt-5'>
+          <Link to={'/manage'}>
+            <button className='btn border-solid btn-back'>Xem đơn hàng</button>
+          </Link>
+        </div>
+        <div className='flex justify-center items-center mt-5'>
+          <Link to={'/products'}>
+            <button className='btn border-solid btn-back'>
+              <BsArrowLeftCircle className='inline-block mr-2' />
+              Tiếp tục mua hàng
+            </button>
+          </Link>
+        </div>
+      </div>
     </div>
-    <div className='flex justify-center items-center mt-5'>
-         <Link to={"/manage"}>
-         <button className='btn border-solid rounded-lg p-3 border-red-700 text-red-700 border-2'>
-            Xem thông tin sản phẩm
-          </button>
-         </Link>
-      </div>
-      <div className='flex justify-center items-center mt-5'>
-         <Link to={"/products"}>
-         <button className='btn border-solid rounded-lg p-3 border-red-700 text-red-700 border-2'>
-            Xem thêm sản phẩm
-          </button>
-         </Link>
-      </div>
-    </div>
-  );
-};
+  )
+}
 
-export default ThankCustomers;
+export default ThankCustomers
 
 const cssmain = css`
   width: 100%;
@@ -82,13 +92,13 @@ const cssmain = css`
     text-align: center;
     font-size: 30px;
     padding-top: 10px;
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
   }
   .desc {
     margin: 0 auto;
     padding: 20px;
     font-size: 20px;
-    color: red;
+    color: #ffaa00;
   }
   .thank {
     text-align: center;
@@ -97,4 +107,17 @@ const cssmain = css`
   .btn {
     font-size: 15px;
   }
-`;
+  .btn-back {
+    border: 1px solid gray;
+    color: gray;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  .btn-back:hover {
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #000;
+  }
+`
