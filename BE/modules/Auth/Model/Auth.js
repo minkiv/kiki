@@ -20,7 +20,11 @@ const authSchema = mongoose.Schema({
         require: true,
         min: 8
     },
-    gender: String,
+    gender: {
+        type: String,
+        enum: ["Nam", "Nữ", "Khác"],
+        default: "Khác"
+    },
     address: {
         type: String,
         default: "",
