@@ -31,17 +31,18 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
 
   useEffect(() => {
     if (listProductBuy) {
-      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder.quantity), 0);
-      setTotalPrice(calculatedTotal);
+      const calculatedTotal = listProductBuy.reduce(
+        (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
+        0
+      )
+      setTotalPrice(calculatedTotal)
     }
-  }, [listProductBuy]);
+  }, [listProductBuy])
   return (
     <div css={cssSidebar} className=' max-md:hidden mt-[30px]'>
-
-
       <div className='sidebar-wrapper max-sm:hidden'>
         <div className='header'>
-          <h1 className="title text-[22px] font-semibold mb-[45px]">Tóm tắt đơn hàng</h1>
+          <h1 className='title text-[22px] font-semibold mb-[45px]'>Tóm tắt đơn hàng</h1>
           <div className='block-header-subtitle flex'>
             <p className='sub-title-text'> Sản phẩm:</p>
             <p className='sub-title-link ' onClick={handleClick}>
@@ -65,17 +66,22 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           </div>
         </div>
         <div className='styles_Divider'></div>
-        <div >
+        <div>
           {isClicked && (
             <div className='w-[100%] py-[8px] px-[16px]  space-y-4'>
               {listProductBuy?.map((item: any, index: any) => (
                 <div className='flex flex-1 justify-between items-center' key={index}>
-                  <div><img src={item?.product?.images[0]} alt="" className='w-[40px] h-[50px]' /></div>
-                  <div className=''>{item?.quantityOrder?.quantity}x</div>
-                  <div className='truncate w-[50%]'>
-                    {item?.product?.name}
+                  <div>
+                    <img src={item?.product?.images[0]} alt='' className='w-[40px] h-[50px]' />
                   </div>
-                  <div className=''>{(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+                  <div className=''>{item?.quantityOrder?.quantity}x</div>
+                  <div className='truncate w-[50%]'>{item?.product?.name}</div>
+                  <div className=''>
+                    {(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', {
+                      style: 'currency',
+                      currency: 'VND'
+                    })}
+                  </div>
                 </div>
               ))}
             </div>
@@ -84,7 +90,9 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         <div className='summary'>
           <div className='summary-flexRow'>
             <div className='summary-label'>Tạm tính</div>
-            <div className='summary-value'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+            <div className='summary-value'>
+              {totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+            </div>
           </div>
           <div className='summary-flexRow'>
             <div className='summary-label'>Phí vận chuyển</div>
@@ -99,7 +107,9 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         <div className='order-total'>
           <div className='order-total-label'>Tổng tiền</div>
           <div className='order-total-value'>
-            <div className='order-total-total'>{totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+            <div className='order-total-total'>
+              {totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+            </div>
           </div>
         </div>
         <div className='styles_Divider'></div>
@@ -111,10 +121,12 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         </div>
         <div className='flex px-[16px] py-[20px]'>
           <InputComponent hideIcon={false} placeholder='Mã giảm giá' />
-          <ButtonSqua children="Áp dụng" className='btnSqua' />
+          <ButtonSqua children='Áp dụng' className='btnSqua' />
         </div>
         <div className='flexRow'>
-          <button className='button-order' type='submit'>Đặt hàng ({listProductBuy.length})</button>
+          <button className='button-order' type='submit'>
+            Đặt hàng ({listProductBuy.length})
+          </button>
         </div>
       </div>
     </div>
@@ -142,7 +154,7 @@ const cssSidebar = css`
     justify-content: space-between;
     margin-bottom: 12px;
   }
-  
+
   .sub-title-text {
     color: rgb(128, 128, 137);
     font-weight: 400;
@@ -215,7 +227,7 @@ const cssSidebar = css`
   .button-order {
     margin: 0px 16px 16px;
     color: rgb(255, 255, 255);
-    background-color: rgb(255, 66, 78);
+    background-color: #000;
     border: none;
     width: 100%;
     display: flex;
@@ -231,7 +243,10 @@ const cssSidebar = css`
     line-height: 24px;
     border-radius: 4px;
   }
-  .btnSqua{
+  .button-order:hover {
+    background-color: #ffaa00;
+  }
+  .btnSqua {
     max-width: 104px;
     height: 48px;
     padding: 0 12px;

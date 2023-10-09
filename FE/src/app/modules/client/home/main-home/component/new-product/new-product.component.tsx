@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 interface NewProductProps {
   props?: any
@@ -17,41 +17,50 @@ const NewProduct: FunctionComponent<NewProductProps> = () => {
   }, [])
   return (
     <div css={cssProduct}>
-      <div className='titles'>NEW ARRIVAL</div>
+      <div className='titles'>MỚI RA MẮT</div>
+      <p className='text-center titles-desc'>Các sản phẩm bắt nhịp quốc tế, nàng thời thượng không nên bỏ lỡ</p>
       <div className='list-product'>
         {products.slice(-5).map((item: any, index: any) => (
           <Link to={`/detail/${item._id}`} key={index}>
             <ItemProduct itemProduct={item} />
           </Link>
-
         ))}
       </div>
       <div className='text-center mt-10'>
-        <Link to={"/products"}> <ButtonSqua children="Xem tất cả" css={cssButton} /></Link>
+        <Link to={'/products'}>
+          {' '}
+          <ButtonSqua children='Xem tất cả' css={cssButton} />
+        </Link>
       </div>
     </div>
   )
 }
 export default NewProduct
 const cssProduct = css`
-
-padding: 12px 0px;
-border-radius: 8px;
-background-color: var(--color-white);
-.titles {
-  text-align: center;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 32px;
-  font-family: 'Montserrat';
-  color: #221F20;
-  margin-bottom:20px;
-}
-.list-product {
+  padding: 12px 0px;
+  border-radius: 8px;
+  background-color: var(--color-white);
+  .titles {
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 32px;
+    font-family: 'Montserrat';
+    color: #221f20;
+    margin-top: 40px;
+  }
+  .titles-desc {
+    font-size: 17px;
+    font-family: 'MuliDisplayVN', sans-serif;
+    font-weight: 300;
+    color: #333;
+    margin: 20px auto 40px;
+  }
+  .list-product {
     display: grid;
-    justify-content:center;
+    justify-content: center;
     align-self: stretch;
     gap: 12px;
     grid-template-columns: repeat(5, 264px);
@@ -59,17 +68,17 @@ background-color: var(--color-white);
   @media (min-width: 0) and (max-width: 739px) {
     .list-product {
       grid-template-columns: repeat(2, 1fr);
-      padding:5px 10px;
+      padding: 5px 10px;
     }
   }
 `
 const cssButton = css`
-    border: 1px solid #221F20;
-    box-sizing: border-box;
-    border-radius: 24px 0px;
-    padding: 13px 24px;
-    font-size: 16px;
-    line-height: 20px;
-    display: inline-block;
-    position: relative;
+  border: 1px solid #221f20;
+  box-sizing: border-box;
+  border-radius: 24px 0px;
+  padding: 13px 24px;
+  font-size: 16px;
+  line-height: 20px;
+  display: inline-block;
+  position: relative;
 `

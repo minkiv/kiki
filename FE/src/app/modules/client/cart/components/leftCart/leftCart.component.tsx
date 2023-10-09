@@ -143,7 +143,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
           }
         })
       },
-      onCancel() { }
+      onCancel() {}
     })
   }
 
@@ -191,58 +191,64 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   onChange={() => handleSelectProductBuy(item)}
                   checked={listProductBuy.flatMap((items: any) => items?._id).includes(item?._id)}
                 />
-                <img src={item?.product?.images[0]} alt='' className='w-[76px] h-[100px]' />
+                <img src={item?.product?.images[0]} alt='' className='w-[100px]' />
 
                 <div className='max-sm:mr-2 max-sm:p-[7px]'>
                   <div className=' max-sm:w-full relative'>
                     <div className='product-detail'>
-                      <div className='text-[18px] font-medium pb-3'>{item?.product?.name}</div>
-                      <div
-                        className='product-wrap-prices sm:w-[190px] flex  cursor-pointer '
-                        onClick={() => {
-                          setShowPopupSelect((prev: any) => ({
-                            show: !prev.show,
-                            index: index
-                          })),
-                            setClickProductDetail(item)
-                        }}
-                      >
-                        <div className='sm:px-3'>
-                          <span className='mr-2'>Màu:</span>
-                          <span className='product-real-prices'>{item?.quantityOrder?.nameColor}</span>
-                        </div>
-                        <span className='mr-2'>Kích cỡ:</span>
-                        <div className='product-real-prices'>{item?.quantityOrder?.nameSize}</div>
+                      <div className='text-[20px] font-medium pb-4'>{item?.product?.name}</div>
+                      <div className=' inline-block mr-4'>
+                        <span className='mr-2'>Màu:</span>
+                        <span className='product-real-prices'>{item?.quantityOrder?.nameColor}</span>
                       </div>
+                      <span className='mr-2'>Kích cỡ:</span>
+                      <div className='product-real-prices inline-block'>{item?.quantityOrder?.nameSize}</div>
+                    </div>
+                    <div
+                      className='card-update sm:w-[190px] mt-4 flex inline-block cursor-pointer '
+                      onClick={() => {
+                        setShowPopupSelect((prev: any) => ({
+                          show: !prev.show,
+                          index: index
+                        })),
+                          setClickProductDetail(item)
+                      }}
+                    >
+                      Cập nhật
                     </div>
                     {showPopupSelect.index === index && showPopupSelect.show && (
-                      <div ref={wrapperRef} className='bg-white shadow-3xl mt-[-24px] s absolute p-3 rounded-lg z-10'>
+                      <div
+                        ref={wrapperRef}
+                        className='bg-white w-[max-content] shadow-3xl mt-[-24px] s absolute p-3 rounded-lg z-10'
+                      >
                         <div className='flex'>
                           <div className='my-2'>
                             <div>
-                              Màu sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
+                              Màu sắc: <span className='font-semibold'></span>
                             </div>
                             <div className='mt-3 sm:flex max-sm:flex items-center'>
                               {getListColor(item, 'cart')?.map((item: any) => (
                                 <div
                                   key={item?.id}
-                                  className={`p-3 border rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item?.nameColor && 'bg-red-100 border-red-600'
-                                    } ${!checkQuantityType
+                                  style={{ backgroundColor: `${item.nameColor}` }}
+                                  className={`p-3 border h-[32px] w-[32px] rounded-md  mr-4 cursor-pointer ${
+                                    colorSelect?.nameColor === item?.nameColor && 'bg-red-100 border-red-600'
+                                  } ${
+                                    !checkQuantityType
                                       ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
                                       .includes(item?.nameColor) &&
                                     checkQuantityType?.length > 0 &&
                                     item.quantity === 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
-                                    }
-                      ${Number(item.quantity) === 0 &&
-                                    checkQuantityType.length === 0 &&
-                                    'bg-slate-100 pointer-events-none text-gray-400'
-                                    }
+                                  }
+                      ${
+                        Number(item.quantity) === 0 &&
+                        checkQuantityType.length === 0 &&
+                        'bg-slate-100 pointer-events-none text-gray-400'
+                      }
                         `}
                                   onClick={() => handleSelectColor(item?.id)}
-                                >
-                                  {item?.nameColor}
-                                </div>
+                                ></div>
                               ))}
                             </div>
                           </div>
@@ -254,13 +260,15 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                               {getListSize(item, 'cart')?.map((item: any) => (
                                 <div
                                   key={item.id}
-                                  className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.nameSize === item?.nameSize && 'bg-red-100 border-red-600'
-                                    } ${!checkQuantityType
+                                  className={`p-3 border rounded-md mr-4 cursor-pointer ${
+                                    sizeSelect?.nameSize === item?.nameSize && 'bg-red-100 border-red-600'
+                                  } ${
+                                    !checkQuantityType
                                       ?.flatMap((itemType: any) => itemType?.nameSize)
                                       .includes(item?.nameSize) &&
                                     checkQuantityType.length > 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
-                                    }`}
+                                  }`}
                                   onClick={() => handleSelectSize(item?.id)}
                                 >
                                   {item?.nameSize}
@@ -270,10 +278,10 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                           </div>
                         </div>
                         <div className='flex space-x-2'>
-                          <button className='px-3 py-2 bg-red-500 text-white' onClick={cancelChangeProperties}>
+                          <button className='px-3 py-2 bt-update-cancel text-white' onClick={cancelChangeProperties}>
                             Hủy
                           </button>
-                          <button className='px-3 py-2 bg-blue-500 text-white' onClick={handleSubmitChangeProperties}>
+                          <button className='px-3 py-2 bt-update-ok text-white' onClick={handleSubmitChangeProperties}>
                             Xác nhận
                           </button>
                         </div>
@@ -283,9 +291,14 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                 </div>
               </td>
               <td className='text-[16px]'>
-                <span className='real-prices'>{item?.product?.price}₫</span>
+                <span className='real-prices'>
+                  {' '}
+                  {(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', {
+                    style: 'currency',
+                    currency: 'VND'
+                  })}
+                </span>
               </td>
-
               <td>
                 <div className=''>
                   <SelectQuantityCart
@@ -296,15 +309,15 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                       clickProductDetail
                         ? colorSelect
                         : item?.product?.listQuantityRemain.find(
-                          (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
-                        ) || {}
+                            (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
+                          ) || {}
                     }
                     sizeSelect={
                       clickProductDetail
                         ? sizeSelect
                         : item?.product?.listQuantityRemain.find(
-                          (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
-                        ) || {}
+                            (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
+                          ) || {}
                     }
                   />
                 </div>
@@ -334,6 +347,24 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
 export default LeftCart
 
 const cssLeftCart = css`
+thead{
+  border-top : 1px solid;
+  border-bottom: 1px solid;
+  border-color: #eee;
+}
+.bt-update-cancel,.bt-update-ok{
+  border-radius: 4px;
+}
+.bt-update-cancel{
+  background-color: #000;
+}
+.bt-update-ok{
+  background-color: #ffaa00
+}
+.card-update{
+  color: #ffaa00 ;
+  text-decoration: underline;
+}
       .style-heading {
       padding: 9px 16px;
       border-radius: 4px;
@@ -346,7 +377,9 @@ const cssLeftCart = css`
   }
   .taitle-table {
     text-align:left;
-    font-size:18px;
+    font-size:16px;
+    font-weight: 300;
+    color: #333
   }
       .box {
         background - color: var(--color-white);

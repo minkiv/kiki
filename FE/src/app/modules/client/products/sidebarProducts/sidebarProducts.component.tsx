@@ -1,12 +1,16 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { SiZenn } from 'react-icons/si'
-import { MdInvertColors } from 'react-icons/md'
+import { MdOutlineAutorenew, MdOutlineWidgets } from 'react-icons/md'
 import { GiPriceTag } from 'react-icons/gi'
+import { ImStarEmpty } from 'react-icons/im'
+import { GrFormFilter } from 'react-icons/gr'
 import type { MenuProps } from 'antd'
 import { Menu, Slider, Switch } from 'antd'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import { useCategoryRedux } from '../../redux/hook/useCategoryReducer'
+import { IoIosHeartEmpty } from 'react-icons/io'
+import { LiaSortAmountDownSolid, LiaSortAmountUpSolid } from 'react-icons/lia'
 
 interface SidebarProductsProps {
   props?: any
@@ -59,9 +63,17 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       'Danh Mục',
       'sub1',
       <SiZenn />,
-      categorys.map((cate: any, key = 0) =>
-        getItem(<div onClick={() => getAllcategory(cate._id)}>{cate.name}</div>, key + 1)
-      ),
+      [
+        ...categorys.map((cate: any, key = 0) =>
+          getItem(
+            <div key={key + 1} onClick={() => getAllcategory(cate._id)}>
+              {cate.name}
+            </div>,
+            `${key + 1}`
+          )
+        ),
+        getItem(<div onClick={() => getAllcategory('all')}>Tất cả</div>, 10, <MdOutlineWidgets />)
+      ],
       'group'
     ),
     getItem(
@@ -69,13 +81,21 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       'sub4',
       <GiPriceTag />,
       [
-        getItem(
-          <Slider defaultValue={30} onChange={onChange} min={100000} max={1000000} onAfterChange={onAfterChange} />,
-          '9'
-        )
+        getItem(<div className='sideBar-price'>Dưới 60.000 đ</div>, 'price1'),
+        getItem(<div className='sideBar-price'>60.000đ -{`>`} 160.000đ</div>, 'price2'),
+        getItem(<div className='sideBar-price'>160.000đ -{`>`} 380.000đ</div>, 'price3'),
+        getItem(<div className='sideBar-price'>Trên 380.000 đ</div>, 'price4')
       ],
       'group'
-    )
+    ),
+    getItem('Sắp xếp theo', 'sub5', <GrFormFilter />, [
+      getItem(<div className='sideBar-sort'>Mặc định</div>, 'sort1'),
+      getItem(<div className='sideBar-sort'>Mới nhất</div>, 'sort2', <MdOutlineAutorenew />),
+      getItem(<div className='sideBar-sort'>Được mua nhiều nhất</div>, 'sort3', <ImStarEmpty />),
+      getItem(<div className='sideBar-sort'>Được yêu thích nhất</div>, 'sort4', <IoIosHeartEmpty />),
+      getItem(<div className='sideBar-sort'>Giá cao đến thấp</div>, 'sort5', <LiaSortAmountDownSolid />),
+      getItem(<div className='sideBar-sort'>Giá thấp đến cao</div>, 'sort6', <LiaSortAmountUpSolid />)
+    ])
   ]
   const [openKeys, setOpenKeys] = useState([''])
 
@@ -93,7 +113,7 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
         mode='inline'
         openKeys={openKeys}
         onOpenChange={onOpenChange}
-        style={{ width: 356, fontSize: 18 }}
+        style={{ width: 300, fontSize: 18, paddingRight: 20, marginRight: 20 }}
         items={items}
       />
     </div>
@@ -110,6 +130,24 @@ const cssSidebarProductsProduct = css`
     margin: 10px;
     padding: 3px;
     outline: none;
+  }
+  .ant-menu-item-group-title,
+  .ant-menu-submenu-title {
+    font-size: 18px;
+    color: #000;
+    background-color: rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+  }
+  .ant-menu-item {
+    font-size: 17px;
+  }
+  .ant-menu-item:hover,
+  .ant-menu-item-selected {
+    background-color: #ffaa00 !important;
+    color: #fff !important;
+  }
+  .ant-menu-inline {
+    background: none !important;
   }
 `
 const cssBtnFalse = css`

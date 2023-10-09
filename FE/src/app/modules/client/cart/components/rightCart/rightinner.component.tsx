@@ -18,19 +18,21 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
   useEffect(() => {
     actions.getAllCart()
   }, [])
-  const checkProductBuy = localStorage.getItem("listSelectCart")
+  const checkProductBuy = localStorage.getItem('listSelectCart')
   useEffect(() => {
     if (listProductBuy) {
-      const calculatedTotal = listProductBuy.reduce((total: any, item: any) => total + (item?.product?.price * item?.quantityOrder?.quantity), 0);
-      setTotalPrice(calculatedTotal);
+      const calculatedTotal = listProductBuy.reduce(
+        (total: any, item: any) => total + item?.product?.price * item?.quantityOrder?.quantity,
+        0
+      )
+      setTotalPrice(calculatedTotal)
     }
-  }, [listProductBuy]);
+  }, [listProductBuy])
   const handelNavigate = () => {
     if (listProductBuy.length == 0) {
-      toast.error("chưa chọn mua sản phẩm nào")
-    }
-    else {
-      navigate("/payment")
+      toast.error('chưa chọn mua sản phẩm nào')
+    } else {
+      navigate('/payment')
     }
   }
   return (
@@ -40,7 +42,11 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         <ul className='price'>
           <li className='sm:flex max-sm:flex justify-between py-5'>
             <div className='text-[16px]'>Tạm tính</div>
-            <div className='value text-[16px]'>{checkProductBuy ? (totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })) : (0?.toLocaleString('vi', { style: 'currency', currency: 'VND' }))}</div>
+            <div className='value text-[16px]'>
+              {checkProductBuy
+                ? totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })
+                : (0)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+            </div>
           </li>
           <li className='sm:flex max-sm:flex justify-between'>
             <div className='text-[16px]'>Giảm giá</div>
@@ -50,13 +56,15 @@ const RightCart: FunctionComponent<RightCartProps> = () => {
         <div className='prices-total sm:flex justify-between max-sm:flex'>
           <span className='text-[16px]'>Tổng tiền</span>
           <div className='content'>
-            <p className='price-total'>{checkProductBuy ? (totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })) : (0?.toLocaleString('vi', { style: 'currency', currency: 'VND' }))}</p>
+            <p className='price-total'>
+              {checkProductBuy
+                ? totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })
+                : (0)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+            </p>
           </div>
         </div>
-
       </div>
-      <button onClick={handelNavigate}>Mua hàng ({checkProductBuy ? (listProductBuy.length) : (0)})</button>
-
+      <button onClick={handelNavigate}>Mua hàng ({checkProductBuy ? listProductBuy.length : 0})</button>
     </div>
   )
 }
@@ -130,7 +138,7 @@ const cssRightCart = css`
     font-size: 14px;
     line-height: 20px;
   }
-  .nav:hover{
+  .nav:hover {
     color: red;
   }
   .name {
@@ -150,24 +158,22 @@ const cssRightCart = css`
     justify-content: space-between;
     margin: 0px;
   }
-  button{
-    background: rgb(255, 66, 78);
+  button {
+    background: #000;
     color: rgb(255, 255, 255);
-    font-size:18px;
+    font-size: 18px;
     padding: 13px 10px;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 20px;
     border: none;
-    width: 100%;
+    width: 80%;
     display: block;
     cursor: pointer;
     margin: 15px 0px 0px;
     transition: background-color 0.3s;
+    margin: 0 auto;
   }
   button: hover {
-    background: rgb(25, 122, 251);
+    background: #ffaa00;
   }
-
-
-
 `

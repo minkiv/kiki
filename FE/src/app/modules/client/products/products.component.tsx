@@ -14,7 +14,7 @@ const Products: FunctionComponent<ProductProps> = () => {
     data: { products },
     actions
   } = useProductRedux()
-  const [data, setData] = useState([])
+  const [data, setData] = useState<any>([])
   useEffect(() => {
     actions.getAllProduct()
   }, [])
@@ -24,11 +24,15 @@ const Products: FunctionComponent<ProductProps> = () => {
   const handleDataUpdate = (id: any) => {
     const listPro = products.filter((pro: any) => pro.categoryId === id)
     setData(listPro)
+    if (id === 'all') setData(products)
   }
   return (
     <div css={cssProduct}>
-      <TitleProducts>All PRODUCTS</TitleProducts>
-      <div className='flex'>
+      <TitleProducts>TẤT CẢ SẢN PHẨM</TitleProducts>
+      <div className='title relative'>
+        <h1 className='text-title absolute'>TẤT CẢ SẢN PHẨM </h1>
+      </div>
+      <div className='flex mt-[48px]'>
         <SidebarProducts data={data} onDataUpdate={handleDataUpdate} />
         <ListProducts data={data} />
       </div>
@@ -43,4 +47,16 @@ const cssProduct = css`
   box-sizing: border-box;
   margin: auto;
   justify-content: center;
+  .title {
+    margin-bottom: 32px;
+  }
+  .text-title {
+    right: 28%;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 32px;
+    color: #221f20;
+    padding: 12px 40px 12px 16px;
+    text-transform: uppercase;
+  }
 `

@@ -3,27 +3,26 @@ import { FunctionComponent } from 'react'
 import MainHome from './main-home/main-home.component'
 
 interface HomeProps {
-    props?: any
+  props?: any
 }
 
 const Home: FunctionComponent<HomeProps> = () => {
-    return (
-        <div css={cssHome}>
-            <MainHome />
-        </div>
-    )
+  return (
+    <div css={cssHome}>
+      <MainHome />
+    </div>
+  )
 }
 
 export default Home
 
 const cssHome = css`
-padding-top: 16px;
-width: 100%;
-margin-right: auto;
-margin-left: auto;
-@media (min-width: 0) and (max-width: 739px) {
-    width:100%;
-    display: unset; 
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  @media (min-width: 0) and (max-width: 739px) {
+    width: 100%;
+    display: unset;
     width: auto;
   }
 `

@@ -11,6 +11,10 @@ import { message } from 'antd'
 import { AiOutlineHeart, AiOutlineDownCircle, AiOutlineUpCircle } from 'react-icons/ai'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { CiRuler } from 'react-icons/ci'
+import { TiTick } from 'react-icons/ti'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
 interface DetailInformation {}
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
@@ -155,15 +159,16 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           <div className='mt-5 max-sm:ml-5'>
             <div>
               <div className='mt-3 '>
-                <div className='mb-3 text-[22px]'>
+                <div className='mb-3 text-[18px]'>
                   Màu Sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
                 </div>
                 <div className='flex items-center my-6'>
                   {listColor?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
-                        colorSelect?.id === item.id && 'bg-red-100 border-red-600'
+                      style={{ backgroundColor: `${item.nameColor}` }}
+                      className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${
+                        colorSelect?.id === item.id && 'border-red-600'
                       } ${
                         !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
@@ -171,13 +176,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                       }`}
                       onClick={() => handleSelectColor(item.id)}
                     >
-                      {item.nameColor}
+                      {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
                     </div>
                   ))}
                 </div>
               </div>
               <div className='mt-3 '>
-                <div className='mb-3 text-[22px]'>
+                <div className='mb-3 text-[18px]'>
                   Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
                 </div>
                 <div className='flex items-center my-6'>
@@ -200,7 +205,23 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
               </div>
             </div>
           </div>
-
+          <div className='ruler w-[180px]'>
+            <Popup
+              modal
+              trigger={
+                <button>
+                  <CiRuler className='inline-block' /> <span>Kiểm tra size của bạn</span>
+                </button>
+              }
+            >
+              <div className='popup-contents h-[500px] overflow-x-hidden'>
+                <img
+                  width={'100%'}
+                  src='//image.uniqlo.com/UQ/ST3/vn/imagesother/sizechart/vn_graph_bodysize_uq_m_20fw.jpg'
+                />
+              </div>
+            </Popup>
+          </div>
           <div className='flex items-center'>
             <label htmlFor='quantity' className='text-[18px]'>
               Số Lượng:
@@ -268,6 +289,25 @@ export default DetailInformation
 const cssInfomation = css`
   margin: 5px 10px 0px 90px;
   font-family: sans-serif;
+  .ruler {
+    font-size: 14px;
+    margin: 20px 0;
+  }
+  .popup-contents {
+    height: 411px !important;
+    overflow-x: hidden !important;
+  }
+  .popup-content {
+    width: 100% !important;
+  }
+  .popup-contents img {
+    overflow-y: hidden;
+    width: 100%;
+  }
+  .ruler:hover {
+    color: #ffaa00;
+    cursor: pointer;
+  }
   .fa-star {
     color: gold;
     font-size: 24px;
