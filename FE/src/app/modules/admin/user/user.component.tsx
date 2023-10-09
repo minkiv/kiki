@@ -1,8 +1,7 @@
-import { Form, Input, Select } from 'antd'
+import { DatePicker, Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from "../common/template-table/template-table.component"
-import { createUser, deleteUser, getAllUser } from "./service/user.service"
-
+import { changeUser, createUser, deleteUser, getAllUser } from "./service/user.service"
 
 const UserManagemnet = () => {
   const [column, setColumn] = useState([])
@@ -32,7 +31,7 @@ const UserManagemnet = () => {
   }, [dataUser])
   return (
     <div>
-      <TemplateTable dataTable={dataUser} columnTable={column} createFunc={createUser} deleteFunc={deleteUser}
+      <TemplateTable dataTable={dataUser} columnTable={column} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
         formEdit={
           <Fragment>
             <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]} >
@@ -66,12 +65,12 @@ const UserManagemnet = () => {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label='gender'
-              name='gender'
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input />
+            <Form.Item label='gender' name='gender' rules={[{ required: true, message: 'Please input your username!' }]}>
+              <Select placeholder='Please select'>
+                <Select.Option value='Nam'>Nam</Select.Option>
+                <Select.Option value='Nữ'>Nữ</Select.Option>
+                <Select.Option value='Khác'>Khác</Select.Option>
+              </Select>
             </Form.Item>
             <Form.Item
               label='address'
@@ -80,6 +79,14 @@ const UserManagemnet = () => {
             >
               <Input />
             </Form.Item>
+            <Form.Item
+              label="Ngày tháng năm"
+              name="birthday"
+              rules={[{ required: true, message: 'Please input your date of birth!' }]}
+            >
+              <Input />
+            </Form.Item>
+
           </Fragment>
         }
       />

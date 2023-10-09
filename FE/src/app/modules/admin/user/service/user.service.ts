@@ -11,4 +11,7 @@ export const createUser = async (bodyRequest: any) => {
 export const deleteUser = async (userId: any) => {
     return await axiosPrivate.delete('/auth/' + userId)
 }
+export const changeUser = async (bodyRequest: any, userId: any) => {
+    return await axiosPrivate.put('/auth/update/' + userId, bodyRequest)
+}
 

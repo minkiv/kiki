@@ -1,6 +1,6 @@
 import { Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
-import { getAllCategory } from "./service/category.service"
+import { deleteCategory, getAllCategory } from "./service/category.service"
 import TemplateTable from '../common/template-table/template-table.component';
 
 
@@ -42,7 +42,7 @@ const CategoryManagement = () => {
     }, [dataCategory])
     return (
         <div>
-            <TemplateTable dataTable={dataCategory} columnTable={column}
+            <TemplateTable dataTable={dataCategory} columnTable={column} deleteFunc={deleteCategory}
                 formEdit={
                     <Fragment>
 

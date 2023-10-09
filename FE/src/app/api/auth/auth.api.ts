@@ -6,3 +6,7 @@ export const loginSystem = async (data: any) => {
 export const registerSystem = async (data: any) => {
     return await axiosPrivate.post("/auth/register", data)
 }
+
+export const getOneUserSystem = async (id: any) => {
+    return await axiosPrivate.get(`/auth/${id}`)
+}

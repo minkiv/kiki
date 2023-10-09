@@ -33,3 +33,17 @@ export const deleteUsers = async (req) => {
     const remove = await Auth.findByIdAndDelete(req.params.id)
     return remove
 }
+
+export const updateUsers = async (req) => {
+    const id = req.params.id
+    const { password } = req.body
+    const bcryptPassword = await bcrypt.hash(password, 10)
+    const update = await Auth.updateOne({
+        _id: id
+    },
+        {
+            ...req.body,
+            password: bcryptPassword
+        });
+    return update
+}
