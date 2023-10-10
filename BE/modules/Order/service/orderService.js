@@ -59,3 +59,13 @@ export const getAllOrders = async (req) => {
 
     return orders
 }
+
+export const getAllOrderAdmins = async (req)=>{
+    const orderAdmin = await Order.find().populate({
+        path: 'productOrder',
+        populate: {
+            path: 'product',
+        },
+    })
+    return orderAdmin
+}

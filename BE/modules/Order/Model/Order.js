@@ -15,7 +15,7 @@ const orderSchema = mongoose.Schema({
     orderStatus: {
         type: String,
         default: 'đang chờ duyệt',
-        enum: ['đang chờ duyệt', 'duyệt thành công', 'đang vận chuyển'],
+        enum: ['đang chờ duyệt', 'duyệt thành công', 'đang vận chuyển','hoàn thành'],
     },
     city: String,
     productOrder: [
