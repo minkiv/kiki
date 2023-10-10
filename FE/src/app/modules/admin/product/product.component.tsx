@@ -51,7 +51,16 @@ const ProductManagemnet = () => {
                             dataIndex: `${itemKey}`,
                             key: `${itemKey}`,
                             render: (text: any, record: any, index: any) => {
-                                return dataProduct[index]?.listQuantityRemain.map((item: any) => item[itemKey]).join(', ');
+                                return (
+                                    <>
+                                      {dataProduct[index]?.listQuantityRemain?.map((item: any, index:any) => (
+                                        <p key={index}>
+                                          {item[itemKey]}
+                                          <hr />
+                                        </p>
+                                      ))}
+                                    </>
+                                  );
                             }
                         });
                     }
