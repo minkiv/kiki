@@ -16,6 +16,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     data: { carts, listProductBuy },
     actions
   } = useCartRedux()
+  console.log(listProductBuy)
   useEffect(() => {
     actions.getAllCart()
   }, [])
@@ -143,7 +144,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
           }
         })
       },
-      onCancel() {}
+      onCancel() { }
     })
   }
 
@@ -189,7 +190,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   type='checkbox'
                   className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2'
                   onChange={() => handleSelectProductBuy(item)}
-                  checked={listProductBuy.flatMap((items: any) => items?._id).includes(item?._id)}
+                  checked={listProductBuy?.flatMap((items: any) => items?._id)?.includes(item?._id)}
                 />
                 <img src={item?.product?.images[0]} alt='' className='w-[100px]' />
 
@@ -231,21 +232,18 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                                 <div
                                   key={item?.id}
                                   style={{ backgroundColor: `${item.nameColor}` }}
-                                  className={`p-3 border h-[32px] w-[32px] rounded-md  mr-4 cursor-pointer ${
-                                    colorSelect?.nameColor === item?.nameColor && 'bg-red-100 border-red-600'
-                                  } ${
-                                    !checkQuantityType
+                                  className={`p-3 border h-[32px] w-[32px] rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item?.nameColor && 'bg-red-100 border-red-600'
+                                    } ${!checkQuantityType
                                       ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
                                       .includes(item?.nameColor) &&
                                     checkQuantityType?.length > 0 &&
                                     item.quantity === 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
-                                  }
-                      ${
-                        Number(item.quantity) === 0 &&
-                        checkQuantityType.length === 0 &&
-                        'bg-slate-100 pointer-events-none text-gray-400'
-                      }
+                                    }
+                      ${Number(item.quantity) === 0 &&
+                                    checkQuantityType.length === 0 &&
+                                    'bg-slate-100 pointer-events-none text-gray-400'
+                                    }
                         `}
                                   onClick={() => handleSelectColor(item?.id)}
                                 ></div>
@@ -260,15 +258,13 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                               {getListSize(item, 'cart')?.map((item: any) => (
                                 <div
                                   key={item.id}
-                                  className={`p-3 border rounded-md mr-4 cursor-pointer ${
-                                    sizeSelect?.nameSize === item?.nameSize && 'bg-red-100 border-red-600'
-                                  } ${
-                                    !checkQuantityType
+                                  className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.nameSize === item?.nameSize && 'bg-red-100 border-red-600'
+                                    } ${!checkQuantityType
                                       ?.flatMap((itemType: any) => itemType?.nameSize)
                                       .includes(item?.nameSize) &&
                                     checkQuantityType.length > 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
-                                  }`}
+                                    }`}
                                   onClick={() => handleSelectSize(item?.id)}
                                 >
                                   {item?.nameSize}
@@ -309,15 +305,15 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                       clickProductDetail
                         ? colorSelect
                         : item?.product?.listQuantityRemain.find(
-                            (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
-                          ) || {}
+                          (items: any) => items?.nameColor == item?.quantityOrder?.nameColor
+                        ) || {}
                     }
                     sizeSelect={
                       clickProductDetail
                         ? sizeSelect
                         : item?.product?.listQuantityRemain.find(
-                            (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
-                          ) || {}
+                          (items: any) => items?.nameSize == item?.quantityOrder?.nameSize
+                        ) || {}
                     }
                   />
                 </div>

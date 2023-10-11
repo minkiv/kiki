@@ -2,6 +2,8 @@ import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import { useOrderRedux } from '../../../redux/hook/useOrderReducer'
 import moment from 'moment'
+import { deleteOrder } from '~/app/api/order/order.api'
+import toast from 'react-hot-toast'
 
 interface MainManangeOrderProps {
     props?: any
@@ -16,7 +18,16 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
         actions.getAllOrder()
     }, [])
 
-    console.log(orders)
+    const handelDetateOrder = (id: any) => {
+        deleteOrder(id).then((res) => {
+            if (res) {
+                toast.success("huỷ thành công")
+                actions.getAllOrder()
+            }
+        }, (err) => {
+            toast.error(err?.response?.data?.message)
+        })
+    }
     return (
         <div css={cssMainManangeOrder}>
             <h1>Quản lý đơn hàng</h1>
@@ -57,7 +68,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                         ))}
                                     </td>
                                     <td>{totalAmount?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</td>
-                                    <td><button className='bg-red-500 text-white py-3 px-7 hover:bg-red-300'>huỷ đơn hàng</button></td>
+                                    <td><button className='bg-red-500 text-white py-3 px-7 hover:bg-red-300' onClick={() => handelDetateOrder(order._id)}>huỷ đơn hàng</button></td>
                                 </tr>)
 
                         })}

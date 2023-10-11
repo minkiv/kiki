@@ -60,7 +60,7 @@ export const getAllOrders = async (req) => {
     return orders
 }
 
-export const getAllOrderAdmins = async (req)=>{
+export const getAllOrderAdmins = async (req) => {
     const orderAdmin = await Order.find().populate({
         path: 'productOrder',
         populate: {
@@ -68,4 +68,9 @@ export const getAllOrderAdmins = async (req)=>{
         },
     })
     return orderAdmin
+}
+
+export const deleteUsers = async (req) => {
+    const remove = await Order.findByIdAndDelete(req.params.id)
+    return remove
 }

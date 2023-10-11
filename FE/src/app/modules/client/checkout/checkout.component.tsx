@@ -22,7 +22,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
     const accessToken = localStorage.getItem("accessToken")
     const navigate = useNavigate()
     const {
-        data: { listProductBuy }
+        data: { listProductBuy }, actions
     } = useCartRedux()
     const { handleSubmit, control, formState: { errors } } = useForm({
         mode: 'onChange',
@@ -35,12 +35,12 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
             ...data,
             productOrder: listProductBuy
         }
-        console.log(cartData)
         addOrder(cartData).then((res) => {
             if (res) {
                 setTimeout(() => {
                     setLoadingCreate(false)
                     localStorage.removeItem("listSelectCart")
+                    actions.clearCart()
                     toast.success('tạo đơn hàng thành công')
                     navigate("/thankcustomers")
                 }, 4000)
