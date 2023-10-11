@@ -26,6 +26,16 @@ const Products: FunctionComponent<ProductProps> = () => {
     setData(listPro)
     if (id === 'all') setData(products)
   }
+  const handleGetPrice = (price: any) => {
+    const rangePro = products.filter((pro: any) => {
+      if (price[1]) {
+        return pro.price >= price[0] && pro.price <= price[1]
+      } else {
+        return pro.price >= price[0]
+      }
+    })
+    setData(rangePro)
+  }
   return (
     <div css={cssProduct}>
       <TitleProducts>TẤT CẢ SẢN PHẨM</TitleProducts>
@@ -33,7 +43,7 @@ const Products: FunctionComponent<ProductProps> = () => {
         <h1 className='text-title absolute'>TẤT CẢ SẢN PHẨM </h1>
       </div>
       <div className='flex mt-[48px]'>
-        <SidebarProducts data={data} onDataUpdate={handleDataUpdate} />
+        <SidebarProducts data={data} onDataUpdate={handleDataUpdate} getPrices={handleGetPrice} />
         <ListProducts data={data} />
       </div>
     </div>

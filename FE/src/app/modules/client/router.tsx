@@ -2,7 +2,6 @@ import { RouteObject } from 'react-router-dom'
 import Home from './home/home.component'
 import Cart from './cart/cart.component'
 import Detail from './detail/detail.component'
-import Search from './search/search.component'
 import ManageOrder from './manage-order/manage-order.component'
 import Products from './products/products.component'
 import CheckOut from './checkout/checkout.component'
@@ -21,63 +20,55 @@ export const clientRouter: RouteObject[] = [
     element: <Home />
   },
   {
-    path: "/cart",
+    path: '/cart',
     element: <Cart />
   },
   {
-    path: "/detail/:id",
+    path: '/detail/:id',
     element: <Detail />
   },
   {
-    path: "/search",
-    element: <Search />
-  },
-  {
-    path: "/manage",
+    path: '/manage',
     element: <ManageOrder />
   },
   {
-    path: "/products",
+    path: '/products',
     element: <Products />
   },
   {
-    path: "/payment",
+    path: '/payment',
     element: <CheckOut />
   },
   {
-    path: "/general",
-    element: < GeneralIntroduction />
+    path: '/general',
+    element: <GeneralIntroduction />
   },
   {
-    path: "/fashion-Show",
+    path: '/fashion-Show',
     element: <FashionShow />
   },
   {
-    path: "/Community-Activities",
+    path: '/Community-Activities',
     element: <CommunityActivities />
   },
   {
-    path: "/thankcustomers",
+    path: '/thankcustomers',
     element: <ThankCustomers />
   },
   {
-    path: "/LifeStyle",
+    path: '/LifeStyle',
     element: <LifeStyle />
   },
   {
-    path: "/Contacts",
+    path: '/Contacts',
     element: <Contacts />
   },
   {
-    path: "/support",
+    path: '/support',
     element: <Support />
   },
   {
-    path: "/manage-info",
+    path: '/manage-info',
     element: <ManageInfoCustomer />
-  },
+  }
 ]
-
-
-
-
