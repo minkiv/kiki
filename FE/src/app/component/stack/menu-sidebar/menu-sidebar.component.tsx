@@ -1,18 +1,18 @@
 import { css } from '@emotion/react'
-import { FunctionComponent, useEffect } from 'react'
-import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { getOneUserSystem } from '~/app/api/auth/auth.api'
 
 interface MenuSideBarProps {
     props?: any
 }
 
 const MenuSideBar: FunctionComponent<MenuSideBarProps> = () => {
-    const { data: { user }, actions } = useAuthRedux();
+    const [user, setUser] = useState<any>();
     const id = localStorage.getItem('userID')
     useEffect(() => {
-        if (id) {
-            actions.getOneUser(id)
-        }
+        getOneUserSystem(id).then((res: any) => {
+            setUser(res.data)
+        })
     }, [id])
     return (
         <div css={cssMenuSideBar} className='w-[200px]'>

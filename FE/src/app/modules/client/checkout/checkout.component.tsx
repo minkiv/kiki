@@ -12,6 +12,7 @@ import toast from 'react-hot-toast'
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component'
 import { useNavigate } from 'react-router-dom'
 import { Skeleton } from 'antd'
+import { getOneUserSystem } from '~/app/api/auth/auth.api'
 
 interface CheckOutProps {
     props?: any
@@ -21,12 +22,24 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
     const [loadingCreate, setLoadingCreate] = useState(false)
     const accessToken = localStorage.getItem("accessToken")
     const navigate = useNavigate()
+    const id = localStorage.getItem("userID")
+    const arrayField = ["fullname", "phoneNumber"]
     const {
         data: { listProductBuy }, actions
     } = useCartRedux()
     const { handleSubmit, control, formState: { errors } } = useForm({
         mode: 'onChange',
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        defaultValues: async () => {
+            const userData = (await getOneUserSystem(id)).data;
+            const filteredData: any = {};
+            arrayField.forEach((key: any) => {
+                if (userData.hasOwnProperty(key)) {
+                    filteredData[key] = userData[key];
+                }
+            })
+            return filteredData
+        }
     });
 
     const onSubmit = (data: any) => {
