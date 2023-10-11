@@ -28,7 +28,7 @@ export const clientRouter: RouteObject[] = [
     element: <Detail />
   },
   {
-    path: '/manage',
+    path: "/manage",
     element: <ManageOrder />
   },
   {
