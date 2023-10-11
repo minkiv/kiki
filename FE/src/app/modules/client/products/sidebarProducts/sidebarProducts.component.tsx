@@ -16,14 +16,7 @@ interface SidebarProductsProps {
   props?: any
   data: any
   onDataUpdate: any
-}
-
-const onChange = (value: number | [number, number]) => {
-  console.log('onChange: ', value)
-}
-
-const onAfterChange = (value: number | [number, number]) => {
-  console.log('onAfterChange: ', value)
+  getPrices: any
 }
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -47,7 +40,7 @@ function getItem(
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4']
 
 const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
-  const { data, onDataUpdate } = props
+  const { data, onDataUpdate, getPrices } = props
   const {
     data: { categorys },
     actions
@@ -57,6 +50,10 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
   }, [data])
   const getAllcategory = (id: any) => {
     onDataUpdate(id)
+  }
+  const getPrice = (price: number, toPrice?: number) => {
+    const rangePrice = [price, toPrice]
+    getPrices(rangePrice)
   }
   const items: MenuItem[] = [
     getItem(
@@ -81,10 +78,30 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       'sub4',
       <GiPriceTag />,
       [
-        getItem(<div className='sideBar-price'>Dưới 60.000 đ</div>, 'price1'),
-        getItem(<div className='sideBar-price'>60.000đ -{`>`} 160.000đ</div>, 'price2'),
-        getItem(<div className='sideBar-price'>160.000đ -{`>`} 380.000đ</div>, 'price3'),
-        getItem(<div className='sideBar-price'>Trên 380.000 đ</div>, 'price4')
+        getItem(
+          <div onClick={() => getPrice(0, 1000000)} className='sideBar-price'>
+            Dưới 1.000.000 đ
+          </div>,
+          'price1'
+        ),
+        getItem(
+          <div onClick={() => getPrice(1000000, 2000000)} className='sideBar-price'>
+            1.000.000đ -{`>`} 2.000.000đ
+          </div>,
+          'price2'
+        ),
+        getItem(
+          <div onClick={() => getPrice(2000000, 6000000)} className='sideBar-price'>
+            2.000.000đ -{`>`} 6.000.000đ
+          </div>,
+          'price3'
+        ),
+        getItem(
+          <div onClick={() => getPrice(6000000)} className='sideBar-price'>
+            Trên 6.000.000 đ
+          </div>,
+          'price4'
+        )
       ],
       'group'
     ),
