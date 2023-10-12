@@ -8,9 +8,9 @@ import MenuSideBar from '~/app/component/stack/menu-sidebar/menu-sidebar.compone
 import { validateManageInfo } from '../utils/validateForm'
 import { Radio } from 'antd';
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
-import { useAuthRedux } from '../redux/hook/useAuthReducer'
 import UpdatePassword from './component/updatePassword.component'
 import { GrFormClose } from 'react-icons/gr'
+import { getOneUserSystem } from '~/app/api/auth/auth.api'
 interface CustomerData {
     fullname: string;
     phoneNumber: string;
@@ -25,22 +25,6 @@ interface InFo {
 }
 
 const ManageInfoCustomer: FunctionComponent<InFo> = () => {
-    const { data: { user }, actions } = useAuthRedux()
-    const [stateUpdatePassword, setstateUpdatePassword] = useState(false)
-    useEffect(() => {
-        const id = localStorage.getItem("userID")
-        actions.getOneUser(id);
-
-    }, [])
-    const { handleSubmit, control, formState: { errors } } = useForm({
-        mode: 'onChange',
-        resolver: yupResolver(validateManageInfo)
-    });
-    const onSubmit = (data: any) => {
-        console.log(data);
-
-    }
-
     const accessToken = localStorage.getItem("accessToken")
     const arrayField = [
         {
@@ -73,6 +57,28 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
         }
 
     ]
+    const [stateUpdatePassword, setstateUpdatePassword] = useState(false)
+    const id = localStorage.getItem("userID")
+    const { handleSubmit, control, formState: { errors } } = useForm({
+        mode: 'onChange',
+        resolver: yupResolver(validateManageInfo),
+        defaultValues: async () => {
+            const userData = (await getOneUserSystem(id)).data;
+            const filteredData: any = {};
+            arrayField.forEach((key: any) => {
+                if (userData.hasOwnProperty(key?.field)) {
+                    filteredData[key?.field] = userData[key?.field];
+                }
+            })
+            return filteredData
+        }
+    });
+    const onSubmit = (data: any) => {
+        console.log(data);
+
+    }
+
+
 
     return (
         <div css={cssManageInfo}>
