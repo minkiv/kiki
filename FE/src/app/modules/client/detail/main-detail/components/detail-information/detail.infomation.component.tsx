@@ -15,7 +15,7 @@ import { CiRuler } from 'react-icons/ci'
 import { TiTick } from 'react-icons/ti'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
-interface DetailInformation {}
+interface DetailInformation { }
 
 const DetailInformation: FunctionComponent<DetailInformation> = () => {
   const {
@@ -78,7 +78,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
     setCheckQuantity(filterListQuantity)
     setquantityRemainProduct(findQuantityRemain)
   }, [colorSelect, sizeSelect])
-
   const handelAddProductToCart = () => {
     const accessToken = localStorage.getItem('accessToken')
     if (!accessToken) {
@@ -91,7 +90,10 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       messageApi.error('Vui lòng chọn thông tin')
       return
     }
-
+    if (quantityRemainProduct.quantity == null) {
+      message.error("hêt hàng")
+      return
+    }
     if (accessToken) {
       const requestApiCart = {
         productId: productDetail._id,
@@ -101,6 +103,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
           nameSize: sizeSelect.nameSize
         }
       }
+
       addProductToCarts(requestApiCart).then((res) => {
         if (res) {
           const requestProduct = {
@@ -112,13 +115,48 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
             }
           }
           actions.addProductToCart(requestProduct)
-          toast.success('thêm vào giỏ hàng thành công')
-        } else {
-          toast.error('lỗi khi thêm sản phẩm vào giỏ hàng')
+          message.success('thêm vào giỏ hàng thành công')
         }
+      }, (err) => {
+        console.log(err)
+        message.error(err?.response?.data)
       })
     }
   }
+  // const handelAddProductOrder = () => {
+  //   const accessToken = localStorage.getItem('accessToken')
+  //   if (!accessToken) {
+  //     messageApi.error('bạn chưa đăng nhập tài khoản')
+  //     setTimeout(() => {
+  //       navigate('/customer/login')
+  //     }, 2000)
+  //   }
+  //   if (!colorSelect || !sizeSelect) {
+  //     messageApi.error('Vui lòng chọn thông tin')
+  //     return
+  //   }
+  //   if (quantityRemainProduct.quantity == null) {
+  //     message.error("hêt hàng")
+  //     return
+  //   }
+  //   if (accessToken) {
+  //     const requestProduct = {
+  //       product: productDetail,
+  //       quantityOrder: {
+  //         quantity,
+  //         nameColor: colorSelect.nameColor,
+  //         nameSize: sizeSelect.nameSize
+  //       }
+  //     }
+  //     const existingList = JSON.parse(localStorage.getItem("listSelectCart")!) || [];
+  //     existingList.push(requestProduct);
+  //     const updatedListJSON = JSON.stringify(existingList);
+  //     localStorage.setItem("listSelectCart", updatedListJSON);
+  //     console.log(localStorage.getItem("listSelectCart"))
+  //     message.success('mua hàng thành công')
+  //     navigate("/payment")
+  //   }
+  // }
   const changeInfo = (type: any) => {
     setOptionInfo(type)
     if (type === 'intro') setIsShowInfo(productDetail?.description)
@@ -167,13 +205,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                     <div
                       key={item.id}
                       style={{ backgroundColor: `${item.nameColor}` }}
-                      className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${
-                        colorSelect?.id === item.id && 'border-red-600'
-                      } ${
-                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                      className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${colorSelect?.id === item.id && 'border-red-600'
+                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
+                        }`}
                       onClick={() => handleSelectColor(item.id)}
                     >
                       {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
@@ -189,13 +225,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
                   {listSize?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
-                        sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
-                      } ${
-                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
+                        }`}
                       onClick={() => handleSelectSize(item.id)}
                     >
                       {item.nameSize}

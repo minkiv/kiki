@@ -2,7 +2,6 @@ import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import MenuSideBar from '~/app/component/stack/menu-sidebar/menu-sidebar.component'
 import MainManangeOrder from './component/main-manage-order/main-manage-order.component'
-import { useAuthRedux } from '../redux/hook/useAuthReducer'
 import { Skeleton } from 'antd'
 
 interface ManageOrderProps {

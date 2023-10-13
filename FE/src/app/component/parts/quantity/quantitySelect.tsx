@@ -40,27 +40,30 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             setQuantityWithCondition(0)
         }
     }, [colorSelect, sizeSelect])
-    const handleDecrement = () => {
+    const handleDecrement = async () => {
         const objectDecrement = {
             type: 'DECREMENT',
             quantityWithCondition,
             itemCart
         }
 
-        actions.updateSelectQuantityCart(objectDecrement)
+        actions.updateSelectQuantityCart(objectDecrement);
+
         setObjectError((prev) => ({
             ...prev,
             increment: false
-        }))
+        }));
+
         const requestObjectProduct = {
             productId: itemCart.product._id,
             quantityOrder: {
                 ...itemCart.quantityOrder,
-                quantity: itemCart.quantityOrder.quantity
+                quantity: itemCart.quantityOrder.quantity - 1
             }
         }
-        UpdateProductToCart(requestObjectProduct)
+        await UpdateProductToCart(requestObjectProduct);
     }
+
 
     const handleIncrement = () => {
         const objectIncrement = {
@@ -80,7 +83,7 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             productId: itemCart.product._id,
             quantityOrder: {
                 ...itemCart.quantityOrder,
-                quantity: itemCart.quantityOrder.quantity
+                quantity: itemCart.quantityOrder.quantity + 1
             }
         }
 

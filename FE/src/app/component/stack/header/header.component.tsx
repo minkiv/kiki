@@ -77,17 +77,17 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
           </Link>
         </div>
         <div>
-          <Link className='hover:text-red-500' to={'/'}>
-            GIỚI THIỆU
+          <Link className='hover:text-red-500' to={'/LifeStyle'}>
+            LifeStyle
           </Link>
         </div>
         <div>
-          <Link className='hover:text-red-500' to={'/'}>
+          <Link className='hover:text-red-500' to={'/Contacts'}>
             LIÊN HỆ
           </Link>
         </div>
         <div className='title'>
-          <Link className='hover:text-red-500' to={'/'}>
+          <Link className='hover:text-red-500' to={''}>
             VỀ CHÚNG TÔI
           </Link>
           <div className='news-product'>
