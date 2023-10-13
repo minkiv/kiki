@@ -22,9 +22,10 @@ interface ITemplateTableProp {
     searchFunc?: any
     columnTable?: any
     formEdit?: ReactNode
+    handelGetList?: any
 }
 
-const TemplateTable: FC<ITemplateTableProp> = ({ dataTable, createFunc, deleteFunc, searchFunc, changeFunc, columnTable, formEdit }) => {
+const TemplateTable: FC<ITemplateTableProp> = ({ handelGetList, dataTable, createFunc, deleteFunc, searchFunc, changeFunc, columnTable, formEdit }) => {
     const [defaultValue, setDefaultValue] = useState<any>(null)
     const [form] = Form.useForm()
     const [isModelOpen, setIsModelOpen] = useState(false)
@@ -34,19 +35,22 @@ const TemplateTable: FC<ITemplateTableProp> = ({ dataTable, createFunc, deleteFu
         setTriggerLoadding(true)
         deleteFunc(idItem).then((res: any) => {
             if (res) {
+                console.log(res)
                 setTimeout(() => {
                     setTriggerLoadding(false)
+                    message.success('Xóa thành công');
+                    handelGetList()
                 }, 1000)
             }
         }, (err: any) => {
             setTimeout(() => {
                 setTriggerLoadding(false)
+                message.error(err.response.data)
             }, 1000)
         })
-        message.success('Xóa thành công');
     };
     const cancel = (e: any) => {
-        message.error('Đã hủy');
+        message.error('Đã hủy xoá');
     };
     const handleOk = () => {
         setIsModelOpen(false)
@@ -60,6 +64,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({ dataTable, createFunc, deleteFu
                             setTimeout(() => {
                                 setTriggerLoadding(false)
                                 message.success("thêm thành công")
+                                handelGetList()
                             }, 1000)
                         }
                     },
@@ -83,16 +88,18 @@ const TemplateTable: FC<ITemplateTableProp> = ({ dataTable, createFunc, deleteFu
                     changeFunc(values, defaultValue._id).then(
                         (res: any) => {
                             if (res) {
+                                console.log(res)
                                 setTimeout(() => {
                                     setTriggerLoadding(false)
                                     message.success("sửa thành công")
+                                    handelGetList()
                                 }, 1000)
                             }
                         },
                         (err: any) => {
                             setTimeout(() => {
                                 setTriggerLoadding(false)
-                                message.error(" sửa thất bại")
+                                message.error("sửa thất bại hãy chú ý tài khoản có thể đã tồn tải")
                             }, 1000)
                         }
                     )
@@ -122,7 +129,6 @@ const TemplateTable: FC<ITemplateTableProp> = ({ dataTable, createFunc, deleteFu
         form.resetFields()
     }
     const showModel = (typeAction: any, recordTable?: any) => {
-        console.log(recordTable)
         setIsModelOpen(true)
         setType(typeAction)
         if (typeAction === 'CHANGE') {

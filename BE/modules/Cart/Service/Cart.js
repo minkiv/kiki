@@ -65,7 +65,6 @@ export const updateCart = async (bodyRequet) => {
     const cartUser = await Cart.findOne({
         user: bodyRequet.userId,
     })
-    console.log(cartUser)
     if (cartUser) {
         const findProduct = cartUser.carts.find((item) => String(item.product) == bodyRequet.productId)
         findProduct.quantityOrder = bodyRequet.quantityOrder

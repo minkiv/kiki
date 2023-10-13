@@ -111,7 +111,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
       show: false
     }))
 
-    //action cart
 
     const objectIncrement = {
       type: 'COMPARE_QUANTITY',
@@ -289,7 +288,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
               <td className='text-[16px]'>
                 <span className='real-prices'>
                   {' '}
-                  {(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', {
+                  {(item?.product?.price)?.toLocaleString('vi', {
                     style: 'currency',
                     currency: 'VND'
                   })}

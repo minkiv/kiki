@@ -4,7 +4,7 @@ import { useOrderRedux } from '../../../redux/hook/useOrderReducer'
 import moment from 'moment'
 import { deleteOrder } from '~/app/api/order/order.api'
 import toast from 'react-hot-toast'
-
+import { Button, message, Popconfirm } from 'antd';
 interface MainManangeOrderProps {
     props?: any
 }
@@ -18,7 +18,9 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
         actions.getAllOrder()
     }, [])
 
-    const handelDetateOrder = (id: any) => {
+
+
+    const confirm = (id: any) => {
         deleteOrder(id).then((res) => {
             if (res) {
                 toast.success("huỷ thành công")
@@ -27,7 +29,13 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
         }, (err) => {
             toast.error(err?.response?.data?.message)
         })
-    }
+    };
+
+    const cancel = (e: any) => {
+        message.error('đã xác nhận không huỷ');
+    };
+
+
     return (
         <div css={cssMainManangeOrder}>
             <h1>Quản lý đơn hàng</h1>
@@ -50,7 +58,10 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                 <tr key={order?._id}>
                                     <td>{index + 1}</td>
                                     <td>{moment.utc(order?.updatedAt).utcOffset(+7).format('YYYY-MM-DD HH:mm:ss')}</td>
-                                    <td className='font-semibold text-red-600'>{order?.orderStatus}</td>
+                                    <td className={order?.orderStatus === 'đang chờ duyệt' ? 'text-red-700' : 'text-green-700'}>
+                                        {order?.orderStatus}
+                                    </td>
+
                                     <td>
                                         {order.productOrder.map((product: any) => (
                                             <div key={product?._id} className='title'>
@@ -68,7 +79,17 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                         ))}
                                     </td>
                                     <td>{totalAmount?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</td>
-                                    <td><button className='bg-red-500 text-white py-3 px-7 hover:bg-red-300' onClick={() => handelDetateOrder(order._id)}>huỷ đơn hàng</button></td>
+                                    <td>
+                                        <Popconfirm
+                                            title="Delete the task"
+                                            description="Are you sure to delete this task?"
+                                            onConfirm={() => confirm(order?._id)}
+                                            onCancel={cancel}
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <Button danger>huỷ đơn hàng</Button>
+                                        </Popconfirm></td>
                                 </tr>)
 
                         })}

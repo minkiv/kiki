@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { getOneUserSystem } from '~/app/api/auth/auth.api'
 
 interface MenuSideBarProps {
@@ -28,19 +29,24 @@ const MenuSideBar: FunctionComponent<MenuSideBarProps> = () => {
             <div>
                 <ul>
                     <li>
-                        <a href="/manage-info">Thông tin tài khoản</a>
+                        <Link to={"/manage-info"}><a href="#">Thông tin tài khoản</a></Link>
+
                     </li>
                     <li>
-                        <a href="/manage">Quản lý đơn hàng</a>
+                        <Link to={"/manage"}><a href="#">Quản lý đơn hàng</a></Link>
+
                     </li>
                     <li>
-                        <a href="/support">Hỗ trợ</a>
+                        <Link to={"/support"}>
+                            <a href="#">Hỗ trợ</a>
+                        </Link>
+
                     </li>
 
                 </ul>
             </div>
 
-        </div>
+        </div >
     )
 }
 

@@ -13,23 +13,19 @@ export const deleteCategory = async (req) => {
     return remove
 }
 export const addCategory = async (req) => {
-    const fileImage = req.file
     const categorys = await Category.create({
-        ...req.body,
-        image: fileImage.path
+        ...req.body
     })
     return categorys
 }
 
 export const updateCategory = async (req) => {
     const id = req.params.id
-    const fileImage = req.file
     const update = await Category.updateOne({
         _id: id
     },
         {
-            ...req.body,
-            image: fileImage.path
+            ...req.body
         }
     )
     return update

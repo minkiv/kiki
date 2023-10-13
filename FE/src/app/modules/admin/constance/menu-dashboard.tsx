@@ -2,7 +2,9 @@ import {
     FileOutlined,
     UserOutlined,
     OrderedListOutlined,
-    ShoppingCartOutlined
+    ShoppingCartOutlined,
+    BarChartOutlined,
+    MoneyCollectOutlined
 
 } from '@ant-design/icons'
 
@@ -28,13 +30,13 @@ export const menuDashBoard = [
         label: 'Order'
     },
     {
-        key: '/admin/vocher',
-        icon: <ShoppingCartOutlined />,
+        key: '/admin/vorcher',
+        icon: <MoneyCollectOutlined />,
         label: 'Vocher'
     },
     {
         key: '/admin/statistical',
-        icon: <ShoppingCartOutlined />,
+        icon: <BarChartOutlined />,
         label: 'Statistical'
     },
     {

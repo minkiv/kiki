@@ -14,8 +14,6 @@ const Cart: FunctionComponent<CartProps> = () => {
     data: { carts },
     actions
   } = useCartRedux()
-
-  console.log(carts.length)
   useEffect(() => {
     actions.getAllCart()
   }, [])

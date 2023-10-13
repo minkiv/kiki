@@ -1,4 +1,4 @@
-import { Form, Input, Select } from 'antd'
+import { Form, Input } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from "../common/template-table/template-table.component"
 
@@ -19,7 +19,7 @@ const ProductManagemnet = () => {
         const columTemp: any = []
         if (dataProduct.length > 0) {
             Object?.keys(dataProduct[0]).map((itemKey) => {
-                if (!['_id', '__v', 'updatedAt', 'listQuantityRemain'].includes(itemKey)) {
+                if (!['_id', '__v', 'updatedAt', 'createdAt', 'listQuantityRemain'].includes(itemKey)) {
                     return columTemp.push({
                         title: itemKey,
                         dataIndex: itemKey,
@@ -53,14 +53,13 @@ const ProductManagemnet = () => {
                             render: (text: any, record: any, index: any) => {
                                 return (
                                     <>
-                                      {dataProduct[index]?.listQuantityRemain?.map((item: any, index:any) => (
-                                        <p key={index}>
-                                          {item[itemKey]}
-                                          <hr />
-                                        </p>
-                                      ))}
+                                        {dataProduct[index]?.listQuantityRemain?.map((item: any, index: any) => (
+                                            <div className="flex items-center">
+                                                <p className="mt-0 mb-3">{item[itemKey]}</p>
+                                            </div>
+                                        ))}
                                     </>
-                                  );
+                                );
                             }
                         });
                     }
@@ -78,13 +77,6 @@ const ProductManagemnet = () => {
                         <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
                             <Input />
                         </Form.Item>
-                        {/* <Form.Item label='Role' name='role' rules={[{ required: true, message: 'Please input your username!' }]}>
-                            <Select placeholder='Please select'>
-                                <Option value='ADMIN'>ADMIN</Option>
-                                <Option value='USER_STORE'>USER_STORE</Option>
-                                <Option value='USER'>USER</Option>
-                            </Select>
-                        </Form.Item> */}
 
                         <Form.Item
                             label='PhoneNumber'

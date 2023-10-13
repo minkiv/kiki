@@ -102,7 +102,7 @@ const cartSlice = createSlice({
             const productId = action.payload
             state.carts = state.carts.filter((item: any) => item._id !== productId)
             const listSelectCart = JSON.parse(localStorage.getItem("listSelectCart") || "[]");
-            const productIndex = listSelectCart.findIndex((product: any) => product._id === productId);
+            const productIndex = listSelectCart.findIndex((product: any) => product._id == productId);
             if (productIndex !== -1) {
                 listSelectCart.splice(productIndex, 1);
                 localStorage.setItem("listSelectCart", JSON.stringify(listSelectCart));

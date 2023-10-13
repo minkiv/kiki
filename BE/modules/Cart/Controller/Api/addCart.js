@@ -23,6 +23,7 @@ const addCarts = catchAsync(async (req, res) => {
             item.nameColor === bodyRequet.quantityOrder.nameColor,
     )
 
+
     if (bodyRequet.quantityOrder.quantity > findObjectQuantity.quantity) {
         return res.status(status.BAD_REQUEST).json('Đã vượt quá số lượng')
     }

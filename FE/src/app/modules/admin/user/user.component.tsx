@@ -6,18 +6,18 @@ import { changeUser, createUser, deleteUser, getAllUser } from "./service/user.s
 const UserManagemnet = () => {
   const [column, setColumn] = useState([])
   const [dataUser, setDataUser] = useState([])
+  const [reset, setReset] = useState<boolean>(true)
   useEffect(() => {
     getAllUser().then((res) => {
       setDataUser(res.data)
     })
-  }, [])
-
+  }, [reset])
 
   useEffect(() => {
     const columTemp: any = []
     if (dataUser.length > 0) {
       Object?.keys(dataUser[0]).map((itemKey) => {
-        if (!['_id', '__v', 'password', 'updatedAt', 'nationality'].includes(itemKey)) {
+        if (!['_id', '__v', 'password', 'updatedAt', 'createdAt', 'nationality'].includes(itemKey)) {
           return columTemp.push({
             title: itemKey,
             dataIndex: itemKey,
@@ -29,9 +29,13 @@ const UserManagemnet = () => {
     }
     setColumn(columTemp)
   }, [dataUser])
+
+  const handelGetList = () => {
+    setReset(!reset)
+  }
   return (
     <div>
-      <TemplateTable dataTable={dataUser} columnTable={column} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
+      <TemplateTable dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
         formEdit={
           <Fragment>
             <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]} >
@@ -54,6 +58,13 @@ const UserManagemnet = () => {
             <Form.Item
               label='PhoneNumber'
               name='phoneNumber'
+              rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label='fullname'
+              name='fullname'
               rules={[{ required: true, message: 'Please input your password!' }]}
             >
               <Input />
