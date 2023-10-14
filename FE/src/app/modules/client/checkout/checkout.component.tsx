@@ -43,6 +43,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
     });
 
     const onSubmit = (data: any) => {
+        console.log(data)
         setLoadingCreate(true)
         const cartData = {
             ...data,
