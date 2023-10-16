@@ -7,3 +7,6 @@ export const getAllOrder = async () => {
 export const deleteOrder = async (userId: any) => {
    return await axiosPrivate.delete('/order/' + userId)
 }
+export const updateOrder = async (dataBody:any, id: any)=>{
+   return await axiosPrivate.put(`/order/edit/${id}`, dataBody)
+}

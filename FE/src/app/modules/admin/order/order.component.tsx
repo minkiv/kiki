@@ -1,16 +1,17 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Form, Input } from 'antd';
-import { deleteOrder, getAllOrder } from './service/order.service';
+import { Form,Select } from 'antd';
+import { deleteOrder, getAllOrder,updateOrder } from './service/order.service';
 import TemplateTable from '../common/template-table/template-table.component';
 
 const OrderManagement = () => {
   const [columns, setColumns] = useState([]);
   const [dataOrder, setDataOrder] = useState<any>([]);
+  const [reset, setReset] = useState<boolean>(true)
   useEffect(() => {
     getAllOrder().then((res) => {
       setDataOrder(res.data);
     });
-  }, []);
+  }, [reset]);
   console.log(dataOrder)
   useEffect(() => {
     const dataColum: any = [];
@@ -84,40 +85,25 @@ const OrderManagement = () => {
     setColumns(dataColum);
   }, [dataOrder]);
 
+  const handelGetList = () => {
+    setReset(!reset)
+  }
   return (
     <div>
       <TemplateTable
         dataTable={dataOrder}
         columnTable={columns}
+        changeFunc={updateOrder}
         deleteFunc={deleteOrder}
+        handelGetList={handelGetList}
         formEdit={
           <Fragment>
-            <Form.Item
-              label='fullname'
-              name='fullname'
-              rules={[
-                { required: true, message: 'Please input your password!' },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label='orderStatus'
-              name='orderStatus'
-              rules={[
-                { required: true, message: 'Please input your password!' },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label='nationality'
-              name='nationality'
-              rules={[
-                { required: true, message: 'Please input your password!' },
-              ]}
-            >
-              <Input />
+           <Form.Item label='orderStatus' name='orderStatus' rules={[{ required: true, message: 'Please input your username!' }]}>
+              <Select placeholder='Chuyển đổi trạng thái'>
+                <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
+                <Select.Option value='đang vận chuyển'>đang vận chuyển</Select.Option>
+                <Select.Option value='hoàn thành'>hoàn thành</Select.Option>
+              </Select>
             </Form.Item>
           </Fragment>
         }

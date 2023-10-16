@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { css } from '@emotion/react'
 import SidePayment from './component/side-payment/side-payment.component'
 import Shipping from './component/shipping/shipping.component'
@@ -24,6 +24,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
     const navigate = useNavigate()
     const id = localStorage.getItem("userID")
     const arrayField = ["fullname", "phoneNumber"]
+    const [totalPrice, setTotalPrice] = useState<any>(0)
     const {
         data: { listProductBuy }, actions
     } = useCartRedux()
@@ -41,12 +42,21 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
             return filteredData
         }
     });
-
+    useEffect(() => {
+        if (listProductBuy) {
+          const calculatedTotal = listProductBuy.reduce(
+            (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
+            0
+          )
+          setTotalPrice(calculatedTotal)
+        }
+      }, [listProductBuy])
+      console.log(totalPrice)
     const onSubmit = (data: any) => {
-        console.log(data)
         setLoadingCreate(true)
         const cartData = {
             ...data,
+            totalprice: totalPrice,
             productOrder: listProductBuy
         }
         addOrder(cartData).then((res) => {

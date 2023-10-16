@@ -12,6 +12,7 @@ const orderSchema = mongoose.Schema({
     commune: String,
     locationDetail: String,
     defaultLocation: String,
+    totalprice: Number,
     orderStatus: {
         type: String,
         default: 'đang chờ duyệt',
