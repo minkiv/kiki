@@ -99,7 +99,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({ handelGetList, dataTable, creat
                         (err: any) => {
                             setTimeout(() => {
                                 setTriggerLoadding(false)
-                                message.error("sửa thất bại hãy chú ý tài khoản có thể đã tồn tải")
+                                message.error("sửa thất bại ")
                             }, 1000)
                         }
                     )

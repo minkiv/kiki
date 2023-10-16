@@ -38,13 +38,30 @@ export const addOder = async (req) => {
     return newOrder
 }
 export const updateOrder = async (req) => {
-    const { orderStatus, oderId } = req.body
-    const order = await Order.findOne({
-        _id: oderId
+    const {orderStatus} = req.body
+    const id = req.params.id
+    const findOrder = await Order.findById(id)
+    const currentOrderStatus = findOrder.orderStatus
+    if(currentOrderStatus==='duyệt thành công'){
+        if(orderStatus==='đang chờ duyệt'){
+            return false
+        }
+    }
+    if(currentOrderStatus==='đang vận chuyển'){
+        if(orderStatus==='đang chờ duyệt' || orderStatus==='duyệt thành công'){
+            return false
+        }
+    }
+    if(currentOrderStatus==='hoàn thành'){
+        if(orderStatus==='đang chờ duyệt' || orderStatus==='duyệt thành công' || orderStatus==='đang vận chuyển'){
+            return false
+        }
+    }
+    const update = await Order.updateOne({_id:id},{
+        ...req.body,
+        orderStatus
     })
-
-    order.orderStatus = orderStatus
-    await order.save()
+    return update
 }
 
 export const getAllOrders = async (req) => {
