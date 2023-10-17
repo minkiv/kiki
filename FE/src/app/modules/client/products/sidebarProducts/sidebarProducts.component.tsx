@@ -17,6 +17,7 @@ interface SidebarProductsProps {
   data: any
   onDataUpdate: any
   getPrices: any
+  sortPrices: any
 }
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -40,7 +41,7 @@ function getItem(
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4']
 
 const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
-  const { data, onDataUpdate, getPrices } = props
+  const { data, onDataUpdate, getPrices, sortPrices } = props
   const {
     data: { categorys },
     actions
@@ -54,6 +55,9 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
   const getPrice = (price: number, toPrice?: number) => {
     const rangePrice = [price, toPrice]
     getPrices(rangePrice)
+  }
+  const sortPrice = (type: string) => {
+    sortPrices(type)
   }
   const items: MenuItem[] = [
     getItem(
@@ -110,8 +114,20 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       getItem(<div className='sideBar-sort'>Mới nhất</div>, 'sort2', <MdOutlineAutorenew />),
       getItem(<div className='sideBar-sort'>Được mua nhiều nhất</div>, 'sort3', <ImStarEmpty />),
       getItem(<div className='sideBar-sort'>Được yêu thích nhất</div>, 'sort4', <IoIosHeartEmpty />),
-      getItem(<div className='sideBar-sort'>Giá cao đến thấp</div>, 'sort5', <LiaSortAmountDownSolid />),
-      getItem(<div className='sideBar-sort'>Giá thấp đến cao</div>, 'sort6', <LiaSortAmountUpSolid />)
+      getItem(
+        <div className='sideBar-sort' onClick={() => sortPrice('decending')}>
+          Giá cao đến thấp
+        </div>,
+        'sort5',
+        <LiaSortAmountDownSolid />
+      ),
+      getItem(
+        <div className='sideBar-sort' onClick={() => sortPrice('acending')}>
+          Giá thấp đến cao
+        </div>,
+        'sort6',
+        <LiaSortAmountUpSolid />
+      )
     ])
   ]
   const [openKeys, setOpenKeys] = useState([''])

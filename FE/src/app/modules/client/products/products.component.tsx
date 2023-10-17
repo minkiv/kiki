@@ -15,6 +15,7 @@ const Products: FunctionComponent<ProductProps> = () => {
     actions
   } = useProductRedux()
   const [data, setData] = useState<any>([])
+
   useEffect(() => {
     actions.getAllProduct()
   }, [])
@@ -25,6 +26,24 @@ const Products: FunctionComponent<ProductProps> = () => {
     const listPro = products.filter((pro: any) => pro.categoryId === id)
     setData(listPro)
     if (id === 'all') setData(products)
+  }
+  const handleSortPrice = (type: any) => {
+    console.log(type)
+    if (type == 'decending') {
+      const listPrice = products.map((p: any) => p.price).sort((a: any, b: any) => b - a)
+      const listSorted: any = []
+      const sort = listPrice.map((price: any) =>
+        products.map((pro: any) => (price === pro.price ? listSorted.push(pro) : null))
+      )
+      setData(listSorted)
+    } else if (type == 'acending') {
+      const listPrice = products.map((p: any) => p.price).sort((a: any, b: any) => a - b)
+      const listSorted: any = []
+      const sort = listPrice.map((price: any) =>
+        products.map((pro: any) => (price === pro.price ? listSorted.push(pro) : null))
+      )
+      setData(listSorted)
+    }
   }
   const handleGetPrice = (price: any) => {
     const rangePro = products.filter((pro: any) => {
@@ -43,7 +62,12 @@ const Products: FunctionComponent<ProductProps> = () => {
         <h1 className='text-title absolute'>TẤT CẢ SẢN PHẨM </h1>
       </div>
       <div className='flex mt-[48px]'>
-        <SidebarProducts data={data} onDataUpdate={handleDataUpdate} getPrices={handleGetPrice} />
+        <SidebarProducts
+          data={data}
+          onDataUpdate={handleDataUpdate}
+          getPrices={handleGetPrice}
+          sortPrices={handleSortPrice}
+        />
         <ListProducts data={data} />
       </div>
     </div>
