@@ -13,6 +13,7 @@ import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding
 import { useNavigate } from 'react-router-dom'
 import { Skeleton } from 'antd'
 import { getOneUserSystem } from '~/app/api/auth/auth.api'
+import { useVorcherRedux } from '../redux/hook/useVorcherReducer'
 
 interface CheckOutProps {
     props?: any
@@ -25,6 +26,10 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
     const id = localStorage.getItem("userID")
     const arrayField = ["fullname", "phoneNumber"]
     const [totalPrice, setTotalPrice] = useState<any>(0)
+    const { data: { vorchers }, actions: actionsVorcher } = useVorcherRedux()
+    useEffect(() => {
+        actionsVorcher.getVorcher()
+    }, [])
     const {
         data: { listProductBuy }, actions
     } = useCartRedux()
@@ -44,36 +49,55 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
     });
     useEffect(() => {
         if (listProductBuy) {
-          const calculatedTotal = listProductBuy.reduce(
-            (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
-            0
-          )
-          setTotalPrice(calculatedTotal)
+            const calculatedTotal = listProductBuy.reduce(
+                (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
+                0
+            )
+            setTotalPrice(calculatedTotal)
         }
-      }, [listProductBuy])
-      console.log(totalPrice)
+    }, [listProductBuy])
+
     const onSubmit = (data: any) => {
-        setLoadingCreate(true)
+        const voucherCode = localStorage.getItem('voucherCode');
+        const voucher = vorchers?.find((item: any) => item.code === voucherCode);
+        const discount = voucher?.discount;
+        let sumOrderPrice = discount ? totalPrice - discount : totalPrice;
+
+        if (!voucher && voucherCode) {
+            toast.error("vorcher không khớp")
+            return
+        }
+        setLoadingCreate(true);
+
         const cartData = {
             ...data,
-            totalprice: totalPrice,
+            totalprice: sumOrderPrice,
             productOrder: listProductBuy
-        }
-        addOrder(cartData).then((res) => {
-            if (res) {
-                setTimeout(() => {
-                    setLoadingCreate(false)
-                    localStorage.removeItem("listSelectCart")
-                    actions.clearCart()
-                    toast.success('tạo đơn hàng thành công')
-                    navigate("/thankcustomers")
-                }, 4000)
-            }
-            else {
-                toast.error('tạo đơn hàng lỗi')
-            }
-        })
-    }
+        };
+
+        addOrder(cartData)
+            .then((res) => {
+                if (res) {
+                    setTimeout(() => {
+                        setLoadingCreate(false);
+                        localStorage.removeItem('listSelectCart');
+                        localStorage.removeItem('voucherCode');
+                        actions.clearCart();
+                        toast.success('Tạo đơn hàng thành công');
+                        navigate('/thankcustomers');
+                    }, 4000);
+                } else {
+                    toast.error('Tạo đơn hàng lỗi');
+                }
+            })
+            .catch((error) => {
+                setLoadingCreate(false);
+                toast.error('Lỗi khi tạo đơn hàng: ' + error.message);
+            });
+    };
+
+
+
     return (
         <>
             {accessToken ? (<LayoutLoading condition={loadingCreate}>

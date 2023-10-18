@@ -81,12 +81,13 @@ const CategoryManagement = () => {
                     voucher.timeRemaining = `${hoursRemaining} giờ ${minutesRemaining} phút ${secondsRemaining} giây còn lại`;
                 } else {
                     voucher.timeRemaining = 'Hết hạn';
+                    deleteVorcher(voucher._id);
                 }
                 return voucher;
             });
-            setDataVorcher(updatedDataVorcher);
-
-            const allExpired = updatedDataVorcher.every((voucher: any) => voucher.timeRemaining === 'Hết hạn');
+            const nonExpiredVouchers = updatedDataVorcher.filter((voucher: any) => voucher.timeRemaining !== 'Hết hạn');
+            setDataVorcher(nonExpiredVouchers);
+            const allExpired = nonExpiredVouchers.every((voucher: any) => voucher.timeRemaining === 'Hết hạn');
             if (allExpired) {
                 clearInterval(intervalId);
             }
@@ -103,7 +104,7 @@ const CategoryManagement = () => {
     }
     return (
         <div>
-            <TemplateTable dataTable={dataVorcher} changeFunc={changeVorcher} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
+            <TemplateTable dataTable={dataVorcher} changeFunc={changeVorcher} dataPage={8} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
                 formEdit={
                     <Fragment>
                         <Form.Item

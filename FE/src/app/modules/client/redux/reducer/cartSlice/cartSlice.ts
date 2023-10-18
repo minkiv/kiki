@@ -40,7 +40,6 @@ const cartSlice = createSlice({
 
         updateSelectQuantityCart: (state, action) => {
             const { itemCart, quantityWithCondition, quantityRemainProduct, newQuantity } = action.payload
-            console.log(newQuantity)
             const findItemCart = state.carts.findIndex((item: any) => item._id === itemCart._id)
             switch (action.payload.type) {
                 case 'INCREMENT':

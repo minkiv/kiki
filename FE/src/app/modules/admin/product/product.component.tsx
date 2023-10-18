@@ -71,7 +71,7 @@ const ProductManagemnet = () => {
     }, [dataProduct])
     return (
         <div>
-            <TemplateTable dataTable={dataProduct} columnTable={column}
+            <TemplateTable dataTable={dataProduct} dataPage={3} columnTable={column}
                 formEdit={
                     <Fragment>
                         <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>

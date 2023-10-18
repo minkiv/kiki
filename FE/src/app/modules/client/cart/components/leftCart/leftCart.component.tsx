@@ -16,7 +16,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     data: { carts, listProductBuy },
     actions
   } = useCartRedux()
-  console.log(listProductBuy)
   useEffect(() => {
     actions.getAllCart()
   }, [])

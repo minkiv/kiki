@@ -35,7 +35,7 @@ const UserManagemnet = () => {
   }
   return (
     <div>
-      <TemplateTable dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
+      <TemplateTable dataTable={dataUser} dataPage={6} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
         formEdit={
           <Fragment>
             <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]} >

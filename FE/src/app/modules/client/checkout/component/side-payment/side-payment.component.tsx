@@ -1,8 +1,9 @@
 import { css } from '@emotion/react'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useCartRedux } from '../../../redux/hook/useCartReducer'
-import InputComponent from '~/app/component/parts/input/input.component'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
+import { useVorcherRedux } from '../../../redux/hook/useVorcherReducer'
+import toast from 'react-hot-toast'
 
 interface SidePaymentProps {
   props?: any
@@ -12,6 +13,8 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
   const [isClicked, setIsClicked] = useState(false)
   const [textContent, setTextContent] = useState('Xem thông tin')
   const [totalPrice, setTotalPrice] = useState<any>(0)
+  const [voucherCode, setVoucherCode] = useState<any>('');
+  const [sale, setSale] = useState<any>('');
   const handleClick = () => {
     if (isClicked) {
       setTextContent('Xem thông tin')
@@ -25,10 +28,14 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
     actions
   } = useCartRedux()
 
+  const { data: { vorchers }, actions: actionsVorcher } = useVorcherRedux()
+
   useEffect(() => {
     actions.getAllCart()
   }, [])
-
+  useEffect(() => {
+    actionsVorcher.getVorcher()
+  }, [])
   useEffect(() => {
     if (listProductBuy) {
       const calculatedTotal = listProductBuy.reduce(
@@ -38,6 +45,19 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
       setTotalPrice(calculatedTotal)
     }
   }, [listProductBuy])
+
+  const handleApplyVoucher = () => {
+    let found = false;
+    for (let i = 0; i < vorchers.length; i++) {
+      if (vorchers[i].code === voucherCode) {
+        setSale(vorchers[i].discount);
+        found = true;
+        break;
+      }
+    }
+    localStorage.setItem('voucherCode', voucherCode)
+  };
+
   return (
     <div css={cssSidebar} className=' max-md:hidden mt-[30px]'>
       <div className='sidebar-wrapper max-sm:hidden'>
@@ -96,33 +116,45 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           </div>
           <div className='summary-flexRow'>
             <div className='summary-label'>Phí vận chuyển</div>
-            <div className='summary-value'>136.000đ</div>
+            <div className='summary-value'>0 đ</div>
           </div>
 
           <div className='summary-flexRow'>
             <div className='summary-label'>Giảm giá</div>
-            <div className='summary-value summary-value-positive'>-152.000đ</div>
+            <div className='summary-value summary-value-positive'>{sale?.toLocaleString('vi', {
+              style: 'currency',
+              currency: 'VND'
+            })}đ</div>
           </div>
         </div>
         <div className='order-total'>
           <div className='order-total-label'>Tổng tiền</div>
           <div className='order-total-value'>
             <div className='order-total-total'>
-              {totalPrice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+              {(totalPrice - sale)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
             </div>
           </div>
         </div>
         <div className='styles_Divider'></div>
 
-        <div className='flex px-[16px] py-[8px]'>
-          <div className='text-[18px] font-semibold text-[#3e3e3f]'>Mã phiếu giảm giá</div>
-          <span className='mx-[20px] w-[2px] h-[24px] bg-[#939598]'></span>
-          <div className='text-[18px] font-semibold text-[#3e3e3f]'>Mã của tôi</div>
+        {totalPrice >= 1000000 ? (<div>
+          <div className='flex px-[16px] py-[8px]'>
+            <div className='text-[18px] font-semibold text-[#3e3e3f]'>Mã phiếu giảm giá</div>
+            <span className='mx-[20px] w-[2px] h-[24px] bg-[#939598]'></span>
+            <div className='text-[18px] font-semibold text-[#3e3e3f]'>Mã của tôi {totalPrice >= 1000000 ? (vorchers.map((item: any) => (<p>{item?.code}</p>))) : ("")} </div>
+          </div>
+          <div className='flex px-[16px] py-[20px]'>
+            <input
+              className="border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
+              type="text"
+              placeholder="Mã giảm giá"
+              onChange={(e: any) => setVoucherCode(e.target.value)}
+            />
+            <ButtonSqua children='Áp dụng' className='btnSqua' onClick={handleApplyVoucher} />
+          </div>
+
         </div>
-        <div className='flex px-[16px] py-[20px]'>
-          <InputComponent hideIcon={false} placeholder='Mã giảm giá' />
-          <ButtonSqua children='Áp dụng' className='btnSqua' />
-        </div>
+        ) : (<p className='py-3 text-gray-600 px-5 text-[15px]'>Vorcher sẽ được áp dụng cho đơn hàng có giá trị 1 triệu trở lên</p>)}
         <div className='flexRow'>
           <button className='button-order' type='submit'>
             Đặt hàng ({listProductBuy.length})
