@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Form,Select } from 'antd';
-import { deleteOrder, getAllOrder,updateOrder } from './service/order.service';
+import { Form, Select } from 'antd';
+import { deleteOrder, getAllOrder, updateOrder } from './service/order.service';
 import TemplateTable from '../common/template-table/template-table.component';
 
 const OrderManagement = () => {
@@ -91,6 +91,7 @@ const OrderManagement = () => {
   return (
     <div>
       <TemplateTable
+        dataPage={2}
         dataTable={dataOrder}
         columnTable={columns}
         changeFunc={updateOrder}
@@ -98,7 +99,7 @@ const OrderManagement = () => {
         handelGetList={handelGetList}
         formEdit={
           <Fragment>
-           <Form.Item label='orderStatus' name='orderStatus' rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label='orderStatus' name='orderStatus' rules={[{ required: true, message: 'Please input your username!' }]}>
               <Select placeholder='Chuyển đổi trạng thái'>
                 <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
                 <Select.Option value='đang vận chuyển'>đang vận chuyển</Select.Option>

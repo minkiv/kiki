@@ -23,9 +23,10 @@ interface ITemplateTableProp {
     columnTable?: any
     formEdit?: ReactNode
     handelGetList?: any
+    dataPage?: any
 }
 
-const TemplateTable: FC<ITemplateTableProp> = ({ handelGetList, dataTable, createFunc, deleteFunc, searchFunc, changeFunc, columnTable, formEdit }) => {
+const TemplateTable: FC<ITemplateTableProp> = ({ dataPage, handelGetList, dataTable, createFunc, deleteFunc, searchFunc, changeFunc, columnTable, formEdit }) => {
     const [defaultValue, setDefaultValue] = useState<any>(null)
     const [form] = Form.useForm()
     const [isModelOpen, setIsModelOpen] = useState(false)
@@ -175,7 +176,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({ handelGetList, dataTable, creat
                     </div>
                 </div>
                 <div className='overflow-auto'>
-                    <Table columns={columns} dataSource={dataTable} />
+                    <Table columns={columns} dataSource={dataTable} pagination={{ pageSize: dataPage }} />
                 </div>
                 <div>
                     <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel} >

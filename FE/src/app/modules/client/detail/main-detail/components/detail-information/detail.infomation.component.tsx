@@ -90,7 +90,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       messageApi.error('Vui lòng chọn thông tin')
       return
     }
-    if (quantityRemainProduct.quantity == null) {
+    if (quantityRemainProduct.quantity == null || quantityRemainProduct.quantity == 0) {
       message.error("hêt hàng")
       return
     }
