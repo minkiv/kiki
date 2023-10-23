@@ -53,15 +53,17 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             ...prev,
             increment: false
         }));
-
-        const requestObjectProduct = {
-            productId: itemCart.product._id,
-            quantityOrder: {
-                ...itemCart.quantityOrder,
-                quantity: itemCart.quantityOrder.quantity - 1
-            }
+        if (itemCart.quantityOrder.quantity > 1) {
+            const requestObjectProduct = {
+                productId: itemCart.product._id,
+                quantityOrder: {
+                    ...itemCart.quantityOrder,
+                    quantity: itemCart.quantityOrder.quantity - 1
+                }
+            };
+            await UpdateProductToCart(requestObjectProduct);
         }
-        await UpdateProductToCart(requestObjectProduct);
+
     }
 
 
@@ -90,7 +92,7 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
         UpdateProductToCart(requestObjectProduct)
     }
 
-    const handleChangeInput = (event: any) => {
+    const handleChangeInput = async (event: any) => {
         const objectIncrement = {
             type: 'ONCHANGE_INPUT',
             quantityWithCondition,
@@ -121,11 +123,11 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
             productId: itemCart.product._id,
             quantityOrder: {
                 ...itemCart.quantityOrder,
-                quantity: event.target.value
+                quantity: event.target.value == "" ? Number(1) : Number(event.target.value) || event.target.value > quantityWithCondition ? Number(quantityWithCondition) : Number(event.target.value)
             }
         }
-
-        UpdateProductToCart(requestObjectProduct)
+        console.log(requestObjectProduct, event.target.value)
+        await UpdateProductToCart(requestObjectProduct)
     }
 
     return (

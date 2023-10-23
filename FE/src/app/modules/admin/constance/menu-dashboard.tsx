@@ -4,7 +4,9 @@ import {
     OrderedListOutlined,
     ShoppingCartOutlined,
     BarChartOutlined,
-    MoneyCollectOutlined
+    MoneyCollectOutlined,
+    BankOutlined,
+    HomeOutlined
 
 } from '@ant-design/icons'
 
@@ -40,8 +42,13 @@ export const menuDashBoard = [
         label: 'Statistical'
     },
     {
+        key: '/admin/paymentvnpay',
+        icon: <BankOutlined />,
+        label: 'Payment VNPay'
+    },
+    {
         key: '/',
-        icon: <ShoppingCartOutlined />,
+        icon: <HomeOutlined />,
         label: 'home'
     },
 

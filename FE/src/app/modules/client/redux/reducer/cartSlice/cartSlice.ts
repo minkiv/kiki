@@ -43,6 +43,7 @@ const cartSlice = createSlice({
             const findItemCart = state.carts.findIndex((item: any) => item._id === itemCart._id)
             switch (action.payload.type) {
                 case 'INCREMENT':
+                    console.log(state.carts)
                     if (Number(itemCart.quantityOrder.quantity) < Number(quantityWithCondition)) {
                         state.carts[findItemCart].quantityOrder.quantity += 1
                     }
@@ -59,9 +60,14 @@ const cartSlice = createSlice({
                     if (Number(newQuantity) > Number(quantityWithCondition)) {
                         state.carts[findItemCart].quantityOrder.quantity = quantityWithCondition;
                     }
+
+                    if (Number(newQuantity) <= Number(quantityWithCondition)) {
+                        state.carts[findItemCart].quantityOrder.quantity = newQuantity
+                    }
                     if (Number(newQuantity) < 1) {
                         state.carts[findItemCart].quantityOrder.quantity = 1;
                     }
+                    //state.carts[findItemCart].quantityOrder.quantity = newQuantity
                     break;
 
                 case 'COMPARE_QUANTITY':
