@@ -109,26 +109,32 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       ],
       'group'
     ),
-    getItem('Sắp xếp theo', 'sub5', <GrFormFilter />, [
-      getItem(<div className='sideBar-sort'>Mặc định</div>, 'sort1'),
-      getItem(<div className='sideBar-sort'>Mới nhất</div>, 'sort2', <MdOutlineAutorenew />),
-      getItem(<div className='sideBar-sort'>Được mua nhiều nhất</div>, 'sort3', <ImStarEmpty />),
-      getItem(<div className='sideBar-sort'>Được yêu thích nhất</div>, 'sort4', <IoIosHeartEmpty />),
-      getItem(
-        <div className='sideBar-sort' onClick={() => sortPrice('decending')}>
-          Giá cao đến thấp
-        </div>,
-        'sort5',
-        <LiaSortAmountDownSolid />
-      ),
-      getItem(
-        <div className='sideBar-sort' onClick={() => sortPrice('acending')}>
-          Giá thấp đến cao
-        </div>,
-        'sort6',
-        <LiaSortAmountUpSolid />
-      )
-    ])
+    getItem(
+      'Sắp xếp theo',
+      'sub5',
+      <GrFormFilter />,
+      [
+        getItem(<div className='sideBar-sort'>Mặc định</div>, 'sort1'),
+        getItem(<div className='sideBar-sort'>Mới nhất</div>, 'sort2', <MdOutlineAutorenew />),
+        getItem(<div className='sideBar-sort'>Được mua nhiều nhất</div>, 'sort3', <ImStarEmpty />),
+        getItem(<div className='sideBar-sort'>Được yêu thích nhất</div>, 'sort4', <IoIosHeartEmpty />),
+        getItem(
+          <div className='sideBar-sort' onClick={() => sortPrice('decending')}>
+            Giá cao đến thấp
+          </div>,
+          'sort5',
+          <LiaSortAmountDownSolid />
+        ),
+        getItem(
+          <div className='sideBar-sort' onClick={() => sortPrice('acending')}>
+            Giá thấp đến cao
+          </div>,
+          'sort6',
+          <LiaSortAmountUpSolid />
+        )
+      ],
+      'group'
+    )
   ]
   const [openKeys, setOpenKeys] = useState([''])
 

@@ -52,7 +52,7 @@ const cssProduct = css`
     margin-top: 40px;
   }
   .titles-desc {
-    font-size: 17px;
+    font-size: 20px;
     font-family: 'MuliDisplayVN', sans-serif;
     font-weight: 300;
     color: #333;
