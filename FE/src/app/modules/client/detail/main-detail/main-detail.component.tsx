@@ -12,14 +12,11 @@ interface MainDetailProps {
 const MainDetail: FunctionComponent<MainDetailProps> = () => {
   return (
     <div css={cssmain}>
-      <div className='item-list-silder hidden sm:block mb-3'>
-        <ProductAddress />
-      </div>
-      <div className="grid xl:grid-cols-7 bg-white sm:grid-cols-12">
-        <div className="xl:col-span-3 sm:grid-cols-7 ">
+      <div className='grid xl:grid-cols-7 bg-white sm:grid-cols-12'>
+        <div className='xl:col-span-3 sm:grid-cols-7 '>
           <PreviewImg />
         </div>
-        <div className="md:col-span-4 sm:grid-cols-5 ">
+        <div className='md:col-span-4 sm:grid-cols-5 '>
           <DetailInformation />
         </div>
       </div>
@@ -30,7 +27,7 @@ const MainDetail: FunctionComponent<MainDetailProps> = () => {
         <ListSeenProduct />
       </div>
       <div className='banner mt-[70px]'>
-        <img src="https://pubcdn.ivymoda.com/files/news/2023/09/20/98aeda6d6c19f27a692226be8a0fb3a0.jpg" alt="" />
+        <img src='https://pubcdn.ivymoda.com/files/news/2023/09/20/98aeda6d6c19f27a692226be8a0fb3a0.jpg' alt='' />
       </div>
     </div>
   )
@@ -38,18 +35,18 @@ const MainDetail: FunctionComponent<MainDetailProps> = () => {
 
 export default MainDetail
 const cssmain = css`
-height:100%;
-position: sticky;
-width: 80%;
-margin: 0 auto;
-overflow-x: hidden;
-.item-list-slider{
+  height: 100%;
+  position: sticky;
+  width: 80%;
+  margin: 0 auto;
+  overflow-x: hidden;
+  .item-list-slider {
     margin-bottom: 20px;
-}
-.banner img{
-  border-radius:80px 0;
-}
-@media (min-width: 0) and (max-width: 739px) {
+  }
+  .banner img {
+    border-radius: 80px 0;
+  }
+  @media (min-width: 0) and (max-width: 739px) {
     width: 100%;
   }
 `
