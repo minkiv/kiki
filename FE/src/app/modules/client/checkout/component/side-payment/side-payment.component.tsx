@@ -3,13 +3,15 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useCartRedux } from '../../../redux/hook/useCartReducer'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import { useVorcherRedux } from '../../../redux/hook/useVorcherReducer'
-import toast from 'react-hot-toast'
+import { useOrderRedux } from '../../../redux/hook/useOrderReducer'
+import { createPayment } from '~/app/api/payment/payment.api'
 
 interface SidePaymentProps {
   props?: any
 }
 
 const SidePayment: FunctionComponent<SidePaymentProps> = () => {
+  // const { data: { infoOrder } } = useOrderRedux()
   const [isClicked, setIsClicked] = useState(false)
   const [textContent, setTextContent] = useState('Xem thông tin')
   const [totalPrice, setTotalPrice] = useState<any>(0)
@@ -54,9 +56,18 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         found = true;
         break;
       }
+      else {
+        setSale(0)
+      }
     }
     localStorage.setItem('voucherCode', voucherCode)
   };
+
+  // const handleVnPayPayment = async () => {
+  //   const response = await createPayment({ infoOrder, productOrder: totalPrice - sale });
+  //   const vnpayUrl = response.data;
+  //   window.location.href = vnpayUrl;
+  // };
 
   return (
     <div css={cssSidebar} className=' max-md:hidden mt-[30px]'>
@@ -124,7 +135,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
             <div className='summary-value summary-value-positive'>{sale?.toLocaleString('vi', {
               style: 'currency',
               currency: 'VND'
-            })}đ</div>
+            })}</div>
           </div>
         </div>
         <div className='order-total'>
@@ -148,7 +159,10 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
               className="border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
               type="text"
               placeholder="Mã giảm giá"
-              onChange={(e: any) => setVoucherCode(e.target.value)}
+              onChange={(e: any) => {
+                setVoucherCode(e.target.value)
+                localStorage.setItem('voucherCode', e.target.value)
+              }}
             />
             <ButtonSqua children='Áp dụng' className='btnSqua' onClick={handleApplyVoucher} />
           </div>

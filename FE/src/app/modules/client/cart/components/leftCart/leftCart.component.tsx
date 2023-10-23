@@ -18,6 +18,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   } = useCartRedux()
   useEffect(() => {
     actions.getAllCart()
+
   }, [])
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [showPopupSelect, setShowPopupSelect] = useState<any>({
@@ -26,7 +27,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   })
   const [listColor, setListColor] = useState([])
   const [listSize, setListSize] = useState([])
-
   const [colorSelect, setColorSelect] = useState<any>()
   const [sizeSelect, setSizeSelect] = useState<any>()
   const [checkQuantityType, setCheckQuantityType] = useState<any[]>([])
@@ -104,6 +104,14 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
       indexProductCart: showPopupSelect.index
     }
 
+    // if (!colorSelect || !sizeSelect) {
+    //   messageApi.error('Vui lòng chọn thông tin')
+    //   return
+    // }
+    if (quantityRemainProduct.quantity == null || quantityRemainProduct.quantity == 0) {
+      message.error("hêt hàng")
+      return
+    }
     actions.updateOrderProduct(objectProperties)
     setShowPopupSelect((prev: any) => ({
       ...prev,

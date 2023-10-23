@@ -1,17 +1,26 @@
-import { css } from '@emotion/react'
-import { FunctionComponent } from 'react'
+import { css } from '@emotion/react';
+import { FunctionComponent } from 'react';
+
 interface PaymentsProps {
-  props?: any
+  selectedPaymentMethod: string;
+  handlePaymentMethodChange: (method: string) => void;
 }
 
-const Payments: FunctionComponent<PaymentsProps> = () => {
+const Payments: FunctionComponent<PaymentsProps> = ({ selectedPaymentMethod, handlePaymentMethodChange }) => {
   return (
     <div className='w-[40%]'>
       <div css={delivercss} className=' max-md:hidden'>
         <h3 className=''>Chọn hình thức thanh toán</h3>
         <div className='method-list'>
-          <label htmlFor='' className='radio-button flex '>
-            <input type='radio' name='payment-method' readOnly checked value='cod' />
+          <label htmlFor='cod' className='radio-button flex'>
+            <input
+              type='radio'
+              name='payment-method'
+              readOnly
+              checked={selectedPaymentMethod === 'cod'}
+              onChange={() => handlePaymentMethodChange('cod')}
+              value='cod'
+            />
             <span className='radio-fake my-auto'></span>
             <span className='label flex my-auto'>
               <div className='style-label flex align-center'>
@@ -28,8 +37,15 @@ const Payments: FunctionComponent<PaymentsProps> = () => {
               </div>
             </span>
           </label>
-          <label htmlFor='' className='radio-button flex '>
-            <input type='radio' name='payment-method' readOnly value='vnpay' className='' />
+          <label htmlFor='vnpay' className='radio-button flex'>
+            <input
+              type='radio'
+              name='payment-method'
+              readOnly
+              checked={selectedPaymentMethod === 'vnpay'}
+              onChange={() => handlePaymentMethodChange('vnpay')}
+              value='vnpay'
+            />
             <span className='radio-fake my-auto'></span>
             <span className='label flex my-auto'>
               <div className='style-label flex align-center'>
@@ -48,18 +64,17 @@ const Payments: FunctionComponent<PaymentsProps> = () => {
           </label>
         </div>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default Payments
+export default Payments;
 
 const delivercss = css`
   background-color: var(--color-white);
   border-radius: 4px;
   font-size: 16px;
-  padding:50px 0;
+  padding: 50px 0;
   h3 {
     color: rgb(56, 56, 61);
     font-weight: 700;
@@ -81,7 +96,6 @@ const delivercss = css`
   }
 
   input[type='radio']::before {
-    
     content: '';
     width: 8px;
     height: 8px;
@@ -95,5 +109,4 @@ const delivercss = css`
     cursor: pointer;
     margin: auto 8px;
   }
-`
-
+`;
