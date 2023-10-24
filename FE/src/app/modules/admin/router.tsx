@@ -5,6 +5,8 @@ import ProductManagement from './product/product.component'
 import CategoryManagement from './category/category.component'
 import VocherManange from './vocher/vorcher.component'
 import PaymentComponennt from './payment/payment.component'
+import StatisticsCompoennt from './statistics/statistics.component';
+
 
 export const adminRouter: RouteObject[] = [
     {
@@ -36,6 +38,11 @@ export const adminRouter: RouteObject[] = [
     {
         path: 'paymentvnpay',
         element: <PaymentComponennt />,
+        children: []
+    },
+    {
+        path: 'statistics',
+        element: <StatisticsCompoennt />,
         children: []
     }
 ]

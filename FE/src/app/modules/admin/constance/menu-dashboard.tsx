@@ -37,7 +37,7 @@ export const menuDashBoard = [
         label: 'Vocher'
     },
     {
-        key: '/admin/statistical',
+        key: '/admin/statistics',
         icon: <BarChartOutlined />,
         label: 'Statistical'
     },
