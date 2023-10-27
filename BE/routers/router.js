@@ -6,6 +6,7 @@ import CartRouter from './cart.js'
 import OrderRouter from "./order.js"
 import VorcherRouter from "./vorcher.js"
 import paymentRouter from "./payment.js"
+import statisticsRouter from "./statistics.js"
 const router = express.Router();
 const defaultRouter = [
     { path: "/product", route: ProductRouter },
@@ -14,7 +15,8 @@ const defaultRouter = [
     { path: "/cart", route: CartRouter },
     { path: "/order", route: OrderRouter },
     { path: "/vorcher", route: VorcherRouter },
-    { path: '/payment', route: paymentRouter }
+    { path: '/payment', route: paymentRouter },
+    { path: '/statistics', route: statisticsRouter }
 ]
 defaultRouter.forEach((route) => {
     router.use(route.path, route.route)
