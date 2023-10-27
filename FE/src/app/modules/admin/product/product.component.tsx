@@ -1,15 +1,23 @@
-import { Form, Input } from 'antd'
+import { Button, Form, Input, Select, Space, Upload, UploadFile } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component'
-
+import { CloseOutlined } from '@ant-design/icons'
 import { getAllProduct } from './service/product.service'
+import axios from 'axios'
+import { getAllCategory } from '../category/service/category.service'
+const { Option } = Select
 
 const ProductManagemnet = () => {
+
   const [column, setColumn] = useState([])
   const [dataProduct, setDataProduct] = useState<any>([])
+  const [categories, setCategories] = useState([])
   useEffect(() => {
     getAllProduct().then((res) => {
       setDataProduct(res.data)
+    })
+    getAllCategory().then((res: any) => {
+      setCategories(res.data)
     })
   }, [])
 
@@ -59,6 +67,44 @@ const ProductManagemnet = () => {
     }
     setColumn(columTemp)
   }, [dataProduct])
+
+  const [fileList, setFileList] = useState<UploadFile[]>([])
+
+  const customRequestUpload = async (options: any) => {
+    const { onSuccess, onError, file, onProgress } = options
+
+    const fmData = new FormData()
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      onUploadProgress: (event: any) => {
+        onProgress({ percent: (event.loaded / event.total) * 100 })
+      }
+    }
+    fmData.append('file', file)
+    fmData.append('upload_preset', "r17fcf7k")
+    fmData.append('cloud_name', "df3xmajf8")
+    fmData.append('folder', 'ECMA')
+    try {
+      const res = await axios.post(`https://api.cloudinary.com/v1_1/df3xmajf8/image/upload`, fmData, config)
+      console.log(res)
+      onSuccess(res.data.url)
+      setFileList((prevFileList: any) => [
+        ...prevFileList,
+        {
+          uid: file.uid,
+          name: file.name,
+          status: res.status,
+          url: res.data.url
+        }
+      ])
+    } catch (err) {
+      onError({ err })
+    }
+  }
+
+  const onRemove = (file: any) => {
+    setFileList((prevFileList) => prevFileList.filter((item) => item.uid !== file.uid))
+  }
   return (
     <div>
       <TemplateTable
@@ -67,38 +113,70 @@ const ProductManagemnet = () => {
         columnTable={column}
         formEdit={
           <Fragment>
-            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
-              <Input />
+            <Form.Item
+              label='Images'
+              name='images'
+              getValueFromEvent={(event) => event.fileList}
+              rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}
+              valuePropName={'fileList'}
+              initialValue={fileList}
+            >
+              <Upload
+                customRequest={customRequestUpload}
+                listType='picture-card'
+                onRemove={onRemove}
+              >
+                {fileList.length < 5 && '+ Upload'}
+              </Upload>
             </Form.Item>
+            <Form.Item label='Category' name='category' rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}>
+              <Select placeholder='Please select'>
+                {categories?.map((itemCate: any) => (
+                  <Option value={itemCate._id}>{itemCate.name}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.List
+              name='listQuantityRemain'
+              rules={[
+                {
+                  validator: async (_, names) => {
+                    if (names.length < 1) {
+                      return Promise.reject(new Error('Ít nhất phải có 1 biến thể'))
+                    }
+                  }
+                }
+              ]}
+              initialValue={[]}
+            >
+              {(fields, { add, remove }, { errors }) => (
+                <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align='baseline'>
+                      <Form.Item {...restField} noStyle name={[name, 'nameColor']}>
+                        <Input placeholder='nameColor' />
+                      </Form.Item>
+                      <Form.Item {...restField} noStyle name={[name, 'nameSize']}>
+                        <Input placeholder='nameSize' />
+                      </Form.Item>
+                      <Form.Item {...restField} noStyle name={[name, 'quantity']}>
+                        <Input placeholder='quantity' />
+                      </Form.Item>
+                      <CloseOutlined
+                        onClick={() => {
+                          remove(name)
+                        }}
+                      />
+                    </Space>
+                  ))}
 
-            <Form.Item
-              label='PhoneNumber'
-              name='phoneNumber'
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label='nickName'
-              name='nickName'
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label='gender'
-              name='gender'
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label='nationality'
-              name='nationality'
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input />
-            </Form.Item>
+                  <Button type='dashed' onClick={() => add()} block>
+                    + Thêm biến thể
+                  </Button>
+                  <Form.ErrorList className='text-red-500' errors={errors} />
+                </div>
+              )}
+            </Form.List>
           </Fragment>
         }
       />
