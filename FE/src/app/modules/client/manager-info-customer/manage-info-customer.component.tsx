@@ -10,7 +10,10 @@ import { Radio } from 'antd';
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import UpdatePassword from './component/updatePassword.component'
 import { GrFormClose } from 'react-icons/gr'
-import { getOneUserSystem } from '~/app/api/auth/auth.api'
+import { getAllUser, getOneUserSystem } from '~/app/api/auth/auth.api'
+import { updatUser } from '~/app/api/auth/auth.api';
+import toast from 'react-hot-toast'
+
 interface CustomerData {
     fullname: string;
     phoneNumber: string;
@@ -23,13 +26,17 @@ interface CustomerData {
 interface InFo {
     props?: CustomerData
 }
-
 const ManageInfoCustomer: FunctionComponent<InFo> = () => {
     const accessToken = localStorage.getItem("accessToken")
     const arrayField = [
         {
             title: "Nickname",
             field: "nickname"
+        },
+        {
+            title: "password",
+            field: "password",
+            hidden: true
         },
         {
             title: "Họ và Tên",
@@ -57,6 +64,14 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
         }
 
     ]
+    const [getUser, setGetUser] = useState<any[]>([]);
+
+useEffect(() => {
+  getAllUser()
+    .then((res) => {
+      setGetUser(res.data);
+    })
+}, []);
     const [stateUpdatePassword, setstateUpdatePassword] = useState(false)
     const id = localStorage.getItem("userID")
     const { handleSubmit, control, formState: { errors } } = useForm({
@@ -74,8 +89,14 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
         }
     });
     const onSubmit = (data: any) => {
-        console.log(data);
-
+        const idUser = localStorage.getItem("userID")
+        updatUser(idUser, data).then((res:any)=>{
+            if(res){
+                toast.success("Cập nhật thông tin thành công!")
+            }
+        }, (err)=> {
+            toast.error("Cập nhật lỗi")
+        })
     }
 
 
@@ -99,6 +120,9 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
                                     <div className='space-y-10'>
                                         {
                                             arrayField.map((item: any) => {
+                                                if (item.hidden) {
+                                                    return null;
+                                                  }
                                                 return <div className='flex items-center h-[48px]' key={item.field}>
                                                     <div className='w-[170px] text-[#3e3e3f] text-[14px] leading-[16px]'>
                                                         {item.title}:
