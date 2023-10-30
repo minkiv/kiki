@@ -1,7 +1,7 @@
 import { Form, Input, DatePicker } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component';
-import { changeVorcher, createVorcher, deleteVorcher, getAllVorcher } from './service/vorcher.service';
+import { changeVorcher, createVorcher, deleteVorcher, getAllVorcher, searchVoucher } from './service/vorcher.service';
 import moment from 'moment-timezone';
 
 const CategoryManagement = () => {
@@ -104,7 +104,7 @@ const CategoryManagement = () => {
     }
     return (
         <div>
-            <TemplateTable dataTable={dataVorcher} changeFunc={changeVorcher} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
+            <TemplateTable searchFunc={searchVoucher} setData={setDataVorcher} dataTable={dataVorcher} changeFunc={changeVorcher} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
                 formEdit={
                     <Fragment>
                         <Form.Item

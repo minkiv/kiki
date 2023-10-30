@@ -1,7 +1,7 @@
 import { DatePicker, Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from "../common/template-table/template-table.component"
-import { changeUser, createUser, deleteUser, getAllUser } from "./service/user.service"
+import { changeUser, createUser, deleteUser, getAllUser, searchUser } from "./service/user.service"
 
 const UserManagemnet = () => {
   const [column, setColumn] = useState([])
@@ -35,7 +35,7 @@ const UserManagemnet = () => {
   }
   return (
     <div>
-      <TemplateTable dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
+      <TemplateTable searchFunc={searchUser} setData={setDataUser} dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
         formEdit={
           <Fragment>
             <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]} >

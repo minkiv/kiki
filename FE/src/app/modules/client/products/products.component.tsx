@@ -4,40 +4,63 @@ import TitleProducts from './titleProducts/titleProducts.component'
 import SidebarProducts from './sidebarProducts/sidebarProducts.component'
 import ListProducts from './listProduct/listProducts.component'
 import { useProductRedux } from '../redux/hook/useProductReducer'
+import { searchProduct } from '../../admin/product/service/product.service'
 
 interface ProductProps {
   props?: any
 }
 
 const Products: FunctionComponent<ProductProps> = () => {
+  let keyword = new URLSearchParams(location.search).get('q')
+
   const {
     data: { products },
     actions
   } = useProductRedux()
   const [data, setData] = useState<any>([])
-
+  const [defaultData, setDefaultData] = useState<any>([])
+  const [searchError, setSearchError] = useState("")
   useEffect(() => {
     actions.getAllProduct()
   }, [])
   useEffect(() => {
     setData(products)
-  }, [products])
+
+  }, [keyword])
+  useEffect(() => {
+    if (keyword) {
+      searchProduct(keyword).then(
+        (res: any) => { setData(res.data), setDefaultData(res.data), setSearchError("") },
+        (err: any) => {
+          setSearchError(err.response.data.message)
+        }
+      )
+
+    }
+  }, [keyword])
   const handleDataUpdate = (id: any) => {
-    const listPro = products.filter((pro: any) => pro.categoryId === id)
-    setData(listPro)
-    if (id === 'all') setData(products)
+    if (!keyword) {
+      const listPro = products.filter((pro: any) => pro.categoryId === id)
+      setData(listPro)
+      if (id === 'all') setData(products)
+    }
+    else {
+      const listPro = defaultData.filter((pro: any) => pro.categoryId === id)
+      setData(listPro)
+      if (id === 'all') setData(defaultData)
+    }
   }
   const handleSortPrice = (type: any) => {
     console.log(type)
     if (type == 'decending') {
-      const listPrice = products.map((p: any) => p.price).sort((a: any, b: any) => b - a)
+      const listPrice = data.map((p: any) => p.price).sort((a: any, b: any) => b - a)
       const listSorted: any = []
       const sort = listPrice.map((price: any) =>
         products.map((pro: any) => (price === pro.price ? listSorted.push(pro) : null))
       )
       setData(listSorted)
     } else if (type == 'acending') {
-      const listPrice = products.map((p: any) => p.price).sort((a: any, b: any) => a - b)
+      const listPrice = data.map((p: any) => p.price).sort((a: any, b: any) => a - b)
       const listSorted: any = []
       const sort = listPrice.map((price: any) =>
         products.map((pro: any) => (price === pro.price ? listSorted.push(pro) : null))
@@ -46,14 +69,28 @@ const Products: FunctionComponent<ProductProps> = () => {
     }
   }
   const handleGetPrice = (price: any) => {
-    const rangePro = products.filter((pro: any) => {
-      if (price[1]) {
-        return pro.price >= price[0] && pro.price <= price[1]
-      } else {
-        return pro.price >= price[0]
-      }
-    })
-    setData(rangePro)
+    if (!keyword) {
+      const rangePro = products.filter((pro: any) => {
+        if (price[1]) {
+          return pro.price >= price[0] && pro.price <= price[1]
+        } else {
+          return pro.price >= price[0]
+        }
+      })
+      setData(rangePro)
+    }
+    else {
+      const rangePro = defaultData.filter((pro: any) => {
+        if (price[1]) {
+          return pro.price >= price[0] && pro.price <= price[1]
+        } else {
+          return pro.price >= price[0]
+        }
+      })
+      setData(rangePro)
+
+    }
+
   }
   const updateProductList = (updatedProduct:any) => {
     const existingProductIndex = data.findIndex((product:any) => product.id === updatedProduct.id);
@@ -91,7 +128,8 @@ const Products: FunctionComponent<ProductProps> = () => {
           sortPrices={handleSortPrice}
           sortNewProduct={updateProductList}
         />
-        <ListProducts data={data} />
+        {!searchError && <ListProducts data={data} />}
+        {searchError && <h1 className='text-[16px] font-semibold'>{searchError}!</h1>}
       </div>
     </div>
   )

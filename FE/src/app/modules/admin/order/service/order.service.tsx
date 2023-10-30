@@ -14,3 +14,7 @@ export const updateOrder = async (dataBody: any, id: any) => {
 export const createOrder = async (dataBody: any) => {
    return await axiosPrivate.post(`/order/add`, dataBody)
 }
+
+export const searchOrder = async (keyword: any) => {
+   return await axiosPrivate.get(`/order/search?fullname=${keyword}`)
+}

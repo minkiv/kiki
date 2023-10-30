@@ -35,3 +35,9 @@ export const updateProduct = async (req) => {
         });
     return update
 }
+export const searchProduct = async (req, res) => {
+    const { name } = req.query;
+    const searchRegex = new RegExp(name, "i");
+    const products = await Product.find({ name: searchRegex });
+    return products
+};

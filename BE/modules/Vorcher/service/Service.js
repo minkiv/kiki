@@ -27,3 +27,9 @@ export const updateVorchers = async (req) => {
     )
     return update
 }
+export const searchVoucher = async (req, res) => {
+    const { code } = req.query;
+    const searchRegex = new RegExp(code, "i");
+    const vouchers = await Vorcher.find({ code: searchRegex });
+    return vouchers
+};

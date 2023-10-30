@@ -30,3 +30,9 @@ export const updateCategory = async (req) => {
     )
     return update
 }
+export const searchCategory = async (req, res) => {
+    const { name } = req.query;
+    const searchRegex = new RegExp(name, "i");
+    const categories = await Category.find({ name: searchRegex });
+    return categories
+};

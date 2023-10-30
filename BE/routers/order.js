@@ -7,6 +7,7 @@ router.use(veryfiletoken)
 router.post('/add', controllerOrder.addOrders)
 router.put('/edit/:id', controllerOrder.updateOders)
 router.get('/', controllerOrder.getAllOrder)
+router.get('/search', controllerOrder.searchOrders)
 router.get('/orderadmin', controllerOrder.getAllOrderAdmin)
 router.delete('/:id', controllerOrder.deleteUser)
 export default router

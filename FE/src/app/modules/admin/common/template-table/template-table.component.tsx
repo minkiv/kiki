@@ -23,7 +23,8 @@ interface ITemplateTableProp {
   columnTable?: any
   formEdit?: ReactNode
   handelGetList?: any
-  dataPage?: any
+  dataPage?: any,
+  setData?: any
 }
 
 const TemplateTable: FC<ITemplateTableProp> = ({
@@ -35,13 +36,16 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   searchFunc,
   changeFunc,
   columnTable,
-  formEdit
+  formEdit,
+  setData
 }) => {
   const [defaultValue, setDefaultValue] = useState<any>(null)
   const [form] = Form.useForm()
   const [isModelOpen, setIsModelOpen] = useState(false)
   const [triggerLoadding, setTriggerLoadding] = useState(false)
   const [type, setType] = useState('CREATE')
+  const [keyword, setKeyword] = useState("")
+  const [errorSearch, setErrorSearch] = useState("")
   const confirmDelete = (idItem: any) => {
     setTriggerLoadding(true)
     deleteFunc(idItem).then(
@@ -126,19 +130,27 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         })
     }
   }
+  const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    return setKeyword(event.target.value);
+  }
   const handleSearchItem = () => {
     setTriggerLoadding(true)
-    searchFunc(type).then(
+    searchFunc(keyword).then(
       (res: any) => {
         if (res) {
           setTimeout(() => {
             setTriggerLoadding(false)
+
+            setData(res.data)
+            setErrorSearch("")
           }, 1000)
         }
       },
       (err: any) => {
         setTimeout(() => {
           setTriggerLoadding(false)
+          console.log(err.response.data.message);
+          setErrorSearch(err.response.data.message)
         }, 1000)
       }
     )
@@ -193,13 +205,13 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           <PlusOutlined className='text-[20px] mb-[4px]' />
         </Button>
         <div>
-          <Input placeholder='search item here' className='w-[350px]' prefix={<SearchOutlined />} />
-          <Button type='primary' className='ml-3' onClick={handleSearchItem}>
+          <Input placeholder='search item here' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
+          <Button type='primary' className='ml-3' onClick={handleSearchItem} >
             Search
           </Button>
         </div>
       </div>
-      <div className=''>
+      {!errorSearch && <div className=''>
         <div className='overflow-auto'>
           <Table columns={columns} dataSource={dataTable} pagination={{ pageSize: dataPage }} />
         </div>
@@ -211,6 +223,9 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           </TemplateModal>
         </div>
       </div>
+      }
+      {errorSearch && <div>{errorSearch}</div>
+      }
     </LayoutLoading>
   )
 }

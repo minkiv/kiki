@@ -92,3 +92,9 @@ export const deleteUsers = async (req) => {
     const remove = await Order.findByIdAndDelete(req.params.id)
     return remove
 }
+export const searchOrder = async (req, res) => {
+    const { fullname } = req.query;
+    const searchRegex = new RegExp(fullname, "i");
+    const orders = await Order.find({ fullname: searchRegex });
+    return orders
+};
