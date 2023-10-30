@@ -104,7 +104,7 @@ const CategoryManagement = () => {
     }
     return (
         <div>
-            <TemplateTable dataTable={dataVorcher} changeFunc={changeVorcher} dataPage={8} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
+            <TemplateTable dataTable={dataVorcher} changeFunc={changeVorcher} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
                 formEdit={
                     <Fragment>
                         <Form.Item

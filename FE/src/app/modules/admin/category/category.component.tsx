@@ -46,11 +46,9 @@ const CategoryManagement = () => {
     }
     return (
         <div>
-            <TemplateTable dataTable={dataCategory} dataPage={7} columnTable={column} deleteFunc={deleteCategory} createFunc={createCategory} handelGetList={handelGetList} changeFunc={changeCategory}
+            <TemplateTable dataTable={dataCategory} columnTable={column} deleteFunc={deleteCategory} createFunc={createCategory} handelGetList={handelGetList} changeFunc={changeCategory}
                 formEdit={
                     <Fragment>
-
-
                         <Form.Item
                             label='name'
                             name='name'

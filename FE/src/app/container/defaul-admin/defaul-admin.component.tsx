@@ -19,7 +19,7 @@ const DefaultAdmin: React.FC = () => {
   }
   const accessToken = localStorage.getItem('accessToken')
 
-  useEffect(() => {}, [accessToken])
+  useEffect(() => { }, [accessToken])
 
   return (
     <Layout css={cssLayout} style={{ height: '100vh' }}>
@@ -87,11 +87,13 @@ const DefaultAdmin: React.FC = () => {
             marginBottom: '24px',
             padding: 24,
             minHeight: 280,
+            overflowY: 'auto',
             background: colorBgContainer
           }}
         >
           <Outlet />
         </Content>
+
       </Layout>
     </Layout>
   )

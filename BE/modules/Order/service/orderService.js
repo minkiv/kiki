@@ -20,8 +20,9 @@ export const addOder = async (req) => {
             const element = listProductOrder[index];
             const productOrder = element.quantityOrder
             const productDetail = await ProductModel.findOne({
-                _id: element.product._id
+                _id: element.product
             })
+            console.log(productDetail)
             const findObjectRemain = productDetail.listQuantityRemain.find(
                 (item) => item.nameColor == productOrder.nameColor && item.nameSize == productOrder.nameSize
             )
@@ -38,26 +39,26 @@ export const addOder = async (req) => {
     return newOrder
 }
 export const updateOrder = async (req) => {
-    const {orderStatus} = req.body
+    const { orderStatus } = req.body
     const id = req.params.id
     const findOrder = await Order.findById(id)
     const currentOrderStatus = findOrder.orderStatus
-    if(currentOrderStatus==='duyệt thành công'){
-        if(orderStatus==='đang chờ duyệt'){
+    if (currentOrderStatus === 'duyệt thành công') {
+        if (orderStatus === 'đang chờ duyệt') {
             return false
         }
     }
-    if(currentOrderStatus==='đang vận chuyển'){
-        if(orderStatus==='đang chờ duyệt' || orderStatus==='duyệt thành công'){
+    if (currentOrderStatus === 'đang vận chuyển') {
+        if (orderStatus === 'đang chờ duyệt' || orderStatus === 'duyệt thành công') {
             return false
         }
     }
-    if(currentOrderStatus==='hoàn thành'){
-        if(orderStatus==='đang chờ duyệt' || orderStatus==='duyệt thành công' || orderStatus==='đang vận chuyển'){
+    if (currentOrderStatus === 'hoàn thành') {
+        if (orderStatus === 'đang chờ duyệt' || orderStatus === 'duyệt thành công' || orderStatus === 'đang vận chuyển') {
             return false
         }
     }
-    const update = await Order.updateOne({_id:id},{
+    const update = await Order.updateOne({ _id: id }, {
         ...req.body,
         orderStatus
     })

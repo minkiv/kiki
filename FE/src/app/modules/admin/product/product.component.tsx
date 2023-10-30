@@ -109,7 +109,6 @@ const ProductManagemnet = () => {
     <div>
       <TemplateTable
         dataTable={dataProduct}
-        dataPage={3}
         columnTable={column}
         formEdit={
           <Fragment>
