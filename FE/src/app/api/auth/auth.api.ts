@@ -10,7 +10,12 @@ export const registerSystem = async (data: any) => {
 export const getOneUserSystem = async (id: any) => {
     return await axiosPrivate.get(`/auth/${id}`)
 }
-
+export const getAllUser = async () => {
+    return await axiosPrivate.get(`/auth/`)
+}
 export const sendEmail = async (email:any) => {
     return await axiosPrivate.post(`/auth/sendEmail`, email)
+}
+export const updatUser= async (id: any, data: any)=>{
+    return await axiosPrivate.put(`/auth/update/${id}`,data)
 }

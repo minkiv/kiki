@@ -5,26 +5,39 @@ import { Controller, useForm } from 'react-hook-form';
 import InputComponent from '~/app/component/parts/input/input.component';
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua';
 import { css } from '@emotion/react';
-
+import { updatUser } from '~/app/api/auth/auth.api';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 type Props = {}
 
 const UpdatePassword = (props: Props) => {
+    const navigate = useNavigate()
     const { handleSubmit, control, formState: { errors } } = useForm({
         mode: 'onChange',
         resolver: yupResolver(validateUpdatePassword)
     });
     const onSubmitPassword = (data: any) => {
-        console.log(data);
+        const idUser = localStorage.getItem("userID")
+        updatUser(idUser, data).then((res:any)=>{
+            if(res){
+                toast.success("Đổi mật khẩu thành công!")
+                localStorage.removeItem("userID")
+                localStorage.removeItem("accessToken")
+                navigate("/customer/login")
+            }
+        }, (err)=> {
+            toast.error(err.response.data)
+        })
 
     }
     const arrayPass = [
-        {
-            title: "Mật khẩu hiện tại",
-            field: "password"
-        },
+        // {
+        //     title: "Mật khẩu hiện tại",
+        //     field: "password"
+        // },
         {
             title: "Mật khẩu mới",
-            field: "newPassword"
+            field: "password"
         },
         {
             title: "Nhập lại Mật khẩu mới",
