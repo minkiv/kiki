@@ -72,7 +72,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     if (type == 'CREATE') {
       form
         .validateFields()
-        .then((values) => {
+        .then((values: any) => {
           form.resetFields()
           createFunc(values).then(
             (res: any) => {
@@ -92,7 +92,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             }
           )
         })
-        .catch((info) => {
+        .catch((info: any) => {
           console.log('Validate Failed:', info)
         })
     }
@@ -100,7 +100,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     if (type === 'CHANGE') {
       form
         .validateFields()
-        .then((values) => {
+        .then((values: any) => {
           form.resetFields()
           changeFunc(values, defaultValue._id).then(
             (res: any) => {
@@ -121,7 +121,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             }
           )
         })
-        .catch((info) => {
+        .catch((info: any) => {
           console.log('Validate Failed:', info)
         })
     }
@@ -144,9 +144,9 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     )
   }
   const handleCancel = () => {
+    form.resetFields()
     setIsModelOpen(false)
     setDefaultValue(null)
-    form.resetFields()
   }
   const showModel = (typeAction: any, recordTable?: any) => {
     setIsModelOpen(true)
