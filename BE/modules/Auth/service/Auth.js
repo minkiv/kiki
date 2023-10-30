@@ -73,13 +73,13 @@ export const sendEmails = async(email)=> {
         });
 
         const info = await transporter.sendMail({
-          from: '"IVYmoda Shop👻" <hiepphdemo@gmail.com>',
+          from: '"KiKi Shop👻" <fptkiki@gmail.com>',
           to: email,
-          subject: "IVY moda Password Reset",
+          subject: "KiKi Password Reset",
           html:`
             <p>Mật khẩu mới của tài khoản ${email} là: <strong>${newPassword}</strong></p>
             <p>Vui lòng giữ thông tin này riêng tư và không chia sẻ với người khác.</p>
-            <p>Để bảo mật tài khoản. Hãy đổi mật khẩu đăng nhập ngay sau khi đăng nhập thành công.<p/>
+            <p>Để bảo mật tài khoản. Hãy đổi mật khẩu ngay sau khi đăng nhập thành công.<p/>
             <p>Trân trọng!<p/>
           `
         });
