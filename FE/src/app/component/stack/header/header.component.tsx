@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
 import { HiOutlineLogout } from 'react-icons/hi'
+import { searchProduct } from '~/app/modules/admin/product/service/product.service'
 
 interface HeaderComponentProps {
   props?: any
@@ -20,7 +21,9 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     actions
   } = useCartRedux()
   const [searchTerm, setSearchTerm] = useState('')
+  const [searchProducts, setSearchProducts] = useState<any[]>([])
   const [stateInput, setStateInput] = useState(false)
+  const [searchError, setSearchError] = useState(false)
   let keyword = new URLSearchParams(location.search).get('q')
   const {
     data: { products },
@@ -28,6 +31,15 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   } = useProductRedux()
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
+    searchProduct(event.target.value).then(
+      (res) => {
+        setSearchProducts(res.data),
+          setSearchError(false)
+      },
+      (err: any) => {
+        setSearchError(true)
+      }
+    )
   }
   useEffect(() => {
     productAction.getAllProduct()
@@ -120,27 +132,26 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
           />
           {stateInput && (
             <div className='absolute z-20 rounded-lg bg-white top-full left-0 w-full'>
-              {products?.map((product: any) => {
-                if (product?.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-                  return (
-                    <ul key={product?._id} className=''>
-                      <Link
-                        to={`/products?q=${product?.name}`}
-                        onClick={() => {
-                          setStateInput(false)
-                        }}
-                      >
-                        <li className='px-5 py-3 flex justify-start hover:bg-gray-100'>
-                          <div className='pl-[18px] pr-2'>
-                            <AiOutlineSearch />
-                          </div>
-                          <div className='truncate'>{product?.name}</div>
-                        </li>
-                      </Link>
-                    </ul>
-                  )
-                }
+              {!searchError && searchProducts?.map((product: any) => {
+                return (
+                  <ul key={product?._id} className=''>
+                    <Link
+                      to={`/products?q=${product?.name}`}
+                      onClick={() => {
+                        setStateInput(false)
+                      }}
+                    >
+                      <li className='px-5 py-3 flex justify-start hover:bg-gray-100'>
+                        <div className='pl-[18px] pr-2'>
+                          <AiOutlineSearch />
+                        </div>
+                        <div className='truncate'>{product?.name}</div>
+                      </li>
+                    </Link>
+                  </ul>
+                )
               })}
+
             </div>
           )}
         </div>

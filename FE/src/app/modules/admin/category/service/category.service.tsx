@@ -15,3 +15,6 @@ export const createCategory = async (dataBody: any) => {
 export const changeCategory = async (bodyRequest: any, userId: any) => {
     return await axiosPrivate.put('/category/edit/' + userId, bodyRequest)
 }
+export const searchCategory = async (keyword: any) => {
+    return await axiosPrivate.get(`/category/search?name=${keyword}`)
+}

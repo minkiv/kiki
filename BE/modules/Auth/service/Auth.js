@@ -51,7 +51,7 @@ export const updateUsers = async (req) => {
     return update
 }
 
-export const sendEmails = async(email)=> {
+export const sendEmails = async (email) => {
     try {
         // Generate a random password
         const newPassword = Math.random().toString(36).slice(-8);
@@ -60,23 +60,23 @@ export const sendEmails = async(email)=> {
         const user = await Auth.findOne({ email: email });
         if (user) {
             user.password = hashedPassword;
-            await user.save();  
-        }    
+            await user.save();
+        }
         const transporter = nodemailer.createTransport({
-          host: "smtp.gmail.com",
-          port: 465,
-          secure: true,
-          auth: {
-            user: process.env.EMAIL_APP,
-            pass: process.env.EMAIL_APP_PASSWORD
-          }
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_APP,
+                pass: process.env.EMAIL_APP_PASSWORD
+            }
         });
 
         const info = await transporter.sendMail({
-          from: '"KiKi Shop👻" <fptkiki@gmail.com>',
-          to: email,
-          subject: "KiKi Password Reset",
-          html:`
+            from: '"KiKi Shop👻" <fptkiki@gmail.com>',
+            to: email,
+            subject: "KiKi Password Reset",
+            html: `
             <p>Mật khẩu mới của tài khoản ${email} là: <strong>${newPassword}</strong></p>
             <p>Vui lòng giữ thông tin này riêng tư và không chia sẻ với người khác.</p>
             <p>Để bảo mật tài khoản. Hãy đổi mật khẩu ngay sau khi đăng nhập thành công.<p/>
@@ -84,8 +84,14 @@ export const sendEmails = async(email)=> {
           `
         });
         return info;
-      } catch (error) {
+    } catch (error) {
         console.error("Error sending password reset email: ", error);
         throw error;
-      }
+    }
 }
+export const searchUser = async (req, res) => {
+    const { email } = req.query;
+    const searchRegex = new RegExp(email, "i");
+    const users = await Auth.find({ email: searchRegex });
+    return users
+};

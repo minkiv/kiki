@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Form, Input, Button, Select, InputNumber } from 'antd'
-import { createOrder, deleteOrder, getAllOrder, updateOrder } from './service/order.service'
+import { createOrder, deleteOrder, getAllOrder, searchOrder, updateOrder } from './service/order.service'
 import TemplateTable from '../common/template-table/template-table.component'
 import { getAllProduct } from '../product/service/product.service'
 
@@ -161,6 +161,8 @@ const OrderManagement = () => {
   return (
     <div>
       <TemplateTable
+        searchFunc={searchOrder}
+        setData={setDataOrder}
         dataTable={dataOrder}
         columnTable={columns}
         changeFunc={(form: any, id: any) => updateOrder({ ...form, totalprice: grandTotal }, id)}

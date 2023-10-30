@@ -4,6 +4,7 @@ import upload from '../config/configImage.js'
 import { checkUserStoreAndAdminAuthorization, veryfiletoken } from '../middlewares/authorization.js'
 
 const router = express.Router()
+router.get("/search", productController.searchProducts)
 router.get("/", productController.getAllProducts)
 router.get("/:id", productController.getOneproducts)
 router.use(veryfiletoken)

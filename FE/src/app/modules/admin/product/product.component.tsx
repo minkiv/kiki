@@ -2,10 +2,11 @@ import { Button, Form, Input, Select, Space, Upload, UploadFile } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component'
 import { CloseOutlined } from '@ant-design/icons'
-import { getAllProduct } from './service/product.service'
 import axios from 'axios'
 import { getAllCategory } from '../category/service/category.service'
 const { Option } = Select
+
+import { getAllProduct, searchProduct } from './service/product.service'
 
 const ProductManagemnet = () => {
 
@@ -110,6 +111,8 @@ const ProductManagemnet = () => {
       <TemplateTable
         dataTable={dataProduct}
         columnTable={column}
+        searchFunc={searchProduct}
+        setData={setDataProduct}
         formEdit={
           <Fragment>
             <Form.Item
