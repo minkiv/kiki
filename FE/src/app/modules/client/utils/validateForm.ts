@@ -50,3 +50,7 @@ export const validateUpdatePassword = yup.object().shape({
     newPassword: yup.string().required('Bạn cần nhập đầy đủ thông tin'),
     confirmNewPassword: yup.string().required('Bạn cần nhập đầy đủ thông tin').oneOf([yup.ref('newPassword')]),
 })
+export const validateForgotPassword = yup.object().shape({
+    email: yup.string().required('Bạn cần nhập đầy đủ thông tin')
+})
+
