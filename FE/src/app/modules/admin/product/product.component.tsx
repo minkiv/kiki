@@ -1,15 +1,14 @@
-import { Button, Form, Input, Select, Space, Upload, UploadFile } from 'antd'
+import { Button, Form, Input, InputNumber, Popover, Select, Space, Upload, UploadFile } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component'
 import { CloseOutlined } from '@ant-design/icons'
+import { getAllProduct, createProduct, deleteProduct, editProduct, searchProduct } from './service/product.service'
 import axios from 'axios'
 import { getAllCategory } from '../category/service/category.service'
+import { SketchPicker } from 'react-color'
 const { Option } = Select
 
-import { getAllProduct, searchProduct } from './service/product.service'
-
 const ProductManagemnet = () => {
-
   const [column, setColumn] = useState([])
   const [dataProduct, setDataProduct] = useState<any>([])
   const [categories, setCategories] = useState([])
@@ -21,14 +20,14 @@ const ProductManagemnet = () => {
       setCategories(res.data)
     })
   }, [])
-
   useEffect(() => {
     const columTemp: any = []
+    const title = ['', 'Tên sản phẩm', 'Ảnh', '', '', '', '', 'Mã danh mục', 'Giá']
     if (dataProduct.length > 0) {
-      Object?.keys(dataProduct[0]).map((itemKey) => {
+      Object?.keys(dataProduct[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'updatedAt', 'createdAt', 'listQuantityRemain'].includes(itemKey)) {
           return columTemp.push({
-            title: itemKey,
+            title: title[key++],
             dataIndex: itemKey,
             key: itemKey,
             render: (text: any, record: any, index: any) => {
@@ -43,11 +42,12 @@ const ProductManagemnet = () => {
     }
     if (dataProduct[0]?.listQuantityRemain && dataProduct[0]?.listQuantityRemain.length > 0) {
       const firstItem = dataProduct[0].listQuantityRemain[0]
+      const title = ['', 'Size', 'Màu', 'Số lượng']
       if (firstItem) {
-        Object.keys(firstItem).forEach((itemKey) => {
+        Object.keys(firstItem).forEach((itemKey, key = 0) => {
           if (!['_id', 'updatedAt'].includes(itemKey)) {
             columTemp.push({
-              title: `${itemKey}`,
+              title: title[key++],
               dataIndex: `${itemKey}`,
               key: `${itemKey}`,
               render: (text: any, record: any, index: any) => {
@@ -82,8 +82,8 @@ const ProductManagemnet = () => {
       }
     }
     fmData.append('file', file)
-    fmData.append('upload_preset', "r17fcf7k")
-    fmData.append('cloud_name', "df3xmajf8")
+    fmData.append('upload_preset', 'r17fcf7k')
+    fmData.append('cloud_name', 'df3xmajf8')
     fmData.append('folder', 'ECMA')
     try {
       const res = await axios.post(`https://api.cloudinary.com/v1_1/df3xmajf8/image/upload`, fmData, config)
@@ -102,7 +102,12 @@ const ProductManagemnet = () => {
       onError({ err })
     }
   }
-
+  const [color, setColor] = useState()
+  const handleColor = (color: any) => {
+    console.log(color.hex)
+    setColor(color.hex)
+    // return color.hex
+  }
   const onRemove = (file: any) => {
     setFileList((prevFileList) => prevFileList.filter((item) => item.uid !== file.uid))
   }
@@ -110,32 +115,52 @@ const ProductManagemnet = () => {
     <div>
       <TemplateTable
         dataTable={dataProduct}
+        dataPage={3}
         columnTable={column}
+        createFunc={createProduct}
+        deleteFunc={deleteProduct}
+        changeFunc={editProduct}
         searchFunc={searchProduct}
         setData={setDataProduct}
         formEdit={
           <Fragment>
+            <Form.Item label='Tên sản phẩm' name='name' rules={[{ required: true, message: 'Please input name!' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label='Mã sản phẩm' name='code' rules={[{ required: true, message: 'Please input Code!' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label='Giá' name='price' rules={[{ required: true, message: 'Please input price!' }]}>
+              <InputNumber />
+            </Form.Item>
+            <Form.Item label='Cost' name='cost'>
+              <InputNumber />
+            </Form.Item>
+            <Form.Item label='Mô tả' name='description'>
+              <Input.TextArea />
+            </Form.Item>
             <Form.Item
-              label='Images'
+              label='Ảnh'
               name='images'
               getValueFromEvent={(event) => event.fileList}
               rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}
               valuePropName={'fileList'}
               initialValue={fileList}
             >
-              <Upload
-                customRequest={customRequestUpload}
-                listType='picture-card'
-                onRemove={onRemove}
-              >
+              <Upload customRequest={customRequestUpload} listType='picture-card' onRemove={onRemove}>
                 {fileList.length < 5 && '+ Upload'}
               </Upload>
             </Form.Item>
-            <Form.Item label='Category' name='category' rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}>
+            <Form.Item label='Thương hiệu' name='brand'>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label='Danh mục'
+              name='categoryId'
+              rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}
+            >
               <Select placeholder='Please select'>
-                {categories?.map((itemCate: any) => (
-                  <Option value={itemCate._id}>{itemCate.name}</Option>
-                ))}
+                {categories?.map((itemCate: any) => <Option value={itemCate._id}>{itemCate.name}</Option>)}
               </Select>
             </Form.Item>
             <Form.List
@@ -155,15 +180,29 @@ const ProductManagemnet = () => {
                 <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
                   {fields.map(({ key, name, ...restField }) => (
                     <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align='baseline'>
-                      <Form.Item {...restField} noStyle name={[name, 'nameColor']}>
-                        <Input placeholder='nameColor' />
-                      </Form.Item>
+                      <Popover
+                        placement='topLeft'
+                        content={<SketchPicker color={color} onChange={handleColor} />}
+                        trigger='click'
+                      >
+                        <Form.Item
+                          {...restField}
+                          style={{ display: 'flex', flexDirection: 'column' }}
+                          name={[name, 'nameColor']}
+                          // initialValue={color}
+                          // getValueFromEvent={() => handleColor(color)}
+                        >
+                          <Input placeholder='nameColor' value={color} style={{ marginBottom: '10px' }} />
+                        </Form.Item>
+                      </Popover>
+
                       <Form.Item {...restField} noStyle name={[name, 'nameSize']}>
                         <Input placeholder='nameSize' />
                       </Form.Item>
                       <Form.Item {...restField} noStyle name={[name, 'quantity']}>
-                        <Input placeholder='quantity' />
+                        <InputNumber placeholder='quantity' />
                       </Form.Item>
+
                       <CloseOutlined
                         onClick={() => {
                           remove(name)

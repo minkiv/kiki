@@ -23,7 +23,7 @@ interface ITemplateTableProp {
   columnTable?: any
   formEdit?: ReactNode
   handelGetList?: any
-  dataPage?: any,
+  dataPage?: any
   setData?: any
 }
 
@@ -44,8 +44,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const [isModelOpen, setIsModelOpen] = useState(false)
   const [triggerLoadding, setTriggerLoadding] = useState(false)
   const [type, setType] = useState('CREATE')
-  const [keyword, setKeyword] = useState("")
-  const [errorSearch, setErrorSearch] = useState("")
+  const [keyword, setKeyword] = useState('')
+  const [errorSearch, setErrorSearch] = useState('')
   const confirmDelete = (idItem: any) => {
     setTriggerLoadding(true)
     deleteFunc(idItem).then(
@@ -78,6 +78,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         .validateFields()
         .then((values: any) => {
           form.resetFields()
+          console.log(values)
           createFunc(values).then(
             (res: any) => {
               if (res) {
@@ -131,7 +132,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     }
   }
   const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    return setKeyword(event.target.value);
+    return setKeyword(event.target.value)
   }
   const handleSearchItem = () => {
     setTriggerLoadding(true)
@@ -142,14 +143,14 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             setTriggerLoadding(false)
 
             setData(res.data)
-            setErrorSearch("")
+            setErrorSearch('')
           }, 1000)
         }
       },
       (err: any) => {
         setTimeout(() => {
           setTriggerLoadding(false)
-          console.log(err.response.data.message);
+          console.log(err.response.data.message)
           setErrorSearch(err.response.data.message)
         }, 1000)
       }
@@ -177,7 +178,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       render: (_, record: any) => (
         <Space size='middle' css={cssTemplateTable}>
           <Button type='primary' onClick={() => showModel('CHANGE', record)}>
-            Edit
+            Sửa
           </Button>
           <Popconfirm
             title='Thông báo'
@@ -187,7 +188,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             okText='Yes'
             cancelText='No'
           >
-            <Button className='btn-delete'>Delete</Button>
+            <Button className='btn-delete'>Xóa</Button>
           </Popconfirm>
         </Space>
       )
@@ -205,27 +206,27 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           <PlusOutlined className='text-[20px] mb-[4px]' />
         </Button>
         <div>
-          <Input placeholder='search item here' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
-          <Button type='primary' className='ml-3' onClick={handleSearchItem} >
-            Search
+          <Input placeholder='search item here' className='w-[350px]' prefix={<SearchOutlined />} />
+          <Button type='primary' className='ml-3' onClick={handleSearchItem}>
+            Tìm kiếm
           </Button>
         </div>
       </div>
-      {!errorSearch && <div className=''>
-        <div className='overflow-auto'>
-          <Table columns={columns} dataSource={dataTable} pagination={{ pageSize: dataPage }} />
+      {!errorSearch && (
+        <div className=''>
+          <div className='overflow-auto'>
+            <Table columns={columns} dataSource={dataTable} pagination={{ pageSize: dataPage }} />
+          </div>
+          <div>
+            <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
+              <Form form={form} layout='vertical' name='form_in_modal' initialValues={defaultValue || {}}>
+                {formEdit}
+              </Form>
+            </TemplateModal>
+          </div>
         </div>
-        <div>
-          <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
-            <Form form={form} layout='vertical' name='form_in_modal' initialValues={defaultValue || {}}>
-              {formEdit}
-            </Form>
-          </TemplateModal>
-        </div>
-      </div>
-      }
-      {errorSearch && <div>{errorSearch}</div>
-      }
+      )}
+      {errorSearch && <div>{errorSearch}</div>}
     </LayoutLoading>
   )
 }
