@@ -41,7 +41,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
                     <div
                       key={item.id}
                       className='product-color inline-block mr-2'
-                      style={{ backgroundColor: `${item.nameColor}` }}
+                      style={{ backgroundColor: `${item.colorRbg}` }}
                     ></div>
                   )
               })}

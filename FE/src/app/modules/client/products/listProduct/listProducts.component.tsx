@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
-import { FunctionComponent, useEffect } from 'react'
-import { Pagination } from 'antd'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { Select, Space, Pagination } from 'antd'
+import { useProductRedux } from '../../redux/hook/useProductReducer'
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component'
 import { Link } from 'react-router-dom'
 
@@ -16,10 +17,17 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
       behavior: 'smooth'
     })
   }, [])
+  const numEachPage = 12
+  const [minPaginate, setMinPaginate] = useState(0)
+  const [maxPaginate, setMaxPaginate] = useState(1)
+  const handleChangePaginate = (value: any) => {
+    setMinPaginate((value - 1) * numEachPage)
+    setMaxPaginate(value * numEachPage)
+  }
   return (
     <div css={cssListProducts} className='w-[100%]'>
       <div className='grid grid-cols-4 gap-10 p-10'>
-        {data.map((item: any, index: any) => {
+        {data.slice(minPaginate, maxPaginate).map((item: any, index: any) => {
           return (
             <Link to={`/detail/${item._id}`} key={index}>
               <ItemProduct itemProduct={item} />
@@ -28,7 +36,7 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
         })}
       </div>
       <div className='w-[100%] text-center'>
-        <Pagination defaultCurrent={1} total={50} />
+        <Pagination defaultPageSize={numEachPage} onChange={handleChangePaginate} defaultCurrent={1} total={13} />
       </div>
     </div>
   )

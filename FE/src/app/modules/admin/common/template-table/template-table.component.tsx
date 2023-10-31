@@ -25,8 +25,8 @@ interface ITemplateTableProp {
   columnTable?: any
   formEdit?: ReactNode
   handelGetList?: any
-  dataPage?: any,
-  setData?: any,
+  dataPage?: any
+  setData?: any
   isAdminProduct?: boolean
 }
 
@@ -41,20 +41,19 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   columnTable,
   formEdit,
   setData,
-  isAdminProduct,
-
+  isAdminProduct
 }) => {
   const [defaultValue, setDefaultValue] = useState<any>(null)
   const [form] = Form.useForm()
   const [isModelOpen, setIsModelOpen] = useState(false)
   const [triggerLoadding, setTriggerLoadding] = useState(false)
   const [type, setType] = useState('CREATE')
-  const [keyword, setKeyword] = useState("")
-  const [errorSearch, setErrorSearch] = useState("")
+  const [keyword, setKeyword] = useState('')
+  const [errorSearch, setErrorSearch] = useState('')
   const [filter, setFilter] = useState<any[]>([])
   const [dataFilter, setDataFilter] = useState<any[]>([])
-  const [selectedValue, setSelectedValue] = useState<string>('all');
-  const [applyFilter, setApplyFilter] = useState<boolean>(false);
+  const [selectedValue, setSelectedValue] = useState<string>('all')
+  const [applyFilter, setApplyFilter] = useState<boolean>(false)
   const confirmDelete = (idItem: any) => {
     setTriggerLoadding(true)
     deleteFunc(idItem).then(
@@ -86,6 +85,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       form
         .validateFields()
         .then((values: any) => {
+          form.resetFields()
+          console.log(values)
           createFunc(values).then(
             (res: any) => {
               if (res) {
@@ -139,7 +140,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     }
   }
   const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    return setKeyword(event.target.value);
+    return setKeyword(event.target.value)
   }
   const handleSearchItem = () => {
     setTriggerLoadding(true)
@@ -148,16 +149,16 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         if (res) {
           setTimeout(() => {
             setTriggerLoadding(false)
-            
+
             setData(res.data)
-            setErrorSearch("")
+            setErrorSearch('')
           }, 1000)
         }
       },
       (err: any) => {
         setTimeout(() => {
           setTriggerLoadding(false)
-          console.log(err.response.data.message);
+          console.log(err.response.data.message)
           setErrorSearch(err.response.data.message)
         }, 1000)
       }
@@ -184,7 +185,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       render: (_, record: any) => (
         <Space size='middle' css={cssTemplateTable}>
           <Button type='primary' onClick={() => showModel('CHANGE', record)}>
-            Edit
+            Sửa
           </Button>
           <Popconfirm
             title='Thông báo'
@@ -194,7 +195,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             okText='Yes'
             cancelText='No'
           >
-            <Button className='btn-delete'>Delete</Button>
+            <Button className='btn-delete'>Xóa</Button>
           </Popconfirm>
         </Space>
       )
@@ -203,40 +204,40 @@ const TemplateTable: FC<ITemplateTableProp> = ({
 
   useEffect(() => {
     getAllCategory().then((res: any) => {
-      setFilter(res.data.map((item: any) => {
-        return { value: item._id, label: item.name }
-      }));
-
+      setFilter(
+        res.data.map((item: any) => {
+          return { value: item._id, label: item.name }
+        })
+      )
     })
     if (isAdminProduct) {
-      getAllProduct().then(res => setDataFilter(res.data))
+      getAllProduct().then((res) => setDataFilter(res.data))
     }
   }, [])
   const handleSelectChange = (value: any, option: any) => {
-    setSelectedValue(value);
+    setSelectedValue(value)
     if (value === 'all') {
-      setApplyFilter(true);
+      setApplyFilter(true)
     } else {
-      setApplyFilter(false);
-      const list = dataFilter.filter((item) => item.categoryId === value);
-      setData(list);
+      setApplyFilter(false)
+      const list = dataFilter.filter((item) => item.categoryId === value)
+      setData(list)
     }
-  };
+  }
 
   useEffect(() => {
     if (applyFilter) {
-      setApplyFilter(false);
-      setData(dataFilter);
+      setApplyFilter(false)
+      setData(dataFilter)
     }
-  }, [applyFilter]);
-
+  }, [applyFilter])
 
   const SelectInput: React.FC = () => (
     <Select
       showSearch
       style={{ width: 200 }}
-      placeholder="Search to Select"
-      optionFilterProp="children"
+      placeholder='Search to Select'
+      optionFilterProp='children'
       filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())}
       filterSort={(optionA, optionB) =>
         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
@@ -245,14 +246,14 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       value={selectedValue}
       onChange={handleSelectChange}
     >
-      <Select.Option value="all">All</Select.Option>
+      <Select.Option value='all'>All</Select.Option>
       {filter.map((option) => (
         <Select.Option key={option.value} value={option.value}>
           {option.label}
         </Select.Option>
       ))}
     </Select>
-  );
+  )
   return (
     <LayoutLoading condition={triggerLoadding}>
       <div className='flex pb-4 justify-between'>
@@ -266,25 +267,31 @@ const TemplateTable: FC<ITemplateTableProp> = ({
 
         <div className='flex space-x-3 items-center'>
           {isAdminProduct && <SelectInput />}
-          <Input placeholder='search item here' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
-          <Button type='primary' className='ml-3' onClick={handleSearchItem} >
+          <Input
+            placeholder='search item here'
+            className='w-[350px]'
+            onChange={handleValue}
+            prefix={<SearchOutlined />}
+          />
+          <Button type='primary' className='ml-3' onClick={handleSearchItem}>
             Search
           </Button>
         </div>
       </div>
-      {!errorSearch && <div className=''>
-        <div className='overflow-auto'>
-          <Table columns={columns} dataSource={dataTable} />
+      {!errorSearch && (
+        <div className=''>
+          <div className='overflow-auto'>
+            <Table columns={columns} dataSource={dataTable} />
+          </div>
+          <div>
+            <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
+              <Form form={form} layout='vertical' name='form_in_modal'>
+                {formEdit}
+              </Form>
+            </TemplateModal>
+          </div>
         </div>
-        <div>
-          <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
-            <Form form={form} layout='vertical' name='form_in_modal' >
-              {formEdit}
-            </Form>
-          </TemplateModal>
-        </div>
-      </div>
-      }
+      )}
       {errorSearch && <div>{errorSearch}</div>}
     </LayoutLoading>
   )

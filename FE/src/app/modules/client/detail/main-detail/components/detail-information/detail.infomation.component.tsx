@@ -15,10 +15,9 @@ import { TiTick } from 'react-icons/ti'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import { getAllComment } from '~/app/api/comment/comment.api'
-interface DetailInformation {
-}
+interface DetailInformation {}
 
-const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
+const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
   const {
     data: { product: productDetail }
   } = useProductRedux()
@@ -50,7 +49,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
     setListSize(tempSize)
     setIsShowInfo(productDetail?.description)
   }, [productDetail])
-
 
   const handleSelectColor = (colorId: any) => {
     const findElement = listColor.find((item: any) => item.id == colorId)
@@ -93,7 +91,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
       return
     }
     if (quantityRemainProduct.quantity == null || quantityRemainProduct.quantity == 0) {
-      message.error("hêt hàng")
+      message.error('hêt hàng')
       return
     }
     if (accessToken) {
@@ -106,23 +104,26 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
         }
       }
 
-      addProductToCarts(requestApiCart).then((res) => {
-        if (res) {
-          const requestProduct = {
-            product: productDetail,
-            quantityOrder: {
-              quantity,
-              nameColor: colorSelect.nameColor,
-              nameSize: sizeSelect.nameSize
+      addProductToCarts(requestApiCart).then(
+        (res) => {
+          if (res) {
+            const requestProduct = {
+              product: productDetail,
+              quantityOrder: {
+                quantity,
+                nameColor: colorSelect.nameColor,
+                nameSize: sizeSelect.nameSize
+              }
             }
+            actions.addProductToCart(requestProduct)
+            message.success('thêm vào giỏ hàng thành công')
           }
-          actions.addProductToCart(requestProduct)
-          message.success('thêm vào giỏ hàng thành công')
+        },
+        (err) => {
+          console.log(err)
+          message.error(err?.response?.data)
         }
-      }, (err) => {
-        console.log(err)
-        message.error(err?.response?.data)
-      })
+      )
     }
   }
   // const handelAddProductOrder = () => {
@@ -160,32 +161,31 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
   //   }
   // }
   const changeInfo = (type: any) => {
-
     setOptionInfo(type)
     if (type === 'intro') setIsShowInfo(productDetail?.description)
     if (type === 'detail') setIsShowInfo(productDetail?.detail)
     if (type === 'protect') setIsShowInfo(productDetail?.protect)
   }
-  const [averageStar, setAverageStar] = useState<any>(0);
-  const [lengthEvaluate, setLengthEvaluate] = useState<any>();
+  const [averageStar, setAverageStar] = useState<any>(0)
+  const [lengthEvaluate, setLengthEvaluate] = useState<any>()
   let { id } = useParams()
   useEffect(() => {
     getAllComment().then((res) => {
       if (res) {
-        const productComments = res.filter((item: any) => item.productId._id === id);
-        console.log(productComments);
+        const productComments = res.filter((item: any) => item.productId._id === id)
+        console.log(productComments)
 
         setLengthEvaluate(productComments)
-        const totalStars = productComments.reduce((sum: any, comment: any) => sum + parseInt(comment.star), 0);
-        const avgStar = productComments.length > 0 ? totalStars / productComments.length : 1;
-        setAverageStar(avgStar);
+        const totalStars = productComments.reduce((sum: any, comment: any) => sum + parseInt(comment.star), 0)
+        const avgStar = productComments.length > 0 ? totalStars / productComments.length : 1
+        setAverageStar(avgStar)
       }
-    });
-  }, []);
+    })
+  }, [])
 
-  const starComponents = [];
+  const starComponents = []
   for (let i = 1; i <= averageStar; i++) {
-    starComponents.push(<StarIcon key={i} />);
+    starComponents.push(<StarIcon key={i} />)
   }
 
   return (
@@ -196,9 +196,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
       </div>
       <div className='flex mt-2 space-x-5'>
         <p className='text-2xl hidden sm:block'>Thương hiệu: {productDetail?.brand}</p>
-        <div className='flex star'>
-          {starComponents}
-        </div>
+        <div className='flex star'>{starComponents}</div>
         <div>({lengthEvaluate?.length} đánh giá)</div>
       </div>
       <div className='grid grid-cols-7 xl:mt-10'>
@@ -224,12 +222,14 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
                   {listColor?.map((item: any) => (
                     <div
                       key={item.id}
-                      style={{ backgroundColor: `${item.nameColor}` }}
-                      className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${colorSelect?.id === item.id && 'border-red-600'
-                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                      style={{ backgroundColor: `${item.colorRbg}` }}
+                      className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${
+                        colorSelect?.id === item.id && 'border-red-600'
+                      } ${
+                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                        }`}
+                      }`}
                       onClick={() => handleSelectColor(item.id)}
                     >
                       {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
@@ -245,11 +245,13 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
                   {listSize?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
-                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
+                        sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                      } ${
+                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
-                        }`}
+                      }`}
                       onClick={() => handleSelectSize(item.id)}
                     >
                       {item.nameSize}

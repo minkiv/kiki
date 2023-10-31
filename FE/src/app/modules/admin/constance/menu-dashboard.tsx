@@ -1,79 +1,77 @@
 import {
-    FileOutlined,
-    UserOutlined,
-    OrderedListOutlined,
-    ShoppingCartOutlined,
-    BarChartOutlined,
-    MoneyCollectOutlined,
-    BankOutlined,
-    HomeOutlined,
-    CommentOutlined,
-    CustomerServiceOutlined,
-    FileAddOutlined
-
+  FileOutlined,
+  UserOutlined,
+  OrderedListOutlined,
+  ShoppingCartOutlined,
+  BarChartOutlined,
+  MoneyCollectOutlined,
+  BankOutlined,
+  HomeOutlined,
+  CommentOutlined,
+  CustomerServiceOutlined,
+  FileAddOutlined
 } from '@ant-design/icons'
-import { SiAdminer } from 'react-icons/si';
+import { SiAdminer } from 'react-icons/si'
 
 export const menuDashBoard = [
-    {
-        key: '/admin',
-        icon: <SiAdminer />,
-        label: 'DashBoard'
-    },
-    {
-        key: '/admin/user',
-        icon: <UserOutlined />,
-        label: 'User'
-    },
-    {
-        key: '/admin/category',
-        icon: <FileOutlined />,
-        label: 'Category'
-    },
-    {
-        key: '/admin/product',
-        icon: <OrderedListOutlined />,
-        label: 'Product'
-    },
-    {
-        key: '/admin/comment',
-        icon: <CommentOutlined />,
-        label: 'Comment & Review'
-    },
-    {
-        key: '/admin/order',
-        icon: <ShoppingCartOutlined />,
-        label: 'Order'
-    },
-    {
-        key: '/admin/support',
-        icon: <CustomerServiceOutlined />,
-        label: 'Contact'
-    },
-    {
-        key: '/admin/vorcher',
-        icon: <MoneyCollectOutlined />,
-        label: 'Vocher'
-    },
-    {
-        key: '/admin/content',
-        icon: <FileAddOutlined />,
-        label: 'Content'
-    },
-    {
-        key: '/admin/statistics',
-        icon: <BarChartOutlined />,
-        label: 'Statistical'
-    },
-    {
-        key: '/admin/paymentvnpay',
-        icon: <BankOutlined />,
-        label: 'Payment VNPay'
-    },
-    {
-        key: '/',
-        icon: <HomeOutlined />,
-        label: 'home'
-    },
-
+  {
+    key: '/admin',
+    icon: <SiAdminer />,
+    label: 'DashBoard'
+  },
+  {
+    key: '/admin/user',
+    icon: <UserOutlined />,
+    label: 'User'
+  },
+  {
+    key: '/admin/category',
+    icon: <FileOutlined />,
+    label: 'Category'
+  },
+  {
+    key: '/admin/product',
+    icon: <OrderedListOutlined />,
+    label: 'Product'
+  },
+  {
+    key: '/admin/comment',
+    icon: <CommentOutlined />,
+    label: 'Comment & Review'
+  },
+  {
+    key: '/admin/order',
+    icon: <ShoppingCartOutlined />,
+    label: 'Order'
+  },
+  {
+    key: '/admin/support',
+    icon: <CustomerServiceOutlined />,
+    label: 'Contact'
+  },
+  {
+    key: '/admin/vorcher',
+    icon: <MoneyCollectOutlined />,
+    label: 'Vocher'
+  },
+  {
+    key: '/admin/content',
+    icon: <FileAddOutlined />,
+    label: 'Content'
+  },
+  {
+    key: '/admin/statistics',
+    icon: <BarChartOutlined />,
+    label: 'Statistical'
+  },
+  {
+    key: '/admin/paymentvnpay',
+    icon: <BankOutlined />,
+    label: 'Payment VNPay'
+  },
+  {
+    key: '/',
+    icon: <HomeOutlined />,
+    label: 'home'
+  }
 ]
