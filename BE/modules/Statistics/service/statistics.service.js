@@ -28,3 +28,69 @@ export const getStatistics = async () => {
 
     return result;
 }
+
+export const statisticsMonneys = async (bodyRequest) => {
+    const { startDate, endDate } = bodyRequest
+
+    let startDateConvert = new Date(startDate);
+    let endDateConvert = new Date(endDate);
+
+    let boundaries = [startDateConvert]
+    while (boundaries.slice(-1)[0] <= endDateConvert) {
+        boundaries.push(
+            new Date(new Date(boundaries.slice(-1)[0]).getTime() + (1000 * 60 * 60 * 24))
+        )
+    }
+
+    const listOrderChart = await Order.aggregate([
+        {
+            $match: {
+                $and: [
+                    { "createdAt": { $gte: startDateConvert, $lte: endDateConvert } }
+                ]
+            }
+        },
+        {
+            $bucket: {
+                boundaries: boundaries,
+                groupBy: "$createdAt",
+                default: "other",
+                output: {
+                    subtotal: { $sum: 1 },
+                    totalPrice: { $sum: "$totalprice" },
+                }
+            }
+        },
+        {
+            $densify: {
+                field: "_id",
+                range: {
+                    step: 1,
+                    unit: "day",
+                    bounds: [startDateConvert, new Date(endDateConvert.setDate(endDateConvert.getDate() + 1))],
+                }
+            }
+        },
+        {
+            $project: {
+                totalprice: { $ifNull: ["$totalprice", 0] },
+                subtotal: { $ifNull: ["$subtotal", 0] },
+                date: { $dateToString: { format: "%Y-%m-%d", date: "$_id" } },
+                _id: 0,
+            }
+        }
+
+    ])
+
+    const orders = await Order.aggregate([
+        {
+            $match: {
+                $and: [
+                    { "createdAt": { $gte: startDateConvert, $lte: endDateConvert } }
+                ]
+            }
+        }
+    ])
+
+    return { listOrderChart, orders }
+}

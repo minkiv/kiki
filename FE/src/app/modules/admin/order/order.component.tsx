@@ -221,24 +221,39 @@ const OrderManagement = () => {
                   {fields.map(({ key, name, fieldKey, ...restField }, index) => (
                     <div key={key} >
                       <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'product']}
-                          fieldKey={[fieldKey, 'product'] as any}
-                          label="Select Product"
-                          rules={[{ required: true, message: 'Please select a product' }]}
-                        >
-                          <Select
-                            placeholder="Select Product"
-                            onChange={(value) => handleProductChange(value)}
+                        <div style={{ position: 'relative' }}>
+                          <label htmlFor="product">Select Product</label>
+                          <input
+                            list="brow"
+                            id="product"
+                            name="product"
+                            {...restField}
+                            style={{
+                              margin: '10px 0px',
+                              padding: '4px',
+                              width: '100%',
+                              border: '1px solid #ccc',
+                              borderRadius: '4px',
+                            }}
+                          />
+                          <datalist
+                            id="brow"
+                            style={{
+                              position: 'absolute',
+                              width: '100%',
+                              borderBottomLeftRadius: '4px',
+                              borderBottomRightRadius: '4px',
+                              border: '1px solid #ccc',
+                              borderTop: 'none',
+                              display: 'none',
+                            }}
                           >
                             {dataProduct.map((product: any) => (
-                              <Select.Option key={product._id} value={product._id}>
-                                {product.name}
-                              </Select.Option>
+                              <option key={product._id} value={product.name} />
                             ))}
-                          </Select>
-                        </Form.Item>
+                          </datalist>
+                        </div>
+
                         <Form.Item
                           {...restField}
                           name={[name, 'quantityOrder', 'nameColor']}

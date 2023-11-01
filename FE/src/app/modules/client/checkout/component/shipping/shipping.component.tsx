@@ -126,23 +126,34 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                 name="city"
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <div>
-                    <Select
-                      className='w-[320px]'
-                      onChange={(value: string) => {
-                        setSelectedCity(value);
-                        setSelectedDistrict('');
-                        setSelectedCommune('');
-                        onChange(value);
-                      }}
-                      value={value}
-                    >
-                      <Select.Option value="">Chọn Tỉnh/Thành Phố</Select.Option>
-                      {cities.map((city) => (
-                        <Select.Option key={city.code} value={city.name}>
-                          {city.name}
-                        </Select.Option>
-                      ))}
-                    </Select>
+                    <div className="relative">
+                      <input
+                        list="brow"
+                        style={{
+                          padding: '10px',
+                          border: '1px solid #ccc',
+                          borderRadius: '4px',
+                          width: '320px',
+                        }}
+                        onChange={(e) => {
+                          const selectedValue = e.target.value;
+                          setSelectedCity(selectedValue);
+                          setSelectedDistrict('');
+                          setSelectedCommune('');
+                          onChange(selectedValue);
+                        }}
+                        value={value}
+                      />
+                      <datalist id="brow">
+                        <option value="">Chọn Tỉnh/Thành Phố</option>
+                        {cities.map((city) => (
+                          <option key={city.code} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
+                      </datalist>
+                    </div>
+
                     {error && <span className='text-red-600 mt-3 mb-3 text-[1.2rem]'>{error.message}</span>}
                   </div>
                 )}
@@ -158,24 +169,35 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                 name="district"
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <div>
-                    <Select
-                      className='w-[320px]'
-                      onChange={(value: string) => {
-                        setSelectedDistrict(value);
+                    <input
+                      list="districtsDatalist"
+                      style={{
+                        width: '320px',
+                        padding: '10px',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                      }}
+                      onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        setSelectedDistrict(selectedValue);
                         setSelectedCommune('');
-                        onChange(value);
+                        onChange(selectedValue);
                       }}
                       value={value}
-                    >
-                      <Select.Option value="">Chọn Quận/Huyện</Select.Option>
+                    />
+                    <datalist id="districtsDatalist">
+                      <option value="">Chọn Quận/Huyện</option>
                       {districts.map((district) => (
-                        <Select.Option key={district.code} value={district.name}>
+                        <option key={district.code} value={district.name}>
                           {district.name}
-                        </Select.Option>
+                        </option>
                       ))}
-                    </Select>
-                    {error && <span className='text-red-600 mt-3 mb-3 text-[1.2rem]'>{error.message}</span>}
+                    </datalist>
+                    {error && (
+                      <span className="text-red-600 mt-3 mb-3 text-[1.2rem]">{error.message}</span>
+                    )}
                   </div>
+
                 )}
               />
 
@@ -190,23 +212,34 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                 name="commune"
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <div>
-                    <Select
-                      className='w-[320px]'
-                      onChange={(value: string) => {
-                        setSelectedCommune(value);
-                        onChange(value);
+                    <input
+                      list="communesDatalist"
+                      style={{
+                        width: '320px',
+                        padding: '10px',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                      }}
+                      onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        setSelectedCommune(selectedValue);
+                        onChange(selectedValue);
                       }}
                       value={value}
-                    >
-                      <Select.Option value="">Chọn Phường/Xã</Select.Option>
+                    />
+                    <datalist id="communesDatalist">
+                      <option value="">Chọn Phường/Xã</option>
                       {communes.map((commune) => (
-                        <Select.Option key={commune.code} value={commune.name}>
+                        <option key={commune.code} value={commune.name}>
                           {commune.name}
-                        </Select.Option>
+                        </option>
                       ))}
-                    </Select>
-                    {error && <span className='text-red-600 mt-3 mb-3 text-[1.2rem]'>{error.message}</span>}
+                    </datalist>
+                    {error && (
+                      <span className="text-red-600 mt-3 mb-3 text-[1.2rem]">{error.message}</span>
+                    )}
                   </div>
+
                 )}
               />
             </div>

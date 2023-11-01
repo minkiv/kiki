@@ -7,3 +7,7 @@ export const getAllOrder = async () => {
 export const getAllStatistics = async () => {
     return await axiosPrivate.get('/statistics')
 }
+
+export const getAllOrderByStatus = async (data: any) => {
+    return await axiosPrivate.post('/statistics/order-all-status', data)
+}
