@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Button, DatePicker, Row, Col } from 'antd';
-import { Line } from '@ant-design/plots';
-import { getAllOrderByStatus } from './service/statistics.service';
+import { Bar, Line, Pie } from '@ant-design/plots';
+import { getAllOrder, getAllOrderByStatus } from './service/statistics.service';
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component';
 import moment from 'moment';
 
@@ -15,6 +15,48 @@ const Statistical = () => {
         endDate: '',
         granularity: 'day',
     });
+    const [orders, setOrders] = useState<any>([])
+    const [productSalesData, setProductSalesData] = useState<any>([]);
+    useEffect(() => {
+        getAllOrder().then((res) => {
+            setOrders(res.data)
+        })
+    }, [])
+    useEffect(() => {
+        const productSales: any = {};
+        orders.forEach((order: any) => {
+            order.productOrder.forEach((productOrder: any) => {
+                const productId = productOrder.product.name;
+                const quantitySold = productOrder.quantityOrder.quantity;
+
+                if (productSales[productId]) {
+                    productSales[productId] += quantitySold;
+                } else {
+                    productSales[productId] = quantitySold;
+                }
+            });
+        });
+        const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+            productId,
+            quantity,
+        }));
+        setProductSalesData(productSalesArray);
+    }, [orders]);
+    const conFig = {
+        data: productSalesData,
+        appendPadding: 10,
+        angleField: 'quantity',
+        colorField: 'productId',
+        radius: 0.8,
+        label: {
+            type: 'outer',
+        },
+        interactions: [
+            {
+                type: 'element-active',
+            },
+        ],
+    };
 
     useEffect(() => {
         handleStatistical();
@@ -51,24 +93,71 @@ const Statistical = () => {
             let totalPrices = [];
 
             if (dataRequest.granularity === 'day') {
+                const productSales: any = {};
                 totalPrices = orderChartData.map((chartData: any) => {
                     const date = chartData.date;
-                    const totalPrice = orderData
-                        .filter((order: any) => order.createdAt.startsWith(date))
-                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    const ordersInDay = orders.filter((order: any) => {
+                        const orderDate = moment(order.createdAt).format('YYYY-MM-DD');
+                        return orderDate === date;
+                    });
+                    const totalPrice = ordersInDay.reduce((total: any, order: any) => total + order.totalprice, 0);
+                    ordersInDay.forEach((order: any) => {
+                        order.productOrder.forEach((productOrder: any) => {
+                            const productId = productOrder.product.name;
+                            const quantitySold = productOrder.quantityOrder.quantity;
+
+                            if (productSales[productId]) {
+                                productSales[productId] += quantitySold;
+                            } else {
+                                productSales[productId] = quantitySold;
+                            }
+                        });
+                    });
+
+                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                        productId,
+                        quantity,
+                    }));
+                    setProductSalesData(productSalesArray);
+
                     return {
                         date,
                         totalprice: totalPrice,
                         subtotal: chartData.subtotal,
                     };
                 });
-            } if (dataRequest.granularity === 'week') {
+            }
+
+            if (dataRequest.granularity === 'week') {
                 totalPrices = orderChartData.map((chartData: any) => {
                     const date = chartData.date;
                     const weekNumber = moment(date, 'YYYY-MM-DD').isoWeek();
-                    const totalPrice = orderData
-                        .filter((order: any) => moment(order.createdAt, 'YYYY-MM-DD').isoWeek() === weekNumber)
-                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    const ordersInWeek = orders.filter((order: any) => {
+                        return moment(order.createdAt, 'YYYY-MM-DD').isoWeek() === weekNumber;
+                    });
+                    const totalPrice = ordersInWeek.reduce((total: any, order: any) => total + order.totalprice, 0);
+
+                    // Tương tự, tính số lượng sản phẩm đã bán trong tuần
+                    const productSales: any = {};
+                    ordersInWeek.forEach((order: any) => {
+                        order.productOrder.forEach((productOrder: any) => {
+                            const productId = productOrder.product.name;
+                            const quantitySold = productOrder.quantityOrder.quantity;
+
+                            if (productSales[productId]) {
+                                productSales[productId] += quantitySold;
+                            } else {
+                                productSales[productId] = quantitySold;
+                            }
+                        });
+                    });
+
+                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                        productId,
+                        quantity,
+                    }));
+                    setProductSalesData(productSalesArray);
+
                     return {
                         date: `Tuần ${weekNumber}`,
                         totalprice: totalPrice,
@@ -76,13 +165,35 @@ const Statistical = () => {
                     };
                 });
             }
+
             if (dataRequest.granularity === 'month') {
                 totalPrices = orderChartData.map((chartData: any) => {
                     const date = chartData.date;
                     const month = moment(date, 'YYYY-MM-DD').format('MM/YYYY');
-                    const totalPrice = orderData
-                        .filter((order: any) => moment(order.createdAt, 'YYYY-MM-DD').format('MM/YYYY') === month)
-                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    const ordersInMonth = orders.filter((order: any) => {
+                        return moment(order.createdAt, 'YYYY-MM-DD').format('MM/YYYY') === month;
+                    });
+                    const totalPrice = ordersInMonth.reduce((total: any, order: any) => total + order.totalprice, 0);
+                    const productSales: any = {};
+                    ordersInMonth.forEach((order: any) => {
+                        order.productOrder.forEach((productOrder: any) => {
+                            const productId = productOrder.product.name;
+                            const quantitySold = productOrder.quantityOrder.quantity;
+
+                            if (productSales[productId]) {
+                                productSales[productId] += quantitySold;
+                            } else {
+                                productSales[productId] = quantitySold;
+                            }
+                        });
+                    });
+
+                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                        productId,
+                        quantity,
+                    }));
+                    setProductSalesData(productSalesArray);
+
                     return {
                         date: month,
                         totalprice: totalPrice,
@@ -90,13 +201,35 @@ const Statistical = () => {
                     };
                 });
             }
+
             if (dataRequest.granularity === 'year') {
                 totalPrices = orderChartData.map((chartData: any) => {
                     const date = chartData.date;
                     const year = moment(date, 'YYYY-MM-DD').format('YYYY');
-                    const totalPrice = orderData
-                        .filter((order: any) => moment(order.createdAt, 'YYYY-MM-DD').format('YYYY') === year)
-                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    const ordersInYear = orders.filter((order: any) => {
+                        return moment(order.createdAt, 'YYYY-MM-DD').format('YYYY') === year;
+                    });
+                    const totalPrice = ordersInYear.reduce((total: any, order: any) => total + order.totalprice, 0);
+                    const productSales: any = {};
+                    ordersInYear.forEach((order: any) => {
+                        order.productOrder.forEach((productOrder: any) => {
+                            const productId = productOrder.product.name;
+                            const quantitySold = productOrder.quantityOrder.quantity;
+
+                            if (productSales[productId]) {
+                                productSales[productId] += quantitySold;
+                            } else {
+                                productSales[productId] = quantitySold;
+                            }
+                        });
+                    });
+
+                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                        productId,
+                        quantity,
+                    }));
+                    setProductSalesData(productSalesArray);
+
                     return {
                         date: year,
                         totalprice: totalPrice,
@@ -104,6 +237,7 @@ const Statistical = () => {
                     };
                 });
             }
+
 
 
             setDataChart(totalPrices);
@@ -177,7 +311,9 @@ const Statistical = () => {
                 <Line {...config} />
             </div>
             <div className='py-10'>
-                <h1>Danh sách đơn hàng</h1>
+
+                <h1 className='mt-10 font-semibold'>Thống kê sản phẩm</h1>
+                <Pie {...conFig} />
             </div>
         </LayoutLoading>
     );
