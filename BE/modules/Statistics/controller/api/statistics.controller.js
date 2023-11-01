@@ -1,6 +1,6 @@
-import catchAsync from "../../../utils/catchAsync.js";
+import catchAsync from "../../../../utils/catchAsync.js";
 import status from "http-status"
-import { getStatistics } from "../service/statistics.service.js";
+import { getStatistics } from "../../service/statistics.service.js";
 
 
 const statisticsProduct = catchAsync(async (req, res) => {

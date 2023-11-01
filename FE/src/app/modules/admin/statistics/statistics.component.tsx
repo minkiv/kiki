@@ -1,130 +1,186 @@
-import React, { useEffect, useState } from 'react';
-import { getAllOrder, getAllStatistics } from './service/statistics.service';
-import Chart from 'chart.js/auto';
+import React, { useState, useEffect } from 'react';
+import { Select, Button, DatePicker, Row, Col } from 'antd';
+import { Line } from '@ant-design/plots';
+import { getAllOrderByStatus } from './service/statistics.service';
+import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component';
+import moment from 'moment';
 
-const StatisticsComponent = () => {
-    const [statisticsData, setStatisticsData] = useState([]);
+const { Option } = Select;
+const { RangePicker } = DatePicker;
+
+const Statistical = () => {
+    const [dataChart, setDataChart] = useState<any>([]);
+    const [dataRequest, setDataRequest] = useState({
+        startDate: '',
+        endDate: '',
+        granularity: 'day',
+    });
+
     useEffect(() => {
-
-        getAllOrder().then((res) => {
-            const dailyData: any = {};
-            const weeklyData: any = {};
-            const monthlyData: any = {};
-            const yearlyData: any = {};
-
-            res.data.forEach((order: any) => {
-                const date = new Date(order.createdAt);
-
-                const dailyKey = date.toDateString();
-                dailyData[dailyKey] = (dailyData[dailyKey] || 0) + order.totalprice;
-
-                const startOfWeek = new Date(date);
-                startOfWeek.setDate(date.getDate() - date.getDay() + 1);
-                const endOfWeek = new Date(startOfWeek);
-                endOfWeek.setDate(startOfWeek.getDate() + 6);
-                const weekKey = `${startOfWeek.toDateString()} - ${endOfWeek.toDateString()}`;
-                weeklyData[weekKey] = (weeklyData[weekKey] || 0) + order.totalprice;
-
-                const monthlyKey = `${date.getFullYear()}-${date.getMonth() + 1}`;
-                monthlyData[monthlyKey] = (monthlyData[monthlyKey] || 0) + order.totalprice;
-
-                const yearKey = date.getFullYear().toString();
-                yearlyData[yearKey] = (yearlyData[yearKey] || 0) + order.totalprice;
+        handleStatistical();
+    }, [dataRequest]);
+    useEffect(() => {
+        getAllOrderByStatus({
+            startDate: '2023-10-20',
+            endDate: '2023-10-26',
+        }).then((res) => {
+            const orderChartData = res.data.listOrderChart;
+            const orderData = res.data.orders;
+            const totalPrices = orderChartData.map((chartData: any) => {
+                const date = chartData.date;
+                const totalPrice = orderData
+                    .filter((order: any) => order.createdAt.startsWith(date))
+                    .reduce((total: any, order: any) => total + order.totalprice, 0);
+                return {
+                    date,
+                    totalprice: totalPrice,
+                    subtotal: chartData.subtotal
+                };
             });
 
-            const dailyChartLabels = Object.keys(dailyData);
-            const dailyChartValues = Object.values(dailyData);
-            createChart('dailyChart', 'Tổng số tiền theo ngày', dailyChartLabels, dailyChartValues);
-
-            const weeklyChartLabels = Object.keys(weeklyData);
-            const weeklyChartValues = Object.values(weeklyData);
-            createChart('weeklyChart', 'Tổng số tiền theo tuần', weeklyChartLabels, weeklyChartValues);
-
-            const monthlyChartLabels = Object.keys(monthlyData);
-            const monthlyChartValues = Object.values(monthlyData);
-            createChart('monthlyChart', 'Tổng số tiền theo tháng', monthlyChartLabels, monthlyChartValues);
-
-            const yearChartLabels = Object.keys(yearlyData);
-            const yearChartValues = Object.values(yearlyData);
-            createChart('yearlyChart', 'Tổng số tiền theo năm', yearChartLabels, yearChartValues);
-            getAllStatistics().then((res) => {
-                const doughnutLabels = res.data.map((item: any) => item.name);
-                const doughnutValues = res.data.map((item: any) => item.totalSold);
-                createDoughnutChart('doughnutChart', doughnutLabels, doughnutValues);
-            });
-
+            setDataChart(totalPrices);
         });
     }, []);
+    const handleStatistical = async () => {
+        setDataChart([]);
+        const res = await getAllOrderByStatus(dataRequest);
 
-    const createChart = (chartId: any, label: any, labels: any, values: any) => {
-        const chartCtx: any = document.getElementById(chartId);
-        new Chart(chartCtx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: label,
-                        data: values,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235)',
-                        borderWidth: 1,
-                    },
-                ],
-            },
-        });
+        if (res.data) {
+            const orderChartData = res.data.listOrderChart;
+            const orderData = res.data.orders;
+            let totalPrices = [];
+
+            if (dataRequest.granularity === 'day') {
+                totalPrices = orderChartData.map((chartData: any) => {
+                    const date = chartData.date;
+                    const totalPrice = orderData
+                        .filter((order: any) => order.createdAt.startsWith(date))
+                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    return {
+                        date,
+                        totalprice: totalPrice,
+                        subtotal: chartData.subtotal,
+                    };
+                });
+            } if (dataRequest.granularity === 'week') {
+                totalPrices = orderChartData.map((chartData: any) => {
+                    const date = chartData.date;
+                    const weekNumber = moment(date, 'YYYY-MM-DD').isoWeek();
+                    const totalPrice = orderData
+                        .filter((order: any) => moment(order.createdAt, 'YYYY-MM-DD').isoWeek() === weekNumber)
+                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    return {
+                        date: `Tuần ${weekNumber}`,
+                        totalprice: totalPrice,
+                        subtotal: chartData.subtotal,
+                    };
+                });
+            }
+            if (dataRequest.granularity === 'month') {
+                totalPrices = orderChartData.map((chartData: any) => {
+                    const date = chartData.date;
+                    const month = moment(date, 'YYYY-MM-DD').format('MM/YYYY');
+                    const totalPrice = orderData
+                        .filter((order: any) => moment(order.createdAt, 'YYYY-MM-DD').format('MM/YYYY') === month)
+                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    return {
+                        date: month,
+                        totalprice: totalPrice,
+                        subtotal: chartData.subtotal,
+                    };
+                });
+            }
+            if (dataRequest.granularity === 'year') {
+                totalPrices = orderChartData.map((chartData: any) => {
+                    const date = chartData.date;
+                    const year = moment(date, 'YYYY-MM-DD').format('YYYY');
+                    const totalPrice = orderData
+                        .filter((order: any) => moment(order.createdAt, 'YYYY-MM-DD').format('YYYY') === year)
+                        .reduce((total: any, order: any) => total + order.totalprice, 0);
+                    return {
+                        date: year,
+                        totalprice: totalPrice,
+                        subtotal: chartData.subtotal,
+                    };
+                });
+            }
+
+
+            setDataChart(totalPrices);
+        }
     };
 
-    const createDoughnutChart = (chartId: any, labels: any, values: any) => {
-        const chartCtx: any = document.getElementById(chartId);
-        new Chart(chartCtx, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: values,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6',
-                    ],
-                }],
+
+    const handleGranularityChange = (value: string) => {
+        setDataRequest((prev) => ({
+            ...prev,
+            granularity: value,
+        }));
+    };
+
+    const onChange = (value: any, dateString: [string, string]) => {
+        setDataRequest((prev) => ({
+            ...prev,
+            startDate: dateString[0],
+            endDate: dateString[1],
+        }));
+    };
+
+    const config: any = {
+        data: dataChart,
+        padding: 'auto',
+        xField: 'date',
+        yField: 'totalprice',
+        xAxis: {
+            tickCount: 10,
+        },
+        legend: {
+            position: 'top',
+        },
+        smooth: true,
+        animation: {
+            appear: {
+                animation: 'path-in',
+                duration: 5000,
             },
-        });
+        },
     };
 
     return (
-        <>
-            <div className='flex justify-between items-center'>
-                <div className='w-[600px]'>
-                    <h2 className='font-semibold text-[18px]'>Thống kê số tổng số tiền theo ngày</h2>
-                    <canvas id="dailyChart" style={{ width: '100%', height: '270px' }}></canvas>
-                </div>
-                <div className='w-[600px]'>
-                    <h2 className='font-semibold text-[18px]'>Thống kê số tổng số tiền theo tuần</h2>
-                    <canvas id="weeklyChart" style={{ width: '100%', height: '270px' }}></canvas>
-                </div>
+        <LayoutLoading condition={dataChart.length === 0}>
+            <div className='py-10'>
+                <Row justify='center'>
+                    <Col span={6}>
+                        <Select
+                            defaultValue="day"
+                            style={{ width: 120 }}
+                            onChange={handleGranularityChange}
+                        >
+                            <Option value="day">Ngày</Option>
+                            <Option value="week">Tuần</Option>
+                            <Option value="month">Tháng</Option>
+                            <Option value="year">Năm</Option>
+                        </Select>
+                    </Col>
+                    <Col span={6}>
+                        <RangePicker format={'YYYY-MM-DD'} onChange={onChange} />
+                    </Col>
+                    <Col span={1}>
+                        <Button type='primary' onClick={handleStatistical}>
+                            Thống kê
+                        </Button>
+                    </Col>
+                </Row>
             </div>
-            <div className='flex justify-between items-center mt-4'>
-                <div className='w-[600px]'>
-                    <h2 className='font-semibold text-[18px]'>Thống kê số tổng số tiền theo tháng</h2>
-                    <canvas id="monthlyChart" style={{ width: '100%', height: '270px' }}></canvas>
-                </div>
-                <div className='w-[600px]'>
-                    <h2 className='font-semibold text-[18px]'>Thống kê số tổng số tiền theo năm</h2>
-                    <canvas id="yearlyChart" style={{ width: '100%', height: '270px' }}></canvas>
-                </div>
+            <div className='chart'>
+                <h1 className='py-10 font-semibold'>Biểu đồ thống kê</h1>
+                <Line {...config} />
             </div>
-            <div className="mt-4 h-[500px] w-[90%] m-auto flex flex-col items-center">
-                <h2 className="font-semibold text-[18px]">Thống kê sản phẩm</h2>
-                <canvas id="doughnutChart" className='w-[100%]'></canvas>
+            <div className='py-10'>
+                <h1>Danh sách đơn hàng</h1>
             </div>
-
-        </>
+        </LayoutLoading>
     );
 };
 
-export default StatisticsComponent;
+export default Statistical;
