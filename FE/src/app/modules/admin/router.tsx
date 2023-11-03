@@ -6,6 +6,7 @@ import CategoryManagement from './category/category.component'
 import VocherManange from './vocher/vorcher.component'
 import PaymentComponennt from './payment/payment.component'
 import StatisticsCompoennt from './statistics/statistics.component';
+import CommentAdminComponent from './comment-admin/comment-admin.component'
 
 
 export const adminRouter: RouteObject[] = [
@@ -23,6 +24,10 @@ export const adminRouter: RouteObject[] = [
         path: 'category',
         element: <CategoryManagement />,
         children: []
+    },
+    {
+        path: "comment",
+        element: <CommentAdminComponent />
     },
 
     {
