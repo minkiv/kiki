@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import { useOrderRedux } from '../../../redux/hook/useOrderReducer'
 import moment from 'moment'
-import { deleteOrder } from '~/app/api/order/order.api'
+import { deleteOrder, updateOrder } from '~/app/api/order/order.api'
 import toast from 'react-hot-toast'
 import { Button, message, Popconfirm } from 'antd';
 interface MainManangeOrderProps {
@@ -21,7 +21,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
 
 
     const confirm = (id: any) => {
-        deleteOrder(id).then((res) => {
+        updateOrder({ orderId: id, orderStatus: 'huỷ đơn' }).then((res) => {
             if (res) {
                 toast.success("huỷ thành công")
                 actions.getAllOrder()
@@ -58,7 +58,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                 <tr key={order?._id}>
                                     <td>{index + 1}</td>
                                     <td>{moment.utc(order?.updatedAt).utcOffset(+7).format('YYYY-MM-DD HH:mm:ss')}</td>
-                                    <td className={order?.orderStatus === 'đang chờ duyệt' ? 'text-red-700' : 'text-green-700'}>
+                                    <td className={order?.orderStatus === 'đang chờ duyệt' || order?.orderStatus === 'huỷ đơn' ? 'text-red-700' : 'text-green-700'}>
                                         {order?.orderStatus}
                                     </td>
 

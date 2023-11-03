@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { FC } from 'react';
+import { Modal } from 'antd';
 
 interface ITemplateModel {
     isModelOpen: boolean,

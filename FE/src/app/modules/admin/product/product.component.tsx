@@ -9,7 +9,6 @@ const { Option } = Select
 import { getAllProduct, searchProduct } from './service/product.service'
 
 const ProductManagemnet = () => {
-
   const [column, setColumn] = useState([])
   const [dataProduct, setDataProduct] = useState<any>([])
   const [categories, setCategories] = useState([])
@@ -87,7 +86,6 @@ const ProductManagemnet = () => {
     fmData.append('folder', 'ECMA')
     try {
       const res = await axios.post(`https://api.cloudinary.com/v1_1/df3xmajf8/image/upload`, fmData, config)
-      console.log(res)
       onSuccess(res.data.url)
       setFileList((prevFileList: any) => [
         ...prevFileList,

@@ -1,23 +1,32 @@
-import { Fragment, useEffect, useState } from 'react'
-import { Form, Input, Button, Select, InputNumber } from 'antd'
-import { createOrder, deleteOrder, getAllOrder, searchOrder, updateOrder } from './service/order.service'
-import TemplateTable from '../common/template-table/template-table.component'
+import { Button, Form, Input, InputNumber, Modal, Segmented, Select, Typography } from 'antd'
+import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
+import { filterDataOrderByStatus } from '~/app/api/order/order.api'
+import { TableOrderDetail } from '../common/component-order/table-order-detail.component'
+import { createOrder, getAllOrder, updateOrder } from './service/order.service'
+import { PlusOutlined } from '@ant-design/icons';
 import { getAllProduct } from '../product/service/product.service'
 
-const OrderManagement = () => {
-  const [columns, setColumns] = useState([])
-  const [dataOrder, setDataOrder] = useState<any>([])
-  const [dataProduct, setDataProduct] = useState<any>([])
-  const [reset, setReset] = useState<boolean>(true)
-  const [form] = Form.useForm();
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
+const { Title } = Typography
+
+interface OrderManagementProps { }
+
+const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
+  const [orderStatus, setOrderStatus] = useState<string | number>('đang chờ duyệt')
+  const [dataTable, setDataTable] = useState<any>([])
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [dataProduct, setDataProduct] = useState<any>([])
   const [selectedColor, setSelectedColor] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<any>(null);
   const [availableColors, setAvailableColors] = useState<any>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
   const [productTotalPrices, setProductTotalPrices] = useState([]);
+  const [dataOrder, setDataOrder] = useState<any>([])
   const [grandTotal, setGrandTotal] = useState(0);
+  const [reset, setReset] = useState<boolean>(true)
+  const [form] = Form.useForm()
   const handleProductChange = (value: any) => {
     const product = dataProduct.find((product: any) => product._id === value);
     setSelectedProduct(product);
@@ -76,279 +85,290 @@ const OrderManagement = () => {
     getAllProduct().then((res) => {
       setDataProduct(res.data)
     })
-  }, [reset])
-  console.log(dataOrder)
-  useEffect(() => {
-    const dataColum: any = []
-    if (dataOrder.length > 0) {
-      Object.keys(dataOrder[0]).map((itemkey) => {
-        if (!['_id', '__v', 'updatedAt', 'productOrder', 'user', 'createdAt'].includes(itemkey)) {
-          dataColum.push({
-            title: itemkey,
-            dataIndex: itemkey,
-            key: itemkey
-          })
+  }, [])
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+
+    setIsModalOpen(false);
+    form.validateFields().then((values: any) => {
+      createOrder({ ...values, totalprice: grandTotal }).then((res) => {
+        if (res) {
+          setReset(!reset)
+          toast.success("order thành công")
         }
+      }, (err) => {
+        toast.success("order thất bại")
       })
-    }
-    if (dataOrder[0]?.productOrder && dataOrder[0]?.productOrder.length > 0) {
-      const firstItem = dataOrder[0].productOrder[0].product
-      if (firstItem) {
-        Object.keys(firstItem).forEach((itemKey) => {
-          if (
-            ![
-              '_id',
-              'updatedAt',
-              'price',
-              'cost',
-              'description',
-              'images',
-              'brand',
-              'listQuantityRemain',
-              'categoryId',
-              'createdAt',
-              '__v'
-            ].includes(itemKey)
-          ) {
-            dataColum.push({
-              title: `${itemKey}`,
-              dataIndex: `${itemKey}`,
-              key: `${itemKey}`,
-              render: (text: any, record: any, index: any) => {
-                return (
-                  <>
-                    {dataOrder[index]?.productOrder?.map((item: any, index: any) => (
-                      <p key={index}>{item.product[itemKey]}</p>
-                    ))}
-                  </>
-                )
-              }
-            })
-          }
-        })
-      }
-    }
-    if (dataOrder[0]?.productOrder && dataOrder[0]?.productOrder.length > 0) {
-      const firstItem = dataOrder[0].productOrder[0].quantityOrder
-      if (firstItem) {
-        Object.keys(firstItem).forEach((itemKey) => {
-          if (![''].includes(itemKey)) {
-            dataColum.push({
-              title: `${itemKey}`,
-              dataIndex: `${itemKey}`,
-              key: `${itemKey}`,
-              render: (text: any, record: any, index: any) => {
-                return (
-                  <div className='flex gap-[8px]'>
-                    {dataOrder[index]?.productOrder?.map((item: any, index: any) => (
-                      <p key={index}>{item.quantityOrder[itemKey]}</p>
-                    ))}
-                  </div>
-                )
-              }
-            })
-          }
-        })
-      }
-    }
-    setColumns(dataColum)
-  }, [dataOrder])
+      form.resetFields()
+    })
+  };
 
-  const handelGetList = () => {
-    setReset(!reset)
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const changeStatusDataOrder = (value: string | number) => {
+    setOrderStatus(value)
   }
-  console.log(dataProduct)
-  return (
-    <div>
-      <TemplateTable
-        searchFunc={searchOrder}
-        setData={setDataOrder}
-        dataTable={dataOrder}
-        columnTable={columns}
-        changeFunc={(form: any, id: any) => updateOrder({ ...form, totalprice: grandTotal }, id)}
-        deleteFunc={deleteOrder}
-        handelGetList={handelGetList}
-        createFunc={(form: any) => createOrder({ ...form, totalprice: grandTotal })}
-        formEdit={
+
+  const callAllOrder = useCallback(() => {
+    filterDataOrderByStatus(orderStatus).then((res) => {
+      if (res) {
+        setDataTable(res.data)
+      }
+    })
+  }, [orderStatus, reset])
+
+  useEffect(() => {
+    callAllOrder()
+  }, [orderStatus, reset])
+
+  const handleUpdateStatusOrder = (orderId: string, orderStatus: string) => {
+    updateOrder({ orderId, orderStatus }).then((res) => {
+      if (res) {
+        callAllOrder()
+        toast.success('Đã cập nhật trạng thái đơn hàng')
+      }
+    })
+  }
+
+  const buttonByStatus = (orderId: string, orderStatus: string) => {
+    switch (orderStatus) {
+      case 'đang chờ duyệt':
+        return (
           <Fragment>
-            <Form.Item
-              label='fullname'
-              name='fullname'
-              rules={[{ required: true, message: 'Please input your name!' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label='phoneNumber'
-              name='phoneNumber'
-              rules={[{ required: true, message: 'Please input your name!' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label='city'
-              name='city'
-              rules={[{ required: true, message: 'Please input your name!' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label='district'
-              name='district'
-              rules={[{ required: true, message: 'Please input your name!' }]}
-            >
-              <Input />
-            </Form.Item>
-
-
-            <Form.Item
-              label='locationDetail'
-              name='locationDetail'
-              rules={[{ required: true, message: 'Please input your name!' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.List
-              name="productOrder"
-              initialValue={[]}
-            >
-              {(fields, { add, remove }) => (
-                <div>
-                  {fields.map(({ key, name, fieldKey, ...restField }, index) => (
-                    <div key={key} >
-                      <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
-                        <div style={{ position: 'relative' }}>
-                          <label htmlFor="product">Select Product</label>
-                          <input
-                            list="brow"
-                            id="product"
-                            name="product"
-                            {...restField}
-                            style={{
-                              margin: '10px 0px',
-                              padding: '4px',
-                              width: '100%',
-                              border: '1px solid #ccc',
-                              borderRadius: '4px',
-                            }}
-                          />
-                          <datalist
-                            id="brow"
-                            style={{
-                              position: 'absolute',
-                              width: '100%',
-                              borderBottomLeftRadius: '4px',
-                              borderBottomRightRadius: '4px',
-                              border: '1px solid #ccc',
-                              borderTop: 'none',
-                              display: 'none',
-                            }}
-                          >
-                            {dataProduct.map((product: any) => (
-                              <option key={product._id} value={product.name} />
-                            ))}
-                          </datalist>
-                        </div>
-
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'quantityOrder', 'nameColor']}
-                          label="Color"
-                          rules={[{ required: true, message: 'Please select a color' }]}
-                        >
-                          <Select
-                            placeholder="Color"
-                            onChange={(value) => handleColorChange(value)}
-                          >
-                            {availableColors.map((color: any) => (
-                              <Select.Option key={color} value={color}>
-                                {color}
-                              </Select.Option>
-                            ))}
-                          </Select>
-                        </Form.Item>
-
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'quantityOrder', 'nameSize']}
-                          label="Size"
-                          rules={[{ required: true, message: 'Please select a size' }]}
-                        >
-                          <Select
-                            placeholder="Size"
-                            onChange={(value) => handleSizeChange(value)}
-                          >
-                            {availableSizes.map((size: any) => (
-                              <Select.Option key={size} value={size}>
-                                {size}
-                              </Select.Option>
-                            ))}
-                          </Select>
-                        </Form.Item>
-                      </div>
-                      <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
-                        {selectedProduct && selectedColor && selectedSize && (
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'quantityOrder', 'quantity']}
-                            label="Quantity"
-                            initialValue={1}
-                          >
-                            <InputNumber
-                              placeholder="Quantity"
-                              min={1}
-                              max={getMaxQuantity(selectedColor, selectedSize)}
-                              onChange={(value) => handelvalueQuantity(value, index)}
-                            />
-
-                          </Form.Item>
-                        )}
-
-                        {selectedProduct && (
-                          <Form.Item
-                            label='totalprice'
-                            name='totalprice'
-                          >
-                            {productTotalPrices[index]}
-                          </Form.Item>
-                        )}
-                        <Form.Item label="xoá">
-                          {fields.length > 1 && (
-                            <Button type="dashed" onClick={() => remove(name)}>
-                              Remove
-                            </Button>
-                          )}
-                        </Form.Item>
-                      </div>
-                    </div>
-
-                  ))}
-                  <Button type="dashed" onClick={() => add()} block>
-                    + Add Product
-                  </Button>
-                </div>
-              )}
-            </Form.List>
-
-            <Form.Item
-              label='orderStatus'
-              name='orderStatus'
-              rules={[{ required: true, message: 'Please input your username!' }]}
-            >
-              <Select placeholder=' trạng thái'>
-                <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
-                <Select.Option value='đang vận chuyển'>đang vận chuyển</Select.Option>
-                <Select.Option value='hoàn thành'>hoàn thành</Select.Option>
-              </Select>
-            </Form.Item>
+            <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'duyệt thành công')}> Chuyển duyệt thành công</Button>
+            <Button danger onClick={() => handleUpdateStatusOrder(orderId, 'huỷ đơn')}>
+              Chuyển huỷ đơn
+            </Button>
           </Fragment>
-        }
+        )
+        break
+      case 'duyệt thành công':
+        return (
+          <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'đang vận chuyển')}>
+            Chuyển đang vận chuyển
+          </Button>
+        )
+        break
+      case 'đang vận chuyển':
+        return (
+          <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'hoàn thành')}>
+            Chuyển hoàn thành
+          </Button>
+        )
+      case 'hoàn thành':
+        break
+      case 'huỷ đơn':
+        break
+
+      default:
+        break
+    }
+  }
+
+  return (
+    <div className='py-5'>
+      <Segmented
+        options={[
+          { value: 'đang chờ duyệt', label: 'đang chờ duyệt' },
+          { value: 'duyệt thành công', label: 'duyệt thành công' },
+          { value: 'đang vận chuyển', label: 'đang vận chuyển' },
+          { value: 'hoàn thành', label: 'hoàn thành' },
+          { value: 'huỷ đơn', label: 'Đã huỷ' }
+        ]}
+        size='large'
+        value={orderStatus}
+        onChange={changeStatusDataOrder}
       />
-    </div >
+      <div className='float-right'>
+        <Button
+          onClick={showModal}
+          type='primary'
+          className='p-0 h-[40px]  w-[44px] rounded-[4px] bg-[#D4FF00]'
+        >
+          <PlusOutlined className='text-[20px] mb-[4px]' />
+        </Button>
+      </div>
+      <div>
+        <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <Form form={form} layout='vertical' name='form_in_modal' >
+            <Fragment>
+              <Form.Item
+                label='fullname'
+                name='fullname'
+                rules={[{ required: true, message: 'Please input your name!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label='phoneNumber'
+                name='phoneNumber'
+                rules={[{ required: true, message: 'Please input your name!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label='city'
+                name='city'
+                rules={[{ required: true, message: 'Please input your name!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label='district'
+                name='district'
+                rules={[{ required: true, message: 'Please input your name!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+
+              <Form.Item
+                label='locationDetail'
+                name='locationDetail'
+                rules={[{ required: true, message: 'Please input your name!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.List
+                name="productOrder"
+                initialValue={[]}
+              >
+                {(fields, { add, remove }) => (
+                  <div>
+                    {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+                      <div key={key} >
+                        <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'product']}
+                            fieldKey={[fieldKey, 'product'] as any}
+                            label="Select Product"
+                            rules={[{ required: true, message: 'Please select a product' }]}
+                          >
+                            <Select
+                              placeholder="Select Product"
+                              onChange={(value) => handleProductChange(value)}
+                            >
+                              {dataProduct.map((product: any) => (
+                                <Select.Option key={product._id} value={product._id}>
+                                  {product.name}
+                                </Select.Option>
+                              ))}
+                            </Select>
+                          </Form.Item>
+
+
+
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'quantityOrder', 'nameColor']}
+                            label="Color"
+                            rules={[{ required: true, message: 'Please select a color' }]}
+                          >
+                            <Select
+                              placeholder="Color"
+                              onChange={(value) => handleColorChange(value)}
+                            >
+                              {availableColors.map((color: any) => (
+                                <Select.Option key={color} value={color}>
+                                  {color}
+                                </Select.Option>
+                              ))}
+                            </Select>
+                          </Form.Item>
+
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'quantityOrder', 'nameSize']}
+                            label="Size"
+                            rules={[{ required: true, message: 'Please select a size' }]}
+                          >
+                            <Select
+                              placeholder="Size"
+                              onChange={(value) => handleSizeChange(value)}
+                            >
+                              {availableSizes.map((size: any) => (
+                                <Select.Option key={size} value={size}>
+                                  {size}
+                                </Select.Option>
+                              ))}
+                            </Select>
+                          </Form.Item>
+                        </div>
+                        <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+                          {selectedProduct && selectedColor && selectedSize && (
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'quantityOrder', 'quantity']}
+                              label="Quantity"
+                              initialValue={1}
+                            >
+                              <InputNumber
+                                placeholder="Quantity"
+                                min={1}
+                                max={getMaxQuantity(selectedColor, selectedSize)}
+                                onChange={(value) => handelvalueQuantity(value, index)}
+                              />
+
+                            </Form.Item>
+                          )}
+
+                          {selectedProduct && (
+                            <Form.Item
+                              label='totalprice'
+                              name='totalprice'
+                            >
+                              {productTotalPrices[index]}
+                            </Form.Item>
+                          )}
+                          <Form.Item label="xoá">
+                            {fields.length > 1 && (
+                              <Button type="dashed" onClick={() => remove(name)}>
+                                Remove
+                              </Button>
+                            )}
+                          </Form.Item>
+                        </div>
+                      </div>
+
+                    ))}
+                    <Button type="dashed" onClick={() => add()} block>
+                      + Add Product
+                    </Button>
+                  </div>
+                )}
+              </Form.List>
+
+              <Form.Item
+                label='orderStatus'
+                name='orderStatus'
+                rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Select placeholder=' trạng thái'>
+                  <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
+                  <Select.Option value='đang vận chuyển'>đang vận chuyển</Select.Option>
+                  <Select.Option value='hoàn thành'>hoàn thành</Select.Option>
+                </Select>
+              </Form.Item>
+            </Fragment>
+          </Form>
+        </Modal>
+      </div>
+      <Title className='py-5' level={3}>
+        Đơn hàng: {dataTable.length}
+      </Title>
+
+      <TableOrderDetail buttonByStatus={buttonByStatus} dataTable={dataTable} />
+    </div>
   )
 }
 
