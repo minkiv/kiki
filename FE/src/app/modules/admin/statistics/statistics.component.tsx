@@ -137,7 +137,6 @@ const Statistical = () => {
                     });
                     const totalPrice = ordersInWeek.reduce((total: any, order: any) => total + order.totalprice, 0);
 
-                    // Tương tự, tính số lượng sản phẩm đã bán trong tuần
                     const productSales: any = {};
                     ordersInWeek.forEach((order: any) => {
                         order.productOrder.forEach((productOrder: any) => {
