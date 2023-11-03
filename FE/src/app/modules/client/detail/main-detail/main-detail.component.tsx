@@ -5,6 +5,8 @@ import PreviewImg from './components/preview-img/preview.img.component'
 import DetailInformation from './components/detail-information/detail.infomation.component'
 import ListSeenProduct from './components/list-seen-product/list-seen-product.component'
 import ListSimilarProduct from './components/list-similar-product/list-similar-product.component'
+import CommentEvaluateComponent from './components/comment-evaluate/comment-evaluate.component'
+import ReviewComponent from '~/app/component/parts/review/review.component'
 interface MainDetailProps {
   props?: any
 }
@@ -28,6 +30,12 @@ const MainDetail: FunctionComponent<MainDetailProps> = () => {
       </div>
       <div className='banner mt-[70px]'>
         <img src='https://pubcdn.ivymoda.com/files/news/2023/09/20/98aeda6d6c19f27a692226be8a0fb3a0.jpg' alt='' />
+      </div>
+      <div className='item-list-silder mt-5'>
+        <CommentEvaluateComponent/>
+      </div>
+      <div className='item-list-silder mt-5'>
+        <ReviewComponent/>
       </div>
     </div>
   )
