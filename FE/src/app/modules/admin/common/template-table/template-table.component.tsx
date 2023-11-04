@@ -77,7 +77,6 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       form
         .validateFields()
         .then((values: any) => {
-          form.resetFields()
           createFunc(values).then(
             (res: any) => {
               if (res) {
@@ -95,6 +94,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
               }, 1000)
             }
           )
+          form.resetFields()
         })
         .catch((info: any) => {
           console.log('Validate Failed:', info)
@@ -109,7 +109,6 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           changeFunc(values, defaultValue._id).then(
             (res: any) => {
               if (res) {
-                console.log(res)
                 setTimeout(() => {
                   setTriggerLoadding(false)
                   message.success('sửa thành công')
@@ -156,17 +155,16 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     )
   }
   const handleCancel = () => {
-    form.resetFields()
     setIsModelOpen(false)
-    setDefaultValue(null)
   }
   const showModel = (typeAction: any, recordTable?: any) => {
     setIsModelOpen(true)
     setType(typeAction)
     if (typeAction === 'CHANGE') {
       setDefaultValue(recordTable)
+      form.setFieldsValue(recordTable)
     } else {
-      setDefaultValue(null)
+      form.resetFields()
     }
   }
   const columns: ColumnsType<DataType> = [
@@ -217,7 +215,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         </div>
         <div>
           <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
-            <Form form={form} layout='vertical' name='form_in_modal' initialValues={defaultValue || {}}>
+            <Form form={form} layout='vertical' name='form_in_modal' >
               {formEdit}
             </Form>
           </TemplateModal>
