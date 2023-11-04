@@ -6,8 +6,7 @@ import { GiPriceTag } from 'react-icons/gi'
 import { ImStarEmpty } from 'react-icons/im'
 import { GrFormFilter } from 'react-icons/gr'
 import type { MenuProps } from 'antd'
-import { Menu, Slider, Switch } from 'antd'
-import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
+import { Menu} from 'antd'
 import { useCategoryRedux } from '../../redux/hook/useCategoryReducer'
 import { IoIosHeartEmpty } from 'react-icons/io'
 import { LiaSortAmountDownSolid, LiaSortAmountUpSolid } from 'react-icons/lia'
@@ -19,6 +18,7 @@ interface SidebarProductsProps {
   getPrices: any
   sortPrices: any
   sortNewProduct :any
+ 
 }
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -40,7 +40,7 @@ function getItem(
 }
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4']
 const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
-  const { data, onDataUpdate, getPrices, sortPrices,sortNewProduct } = props
+  const { data, onDataUpdate, getPrices, sortPrices,sortNewProduct} = props
   const {
     data: { categorys },
     actions
@@ -61,6 +61,7 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
   const sortNews = (type: string) => {
     sortNewProduct(type)
   }
+ 
   const items: MenuItem[] = [
     getItem(
       'Danh Mục',

@@ -92,28 +92,25 @@ const Products: FunctionComponent<ProductProps> = () => {
     }
 
   }
-  const updateProductList = (updatedProduct:any) => {
-    const existingProductIndex = data.findIndex((product:any) => product.id === updatedProduct.id);
-  
-    if (existingProductIndex !== -1) {
-      const newData = [...data];
-      newData[existingProductIndex] = updatedProduct;
-      newData.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.createdAt).getTime());
-      setData(newData);
-    } else {
-      setData((prevData:any) => [updatedProduct, ...prevData]);
+  const reverseProducts = (type: string) => {
+    if (type === 'new') {
+      const currentDate: Date = new Date();
+
+const sortedData = [...data].sort((a, b) => {
+  const dateA = new Date(a.createdAt);
+  const dateB = new Date(b.createdAt);
+
+  const timeDifferenceA = currentDate.getTime() - dateA.getTime();
+  const timeDifferenceB = currentDate.getTime() - dateB.getTime();
+
+  return timeDifferenceA - timeDifferenceB;
+});
+
+setData(sortedData);
+
     }
   };
   
-  useEffect(() => {
-    const products = actions.getAllProduct();
-    if (Array.isArray(products)) {
-      const latestProducts = products.sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-      setData(latestProducts);
-    }
-  }, [actions]);
   return (
     <div css={cssProduct}>
       <TitleProducts>TẤT CẢ SẢN PHẨM</TitleProducts>
@@ -126,7 +123,7 @@ const Products: FunctionComponent<ProductProps> = () => {
           onDataUpdate={handleDataUpdate}
           getPrices={handleGetPrice}
           sortPrices={handleSortPrice}
-          sortNewProduct={updateProductList}
+          sortNewProduct={reverseProducts}
         />
         {!searchError && <ListProducts data={data} />}
         {searchError && <h1 className='text-[16px] font-semibold'>{searchError}!</h1>}
