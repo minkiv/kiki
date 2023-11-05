@@ -7,7 +7,8 @@ import {
     MoneyCollectOutlined,
     BankOutlined,
     HomeOutlined,
-    CommentOutlined
+    CommentOutlined,
+    CustomerServiceOutlined
 
 } from '@ant-design/icons'
 
@@ -36,6 +37,11 @@ export const menuDashBoard = [
         key: '/admin/order',
         icon: <ShoppingCartOutlined />,
         label: 'Order'
+    },
+    {
+        key: '/admin/support',
+        icon: <CustomerServiceOutlined />,
+        label: 'Support'
     },
     {
         key: '/admin/vorcher',

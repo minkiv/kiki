@@ -7,6 +7,7 @@ import VocherManange from './vocher/vorcher.component'
 import PaymentComponennt from './payment/payment.component'
 import StatisticsCompoennt from './statistics/statistics.component';
 import CommentAdminComponent from './comment-admin/comment-admin.component'
+import SupportAdmin from './support-admin/support-admin.component'
 
 
 export const adminRouter: RouteObject[] = [
@@ -48,6 +49,11 @@ export const adminRouter: RouteObject[] = [
     {
         path: 'statistics',
         element: <StatisticsCompoennt />,
+        children: []
+    },
+    {
+        path: 'support',
+        element: <SupportAdmin />,
         children: []
     }
 ]
