@@ -44,15 +44,15 @@ const CommentEvaluateComponent = () => {
             <hr className='mt-20' />
             <div className='flex justify-between items-center my-7 mt-5'>
                 <div className="flex items-center">
-                    <h2 className='text-[22px] font-semibold'>All Review</h2>
+                    <h2 className='text-[22px] font-semibold'>Tất cả đánh giá</h2>
                     <div className='px-8'>
                         <select name="" id="" className='btn focus:outline-none border border-black text-center '>
-                            <option value="0">filter by all</option>
-                            <option className="mt-[10px]" value="1">5 Statr</option>
-                            <option value="2" className="mb-2">4 Statr</option>
-                            <option value="3">3 Statr</option>
-                            <option value="4">2 Statr</option>
-                            <option value="5">1 Statr</option>
+                            <option value="0">Tìm tất cả</option>
+                            <option className="mt-[10px]" value="1">5 Sao</option>
+                            <option value="2" className="mb-2">4 Sao</option>
+                            <option value="3">3 Sao</option>
+                            <option value="4">2 Sao</option>
+                            <option value="5">1 Sao</option>
                         </select>
                     </div>
                 </div>
@@ -61,10 +61,10 @@ const CommentEvaluateComponent = () => {
 
                     <div>
                         <h2 className='text-[22px] font-semibold mb-6 text-center'>
-                            Share your thought
+                            Bình luận, đánh giá suy nghĩ của bạn
                         </h2>
 
-                        <ButtonSqua className="btn" children={"write your review"} onClick={showModal} />
+                        <ButtonSqua className="btn float-right" children={"Bình luận, đánh giá tại đây"} onClick={showModal} />
                         <div>
                             <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1200} bodyStyle={{ height: 500 }} footer={null}>
                                 <div className='flex my-5'>
@@ -76,7 +76,7 @@ const CommentEvaluateComponent = () => {
                                         <p className='text-[14px] text-gray-600 font-semibold py-4'>Thương hiệu: Yody</p>
                                         <div className='flex justify-between items-center mt-2'>
                                             <div className='text-[16px] text-gray-600 font-semibold'>
-                                                Rate it *
+                                                Đánh giá *
                                             </div>
                                             <div>
                                                 <span>
@@ -86,9 +86,9 @@ const CommentEvaluateComponent = () => {
                                         </div>
                                         <hr />
 
-                                        <h2 className='text-[15px] my-4 font-semibold mt-5'>Add a review</h2>
+                                        <h2 className='text-[15px] my-4 font-semibold mt-5'>Bình luận</h2>
 
-                                        <textarea onChange={handleTextAreaChange} placeholder='comment here' className='w-full h-[280px] mt-4 rounded-tl-2xl rounded-br-2xl border border-gray-600 px-2'></textarea>
+                                        <textarea onChange={handleTextAreaChange} placeholder='Bình luận tại đây' className='w-full h-[280px] mt-4 rounded-tl-2xl rounded-br-2xl border border-gray-600 px-2'></textarea>
 
                                         <div className='flex items-center mt-6 float-right'>
                                             <div>
