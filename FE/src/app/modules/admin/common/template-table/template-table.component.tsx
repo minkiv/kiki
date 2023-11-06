@@ -1,10 +1,12 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
-import { Button, Form, Input, Popconfirm, Space, Table, Tag, message } from 'antd'
+import { Button, Form, Input, Popconfirm, Space, Table, Tag, message, Select } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import TemplateModal from '../template-modal/template-modal.component'
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
+import { getAllCategory } from '../../category/service/category.service'
+import { getAllProduct } from '../../product/service/product.service'
 
 interface DataType {
   key: string
@@ -24,7 +26,8 @@ interface ITemplateTableProp {
   formEdit?: ReactNode
   handelGetList?: any
   dataPage?: any,
-  setData?: any
+  setData?: any,
+  isAdminProduct?: boolean
 }
 
 const TemplateTable: FC<ITemplateTableProp> = ({
@@ -37,7 +40,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   changeFunc,
   columnTable,
   formEdit,
-  setData
+  setData,
+  isAdminProduct
 }) => {
   const [defaultValue, setDefaultValue] = useState<any>(null)
   const [form] = Form.useForm()
@@ -46,6 +50,10 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const [type, setType] = useState('CREATE')
   const [keyword, setKeyword] = useState("")
   const [errorSearch, setErrorSearch] = useState("")
+  const [filter, setFilter] = useState<any[]>([])
+  const [dataFilter, setDataFilter] = useState<any[]>([])
+  const [selectedValue, setSelectedValue] = useState<string>('all');
+  const [applyFilter, setApplyFilter] = useState<boolean>(false);
   const confirmDelete = (idItem: any) => {
     setTriggerLoadding(true)
     deleteFunc(idItem).then(
@@ -192,6 +200,58 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     }
   ]
 
+  useEffect(() => {
+    getAllCategory().then((res: any) => {
+      setFilter(res.data.map((item: any) => {
+        return { value: item._id, label: item.name }
+      }));
+
+    })
+    if (isAdminProduct) {
+      getAllProduct().then(res => setDataFilter(res.data))
+    }
+  }, [])
+  const handleSelectChange = (value: any, option: any) => {
+    setSelectedValue(value);
+    if (value === 'all') {
+      setApplyFilter(true);
+    } else {
+      setApplyFilter(false);
+      const list = dataFilter.filter((item) => item.categoryId === value);
+      setData(list);
+    }
+  };
+
+  useEffect(() => {
+    if (applyFilter) {
+      setApplyFilter(false);
+      setData(dataFilter);
+    }
+  }, [applyFilter]);
+
+
+  const SelectInput: React.FC = () => (
+    <Select
+      showSearch
+      style={{ width: 200 }}
+      placeholder="Search to Select"
+      optionFilterProp="children"
+      filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())}
+      filterSort={(optionA, optionB) =>
+        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+      }
+      options={[...filter, { value: 'all', label: ' Tất cả' }]}
+      value={selectedValue}
+      onChange={handleSelectChange}
+    >
+      <Select.Option value="all">All</Select.Option>
+      {filter.map((option) => (
+        <Select.Option key={option.value} value={option.value}>
+          {option.label}
+        </Select.Option>
+      ))}
+    </Select>
+  );
   return (
     <LayoutLoading condition={triggerLoadding}>
       <div className='flex pb-4 justify-between'>
@@ -202,7 +262,9 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         >
           <PlusOutlined className='text-[20px] mb-[4px]' />
         </Button>
-        <div>
+
+        <div className='flex space-x-3 items-center'>
+          {isAdminProduct && <SelectInput />}
           <Input placeholder='search item here' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
           <Button type='primary' className='ml-3' onClick={handleSearchItem} >
             Search
@@ -222,8 +284,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         </div>
       </div>
       }
-      {errorSearch && <div>{errorSearch}</div>
-      }
+      {errorSearch && <div>{errorSearch}</div>}
     </LayoutLoading>
   )
 }

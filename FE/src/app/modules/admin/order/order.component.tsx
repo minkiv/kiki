@@ -22,6 +22,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
   const [selectedSize, setSelectedSize] = useState<any>(null);
   const [availableColors, setAvailableColors] = useState<any>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
+  const [listProduct, setListProduct] = useState<any>([]);
   const [productTotalPrices, setProductTotalPrices] = useState([]);
   const [dataOrder, setDataOrder] = useState<any>([])
   const [grandTotal, setGrandTotal] = useState(0);
@@ -83,8 +84,12 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       setDataOrder(res.data)
     })
     getAllProduct().then((res) => {
-      setDataProduct(res.data)
-    })
+      setDataProduct(res.data);
+      setListProduct(res.data.map((item: any) => {
+        return { value: item._id, label: item.name }
+      }));
+    }).then(() => console.log(listProduct)
+    )
   }, [])
 
   const showModal = () => {
@@ -255,14 +260,19 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                             rules={[{ required: true, message: 'Please select a product' }]}
                           >
                             <Select
-                              placeholder="Select Product"
-                              onChange={(value) => handleProductChange(value)}
+                              showSearch
+                              style={{ width: 200 }}
+                              placeholder="Search to Select"
+                              optionFilterProp="children"
+                              filterOption={(input, option: any) => (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())}
+                              filterSort={(optionA, optionB) =>
+                                (optionA?.name ?? '').toLowerCase().localeCompare((optionB?.name ?? '').toLowerCase())
+                              }
+                              options={listProduct}
+                              onChange={(value, label) => {
+                                handleProductChange(value); console.log(value, label);
+                              }}
                             >
-                              {dataProduct.map((product: any) => (
-                                <Select.Option key={product._id} value={product._id}>
-                                  {product.name}
-                                </Select.Option>
-                              ))}
                             </Select>
                           </Form.Item>
 
@@ -330,13 +340,14 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                               {productTotalPrices[index]}
                             </Form.Item>
                           )}
-                          <Form.Item label="xoá">
-                            {fields.length > 1 && (
+                          {fields.length > 1 && (
+                            <Form.Item label="Xoá">
                               <Button type="dashed" onClick={() => remove(name)}>
                                 Remove
                               </Button>
-                            )}
-                          </Form.Item>
+                            </Form.Item>
+                          )}
+
                         </div>
                       </div>
 
