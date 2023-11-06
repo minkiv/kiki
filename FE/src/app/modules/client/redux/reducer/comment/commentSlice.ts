@@ -10,8 +10,8 @@ const commentSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getAllComments.fulfilled, (state: any, action: any) => {
-            state.comments = action.payload
+        builder.addCase(getAllComments.fulfilled, (state: any, action: any) => {     
+            state.comments = action.payload            
         })
     }
 })

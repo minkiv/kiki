@@ -9,6 +9,5 @@ router.use(veryfiletoken)
 router.post('/add', comment_evaluateController.createComment_avaluate)
 router.delete('/delete/:id', comment_evaluateController.deleteComment_evaluate)
 router.put('/update/:id', comment_evaluateController.updateComment_evaluate)
-
 export default router
 

@@ -6,3 +6,6 @@ export const getAllComment = async () => {
 export const deleteComment = async (id: any) => {
     return await axiosPrivate.delete(`/comment/delete/${id}`)
 }
+export const updateComment = async (requestBody:any, id: any) => {
+    return await axiosPrivate.put(`/comment/update/${id}`, requestBody)
+}

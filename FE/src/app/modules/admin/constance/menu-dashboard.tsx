@@ -31,7 +31,7 @@ export const menuDashBoard = [
     {
         key: '/admin/comment',
         icon: <CommentOutlined />,
-        label: 'Comment'
+        label: 'Comment & Review'
       },
     {
         key: '/admin/order',

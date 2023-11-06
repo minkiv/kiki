@@ -5,7 +5,7 @@ import status from 'http-status'
 
 const createComment_avaluate = catchAsync(async(req, res)=> {
     const bodyData = {
-        userId: req.user.id,
+        userId: req.body.userId,
         productId: req.body.productId,
         comment: req.body.comment,
         star: req.body.star

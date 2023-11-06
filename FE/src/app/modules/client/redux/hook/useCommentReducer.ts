@@ -12,10 +12,7 @@ export const useCommentRedux = () => {
         ...commentActions,
         getAllComments
     }
-    console.log(data);
-
     const actions = useMemo(() => bindActionCreators(allActions, dispatch), [dispatch])
-
     return {
         data, actions
     }

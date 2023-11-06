@@ -9,8 +9,6 @@ const ReviewComponent = () => {
     useEffect(() => {
         commentActions.getAllComments(id)
     }, [id])
-    console.log(comments);
-    
     return (
         <div>
             {comments?.map((item: any, index: any) => (
@@ -19,7 +17,7 @@ const ReviewComponent = () => {
                         <div className='w-fulll py-2'>
                             <div className='flex items-center py-2'>
                                 <div >
-                                    <h2 className='font-semibold'>{item?.user?.fullname}</h2>
+                                    <h2 className='font-semibold'>{item?.userId?.fullname}</h2>
                                 </div>
                                 <div className='px-5'>
                                     <p>{item.star == "1" && <StarComponent/>}</p>
