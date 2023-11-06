@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import SidePayment from './component/side-payment/side-payment.component';
 import Shipping from './component/shipping/shipping.component';

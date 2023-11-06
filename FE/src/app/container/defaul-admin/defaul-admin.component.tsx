@@ -74,13 +74,13 @@ const DefaultAdmin: React.FC = () => {
               width={'36px'}
               src='https://tse1.mm.bing.net/th?id=OIP.-aZACU3d2yerjekwxJYCiwHaFj&pid=Api&P=0&h=220'
             />
-            <p className=''>Nguyễn thị Hiệp</p>
+            <p className=''>Nguyễn Thị Hiệp</p>
           </div>
         </Header>
-        <Breadcrumb style={{ margin: '16px' }}>
+        {/* <Breadcrumb style={{ margin: '16px' }}>
           <Breadcrumb.Item>User</Breadcrumb.Item>
           <Breadcrumb.Item>Bill</Breadcrumb.Item>
-        </Breadcrumb>
+        </Breadcrumb> */}
         <Content
           style={{
             margin: '0 16px',

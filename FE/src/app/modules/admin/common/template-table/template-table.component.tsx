@@ -211,7 +211,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       </div>
       {!errorSearch && <div className=''>
         <div className='overflow-auto'>
-          <Table columns={columns} dataSource={dataTable} pagination={{ pageSize: dataPage }} />
+          <Table columns={columns} dataSource={dataTable} />
         </div>
         <div>
           <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
