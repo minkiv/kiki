@@ -6,7 +6,6 @@ import { FaPhone } from 'react-icons/fa';
 import { SlEarphones } from 'react-icons/sl';
 import { AiOutlineMessage, AiOutlineFileText } from 'react-icons/ai';
 import TitleProducts from '../products/titleProducts/titleProducts.component';
-import InputComponent from '~/app/component/parts/input/input.component';
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

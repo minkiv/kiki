@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const comment_evaluateSchema = mongoose.Schema({
 
-    user: {
+    userId: {
         type: mongoose.Types.ObjectId,
         ref: "Auth"
     },
-    product: {
+    productId: {
         type: mongoose.Types.ObjectId,
         ref: "Product"
     },

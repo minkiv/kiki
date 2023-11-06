@@ -78,7 +78,7 @@ useEffect(() => {
         mode: 'onChange',
         resolver: yupResolver(validateManageInfo),
         defaultValues: async () => {
-            const userData = (await getOneUserSystem(id)).data;
+            const userData = (await getOneUserSystem(id)).data;         
             const filteredData: any = {};
             arrayField.forEach((key: any) => {
                 if (userData.hasOwnProperty(key?.field)) {

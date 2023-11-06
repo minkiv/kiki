@@ -1,14 +1,20 @@
 import { css } from "@emotion/react";
 import { Button, Modal, Rate } from "antd"
-import { useState } from "react";
+import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { createComment } from "~/app/api/comment/comment.api";
 import ButtonComponent from "~/app/component/parts/button/Button.componet"
 import ButtonSqua from "~/app/component/parts/button/ButtonSqua";
 import { useCommentRedux } from "~/app/modules/client/redux/hook/useCommentReducer";
+import { useProductRedux } from "~/app/modules/client/redux/hook/useProductReducer";
 
-const CommentEvaluateComponent = () => {
+interface DetailInformation { }
+const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
+    const {
+        data: { product: productDetail }
+    } = useProductRedux()
+
     let { id } = useParams()
     const [commentText, setCommentText] = useState('')
     const { actions } = useCommentRedux()
@@ -28,14 +34,15 @@ const CommentEvaluateComponent = () => {
     const handleTextAreaChange = (event: any) => {
         setCommentText(event.target.value)
     }
+    const userId = localStorage.getItem("userID")
     const handelSubmitComment = () => {
-        createComment({ comment: commentText, productId: id, star: value }).then((res) => {
+        createComment({ comment: commentText, productId: id, star: value, userId }).then((res) => {
             if (res) {
                 toast.success("Đánh giá và bình luận thành công")
                 setIsModalOpen(false);
                 actions.getAllComments(id)
             }
-        }, (err)=>{
+        }, (err) => {
             toast.error('Vui lòng đánh giá sản phẩm!')
         })
     }
@@ -72,8 +79,8 @@ const CommentEvaluateComponent = () => {
                                         <img src="https://pubcdn.ivymoda.com/files/product/thumab/1600/2023/11/02/7f9328042d7f27a891a08cf622590c9b.jpg" alt="" className='h-[500px] w-[450px]' />
                                     </div>
                                     <div className='px-4 w-full'>
-                                        <h1 className='text-[22px] font-semibold'>ÁO THUN CỔ THUYỀN XẾP NHÚM</h1>
-                                        <p className='text-[14px] text-gray-600 font-semibold py-4'>Thương hiệu: Yody</p>
+                                        <h1 className='text-[22px] font-semibold'>{productDetail?.name}</h1>
+                                        <p className='text-[14px] text-gray-600 font-semibold py-4'>Thương hiệu: {productDetail?.brand}</p>
                                         <div className='flex justify-between items-center mt-2'>
                                             <div className='text-[16px] text-gray-600 font-semibold'>
                                                 Đánh giá *
