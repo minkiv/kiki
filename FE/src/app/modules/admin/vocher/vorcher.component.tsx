@@ -1,8 +1,9 @@
-import { Form, Input, DatePicker } from 'antd'
+import { Form, Input, DatePicker, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component';
 import { changeVorcher, createVorcher, deleteVorcher, getAllVorcher, searchVoucher } from './service/vorcher.service';
 import moment from 'moment-timezone';
+const { Option } = Select
 
 const CategoryManagement = () => {
     const [column, setColumn] = useState([])
@@ -81,16 +82,15 @@ const CategoryManagement = () => {
                     voucher.timeRemaining = `${hoursRemaining} giờ ${minutesRemaining} phút ${secondsRemaining} giây còn lại`;
                 } else {
                     voucher.timeRemaining = 'Hết hạn';
-                    deleteVorcher(voucher._id);
                 }
                 return voucher;
             });
-            const nonExpiredVouchers = updatedDataVorcher.filter((voucher: any) => voucher.timeRemaining !== 'Hết hạn');
-            setDataVorcher(nonExpiredVouchers);
-            const allExpired = nonExpiredVouchers.every((voucher: any) => voucher.timeRemaining === 'Hết hạn');
-            if (allExpired) {
-                clearInterval(intervalId);
-            }
+            // const nonExpiredVouchers = updatedDataVorcher.filter((voucher: any) => voucher.timeRemaining !== 'Hết hạn');
+            // setDataVorcher(nonExpiredVouchers);
+            // const allExpired = nonExpiredVouchers.every((voucher: any) => voucher.timeRemaining === 'Hết hạn');
+            // if (allExpired) {
+            //     clearInterval(intervalId);
+            // }
         }, 1000);
 
         return () => {
@@ -107,6 +107,24 @@ const CategoryManagement = () => {
             <TemplateTable searchFunc={searchVoucher} setData={setDataVorcher} dataTable={dataVorcher} changeFunc={changeVorcher} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
                 formEdit={
                     <Fragment>
+                         <Form.Item
+                            label='Name Vorcher'
+                            name='name'
+                            rules={[{ required: true, message: 'Please input your Name Vorcher!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                            <Form.Item
+                            label="Type vorcher"
+                            name="type"
+                            rules={[{ required: true, message: 'Please select the Vorcher Type!' }]}
+                            >
+                            <Select>
+                                <Option value="Ngày lễ">Ngày lễ</Option>
+                                <Option value="Giới hạn">Giới hạn</Option>
+                                <Option value="Mã Giảm giá">Mã Giảm giá</Option>
+                            </Select>
+                            </Form.Item>
                         <Form.Item
                             label='discount'
                             name='discount'
