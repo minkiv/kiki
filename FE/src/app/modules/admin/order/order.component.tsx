@@ -41,7 +41,6 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     setSelectedColor(null);
     setSelectedSize(null);
   };
-
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
     if (selectedProduct) {

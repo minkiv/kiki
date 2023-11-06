@@ -10,7 +10,7 @@ const { Title } = Typography
 interface PropsTypes {
     buttonByStatus?: any
     dataTable: any
-    isStatistical?: boolean
+    isStatistical?: boolean,
 }
 
 export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, isStatistical = false }) => {
@@ -22,7 +22,8 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
         commune: "",
         locationDetail: "",
         city: "",
-        productOrder: []
+        productOrder: [],
+        totalprice: Number,
     })
 
     const handleShowPopupProduct = (record: any) => {
@@ -35,7 +36,8 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             district: record?.district,
             commune: record?.commune,
             locationDetail: record?.locationDetail,
-            productOrder: record?.productOrder
+            productOrder: record?.productOrder,
+            totalprice: record?.totalprice
         })
     }
 
@@ -69,11 +71,12 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             title: 'Tổng tiền',
             key: 'productOrder',
             render: (_, record: any) => {
-                const orderTotal = record.productOrder.reduce((orderTotal: number, productCur: any) => {
-                    return orderTotal + productCur.quantityOrder.quantity * productCur.product.price
-                }, 0)
-
-                return <strong className='block text-center'>{orderTotal}</strong>
+                console.log(record)
+                // const orderTotal = record.productOrder.reduce((orderTotal: number, productCur: any) => {
+                //     return orderTotal + productCur.quantityOrder.quantity * productCur.product.price
+                // }, 0)
+                
+                return <strong className='block text-center'>{record?.totalprice}</strong>
             }
         },
         {

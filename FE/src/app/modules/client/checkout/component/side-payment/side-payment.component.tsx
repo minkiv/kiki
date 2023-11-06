@@ -3,8 +3,9 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { useCartRedux } from '../../../redux/hook/useCartReducer'
 import ButtonSqua from '~/app/component/parts/button/ButtonSqua'
 import { useVorcherRedux } from '../../../redux/hook/useVorcherReducer'
-import { useOrderRedux } from '../../../redux/hook/useOrderReducer'
-import { createPayment } from '~/app/api/payment/payment.api'
+import { GrFormClose } from 'react-icons/gr'
+import AddVorcher from './AddVorcher/AddVorcher.component'
+import AddVorcherHoliday from './AddVorcher/AddVorcherholiday.component'
 
 interface SidePaymentProps {
   props?: any
@@ -47,7 +48,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
       setTotalPrice(calculatedTotal)
     }
   }, [listProductBuy])
-
+  console.log(vorchers)
   const handleApplyVoucher = () => {
     let found = false;
     for (let i = 0; i < vorchers.length; i++) {
@@ -68,7 +69,9 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
   //   const vnpayUrl = response.data;
   //   window.location.href = vnpayUrl;
   // };
-
+  const [stateAddVorcher, setstateAddVorcher] = useState(false)
+  const [stateAddVorcherHoliday, setstateAddVorcherHoliday] = useState(false)
+  const isHoliday = vorchers.some((item:any) => item.type === "Ngày lễ");
   return (
     <div css={cssSidebar} className=' max-md:hidden mt-[30px]'>
       <div className='sidebar-wrapper max-sm:hidden'>
@@ -96,6 +99,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
             </p>
           </div>
         </div>
+        
         <div className='styles_Divider'></div>
         <div>
           {isClicked && (
@@ -118,6 +122,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
             </div>
           )}
         </div>
+        
         <div className='summary'>
           <div className='summary-flexRow'>
             <div className='summary-label'>Tạm tính</div>
@@ -152,8 +157,21 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           <div className='flex px-[16px] py-[8px]'>
             <div className='text-[18px] font-semibold text-[#3e3e3f]'>Mã phiếu giảm giá</div>
             <span className='mx-[20px] w-[2px] h-[24px] bg-[#939598]'></span>
-            <div className='text-[18px] font-semibold text-[#3e3e3f]'>Mã của tôi {totalPrice >= 1000000 ? (vorchers.map((item: any) => (<p>{item?.code}</p>))) : ("")} </div>
+            
+            <div>
+              <div
+                className="text-[18px] font-semibold text-[#3e3e3f]"
+              
+              >
+               <button onClick={() => setstateAddVorcher(true)}>Mã của tôi</button>
+              </div>
+            </div>
           </div>
+           {stateAddVorcher && <div className='absolute z-50'>
+                    <AddVorcher/>
+                    <div className='absolute top-2 right-2 text-[20px]' onClick={() => setstateAddVorcher(false)}><GrFormClose /></div>
+                  </div>}
+              {stateAddVorcher && <div className='darkscreen fixed z-40' onClick={() => setstateAddVorcher(false)}></div>}
           <div className='flex px-[16px] py-[20px]'>
             <input
               className="border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
@@ -166,9 +184,48 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
             />
             <ButtonSqua children='Áp dụng' className='btnSqua' onClick={handleApplyVoucher} />
           </div>
-
+              
         </div>
-        ) : (<p className='py-3 text-gray-600 px-5 text-[15px]'>Vorcher sẽ được áp dụng cho đơn hàng có giá trị 1 triệu trở lên</p>)}
+        ) : (
+          <div className='flex px-[16px] py-[8px]'>
+            {stateAddVorcherHoliday && <div className='absolute z-50'>
+                    <AddVorcherHoliday/>
+                    <div className='absolute top-2 right-2 text-[20px]' onClick={() => setstateAddVorcherHoliday(false)}><GrFormClose /></div>
+                  </div>}
+              {stateAddVorcherHoliday && <div className='darkscreen fixed z-40' onClick={() => setstateAddVorcherHoliday(false)}></div>}
+              <div>
+                {isHoliday && (
+               <div>
+                   <div className="flex px-[16px] py-[8px]">
+                    <div className="text-[18px] font-semibold text-[#3e3e3f]">Mã phiếu giảm giá</div>
+                    <span className="mx-[20px] w-[2px] h-[24px] bg-[#939598]"></span>
+                    <div>
+                      <div className="text-[18px] font-semibold text-[#3e3e3f]">
+                        <button onClick={() => setstateAddVorcherHoliday(true)}>Mã của tôi</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='flex px-[16px] py-[20px]'>
+                      <input
+                        className="border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
+                        type="text"
+                        placeholder="Mã giảm giá"
+                        onChange={(e: any) => {
+                          setVoucherCode(e.target.value)
+                          localStorage.setItem('voucherCode', e.target.value)
+                        }}
+                      />
+                      <ButtonSqua children='Áp dụng' className='btnSqua' onClick={handleApplyVoucher} />
+                    </div>
+               </div>
+                )}
+              </div>
+          
+          </div>
+        )}
+        {totalPrice>=1000000 ?("") :(
+         <p className='py-3 text-gray-600 px-5 text-[15px]'>Vorcher sẽ được áp dụng cho đơn hàng có giá trị 1 triệu trở lên</p>
+        )}
         <div className='flexRow'>
           <button className='button-order' type='submit'>
             Đặt hàng ({listProductBuy.length})
@@ -184,7 +241,6 @@ export default SidePayment
 const cssSidebar = css`
   width: 100%;
   top: 0px;
-
   .sidebar-wrapper {
     background-color: var(--color-white);
     border-radius: 4px;
@@ -301,5 +357,14 @@ const cssSidebar = css`
     line-height: 24px;
     margin-left: 16px;
     border-radius: 16px 0px;
+  };
+  .darkscreen{
+    positon:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background:gray;
+    opacity:0.5;
   }
 `

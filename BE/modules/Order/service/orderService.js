@@ -115,6 +115,7 @@ export const filterDataOrderByStatus = async (queryRequest) => {
             $group: {
                 _id: "$_id",
                 fullname: { $first: "$fullname" },
+                totalprice: { $first: "$totalprice" },
                 phoneNumber: { $first: "$phoneNumber" },
                 district: { $first: "$district" },
                 city: { $first: "$city" },
