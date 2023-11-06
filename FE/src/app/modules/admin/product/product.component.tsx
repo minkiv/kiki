@@ -109,6 +109,7 @@ const ProductManagemnet = () => {
       <TemplateTable
         dataTable={dataProduct}
         columnTable={column}
+        isAdminProduct={true}
         searchFunc={searchProduct}
         setData={setDataProduct}
         formEdit={
