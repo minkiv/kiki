@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import { FunctionComponent, useEffect } from 'react'
 import { useOrderRedux } from '../../../redux/hook/useOrderReducer'
 import moment from 'moment'
-import { deleteOrder, updateOrder } from '~/app/api/order/order.api'
+import { updateOrder } from '~/app/api/order/order.api'
 import toast from 'react-hot-toast'
 import { Button, message, Popconfirm } from 'antd';
 interface MainManangeOrderProps {
@@ -19,8 +19,10 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
     }, [])
 
 
-
-    const confirm = (id: any) => {
+    const confirm = (id: any, dataStatus: any) => {
+        if (dataStatus != "đang chờ duyệt") {
+            return toast.error("không thể huỷ đơn ")
+        }
         updateOrder({ orderId: id, orderStatus: 'huỷ đơn' }).then((res) => {
             if (res) {
                 toast.success("huỷ thành công")
@@ -83,7 +85,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                         <Popconfirm
                                             title="Delete the task"
                                             description="Are you sure to delete this task?"
-                                            onConfirm={() => confirm(order?._id)}
+                                            onConfirm={() => confirm(order?._id, order?.orderStatus)}
                                             onCancel={cancel}
                                             okText="Yes"
                                             cancelText="No"
