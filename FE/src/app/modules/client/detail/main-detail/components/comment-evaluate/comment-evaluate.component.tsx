@@ -35,15 +35,17 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
         setCommentText(event.target.value)
     }
     const userId = localStorage.getItem("userID")
+
     const handelSubmitComment = () => {
         createComment({ comment: commentText, productId: id, star: value, userId }).then((res) => {
+            console.log({ comment: commentText, productId: id, star: value, userId })
             if (res) {
                 toast.success("Đánh giá và bình luận thành công")
                 setIsModalOpen(false);
                 actions.getAllComments(id)
             }
         }, (err) => {
-            toast.error('Vui lòng đánh giá sản phẩm!')
+            toast.error(err.response.data)
         })
     }
     return (
