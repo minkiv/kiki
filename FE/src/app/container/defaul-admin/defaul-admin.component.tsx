@@ -77,10 +77,6 @@ const DefaultAdmin: React.FC = () => {
             <p className=''>Nguyễn Thị Hiệp</p>
           </div>
         </Header>
-        {/* <Breadcrumb style={{ margin: '16px' }}>
-          <Breadcrumb.Item>User</Breadcrumb.Item>
-          <Breadcrumb.Item>Bill</Breadcrumb.Item>
-        </Breadcrumb> */}
         <Content
           style={{
             margin: '0 16px',

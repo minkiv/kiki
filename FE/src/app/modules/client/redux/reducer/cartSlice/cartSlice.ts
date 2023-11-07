@@ -117,7 +117,7 @@ const cartSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAllCart.fulfilled, (state, action) => {
-            state.carts = action.payload.carts
+            state.carts = action?.payload.carts
         })
     }
 })

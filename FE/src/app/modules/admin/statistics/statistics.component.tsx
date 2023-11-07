@@ -19,9 +19,11 @@ const Statistical = () => {
     const [productSalesData, setProductSalesData] = useState<any>([]);
     useEffect(() => {
         getAllOrder().then((res) => {
-            setOrders(res.data)
+            const completedOrders = res.data.filter((order: any) => order.orderStatus === "hoàn thành");
+            setOrders(completedOrders);
         })
     }, [])
+
     useEffect(() => {
         const productSales: any = {};
         orders.forEach((order: any) => {
@@ -63,11 +65,12 @@ const Statistical = () => {
     }, [dataRequest]);
     useEffect(() => {
         getAllOrderByStatus({
-            startDate: '2023-10-20',
-            endDate: '2023-10-26',
+            startDate: '2023-11-01',
+            endDate: '2023-11-06',
         }).then((res) => {
             const orderChartData = res.data.listOrderChart;
-            const orderData = res.data.orders;
+            const orderData = res.data.orders.filter((order: any) => order.orderStatus === "hoàn thành");
+
             const totalPrices = orderChartData.map((chartData: any) => {
                 const date = chartData.date;
                 const totalPrice = orderData
