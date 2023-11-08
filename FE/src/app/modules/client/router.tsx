@@ -13,6 +13,7 @@ import LifeStyle from './lifeStyle/lifeStyle.component'
 import Contacts from './contact/contact.component'
 import Support from './support/support.component'
 import ManageInfoCustomer from './manager-info-customer/manage-info-customer.component'
+import ErrorCustomer from './error-customer/error-customer.component'
 
 export const clientRouter: RouteObject[] = [
   {
@@ -54,6 +55,10 @@ export const clientRouter: RouteObject[] = [
   {
     path: '/thankcustomers',
     element: <ThankCustomers />
+  },
+  {
+    path: '/errorcustomers',
+    element: <ErrorCustomer />
   },
   {
     path: '/LifeStyle',
