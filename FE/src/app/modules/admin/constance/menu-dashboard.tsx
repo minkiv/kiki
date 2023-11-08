@@ -11,8 +11,14 @@ import {
     CustomerServiceOutlined
 
 } from '@ant-design/icons'
+import { SiAdminer } from 'react-icons/si';
 
 export const menuDashBoard = [
+    {
+        key: '/admin',
+        icon: <SiAdminer />,
+        label: 'DashBoard'
+    },
     {
         key: '/admin/user',
         icon: <UserOutlined />,
@@ -32,7 +38,7 @@ export const menuDashBoard = [
         key: '/admin/comment',
         icon: <CommentOutlined />,
         label: 'Comment & Review'
-      },
+    },
     {
         key: '/admin/order',
         icon: <ShoppingCartOutlined />,
@@ -41,7 +47,7 @@ export const menuDashBoard = [
     {
         key: '/admin/support',
         icon: <CustomerServiceOutlined />,
-        label: 'Support'
+        label: 'Contact'
     },
     {
         key: '/admin/vorcher',

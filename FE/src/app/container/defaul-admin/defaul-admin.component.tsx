@@ -2,12 +2,33 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 import { Breadcrumb, Button, Layout, Menu, theme } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { menuDashBoard } from '~/app/modules/admin/constance/menu-dashboard'
+import { HiOutlineMailOpen } from 'react-icons/hi';
+import { BiBell } from 'react-icons/bi';
+import { getAllSupport } from '~/app/modules/admin/support-admin/service/support-admin.service'
+import { getAllOrder } from '~/app/modules/admin/order/service/order.service'
+
 
 const { Header, Sider, Content } = Layout
 
 const DefaultAdmin: React.FC = () => {
+
+  const [supports, setSupports] = useState([])
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+    getAllSupport().then((res: any) => {
+      setSupports(res.data)
+    })
+    getAllOrder().then((res: any) => {
+      const newOrder = res.data.filter((item: any) => item.orderStatus === "đang chờ duyệt")
+      setOrders(newOrder)
+    })
+  }, [])
+
+
+
   let navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false)
   const {
@@ -60,6 +81,21 @@ const DefaultAdmin: React.FC = () => {
             }}
           />
           <div className='author flex mr-[24px] gap-[24px]'>
+
+            <div css={cssCartMain} className='cart-main relative mt-5'>
+              <Link to={'/admin/support'}>
+                <HiOutlineMailOpen className='font-bold' />
+              </Link>
+              {supports?.length >= 0 && accessToken ? <span className='absolute show-count'>{supports?.length}</span> : ''}
+            </div>
+
+            <div css={cssCartMain} className='cart-main relative mt-5'>
+              <Link to={'/admin/order'}>
+                <BiBell className='font-bold' />
+              </Link>
+              {orders?.length >= 0 && accessToken ? <span className='absolute show-count'>{orders?.length}</span> : ''}
+            </div>
+
             <div className='flex gap-[4px]'>
               <img
                 className='author-img h-[36px] m-auto object-cover'
@@ -77,6 +113,7 @@ const DefaultAdmin: React.FC = () => {
             <p className=''>Nguyễn Thị Hiệp</p>
           </div>
         </Header>
+
         <Content
           style={{
             margin: '0 16px',
@@ -120,5 +157,33 @@ const cssLayout = css`
   .ant-menu-item-icon {
     font-size: 16px !important;
     margin-right: 8px;
+  }
+`
+const cssCartMain = css`
+  .show-count {
+    top: 0px;
+    right: 0px;
+    border-radius: 50px;
+    background: #ef4444;
+    font-size: 1.3rem;
+    color: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  position: relative;
+  display: block;
+  height: 100%;
+  padding: 8px 14px;
+  font-size: 22px;
+  border-radius: 8px;
+  color: var(--color-black);
+  cursor: pointer;
+
+  @media (min-width: 0) and (max-width: 739px) {
+    padding: 0;
+    margin-left: 10px;
   }
 `
