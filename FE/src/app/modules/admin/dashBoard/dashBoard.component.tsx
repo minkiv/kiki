@@ -11,7 +11,7 @@ import { getAllComment } from '../comment-admin/service/comment-admi.service';
 
 
 const DashBoard = () => {
-    const accessToken = localStorage.getItem('accessToken')
+
 
     const [products, setProducts] = useState([])
     const [categorys, setCategorys] = useState([])
@@ -40,10 +40,10 @@ const DashBoard = () => {
             <div className='grid grid-cols-4'>
                 <div className='bg-yellow-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        {products?.length >= 0 && accessToken ? <div className='text-6xl text-white font-semibold pb-[22px]'>{products?.length}</div> : ''}
+                        {<div className='text-6xl text-white font-semibold pb-[22px]'>{products?.length}</div>}
                         <div className='text-white font-medium text-3xl mb-9'>Sản Phẩm</div>
                     </div>
-                    <div className='bg-yellow-600 rounded-lg text-white justify-center p-4 w-full flex '>
+                    <div className='bg-yellow-600 rounded-lg text-white justify-center p-4 w-full flex bottom-0 '>
                         <div className='px-2 text-xl font-medium'>Chi tiết</div>
                         <div><BsFillArrowRightCircleFill className='text-3xl' /></div>
                     </div>
@@ -51,7 +51,7 @@ const DashBoard = () => {
 
                 <div className='bg-green-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        {categorys?.length >= 0 && accessToken ? <div className='text-6xl text-white font-semibold pb-[22px]'>{categorys?.length}</div> : ''}
+                        { <div className='text-6xl text-white font-semibold pb-[22px]'>{categorys?.length}</div> }
                         <div className='text-white font-medium text-3xl mb-9'>Danh Mục Sản Phẩm</div>
                     </div>
                     <div className='bg-green-600 rounded-lg text-white justify-center p-4 w-full flex '>
@@ -63,7 +63,7 @@ const DashBoard = () => {
 
                 <div className='bg-orange-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        {comments?.length >= 0 && accessToken ? <div className='text-6xl text-white font-semibold pb-[22px]'>{comments?.length}</div> : ''}
+                        {<div className='text-6xl text-white font-semibold pb-[22px]'>{comments?.length}</div>}
                         <div className='text-white font-medium text-3xl mb-9'>Bình Luận - Đánh Giá</div>
                     </div>
                     <div className='bg-orange-600 rounded-lg text-white justify-center p-4 w-full flex '>
@@ -75,7 +75,7 @@ const DashBoard = () => {
 
                 <div className='bg-pink-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        {users?.length >= 0 && accessToken ? <div className='text-6xl text-white font-semibold pb-[22px]'>{users?.length}</div> : ''}
+                        {<div className='text-6xl text-white font-semibold pb-[22px]'>{users?.length}</div>}
                         <div className='text-white font-medium text-3xl mb-9'>Thành Viên</div>
                     </div>
                     <div className='bg-pink-600 rounded-lg text-white justify-center p-4 w-full flex '>
@@ -89,7 +89,7 @@ const DashBoard = () => {
             <div className='grid grid-cols-4 mt-10'>
                 <div className='bg-purple-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        {supports?.length >= 0 && accessToken ? <div className='text-6xl text-white font-semibold pb-[22px]'>{supports?.length}</div> : ''}
+                        {<div className='text-6xl text-white font-semibold pb-[22px]'>{supports?.length}</div>}
                         <div className='text-white font-medium text-3xl mb-9'>Danh Sách Liên Hệ</div>
                     </div>
                     <div className='bg-purple-600 rounded-lg text-white justify-center p-4 w-full flex '>
@@ -100,7 +100,7 @@ const DashBoard = () => {
 
                 <div className='bg-rose-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        {orders?.length >= 0 && accessToken ? <div className='text-6xl text-white font-semibold pb-[22px]'>{orders?.length}</div> : ''}
+                        {<div className='text-6xl text-white font-semibold pb-[22px]'>{orders?.length}</div>}
                         <div className='text-white font-medium text-3xl mb-9'>Đơn Hàng Chưa Xử Lý</div>
                     </div>
                     <div className='bg-rose-600 rounded-lg text-white justify-center p-4 w-full flex '>
@@ -111,7 +111,7 @@ const DashBoard = () => {
 
                 <div className='bg-lime-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        {vorchers?.length >= 0 && accessToken ? <div className='text-6xl text-white font-semibold pb-[22px]'>{vorchers?.length}</div> : ''}
+                        {<div className='text-6xl text-white font-semibold pb-[22px]'>{vorchers?.length}</div>}
                         <div className='text-white font-medium text-3xl mb-9'>Vocher</div>
                     </div>
                     <div className='bg-lime-600 rounded-lg text-white justify-center p-4 w-full flex '>

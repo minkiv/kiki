@@ -12,7 +12,7 @@ const getStatusPayment = catchAsync(async (req, res) => {
   res.send(`
       <script>
         alert('${message}');
-         window.open('http://127.0.0.1:3000/manage', '_self', '')
+         window.open('http://localhost:3000/${result.isSuccess ? 'manage' : 'errorcustomers'}', '_self', '')
       </script>
     `);
 })
