@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import InputComponent from '../../parts/input/input.component'
 import { AiOutlineSearch, AiOutlineSetting, AiOutlineUserAdd } from 'react-icons/ai'
-import { PiHandbagSimpleThin } from 'react-icons/pi'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
@@ -192,7 +192,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         <div className='hr-height'></div>
         <div css={cssCartMain} className='cart-main relative'>
           <Link to={'/cart'}>
-            <PiHandbagSimpleThin className='font-bold' />
+            <AiOutlineShoppingCart className='font-extrabold' />
           </Link>
           {carts?.length >= 0 && accessToken ? <span className='absolute show-count'>{carts?.length}</span> : ''}
         </div>

@@ -36,6 +36,12 @@ const CategoryManagement = () => {
                             title: itemKey,
                             dataIndex: itemKey,
                             key: itemKey,
+                            render: (text: any, record: any, index: any) => {
+                                if (itemKey === 'discount') {
+                                    return <div>{(record?.discount)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+                                }
+                                return text
+                            },
                         });
                     }
                 }
@@ -86,7 +92,7 @@ const CategoryManagement = () => {
                 return voucher;
             });
             // const nonExpiredVouchers = updatedDataVorcher.filter((voucher: any) => voucher.timeRemaining !== 'Hết hạn');
-            // setDataVorcher(nonExpiredVouchers);
+            setDataVorcher(updatedDataVorcher);
             // const allExpired = nonExpiredVouchers.every((voucher: any) => voucher.timeRemaining === 'Hết hạn');
             // if (allExpired) {
             //     clearInterval(intervalId);
@@ -107,24 +113,24 @@ const CategoryManagement = () => {
             <TemplateTable searchFunc={searchVoucher} setData={setDataVorcher} dataTable={dataVorcher} changeFunc={changeVorcher} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
                 formEdit={
                     <Fragment>
-                         <Form.Item
+                        <Form.Item
                             label='Name Vorcher'
                             name='name'
                             rules={[{ required: true, message: 'Please input your Name Vorcher!' }]}
                         >
                             <Input />
                         </Form.Item>
-                            <Form.Item
+                        <Form.Item
                             label="Type vorcher"
                             name="type"
                             rules={[{ required: true, message: 'Please select the Vorcher Type!' }]}
-                            >
+                        >
                             <Select>
                                 <Option value="Ngày lễ">Ngày lễ</Option>
                                 <Option value="Giới hạn">Giới hạn</Option>
                                 <Option value="Mã Giảm giá">Mã Giảm giá</Option>
                             </Select>
-                            </Form.Item>
+                        </Form.Item>
                         <Form.Item
                             label='discount'
                             name='discount'
