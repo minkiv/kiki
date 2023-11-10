@@ -41,7 +41,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   columnTable,
   formEdit,
   setData,
-  isAdminProduct
+  isAdminProduct,
+
 }) => {
   const [defaultValue, setDefaultValue] = useState<any>(null)
   const [form] = Form.useForm()
@@ -147,7 +148,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         if (res) {
           setTimeout(() => {
             setTriggerLoadding(false)
-
+            
             setData(res.data)
             setErrorSearch("")
           }, 1000)

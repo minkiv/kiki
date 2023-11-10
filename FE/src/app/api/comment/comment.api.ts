@@ -5,4 +5,8 @@ export const createComment = async (data: any) => {
     return response.data
 }
 
+export const getAllComment = async () =>{
+    const response = await axiosPrivate.get("/comment")
+    return response.data
+}
 

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { deleteComment, getAllComment, updateComment } from './service/comment-admi.service'
+import { deleteComment, getAllComment, searchComment, updateComment } from './service/comment-admi.service'
 import TemplateTable from '../common/template-table/template-table.component'
 import { Form, Input, Rate, Select } from 'antd'
 import { getAllProduct } from '../product/service/product.service'
@@ -27,7 +27,7 @@ const CommentAdminComponent = () => {
     }, [reset])
     useEffect(() => {
         const columnTemp: any = [];
-        if (dataComment.length > 0) {
+        if (dataComment.length > 0) {        
             Object.keys(dataComment[0]).forEach((itemKey) => {
                 if (!['_id', 'updatedAt', 'createdAt', '__v'].includes(itemKey)) {
                     columnTemp.push({
@@ -35,12 +35,12 @@ const CommentAdminComponent = () => {
                         dataIndex: itemKey,
                         key: itemKey,
                         render: (text: any, record: any, index: any) => {
-                            // if (itemKey === 'user') {
-                            //     return record?.user?.email;
-                            // }
-                            // if (itemKey === 'product') {
-                            //     return record?.product?.name;
-                            // }
+                            if (itemKey == 'userId') {
+                                return <div>{record?.userId?.name}</div>
+                            }
+                            if (itemKey == 'productId') {
+                                return <div>{record?.productId?.name}</div>
+                            }
                             if(itemKey === 'star'){
                                return <Rate disabled  value={record?.star} />
                             }
@@ -60,11 +60,13 @@ const CommentAdminComponent = () => {
     return (
         <div>
             <div>
-                <TemplateTable columnTable={colums} dataTable={dataComment} changeFunc={updateComment}  createFunc={createComment} dataPage={7} deleteFunc={deleteComment} handelGetList={handelGetList} formEdit={
+                <TemplateTable columnTable={colums} dataTable={dataComment} searchFunc={searchComment} setData={setDataComment} changeFunc={updateComment}  createFunc={createComment} dataPage={7} deleteFunc={deleteComment} handelGetList={handelGetList} formEdit={
                     <Fragment>
                     <Form.Item
                         label='userId'
                         name='userId'
+                        getValueFromEvent={(event, select) => ({ name: select?.children, _id: select?.value })}
+                        getValueProps={(value) => ({ label: value?.name, value: value?._id })}
                         rules={[{ required: true, message: 'Please input your fullname!' }]}
                     >
                         <Select placeholder="lựa chọn tài khoản">
@@ -77,6 +79,8 @@ const CommentAdminComponent = () => {
                     <Form.Item
                         label='productId'
                         name='productId'
+                        getValueFromEvent={(event, select) => ({ name: select?.children, _id: select?.value })}
+                            getValueProps={(value) => ({ label: value?.name, value: value?._id })}
                         rules={[{ required: true, message: 'Please input your fullname!' }]}
                     >
                         <Select placeholder="lựa chọn sản phẩm">

@@ -35,10 +35,10 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
         setCommentText(event.target.value)
     }
     const userId = localStorage.getItem("userID")
-
+    const { data: { product } } = useProductRedux()
+    const email: any = localStorage.getItem("emailUser")
     const handelSubmitComment = () => {
-        createComment({ comment: commentText, productId: id, star: value, userId }).then((res) => {
-            console.log({ comment: commentText, productId: id, star: value, userId })
+        createComment({ comment: commentText, productId:{_id:id, name:product.name}, star: value, userId:{_id:userId, name:email} }).then((res) => {
             if (res) {
                 toast.success("Đánh giá và bình luận thành công")
                 setIsModalOpen(false);
@@ -78,7 +78,7 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
                             <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1200} bodyStyle={{ height: 500 }} footer={null}>
                                 <div className='flex my-5'>
                                     <div>
-                                        <img src="https://pubcdn.ivymoda.com/files/product/thumab/1600/2023/11/02/7f9328042d7f27a891a08cf622590c9b.jpg" alt="" className='h-[500px] w-[450px]' />
+                                        <img src={productDetail.images} alt="" className='h-[445px] w-[395px]' />
                                     </div>
                                     <div className='px-4 w-full'>
                                         <h1 className='text-[22px] font-semibold'>{productDetail?.name}</h1>
@@ -101,7 +101,7 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
 
                                         <div className='flex items-center mt-6 float-right'>
                                             <div>
-                                                <ButtonSqua onClick={handelSubmitComment} children={"Submit"} className="rounded-tl-2xl rounded-br-2xl  w-[100px]" />
+                                                <ButtonSqua onClick={handelSubmitComment} children={"Submit"} className="rounded-tl-2xl rounded-br-2xl w-[100px]" />
                                             </div>
                                             <div>
                                                 <ButtonComponent onClick={handleCancel} children={"Cancel"} className="w-[100px]" />
