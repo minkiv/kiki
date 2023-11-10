@@ -18,10 +18,10 @@ const MenuSideBar: FunctionComponent<MenuSideBarProps> = () => {
   }, [id])
   return (
     <div css={cssMenuSideBar} className='w-[200px]'>
-      <div className='flex items-center'>
+      <div className='flex items-center pb-6'>
         <div>
           <img
-            src='https://png.pngtree.com/png-vector/20190805/ourlarge/pngtree-account-avatar-user-abstract-circle-background-flat-color-icon-png-image_1650938.jpg'
+            src='https://banner2.cleanpng.com/20180517/uzq/kisspng-computer-icons-user-profile-male-avatar-5afd8d7b2682b3.7338522715265662671577.jpg'
             alt=''
             className='w-[50px]'
           />
@@ -67,7 +67,6 @@ const MenuSideBar: FunctionComponent<MenuSideBarProps> = () => {
 export default MenuSideBar
 
 const cssMenuSideBar = css`
-  border-right: 1px solid gray;
   li {
     padding: 10px 0px;
     align-items: center;

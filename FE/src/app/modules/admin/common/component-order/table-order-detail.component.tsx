@@ -23,11 +23,11 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
         locationDetail: "",
         city: "",
         productOrder: [],
+        payment_methods: "",
         totalprice: Number,
     })
-
+    console.log(detailRecord)
     const handleShowPopupProduct = (record: any) => {
-        console.log(record)
         setIsShowModal(true)
         setDetailRecord({
             city: record?.city,
@@ -37,13 +37,14 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             commune: record?.commune,
             locationDetail: record?.locationDetail,
             productOrder: record?.productOrder,
-            totalprice: record?.totalprice
+            totalprice: record?.totalprice,
+            payment_methods: record?.payment_methods
         })
     }
 
     const columns: ColumnsType<AnyObject> = [
         {
-            title: 'OrderCode / CreatedAt',
+            title: 'Mã code / Ngày',
             key: '_id',
             render: (_, record: any) => (
                 <div className=''>
@@ -52,9 +53,14 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             )
         },
         {
-            title: 'Status',
+            title: 'Trạng thái đơn hàng',
             key: 'orderStatus',
-            dataIndex: 'orderStatus'
+            dataIndex: 'orderStatus',
+            render: (_, record: any) => {
+                return <strong className={`block text-center ${record.orderStatus === 'đang chờ duyệt' || record.orderStatus === 'huỷ đơn' ? 'text-red-500' : 'text-green-500'}`}>
+                    {record.orderStatus}
+                </strong>
+            }
         },
         {
             title: 'Tổng số lượng',
@@ -78,6 +84,11 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             }
         },
         {
+            title: 'Phương thức thanh toán',
+            key: 'payment_methods',
+            dataIndex: 'payment_methods'
+        },
+        {
             title: 'Action',
             key: 'action',
             render: (_, record: any) => (
@@ -98,39 +109,44 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
     const items: DescriptionsProps['items'] = [
         {
             key: '1',
-            label: 'FullName',
+            label: 'Họ và tên',
             children: detailRecord?.fullname
         },
         {
             key: '2',
-            label: 'PhoneNumber',
+            label: 'Số điện thoại',
             children: detailRecord?.phoneNumber
         },
         {
             key: '3',
-            label: 'City',
+            label: 'Thành phố / tỉnh',
             children: detailRecord?.city
         },
         {
             key: '4',
-            label: 'District',
+            label: 'Quận / huyện',
             children: detailRecord?.district
         },
         {
             key: '5',
-            label: 'LocationDetail',
+            label: 'Xã / phường',
+            children: detailRecord?.commune
+        },
+        {
+            key: '6',
+            label: 'Địa chỉ chi tiếttiết',
             children: detailRecord?.locationDetail
         }
     ]
 
     const columnListProduct = [
         {
-            title: 'Name',
+            title: 'Tên Sản Phẩm',
             key: 'name',
             render: (_: any, record: any) => <div className=''>{record.product.name}</div>
         },
         {
-            title: 'Image',
+            title: 'Ảnh',
             key: 'images',
             render: (_: any, record: any) => (
                 <div style={{ width: 70 }}>
@@ -139,14 +155,23 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             )
         },
         {
-            title: 'Price',
+            title: 'Giá',
             key: 'Price',
             render: (_: any, record: any) => {
+                console.log(record);
+
                 return <strong className='block text-center'>{(record.quantityOrder.quantity * record.product.price).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</strong>
             }
         },
+        // {
+        //     title: 'Phương thức thanh toán',
+        //     key: 'payment_methods',
+        //     render: (_: any, record: any) => {
+        //         return <strong className='block text-center'> {record.product.payment_methods}</strong>
+        //     }
+        // },
         {
-            title: 'Color | size | Quantity',
+            title: 'Màu | Kích cỡ | Số lượng',
             key: 'quantityOrder',
             render: (_: any, record: any) => (
                 <div className=''>

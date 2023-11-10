@@ -2,7 +2,8 @@ import { css } from '@emotion/react'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import InputComponent from '../../parts/input/input.component'
 import { AiOutlineSearch, AiOutlineSetting, AiOutlineUserAdd } from 'react-icons/ai'
-import { AiOutlineShoppingCart } from 'react-icons/ai'
+import { FiUserCheck } from 'react-icons/fi';
+import { PiShoppingCartThin } from 'react-icons/pi'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
@@ -157,25 +158,25 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         </div>
         {stateInput && <div css={cssDarkScreen} onClick={() => setStateInput(false)}></div>}
         <div className='item-menu'>
-          <div className='icon'>
-            <AiOutlineUserAdd />
+          <div className='icon px-3'>
+            <FiUserCheck />
           </div>
-          <div className='title'>
+          <div className='title '>
             {accessToken ? (
               <div>
                 <span className='px-5 text-black max-sm:hidden'>
                   XIN CHÀO
                   <ul className='links'>
                     <li>
-                      <button className='w-[100%]'>
-                        <p className=' font-normal text-[15px] py-3' onClick={handleLoginLogout}>
+                      <button className='w-[100%] text-left'>
+                        <p className=' font-normal text-[17px] hover:text-red-500 p-6' onClick={handleLoginLogout}>
                           {' '}
-                          <HiOutlineLogout />
+                          <HiOutlineLogout className='text-[20px]' />
                           Đăng xuất
                         </p>
                         <Link to={'/manage'}>
-                          <p className=' font-normal text-[15px] py-3'>
-                            <AiOutlineSetting />
+                          <p className=' font-normal text-[17px] p-6'>
+                            <AiOutlineSetting className='text-[20px]' />
                             Quản lý{' '}
                           </p>
                         </Link>
@@ -192,7 +193,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         <div className='hr-height'></div>
         <div css={cssCartMain} className='cart-main relative'>
           <Link to={'/cart'}>
-            <AiOutlineShoppingCart className='font-extrabold' />
+            <PiShoppingCartThin className='font-black text-[30px]' />
           </Link>
           {carts?.length >= 0 && accessToken ? <span className='absolute show-count'>{carts?.length}</span> : ''}
         </div>

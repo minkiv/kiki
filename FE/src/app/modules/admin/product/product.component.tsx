@@ -37,6 +37,9 @@ const ProductManagemnet = () => {
               if (itemKey === 'price') {
                 return <div>{record?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
               }
+              if (itemKey === 'cost') {
+                return <div>{record?.cost?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+              }
               return text
             }
           })
