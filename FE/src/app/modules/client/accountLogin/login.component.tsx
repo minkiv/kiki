@@ -25,6 +25,7 @@ const Login: FunctionComponent<LoginProps> = () => {
             if (res) {
                 localStorage.setItem('accessToken', res.data.accessToken);
                 localStorage.setItem('userID', res.data.user._id);
+                localStorage.setItem("emailUser", res.data.user.email)
                 message.success("Đăng nhập thành công", () => {
                     navigate("/");
                     location.reload();

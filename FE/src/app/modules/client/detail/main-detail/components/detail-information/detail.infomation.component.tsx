@@ -10,14 +10,16 @@ import { addProductToCarts } from '~/app/api/cart/cart.api'
 import { message } from 'antd'
 import { AiOutlineHeart, AiOutlineDownCircle, AiOutlineUpCircle } from 'react-icons/ai'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { CiRuler } from 'react-icons/ci'
 import { TiTick } from 'react-icons/ti'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
-interface DetailInformation { }
+import { getAllComment } from '~/app/api/comment/comment.api'
+interface DetailInformation { 
+}
 
-const DetailInformation: FunctionComponent<DetailInformation> = () => {
+const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
   const {
     data: { product: productDetail }
   } = useProductRedux()
@@ -50,6 +52,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
     setIsShowInfo(productDetail?.description)
   }, [productDetail])
 
+    
   const handleSelectColor = (colorId: any) => {
     const findElement = listColor.find((item: any) => item.id == colorId)
     if (colorId == colorSelect?.id) {
@@ -158,10 +161,32 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
   //   }
   // }
   const changeInfo = (type: any) => {
+
     setOptionInfo(type)
     if (type === 'intro') setIsShowInfo(productDetail?.description)
     if (type === 'detail') setIsShowInfo(productDetail?.detail)
     if (type === 'protect') setIsShowInfo(productDetail?.protect)
+  }
+  const [averageStar, setAverageStar] = useState<any>(0);
+  const [lengthEvaluate, setLengthEvaluate] = useState<any>();
+  let { id } = useParams()
+  useEffect(() => {
+    getAllComment().then((res) => {
+      if (res) {
+        const productComments = res.filter((item: any) => item.productId._id === id);  
+        console.log(productComments);
+                       
+        setLengthEvaluate(productComments)
+        const totalStars = productComments.reduce((sum: any, comment: any) => sum + parseInt(comment.star), 0);
+        const avgStar = productComments.length > 0 ? totalStars / productComments.length : 1;
+        setAverageStar(avgStar);
+      }
+    });
+  }, []);
+
+  const starComponents = [];
+  for (let i = 1; i <= averageStar; i++) {
+    starComponents.push(<StarIcon key={i} />);
   }
 
   return (
@@ -173,13 +198,9 @@ const DetailInformation: FunctionComponent<DetailInformation> = () => {
       <div className='flex mt-2 space-x-5'>
         <p className='text-2xl hidden sm:block'>Thương hiệu: {productDetail?.brand}</p>
         <div className='flex star'>
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
-          <StarIcon />
+          {starComponents}
         </div>
-        <div>(0 đánh giá)</div>
+        <div>({lengthEvaluate?.length} đánh giá)</div>
       </div>
       <div className='grid grid-cols-7 xl:mt-10'>
         <div className='col-span-12 '>
