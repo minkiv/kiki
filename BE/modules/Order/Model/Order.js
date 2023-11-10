@@ -13,6 +13,7 @@ const orderSchema = mongoose.Schema({
     locationDetail: String,
     defaultLocation: String,
     totalprice: Number,
+    payment_methods: String,
     orderStatus: {
         type: String,
         default: 'đang chờ duyệt',

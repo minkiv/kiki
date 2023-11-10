@@ -1,15 +1,23 @@
 import { css } from '@emotion/react'
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { useOrderRedux } from '../../../redux/hook/useOrderReducer'
 import moment from 'moment'
 import { updateOrder } from '~/app/api/order/order.api'
 import toast from 'react-hot-toast'
-import { Button, message, Popconfirm } from 'antd';
+import { Button, message, Popconfirm, Pagination } from 'antd';
+
 interface MainManangeOrderProps {
     props?: any
 }
 
 const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
     const {
         data: { orders }, actions
     } = useOrderRedux()
@@ -39,7 +47,8 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
 
 
     return (
-        <div css={cssMainManangeOrder}>
+
+        <div css={cssMainManangeOrder} >
             <h1>Quản lý đơn hàng</h1>
             <div>
                 <table className='w-[1200px]'>
@@ -54,7 +63,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map((order: any, index: any) => {
+                        {orders.slice(startIndex, endIndex).map((order: any, index: any) => {
 
                             return (
                                 <tr key={order?._id}>
@@ -93,14 +102,16 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                             <Button danger>huỷ đơn hàng</Button>
                                         </Popconfirm></td>
                                 </tr>)
-
                         })}
                     </tbody>
                 </table>
+                <Pagination className='py-20 float-right' current={currentPage}
+                    pageSize={pageSize}
+                    total={orders.length}
+                    onChange={setCurrentPage}
+                />
             </div>
         </div>
-
-
     )
 }
 
@@ -108,6 +119,7 @@ export default MainManangeOrder
 
 const cssMainManangeOrder = css`
 padding:0 20px;
+border-left: 1px solid gray;
 h1{
     font-weight: 600;
     font-size: 24px;

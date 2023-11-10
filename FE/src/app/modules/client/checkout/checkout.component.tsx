@@ -65,7 +65,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
         }
     }, [listProductBuy]);
 
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('cod');
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Thanh toán khi nhận hàng');
 
     const handlePaymentMethodChange = (method: string) => {
         setSelectedPaymentMethod(method);
@@ -88,6 +88,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
             ...data,
             totalprice: sumOrderPrice,
             productOrder: listProductBuy,
+            payment_methods: selectedPaymentMethod,
         };
         actionsOrder.addressOrder({ ...data });
 
@@ -101,6 +102,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
                 toast.error('Lỗi khi tạo đơn hàng: ' + error.message);
             }
             const res = await addOrder(cartData);
+
             if (res) {
                 setLoadingCreate(false);
                 localStorage.removeItem('listSelectCart');

@@ -14,7 +14,7 @@ const ManageOrder: FunctionComponent<ManageOrderProps> = () => {
         <>
             {
                 accessToken ? (
-                    <div css={cssManageOrder} className='w-[1440px] m-auto flex mt-16' >
+                    <div css={cssManageOrder} className='w-[1440px] m-auto flex mt-16'  >
                         <div>
                             <MenuSideBar />
                         </div>

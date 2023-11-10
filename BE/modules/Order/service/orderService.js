@@ -126,6 +126,7 @@ export const filterDataOrderByStatus = async (queryRequest) => {
                 createdAt: { $first: "$createdAt" },
                 updatedAt: { $first: "$updatedAt" },
                 orderStatus: { $first: "$orderStatus" },
+                payment_methods: { $first: "$payment_methods" },
                 __v: { $first: "$__v" }
             }
         }

@@ -12,14 +12,14 @@ const Payments: FunctionComponent<PaymentsProps> = ({ selectedPaymentMethod, han
       <div css={delivercss} className=' max-md:hidden'>
         <h3 className=''>Chọn hình thức thanh toán</h3>
         <div className='method-list'>
-          <label htmlFor='cod' className='radio-button flex'>
+          <label htmlFor='Thanh toán khi nhận hàng' className='radio-button flex'>
             <input
               type='radio'
               name='payment-method'
               readOnly
-              checked={selectedPaymentMethod === 'cod'}
-              onChange={() => handlePaymentMethodChange('cod')}
-              value='cod'
+              checked={selectedPaymentMethod === 'Thanh toán khi nhận hàng'}
+              onChange={() => handlePaymentMethodChange('Thanh toán khi nhận hàng')}
+              value='Thanh toán khi nhận hàng'
             />
             <span className='radio-fake my-auto'></span>
             <span className='label flex my-auto'>

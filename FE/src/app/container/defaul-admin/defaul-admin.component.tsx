@@ -8,6 +8,7 @@ import { HiOutlineMailOpen } from 'react-icons/hi';
 import { BiBell } from 'react-icons/bi';
 import { getAllSupport } from '~/app/modules/admin/support-admin/service/support-admin.service'
 import { getAllOrder } from '~/app/modules/admin/order/service/order.service'
+import { getOneUserSystem } from '~/app/api/auth/auth.api'
 
 
 const { Header, Sider, Content } = Layout
@@ -30,6 +31,13 @@ const DefaultAdmin: React.FC = () => {
 
 
   let navigate = useNavigate()
+  const [user, setUser] = useState<any>()
+  const id = localStorage.getItem('userID')
+  useEffect(() => {
+    getOneUserSystem(id).then((res: any) => {
+      setUser(res.data)
+    })
+  }, [id])
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer }
@@ -108,9 +116,9 @@ const DefaultAdmin: React.FC = () => {
             <img
               className='author-img h-[36px] m-auto rounded-[50%] object-cover'
               width={'36px'}
-              src='https://tse1.mm.bing.net/th?id=OIP.-aZACU3d2yerjekwxJYCiwHaFj&pid=Api&P=0&h=220'
+              src='https://banner2.cleanpng.com/20180517/uzq/kisspng-computer-icons-user-profile-male-avatar-5afd8d7b2682b3.7338522715265662671577.jpg'
             />
-            <p className=''>Nguyễn Thị Hiệp</p>
+            <p className='pr-8'>{user?.fullname}</p>
           </div>
         </Header>
 
