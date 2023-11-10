@@ -285,13 +285,13 @@ const Statistical = () => {
 
     return (
         <LayoutLoading condition={dataChart.length === 0}>
-            <div className='bg-blue-500 rounded-lg p-6 mb-8 block w-[300px] h-44'>
+            {/* <div className='bg-blue-500 rounded-lg p-6 mb-8 block w-[300px] h-44'>
                 <div className='flex'>
                     <div className='text-4xl text-white font-semibold'>Doanh Thu</div>
                     <div className='pl-40'><FaMoneyCheckAlt className='text-5xl text-white' /></div>
                 </div>
                 <div className='text-white pt-2'>Members online</div>
-            </div>
+            </div> */}
 
             <div className='py-10'>
                 <Row justify='center'>

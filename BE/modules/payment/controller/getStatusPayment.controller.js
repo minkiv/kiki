@@ -10,11 +10,12 @@ const getStatusPayment = catchAsync(async (req, res) => {
     message = 'Thanh toán thất bại';
   }
   res.send(`
-      <script>
-        alert('${message}');
-         window.open('http://localhost:3000/${result.isSuccess ? 'manage' : 'errorcustomers'}', '_self', '')
-      </script>
-    `);
+  <script>
+    alert('${message}');
+     window.open('http://127.0.0.1:3000/${result.isSuccess ? 'manage' : 'errorcustomers'}', '_self', '')
+  </script>
+`);
+
 })
 
 export default getStatusPayment

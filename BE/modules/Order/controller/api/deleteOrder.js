@@ -9,7 +9,7 @@ const getOrderStatusById = catchAsync(async (req, res) => {
     console.log(order)
     if (order) {
         const orderStatus = order.orderStatus;
-        if (orderStatus == "đang chờ duyệt") {
+        if (orderStatus == "huỷ đơn") {
             await deleteUsers(req)
             return res.status(status.OK).json("huỷ thành công");
         }
