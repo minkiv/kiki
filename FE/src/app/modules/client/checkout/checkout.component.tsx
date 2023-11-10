@@ -14,7 +14,7 @@ import { Skeleton } from 'antd';
 import { getOneUserSystem } from '~/app/api/auth/auth.api';
 import { useVorcherRedux } from '../redux/hook/useVorcherReducer';
 import { useOrderRedux } from '../redux/hook/useOrderReducer';
-import { createPayment } from '~/app/api/payment/payment.api';
+import { createPayment, getPayment } from '~/app/api/payment/payment.api';
 import { useCartRedux } from '../redux/hook/useCartReducer';
 
 interface CheckOutProps {
@@ -94,9 +94,11 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
 
         if (selectedPaymentMethod === 'vnpay') {
             try {
+
                 const response: any = await createPayment({ infoOrder, productOrder: sumOrderPrice });
                 const vnpayUrl = response.data;
                 window.location.href = vnpayUrl;
+                getPayment().then((res) => console.log(res.data))
             } catch (error: any) {
                 setLoadingCreate(false);
                 toast.error('Lỗi khi tạo đơn hàng: ' + error.message);

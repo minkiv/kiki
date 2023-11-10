@@ -3,7 +3,7 @@ import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'r
 import toast from 'react-hot-toast'
 import { filterDataOrderByStatus } from '~/app/api/order/order.api'
 import { TableOrderDetail } from '../common/component-order/table-order-detail.component'
-import { createOrder, getAllOrder, updateOrder } from './service/order.service'
+import { createOrder, deleteOrder, getAllOrder, updateOrder } from './service/order.service'
 import { PlusOutlined } from '@ant-design/icons';
 import { getAllProduct } from '../product/service/product.service'
 
@@ -28,6 +28,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [reset, setReset] = useState<boolean>(true)
   const [form] = Form.useForm()
+
   const handleProductChange = (value: any) => {
     const product = dataProduct.find((product: any) => product._id === value);
     setSelectedProduct(product);
@@ -139,6 +140,18 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     })
   }
 
+
+  const handelDeleteOrder = (orderId: any) => {
+    deleteOrder(orderId).then((res) => {
+      if (res) {
+        setReset(!reset)
+        toast.success("xoá thành công đơn hàng")
+      }
+    }, (err) => {
+      toast.success("xoá đơn hàng lỗi")
+    })
+  }
+
   const buttonByStatus = (orderId: string, orderStatus: string) => {
     switch (orderStatus) {
       case 'đang chờ duyệt':
@@ -167,6 +180,11 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       case 'hoàn thành':
         break
       case 'huỷ đơn':
+        return (
+          <Button danger onClick={() => handelDeleteOrder(orderId)}>
+            xoá đơn hàng
+          </Button>
+        )
         break
 
       default:
