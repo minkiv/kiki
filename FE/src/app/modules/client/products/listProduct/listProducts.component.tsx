@@ -1,7 +1,6 @@
 import { css } from '@emotion/react'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { Select, Space, Pagination } from 'antd'
-import { useProductRedux } from '../../redux/hook/useProductReducer'
+import { FunctionComponent, useEffect } from 'react'
+import { Pagination } from 'antd'
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component'
 import { Link } from 'react-router-dom'
 

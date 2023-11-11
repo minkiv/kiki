@@ -18,23 +18,19 @@ const UpdatePassword = (props: Props) => {
     });
     const onSubmitPassword = (data: any) => {
         const idUser = localStorage.getItem("userID")
-        updatUser(idUser, data).then((res:any)=>{
-            if(res){
+        updatUser(idUser, data).then((res: any) => {
+            if (res) {
                 toast.success("Đổi mật khẩu thành công!")
                 localStorage.removeItem("userID")
                 localStorage.removeItem("accessToken")
                 navigate("/customer/login")
             }
-        }, (err)=> {
+        }, (err) => {
             toast.error(err.response.data)
         })
 
     }
     const arrayPass = [
-        // {
-        //     title: "Mật khẩu hiện tại",
-        //     field: "password"
-        // },
         {
             title: "Mật khẩu mới",
             field: "password"

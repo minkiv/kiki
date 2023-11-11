@@ -8,19 +8,12 @@ export const checkPaymentStatus = async (vnpayResponse) => {
     delete vnp_Params['vnp_SecureHash'];
     delete vnp_Params['vnp_SecureHashType'];
 
-    vnp_Params = sortObject(vnp_Params); // Sử dụng trực tiếp, không cần `this`
-
-    // const signData = new URLSearchParams(vnp_Params).toString()
-    // const hmac = crypto.createHmac('sha512', secretKey);
-    // const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
+    vnp_Params = sortObject(vnp_Params);
 
     if (vnp_Params['vnp_ResponseCode'] === '00') {
         const amount = vnp_Params['vnp_Amount'];
         const txnRef = vnp_Params['vnp_TxnRef'];
-        // const { orderId, clientUrl } = JSON.parse(
-        //     Object.keys(queryString.parse(vnp_Params['vnp_OrderInfo']))[0]
-        // );
-        const payDate = vnp_Params['vnp_PayDate']; // yyyyMMddHHmmss
+        const payDate = vnp_Params['vnp_PayDate'];
         const bankCode = vnp_Params['vnp_BankCode'];
         const bankTranNo = vnp_Params['vnp_BankTranNo'];
         const cartType = vnp_Params['vnp_CardType'];
@@ -36,11 +29,6 @@ export const checkPaymentStatus = async (vnpayResponse) => {
         return {
             isSuccess: true,
             message: 'Payment success'
-            // data: {
-            //     amount, txnRef, orderId, clientUrl,
-            //     payDate, bankCode, bankTranNo,
-            //     cartType, transactionNo
-            // },
         };
     } else {
         return {

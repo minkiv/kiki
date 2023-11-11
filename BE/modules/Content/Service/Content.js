@@ -10,7 +10,7 @@ export const removeContent = async (req) => {
 }
 export const addContent = async (req) => {
     const Contents = await Content.create({
-        ...req.Content
+        ...req.body
     })
     return Contents
 }
@@ -25,4 +25,15 @@ export const updateContent = async (req) => {
         }
     )
     return update
+}
+
+export const searchContents = async (req) => {
+    const { hidden } = req.query;
+    const comments = await Content.find({
+        hidden: {
+            $regex: '.*' + hidden + '.*',
+            $options: 'i'
+        }
+    })
+    return comments;
 }

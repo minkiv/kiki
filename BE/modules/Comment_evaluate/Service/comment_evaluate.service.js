@@ -16,8 +16,8 @@ export const createComment_avaluates = async (data) => {
 
 export const getAllComment_evaluates = async () => {
     const comments = await Comment_evaluateModel.find()
-    .populate("productId")
-    .populate("userId");
+        .populate("productId")
+        .populate("userId");
     // await Comment_evaluateModel.populate(comments, {path:'user', model:'Auth'});
     // await Comment_evaluateModel.populate(comments, {path:'product', module:'Product'})
     return comments
@@ -46,8 +46,8 @@ export const deleteComment_evaluates = async (req) => {
     return comment
 }
 
-export const searchComment_evaluates = async(req) =>{
-    const {name} = req.query;
+export const searchComment_evaluates = async (req) => {
+    const { name } = req.query;
     const comments = await comment_evaluateModel.find({
         "userId.name": {
             $regex: '.*' + name + '.*',

@@ -15,3 +15,7 @@ export const createContent = async (dataBody: any) => {
 export const changeContent = async (bodyRequest: any, id: any) => {
     return await axiosPrivate.put('/content/edit/' + id, bodyRequest)
 }
+
+export const searchContent = async (keywork: any) => {
+    return await axiosPrivate.get(`/content/search?hidden=${keywork}`)
+}

@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Button, Modal, Rate } from "antd"
+import { Modal, Rate } from "antd"
 import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
@@ -38,7 +38,7 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
     const { data: { product } } = useProductRedux()
     const email: any = localStorage.getItem("emailUser")
     const handelSubmitComment = () => {
-        createComment({ comment: commentText, productId:{_id:id, name:product.name}, star: value, userId:{_id:userId, name:email} }).then((res) => {
+        createComment({ comment: commentText, productId: { _id: id, name: product.name }, star: value, userId: { _id: userId, name: email } }).then((res) => {
             if (res) {
                 toast.success("Đánh giá và bình luận thành công")
                 setIsModalOpen(false);

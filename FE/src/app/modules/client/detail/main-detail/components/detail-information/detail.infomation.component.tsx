@@ -9,17 +9,16 @@ import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { addProductToCarts } from '~/app/api/cart/cart.api'
 import { message } from 'antd'
 import { AiOutlineHeart, AiOutlineDownCircle, AiOutlineUpCircle } from 'react-icons/ai'
-import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CiRuler } from 'react-icons/ci'
 import { TiTick } from 'react-icons/ti'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import { getAllComment } from '~/app/api/comment/comment.api'
-interface DetailInformation { 
+interface DetailInformation {
 }
 
-const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
+const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
   const {
     data: { product: productDetail }
   } = useProductRedux()
@@ -52,7 +51,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
     setIsShowInfo(productDetail?.description)
   }, [productDetail])
 
-    
+
   const handleSelectColor = (colorId: any) => {
     const findElement = listColor.find((item: any) => item.id == colorId)
     if (colorId == colorSelect?.id) {
@@ -173,9 +172,9 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
   useEffect(() => {
     getAllComment().then((res) => {
       if (res) {
-        const productComments = res.filter((item: any) => item.productId._id === id);  
+        const productComments = res.filter((item: any) => item.productId._id === id);
         console.log(productComments);
-                       
+
         setLengthEvaluate(productComments)
         const totalStars = productComments.reduce((sum: any, comment: any) => sum + parseInt(comment.star), 0);
         const avgStar = productComments.length > 0 ? totalStars / productComments.length : 1;
