@@ -50,7 +50,7 @@ const CategoryManagement = () => {
                 formEdit={
                     <Fragment>
                         <Form.Item
-                            label='name'
+                            label='Tên danh mục'
                             name='name'
                             rules={[{ required: true, message: 'Please input your name!' }]}
                         >

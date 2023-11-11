@@ -38,10 +38,10 @@ const UserManagemnet = () => {
       <TemplateTable searchFunc={searchUser} setData={setDataUser} dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
         formEdit={
           <Fragment>
-            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]} >
+            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Vui lòng nhập Email!' }]} >
               <Input />
             </Form.Item>
-            <Form.Item label='Role' name='role' rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label='Vai trò' name='role' rules={[{ required: true, message: 'Vui lòng chọn Vai trò!' }]}>
               <Select placeholder='Please select'>
                 <Select.Option value='ADMIN'>ADMIN</Select.Option>
                 <Select.Option value='USER_STORE'>USER_STORE</Select.Option>
@@ -49,34 +49,34 @@ const UserManagemnet = () => {
               </Select>
             </Form.Item>
             <Form.Item
-              label='password'
+              label='Mật khẩu'
               name='password'
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập Mật khẩu!' }]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label='PhoneNumber'
+              label='Số điện thoại'
               name='phoneNumber'
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập Số điện thoại!' }]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label='fullname'
+              label='Họ và tên'
               name='fullname'
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập Họ và tên!' }]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label='nickname'
+              label='Biệt danh'
               name='nickname'
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập Biệt danh!' }]}
             >
               <Input />
             </Form.Item>
-            <Form.Item label='gender' name='gender' rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label='Giới tính' name='gender' rules={[{ required: true, message: 'Vui lòng chọn Giới tính!' }]}>
               <Select placeholder='Please select'>
                 <Select.Option value='Nam'>Nam</Select.Option>
                 <Select.Option value='Nữ'>Nữ</Select.Option>
@@ -84,16 +84,16 @@ const UserManagemnet = () => {
               </Select>
             </Form.Item>
             <Form.Item
-              label='address'
+              label='Địa chỉ'
               name='address'
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ!' }]}
             >
               <Input />
             </Form.Item>
             <Form.Item
-              label="Ngày tháng năm"
+              label="Ngày tháng năm sinh "
               name="birthday"
-              rules={[{ required: true, message: 'Please input your date of birth!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập Ngày tháng năm sinh!' }]}
             >
               <Input />
             </Form.Item>

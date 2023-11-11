@@ -10,6 +10,9 @@ import { HiOutlineLogout } from 'react-icons/hi'
 import { searchProduct } from '~/app/modules/admin/product/service/product.service'
 import Marquee from 'react-fast-marquee'
 import { getAllContent } from '~/app/api/content/content.api'
+import { FiUserCheck } from 'react-icons/fi';
+import { PiShoppingCartThin } from 'react-icons/pi'
+
 interface HeaderComponentProps {
   props?: any
 }
@@ -80,146 +83,146 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     }
   }
   return (
-   <div>
-     <div className='mx-auto flex items-center justify-between sm:w-[1380px] h-[80px]'>
-      <div css={cssMenu} className='space-x-8'>
-        <div>
-          <Link className='hover:text-red-500' to={'/'}>
-            TRANG CHỦ
-          </Link>
-        </div>
-        <div>
-          <Link className='hover:text-red-500' to={'/products'}>
-            SẢN PHẨM
-          </Link>
-        </div>
-        <div>
-          <Link className='hover:text-red-500' to={'/LifeStyle'}>
-            LifeStyle
-          </Link>
-        </div>
-        <div>
-          <Link className='hover:text-red-500' to={'/Contacts'}>
-            LIÊN HỆ
-          </Link>
-        </div>
-        <div className='title'>
-          <Link className='hover:text-red-500' to={''}>
-            VỀ CHÚNG TÔI
-          </Link>
-          <div className='news-product'>
-            <Link to={'/general'} className='py-4 px-4 font-semibold'>
-              {' '}
-              Về Ivy modar
-            </Link>
-            <Link to={'/Community-Activities'} className='py-4 px-4 font-semibold'>
-              {' '}
-              Fashion Show
-            </Link>
-            <Link to={'/fashion-Show'} className='py-4 px-4 font-semibold'>
-              {' '}
-              Hoạt động cộng đồng
+    <div>
+      <div className='mx-auto flex items-center justify-between sm:w-[1380px] h-[80px]'>
+        <div css={cssMenu} className='space-x-8'>
+          <div>
+            <Link className='hover:text-red-500' to={'/'}>
+              TRANG CHỦ
             </Link>
           </div>
-        </div>
-      </div>
-      <Link to={'/'}>
-        <img src='https://pubcdn.ivymoda.com/ivy2/images/logo.png' className='w-[139px] mr-12 max-sm:hidden' />
-      </Link>
-      <div className='flex align-items:center max-sm:hidden' css={cssWrapperMenu}>
-        <div className='relative'>
-          <InputComponent
-            onChange={handleSearchInputChange}
-            onClick={handelSubmitData}
-            onFocus={() => setStateInput(true)}
-            type='text'
-            value={searchTerm || ''}
-          />
-          {stateInput && (
-            <div className='absolute z-20 rounded-lg bg-white top-full left-0 w-full'>
-              {!searchError && searchProducts?.map((product: any) => {
-                return (
-                  <ul key={product?._id} className=''>
-                    <Link
-                      to={`/products?q=${product?.name}`}
-                      onClick={() => {
-                        setStateInput(false)
-                      }}
-                    >
-                      <li className='px-5 py-3 flex justify-start hover:bg-gray-100'>
-                        <div className='pl-[18px] pr-2'>
-                          <AiOutlineSearch />
-                        </div>
-                        <div className='truncate'>{product?.name}</div>
-                      </li>
-                    </Link>
-                  </ul>
-                )
-              })}
-
-            </div>
-          )}
-        </div>
-        {stateInput && <div css={cssDarkScreen} onClick={() => setStateInput(false)}></div>}
-        <div className='item-menu'>
-          <div className='icon'>
-            <AiOutlineUserAdd />
+          <div>
+            <Link className='hover:text-red-500' to={'/products'}>
+              SẢN PHẨM
+            </Link>
+          </div>
+          <div>
+            <Link className='hover:text-red-500' to={'/LifeStyle'}>
+              LifeStyle
+            </Link>
+          </div>
+          <div>
+            <Link className='hover:text-red-500' to={'/Contacts'}>
+              LIÊN HỆ
+            </Link>
           </div>
           <div className='title'>
-            {accessToken ? (
-              <div>
-                <span className='px-5 text-black max-sm:hidden'>
-                  XIN CHÀO
-                  <ul className='links'>
-                    <li>
-                      <button className='w-[100%]'>
-                        <p className=' font-normal text-[15px] py-3' onClick={handleLoginLogout}>
-                          {' '}
-                          <HiOutlineLogout />
-                          Đăng xuất
-                        </p>
-                        <Link to={'/manage'}>
-                          <p className=' font-normal text-[15px] py-3'>
-                            <AiOutlineSetting />
-                            Quản lý{' '}
-                          </p>
-                        </Link>
-                      </button>
-                    </li>
-                  </ul>
-                </span>
-              </div>
-            ) : (
-              <Link to={'/customer/login'}>Tài khoản</Link>
-            )}
+            <Link className='hover:text-red-500' to={''}>
+              VỀ CHÚNG TÔI
+            </Link>
+            <div className='news-product'>
+              <Link to={'/general'} className='py-4 px-4 font-semibold'>
+                {' '}
+                Về Ivy modar
+              </Link>
+              <Link to={'/Community-Activities'} className='py-4 px-4 font-semibold'>
+                {' '}
+                Fashion Show
+              </Link>
+              <Link to={'/fashion-Show'} className='py-4 px-4 font-semibold'>
+                {' '}
+                Hoạt động cộng đồng
+              </Link>
+            </div>
           </div>
         </div>
-        <div className='hr-height'></div>
-        <div css={cssCartMain} className='cart-main relative'>
-          <Link to={'/cart'}>
-            <AiOutlineShoppingCart className='font-extrabold' />
-          </Link>
-          {carts?.length >= 0 && accessToken ? <span className='absolute show-count'>{carts?.length}</span> : ''}
+        <Link to={'/'}>
+          <img src='https://pubcdn.ivymoda.com/ivy2/images/logo.png' className='w-[139px] mr-12 max-sm:hidden' />
+        </Link>
+        <div className='flex align-items:center max-sm:hidden' css={cssWrapperMenu}>
+          <div className='relative'>
+            <InputComponent
+              onChange={handleSearchInputChange}
+              onClick={handelSubmitData}
+              onFocus={() => setStateInput(true)}
+              type='text'
+              value={searchTerm || ''}
+            />
+            {stateInput && (
+              <div className='absolute z-20 rounded-lg bg-white top-full left-0 w-full'>
+                {!searchError && searchProducts?.map((product: any) => {
+                  return (
+                    <ul key={product?._id} className=''>
+                      <Link
+                        to={`/products?q=${product?.name}`}
+                        onClick={() => {
+                          setStateInput(false)
+                        }}
+                      >
+                        <li className='px-5 py-3 flex justify-start hover:bg-gray-100'>
+                          <div className='pl-[18px] pr-2'>
+                            <AiOutlineSearch />
+                          </div>
+                          <div className='truncate'>{product?.name}</div>
+                        </li>
+                      </Link>
+                    </ul>
+                  )
+                })}
+
+              </div>
+            )}
+          </div>
+          {stateInput && <div css={cssDarkScreen} onClick={() => setStateInput(false)}></div>}
+          <div className='item-menu'>
+            <div className='icon px-3'>
+              <FiUserCheck />
+            </div>
+            <div className='title'>
+              {accessToken ? (
+                <div>
+                  <span className='px-4 text-black max-sm:hidden'>
+                    XIN CHÀO
+                    <ul className='links'>
+                      <li>
+                        <button className='w-[100%] text-left'>
+                          <p className=' font-normal text-[15px] py-3 hover:text-red-500 p-6' onClick={handleLoginLogout}>
+                            {' '}
+                            <HiOutlineLogout className='text-[20px]' />
+                            Đăng xuất
+                          </p>
+                          <Link to={'/manage'}>
+                            <p className=' font-normal text-[15px] py-3 p-6'>
+                              <AiOutlineSetting className='text-[20px]' />
+                              Quản lý{' '}
+                            </p>
+                          </Link>
+                        </button>
+                      </li>
+                    </ul>
+                  </span>
+                </div>
+              ) : (
+                <Link to={'/customer/login'}>Tài khoản</Link>
+              )}
+            </div>
+          </div>
+          <div className='hr-height'></div>
+          <div css={cssCartMain} className='cart-main relative'>
+            <Link to={'/cart'}>
+              <PiShoppingCartThin className='font-black text-[25px]' />
+            </Link>
+            {carts?.length >= 0 && accessToken ? <span className='absolute show-count'>{carts?.length}</span> : ''}
+          </div>
         </div>
       </div>
-    </div>
-    <Marquee  direction="left" className='py-3 mb-5 z-0' style={{backgroundColor:"#FFAA00"}}>
-      
-      {content.map((item:any)=>{
-        if (item?.hidden === "Hiển thị") {
-          return (
-            <p style={{padding:"0px 300px"}} key={item?._id} className='text-[20px] text-black italic flex' >
-              <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png"/>
-              {item?.content}
+      <Marquee direction="left" className="p-3 mb-5 z-0 bg-yellow-400 rounded-lg" >
+
+        {content.map((item: any) => {
+          if (item?.hidden === "Hiển thị") {
+            return (
+              <p style={{ padding: "0px 300px" }} key={item?._id} className='text-[17px] text-black italic flex items-center' >
+                <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" />
+                {item?.content}
               </p>
-          )
-        }
-        else{
-          return null
-        }
-      })}
-    </Marquee>
-   </div>
+            )
+          }
+          else {
+            return null
+          }
+        })}
+      </Marquee>
+    </div>
   )
 }
 

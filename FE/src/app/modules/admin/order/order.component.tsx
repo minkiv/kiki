@@ -6,6 +6,7 @@ import { TableOrderDetail } from '../common/component-order/table-order-detail.c
 import { createOrder, deleteOrder, getAllOrder, updateOrder } from './service/order.service'
 import { PlusOutlined } from '@ant-design/icons';
 import { getAllProduct } from '../product/service/product.service'
+const { Option } = Select
 
 
 const { Title } = Typography
@@ -220,44 +221,62 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
           <Form form={form} layout='vertical' name='form_in_modal' >
             <Fragment>
               <Form.Item
-                label='fullname'
+                label='Họ và tên'
                 name='fullname'
-                rules={[{ required: true, message: 'Please input your name!' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập Họ và tên!' }]}
               >
                 <Input />
               </Form.Item>
 
               <Form.Item
-                label='phoneNumber'
+                label='Số điện thoại'
                 name='phoneNumber'
-                rules={[{ required: true, message: 'Please input your name!' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập Số điện thoại!' }]}
               >
                 <Input />
               </Form.Item>
 
               <Form.Item
-                label='city'
+                label='Thành phố / Tỉnh'
                 name='city'
-                rules={[{ required: true, message: 'Please input your name!' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập Thành phố hoặc Tỉnh!' }]}
               >
                 <Input />
               </Form.Item>
 
               <Form.Item
-                label='district'
+                label='Quận / Huyện'
                 name='district'
-                rules={[{ required: true, message: 'Please input your name!' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập Quận / Huyện!' }]}
               >
                 <Input />
               </Form.Item>
 
-
               <Form.Item
-                label='locationDetail'
-                name='locationDetail'
-                rules={[{ required: true, message: 'Please input your name!' }]}
+                label='Xã / Phường'
+                name='commune'
+                rules={[{ required: true, message: 'Vui lòng nhập Xã / Phường!' }]}
               >
                 <Input />
+              </Form.Item>
+
+              <Form.Item
+                label='Địa chỉ cụ thể'
+                name='locationDetail'
+                rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ cụ thể!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Phương thức thanh toán"
+                name="payment_methods"
+                rules={[{ required: true, message: 'Vui lòng chọn Phương thức thanh toán!' }]}
+              >
+                <Select placeholder="Phương thức thanh toán">
+                  <Select.Option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</Select.Option>
+                  <Select.Option value="vnpay" >vnpay</Select.Option>
+                </Select>
               </Form.Item>
 
               <Form.List
@@ -273,13 +292,13 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                             {...restField}
                             name={[name, 'product']}
                             fieldKey={[fieldKey, 'product'] as any}
-                            label="Select Product"
-                            rules={[{ required: true, message: 'Please select a product' }]}
+                            label="Chọn sản phẩm"
+                            rules={[{ required: true, message: 'Vui lòng chọn Tên sản phẩm' }]}
                           >
                             <Select
                               showSearch
                               style={{ width: 200 }}
-                              placeholder="Search to Select"
+                              placeholder="Lựa chọn sản phẩm"
                               optionFilterProp="children"
                               filterOption={(input, option: any) => (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())}
                               filterSort={(optionA, optionB) =>
@@ -298,11 +317,11 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                           <Form.Item
                             {...restField}
                             name={[name, 'quantityOrder', 'nameColor']}
-                            label="Color"
-                            rules={[{ required: true, message: 'Please select a color' }]}
+                            label="Màu"
+                            rules={[{ required: true, message: 'Vui lòng chọn Màu' }]}
                           >
                             <Select
-                              placeholder="Color"
+                              placeholder="Màu"
                               onChange={(value) => handleColorChange(value)}
                             >
                               {availableColors.map((color: any) => (
@@ -316,11 +335,11 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                           <Form.Item
                             {...restField}
                             name={[name, 'quantityOrder', 'nameSize']}
-                            label="Size"
-                            rules={[{ required: true, message: 'Please select a size' }]}
+                            label="Kích cỡ"
+                            rules={[{ required: true, message: 'Vui lòng chọn Kích cỡ' }]}
                           >
                             <Select
-                              placeholder="Size"
+                              placeholder="Kích cỡ"
                               onChange={(value) => handleSizeChange(value)}
                             >
                               {availableSizes.map((size: any) => (
@@ -336,11 +355,11 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                             <Form.Item
                               {...restField}
                               name={[name, 'quantityOrder', 'quantity']}
-                              label="Quantity"
+                              label="Số lượng"
                               initialValue={1}
                             >
                               <InputNumber
-                                placeholder="Quantity"
+                                placeholder="Số lượng"
                                 min={1}
                                 max={getMaxQuantity(selectedColor, selectedSize)}
                                 onChange={(value) => handelvalueQuantity(value, index)}
@@ -351,7 +370,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
 
                           {selectedProduct && (
                             <Form.Item
-                              label='totalprice'
+                              label='Giá sản phẩm'
                               name='totalprice'
                             >
                               {productTotalPrices[index]}
@@ -370,16 +389,16 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
 
                     ))}
                     <Button type="dashed" onClick={() => add()} block>
-                      + Add Product
+                      + Mua thêm sản phẩm
                     </Button>
                   </div>
                 )}
               </Form.List>
 
               <Form.Item
-                label='orderStatus'
+                label='Tình trạng đơn hàng'
                 name='orderStatus'
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                rules={[{ required: true, message: 'Vui lòng chọn Tình trạng đơn hàng!' }]}
               >
                 <Select placeholder=' trạng thái'>
                   <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
