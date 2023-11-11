@@ -5,7 +5,6 @@ import { CloseOutlined } from '@ant-design/icons'
 import { getAllProduct, createProduct, deleteProduct, editProduct, searchProduct } from './service/product.service'
 import axios from 'axios'
 import { getAllCategory } from '../category/service/category.service'
-import { SketchPicker } from 'react-color'
 const { Option } = Select
 import { css } from '@emotion/react'
 
