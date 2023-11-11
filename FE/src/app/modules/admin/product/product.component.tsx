@@ -5,6 +5,7 @@ import { CloseOutlined } from '@ant-design/icons'
 import { getAllProduct, createProduct, deleteProduct, editProduct, searchProduct } from './service/product.service'
 import axios from 'axios'
 import { getAllCategory } from '../category/service/category.service'
+import { SketchPicker } from 'react-color'
 const { Option } = Select
 import { css } from '@emotion/react'
 
@@ -103,7 +104,12 @@ const ProductManagemnet = () => {
       onError({ err })
     }
   }
-
+  const [color, setColor] = useState()
+  const handleColor = (color: any) => {
+    console.log(color.hex)
+    setColor(color.hex)
+    // return color.hex
+  }
   const onRemove = (file: any) => {
     setFileList((prevFileList) => prevFileList.filter((item) => item.uid !== file.uid))
   }
@@ -114,6 +120,7 @@ const ProductManagemnet = () => {
     <div>
       <TemplateTable
         dataTable={dataProduct}
+        dataPage={3}
         columnTable={column}
         createFunc={(form: any) =>
           createProduct({

@@ -46,11 +46,7 @@ const UserManagemnet = () => {
         changeFunc={changeUser}
         formEdit={
           <Fragment>
-<<<<<<< HEAD
-            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Vui lòng nhập Email!' }]} >
-=======
-            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
->>>>>>> df39275 (feat: crud product admin)
+            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Vui lòng nhập Email!' }]}>
               <Input />
             </Form.Item>
             <Form.Item label='Vai trò' name='role' rules={[{ required: true, message: 'Vui lòng chọn Vai trò!' }]}>
@@ -88,38 +84,24 @@ const UserManagemnet = () => {
             >
               <Input />
             </Form.Item>
-<<<<<<< HEAD
-            <Form.Item label='Giới tính' name='gender' rules={[{ required: true, message: 'Vui lòng chọn Giới tính!' }]}>
-=======
             <Form.Item
-              label='gender'
+              label='Giới tính'
               name='gender'
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              rules={[{ required: true, message: 'Vui lòng chọn Giới tính!' }]}
             >
->>>>>>> df39275 (feat: crud product admin)
               <Select placeholder='Please select'>
                 <Select.Option value='Nam'>Nam</Select.Option>
                 <Select.Option value='Nữ'>Nữ</Select.Option>
                 <Select.Option value='Khác'>Khác</Select.Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              label='Địa chỉ'
-              name='address'
-              rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ!' }]}
-            >
+            <Form.Item label='Địa chỉ' name='address' rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ!' }]}>
               <Input />
             </Form.Item>
             <Form.Item
-<<<<<<< HEAD
-              label="Ngày tháng năm sinh "
-              name="birthday"
-              rules={[{ required: true, message: 'Vui lòng nhập Ngày tháng năm sinh!' }]}
-=======
-              label='Ngày tháng năm'
+              label='Ngày tháng năm sinh '
               name='birthday'
-              rules={[{ required: true, message: 'Please input your date of birth!' }]}
->>>>>>> df39275 (feat: crud product admin)
+              rules={[{ required: true, message: 'Vui lòng nhập Ngày tháng năm sinh!' }]}
             >
               <Input />
             </Form.Item>

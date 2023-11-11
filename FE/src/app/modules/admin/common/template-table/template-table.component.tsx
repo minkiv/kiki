@@ -87,6 +87,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         .validateFields()
         .then((values: any) => {
           form.resetFields()
+          console.log(values)
           createFunc(values).then(
             (res: any) => {
               if (res) {
