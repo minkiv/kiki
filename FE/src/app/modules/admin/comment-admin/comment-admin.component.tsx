@@ -4,11 +4,11 @@ import TemplateTable from '../common/template-table/template-table.component'
 import { Form, Input, Rate, Select } from 'antd'
 import { getAllProduct } from '../product/service/product.service'
 import { getAllUser } from '../user/service/user.service'
-import { createComment} from '~/app/api/comment/comment.api'
+import { createComment } from '~/app/api/comment/comment.api'
 
 const Option = Select
 const CommentAdminComponent = () => {
-    
+
     const [dataComment, setDataComment] = useState([])
     const [colums, setColums] = useState([])
     const [reset, setReset] = useState<boolean>(true)
@@ -27,7 +27,7 @@ const CommentAdminComponent = () => {
     }, [reset])
     useEffect(() => {
         const columnTemp: any = [];
-        if (dataComment.length > 0) {        
+        if (dataComment.length > 0) {
             Object.keys(dataComment[0]).forEach((itemKey) => {
                 if (!['_id', 'updatedAt', 'createdAt', '__v'].includes(itemKey)) {
                     columnTemp.push({
@@ -41,8 +41,8 @@ const CommentAdminComponent = () => {
                             if (itemKey == 'productId') {
                                 return <div>{record?.productId?.name}</div>
                             }
-                            if(itemKey === 'star'){
-                               return <Rate disabled  value={record?.star} />
+                            if (itemKey === 'star') {
+                                return <Rate disabled value={record?.star} />
                             }
                             return text;
                         },
@@ -60,51 +60,51 @@ const CommentAdminComponent = () => {
     return (
         <div>
             <div>
-                <TemplateTable columnTable={colums} dataTable={dataComment} searchFunc={searchComment} setData={setDataComment} changeFunc={updateComment}  createFunc={createComment} dataPage={7} deleteFunc={deleteComment} handelGetList={handelGetList} formEdit={
+                <TemplateTable columnTable={colums} dataTable={dataComment} searchFunc={searchComment} setData={setDataComment} changeFunc={updateComment} createFunc={createComment} dataPage={7} deleteFunc={deleteComment} handelGetList={handelGetList} formEdit={
                     <Fragment>
-                    <Form.Item
-                        label='userId'
-                        name='userId'
-                        getValueFromEvent={(event, select) => ({ name: select?.children, _id: select?.value })}
-                        getValueProps={(value) => ({ label: value?.name, value: value?._id })}
-                        rules={[{ required: true, message: 'Please input your fullname!' }]}
-                    >
-                        <Select placeholder="lựa chọn tài khoản">
-                            {users.map((item: any) => (
-                                <Option value={item._id} key={item._id}>{item.email}</Option>
-                            ))}
-
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label='productId'
-                        name='productId'
-                        getValueFromEvent={(event, select) => ({ name: select?.children, _id: select?.value })}
+                        <Form.Item
+                            label='Tên người dùng'
+                            name='userId'
+                            getValueFromEvent={(event, select) => ({ name: select?.children, _id: select?.value })}
                             getValueProps={(value) => ({ label: value?.name, value: value?._id })}
-                        rules={[{ required: true, message: 'Please input your fullname!' }]}
-                    >
-                        <Select placeholder="lựa chọn sản phẩm">
-                            {products.map((item: any) => (
-                                <Option value={item._id} key={item._id}>{item.name}</Option>
-                            ))}
+                            rules={[{ required: true, message: 'Vui lòng nhập Tên người dùng!' }]}
+                        >
+                            <Select placeholder="lựa chọn tài khoản">
+                                {users.map((item: any) => (
+                                    <Option value={item._id} key={item._id}>{item.email}</Option>
+                                ))}
 
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label='comment'
-                        name='comment'
-                        rules={[{ required: true, message: 'Please input your fullname!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label='star'
-                        name='star'
-                        rules={[{ required: true, message: 'Please input your fullname!' }]}
-                    >
-                        <Rate />
-                    </Form.Item>
-                </Fragment>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item
+                            label='Tên sản phẩm'
+                            name='productId'
+                            getValueFromEvent={(event, select) => ({ name: select?.children, _id: select?.value })}
+                            getValueProps={(value) => ({ label: value?.name, value: value?._id })}
+                            rules={[{ required: true, message: 'Vui lòng nhập Tên sản phẩm!' }]}
+                        >
+                            <Select placeholder="lựa chọn sản phẩm">
+                                {products.map((item: any) => (
+                                    <Option value={item._id} key={item._id}>{item.name}</Option>
+                                ))}
+
+                            </Select>
+                        </Form.Item>
+                        <Form.Item
+                            label='Bình luận'
+                            name='comment'
+                            rules={[{ required: true, message: 'Vui lòng nhập Bình luận!' }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label='Đánh giá'
+                            name='star'
+                            rules={[{ required: true, message: 'Vui lòng chọn Đánh giá!' }]}
+                        >
+                            <Rate />
+                        </Form.Item>
+                    </Fragment>
                 } />
             </div>
         </div>

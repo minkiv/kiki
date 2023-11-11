@@ -15,7 +15,7 @@ const Payments: FunctionComponent<PaymentsProps> = ({ selectedPaymentMethod, han
           <label htmlFor='Thanh toán khi nhận hàng' className='radio-button flex'>
             <input
               type='radio'
-              name='payment-method'
+              name='payment_methods'
               readOnly
               checked={selectedPaymentMethod === 'Thanh toán khi nhận hàng'}
               onChange={() => handlePaymentMethodChange('Thanh toán khi nhận hàng')}
@@ -40,7 +40,7 @@ const Payments: FunctionComponent<PaymentsProps> = ({ selectedPaymentMethod, han
           <label htmlFor='vnpay' className='radio-button flex'>
             <input
               type='radio'
-              name='payment-method'
+              name='payment_methods'
               readOnly
               checked={selectedPaymentMethod === 'vnpay'}
               onChange={() => handlePaymentMethodChange('vnpay')}

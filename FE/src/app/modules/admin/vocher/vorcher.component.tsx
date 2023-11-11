@@ -114,16 +114,16 @@ const CategoryManagement = () => {
                 formEdit={
                     <Fragment>
                         <Form.Item
-                            label='Name Vorcher'
+                            label='Tên Vorcher'
                             name='name'
-                            rules={[{ required: true, message: 'Please input your Name Vorcher!' }]}
+                            rules={[{ required: true, message: 'Vui lòng nhập Tên Vorcher!' }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="Type vorcher"
+                            label="Loại vorcher"
                             name="type"
-                            rules={[{ required: true, message: 'Please select the Vorcher Type!' }]}
+                            rules={[{ required: true, message: 'Vui lòng nhập Loại vorcher!' }]}
                         >
                             <Select>
                                 <Option value="Ngày lễ">Ngày lễ</Option>
@@ -132,31 +132,31 @@ const CategoryManagement = () => {
                             </Select>
                         </Form.Item>
                         <Form.Item
-                            label='discount'
+                            label='Giảm giá'
                             name='discount'
-                            rules={[{ required: true, message: 'Please input your discount!' }]}
+                            rules={[{ required: true, message: 'Vui lòng nhập Giảm giá!' }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label='code'
+                            label='Mã code giảm giá'
                             name='code'
-                            rules={[{ required: true, message: 'Please input your code!' }]}
+                            rules={[{ required: true, message: 'Vui lòng nhập Mã code giảm giá!' }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label='startday'
+                            label='Ngày bắt đầu'
                             name='startday'
-                            rules={[{ required: true, message: 'Please input your startday!' }]}
+                            rules={[{ required: true, message: 'Vui lòng chọn Ngày bắt đầu!' }]}
                         >
                             <DatePicker format="YYYY-MM-DD" />
                         </Form.Item>
 
                         <Form.Item
-                            label='endday'
+                            label='Ngày kết thúc'
                             name='endday'
-                            rules={[{ required: true, message: 'Please input your endday!' }]}
+                            rules={[{ required: true, message: 'Vui lòng chọn Ngày kết thúc!' }]}
                         >
                             <DatePicker format="YYYY-MM-DD" />
                         </Form.Item>

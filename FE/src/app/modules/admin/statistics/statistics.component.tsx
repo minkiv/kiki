@@ -293,12 +293,12 @@ const Statistical = () => {
                 <div className='text-white pt-2'>Members online</div>
             </div> */}
 
-            <div className='py-10'>
+            <div className='py-5'>
                 <Row justify='center'>
                     <Col span={6}>
                         <Select
                             defaultValue="day"
-                            style={{ width: 120 }}
+                            style={{ width: 200 }}
                             onChange={handleGranularityChange}
                         >
                             <Option value="day">Ngày</Option>
@@ -318,12 +318,11 @@ const Statistical = () => {
                 </Row>
             </div>
             <div className='chart'>
-                <h1 className='py-10 font-semibold'>Biểu đồ thống kê</h1>
+                <h1 className='py-10 font-semibold text-4xl'>Biểu đồ thống kê</h1>
                 <Line {...config} />
             </div>
-            <div className='py-10'>
-
-                <h1 className='mt-10 font-semibold'>Thống kê sản phẩm</h1>
+            <div className='py-10 my-10'>
+                <h1 className='mt-10 font-semibold text-4xl'>Thống kê sản phẩm</h1>
                 <Pie {...conFig} />
             </div>
         </LayoutLoading>
