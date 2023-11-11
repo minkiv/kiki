@@ -2,20 +2,23 @@ import { css } from '@emotion/react'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import InputComponent from '../../parts/input/input.component'
 import { AiOutlineSearch, AiOutlineSetting, AiOutlineUserAdd } from 'react-icons/ai'
-import { FiUserCheck } from 'react-icons/fi';
-import { PiShoppingCartThin } from 'react-icons/pi'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { useCartRedux } from '~/app/modules/client/redux/hook/useCartReducer'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuthRedux } from '~/app/modules/client/redux/hook/useAuthReducer'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { searchProduct } from '~/app/modules/admin/product/service/product.service'
-
+import Marquee from 'react-fast-marquee'
+import { getAllContent } from '~/app/api/content/content.api'
 interface HeaderComponentProps {
   props?: any
 }
 
 const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
+  const [content, setContent] = useState([])
+  useEffect(() => {
+    getAllContent().then(({ data }) => setContent(data));
+  }, []);
   let navigate = useNavigate()
   const {
     data: { carts },
@@ -77,7 +80,8 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     }
   }
   return (
-    <div className='mx-auto flex items-center justify-between sm:w-[1380px] h-[80px]'>
+   <div>
+     <div className='mx-auto flex items-center justify-between sm:w-[1380px] h-[80px]'>
       <div css={cssMenu} className='space-x-8'>
         <div>
           <Link className='hover:text-red-500' to={'/'}>
@@ -158,25 +162,25 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         </div>
         {stateInput && <div css={cssDarkScreen} onClick={() => setStateInput(false)}></div>}
         <div className='item-menu'>
-          <div className='icon px-3'>
-            <FiUserCheck />
+          <div className='icon'>
+            <AiOutlineUserAdd />
           </div>
-          <div className='title '>
+          <div className='title'>
             {accessToken ? (
               <div>
                 <span className='px-5 text-black max-sm:hidden'>
                   XIN CHÀO
                   <ul className='links'>
                     <li>
-                      <button className='w-[100%] text-left'>
-                        <p className=' font-normal text-[17px] hover:text-red-500 p-6' onClick={handleLoginLogout}>
+                      <button className='w-[100%]'>
+                        <p className=' font-normal text-[15px] py-3' onClick={handleLoginLogout}>
                           {' '}
-                          <HiOutlineLogout className='text-[20px]' />
+                          <HiOutlineLogout />
                           Đăng xuất
                         </p>
                         <Link to={'/manage'}>
-                          <p className=' font-normal text-[17px] p-6'>
-                            <AiOutlineSetting className='text-[20px]' />
+                          <p className=' font-normal text-[15px] py-3'>
+                            <AiOutlineSetting />
                             Quản lý{' '}
                           </p>
                         </Link>
@@ -193,12 +197,29 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         <div className='hr-height'></div>
         <div css={cssCartMain} className='cart-main relative'>
           <Link to={'/cart'}>
-            <PiShoppingCartThin className='font-black text-[30px]' />
+            <AiOutlineShoppingCart className='font-extrabold' />
           </Link>
           {carts?.length >= 0 && accessToken ? <span className='absolute show-count'>{carts?.length}</span> : ''}
         </div>
       </div>
     </div>
+    <Marquee  direction="left" className='py-3 mb-5 z-0' style={{backgroundColor:"#FFAA00"}}>
+      
+      {content.map((item:any)=>{
+        if (item?.hidden === "Hiển thị") {
+          return (
+            <p style={{padding:"0px 300px"}} key={item?._id} className='text-[20px] text-black italic flex' >
+              <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png"/>
+              {item?.content}
+              </p>
+          )
+        }
+        else{
+          return null
+        }
+      })}
+    </Marquee>
+   </div>
   )
 }
 
