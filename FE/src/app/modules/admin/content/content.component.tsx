@@ -1,6 +1,6 @@
 import { Button, Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
-import { changeContent, createContent, deleteContent, getAllContent } from './service/content.service';
+import { changeContent, createContent, deleteContent, getAllContent, searchContent } from './service/content.service';
 import TemplateTable from '../common/template-table/template-table.component';
 import { Option } from 'antd/es/mentions';
 
@@ -33,10 +33,10 @@ const ContentManagement = () => {
   const handelGetList = () => {
     setReset(!reset);
   };
-  console.log(dataContent)
   return (
     <div>
       <TemplateTable
+        searchFunc={searchContent}
         setData={setDataContent}
         dataTable={dataContent}
         columnTable={column}

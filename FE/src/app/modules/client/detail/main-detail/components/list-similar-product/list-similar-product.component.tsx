@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { css } from '@emotion/react'
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component'
 import { SwiperSlide } from 'swiper/react'

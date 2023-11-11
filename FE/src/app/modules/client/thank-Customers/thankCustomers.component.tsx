@@ -1,68 +1,11 @@
 import { css } from '@emotion/react'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { BsArrowLeftCircle } from 'react-icons/bs'
-import { Link, useNavigate } from 'react-router-dom'
+import { FunctionComponent } from 'react'
+import { Link } from 'react-router-dom'
 
 interface ThankCustomersProps { }
 
 const ThankCustomers: FunctionComponent<ThankCustomersProps> = () => {
-  const [countdown, setCountdown] = useState(10)
-  const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   const countdownInterval = setInterval(() => {
-  //     setCountdown((prevCountdown) => {
-  //       if (prevCountdown === 0) {
-  //         clearInterval(countdownInterval)
-  //         navigate('/')
-  //         return prevCountdown
-  //       } else {
-  //         return prevCountdown - 1
-  //       }
-  //     })
-  //   }, 1000)
-
-  //   return () => clearInterval(countdownInterval)
-  // }, [])
   return (
-    // <div css={cssmain} className='container mx-auto px-4 mt-5'>
-    //   <div className='grid'>
-    //     <div className='thankyou'>
-    //       <img src='https://retailhub.edu.vn/wp-content/uploads/2022/10/thanks.png' alt='' />
-    //     </div>
-    //     <h3 className='name'>
-    //       <b>KiKi</b>
-    //     </h3>
-    // <div className='flex justify-between'>
-    //   <div className='flex-1'>
-    //     <div className='desc text-center max-sm:w-full w-2/4'>
-    //       Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của <b>KiKi</b>. Mong rằng bạn đã có 1 trải nghiệm mua sắm
-    //       hài lòng tại <b>KiKi</b>. Rất vui khi được phục vụ bạn và mong rằng sẽ được tiếp tục đồng hành cùng
-    //       bạn.
-    //       <br />
-    //       <p className='thank'>Xin Chân Thành Cảm Ơn Quý Khách!</p>
-    //     </div>
-    //   </div>
-
-    //     </div>
-    //   </div>
-    //   {/* <div className='flex justify-center items-center text-2xl'>Sẽ quay về trang chủ trong {countdown}s nữa</div> */}
-    //   <div className='flex justify-center gap-[20px]'>
-    //     <div className='flex justify-center items-center mt-5'>
-    //       <Link to={'/manage'}>
-    //         <button className='btn border-solid btn-back'>Xem đơn hàng</button>
-    //       </Link>
-    //     </div>
-    //     <div className='flex justify-center items-center mt-5'>
-    //       <Link to={'/products'}>
-    //         <button className='btn border-solid btn-back'>
-    //           <BsArrowLeftCircle className='inline-block mr-2' />
-    //           Tiếp tục mua hàng
-    //         </button>
-    //       </Link>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="flex items-center justify-center h-min">
       <div className=" w-[90%] m-3 p-2 shadow-xl bg-gradient-to-r">
         <div className="flex flex-col items-center p-36 space-y-2 bg-white">

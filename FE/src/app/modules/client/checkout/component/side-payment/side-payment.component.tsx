@@ -10,7 +10,6 @@ interface SidePaymentProps {
 }
 
 const SidePayment: FunctionComponent<SidePaymentProps> = () => {
-  // const { data: { infoOrder } } = useOrderRedux()
   const [isClicked, setIsClicked] = useState(false)
   const [textContent, setTextContent] = useState('Xem thông tin')
   const [totalPrice, setTotalPrice] = useState<any>(0)
@@ -69,14 +68,6 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
     localStorage.setItem('voucherCode', value);
   }
 
-
-
-  // Hàm xử lý sự kiện khi nút "Áp dụng" được nhấn
-  // const handleVnPayPayment = async () => {
-  //   const response = await createPayment({ infoOrder, productOrder: totalPrice - sale });
-  //   const vnpayUrl = response.data;
-  //   window.location.href = vnpayUrl;
-  // };
   const [stateAddVorcher, setstateAddVorcher] = useState(false)
   const [stateAddVorcherHoliday, setstateAddVorcherHoliday] = useState(false)
   const isHoliday = vorchers.some((item: any) => item.type === "Ngày lễ");
@@ -84,7 +75,6 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
 
   const [valueVorcher, setValivocher] = useState<any>('')
   const getValueVocher = localStorage.getItem("voucherCode")
-
   useEffect(() => {
     setValivocher(getValueVocher)
   }, [getValueVocher])

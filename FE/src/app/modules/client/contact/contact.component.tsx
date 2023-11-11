@@ -1,4 +1,4 @@
-import { useState, FC } from 'react';
+import { FC } from 'react';
 import { css } from '@emotion/react';
 import { FiMapPin, FiUser } from 'react-icons/fi';
 import { TfiEmail } from 'react-icons/tfi';
@@ -26,16 +26,16 @@ const Contacts: FC<ContactTypes> = () => {
     })
     const onSubmit = (data: any) => {
         createSupport(data).then(
-            (res)=>{
-                if(res){
+            (res) => {
+                if (res) {
                     toast.success('Đã gửi cho Admin')
                 }
             },
-            (err) =>{
+            (err) => {
                 toast.error(err?.reponse?.data)
-            } 
+            }
         )
-      }
+    }
 
     return (
         <div css={Contacts_css}>
@@ -98,75 +98,75 @@ const Contacts: FC<ContactTypes> = () => {
                             nhanh. Chúng tôi mong nhận được phản hồi từ bạn.
                         </p>
                         <div>
-                            <form onSubmit={handleSubmit(onSubmit)}  action="" className='grid grid-cols-2 gap-10 pt-20 pb-7 max-sm:block max-lg:block'>
-                                <div  className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
-                                    <FiUser className='text-4xl text-[#57585a] mr-5 ' /> 
+                            <form onSubmit={handleSubmit(onSubmit)} action="" className='grid grid-cols-2 gap-10 pt-20 pb-7 max-sm:block max-lg:block'>
+                                <div className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
+                                    <FiUser className='text-4xl text-[#57585a] mr-5 ' />
                                     <div className='w-full'>
-                                        <Controller                                
+                                        <Controller
                                             control={control}
                                             name='name'
                                             render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
-                                                <input placeholder='Họ và tên' className=' w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2'  type='text' value={value}  onChange={onChange} ref={ref} />
+                                                <input placeholder='Họ và tên' className=' w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2' type='text' value={value} onChange={onChange} ref={ref} />
                                             )}
                                         />{errors && <span className='text-red-800'>{errors.name?.message}</span>}
-                                    </div>                                   
-                                    
+                                    </div>
+
                                 </div>
 
-                                <div  className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
+                                <div className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
                                     <FaPhone className='text-4xl text-[#57585a] mr-5' />
                                     <div className='w-full'>
-                                        <Controller                                
+                                        <Controller
                                             control={control}
                                             name='phoneNumber'
                                             render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
-                                                <input placeholder='Điện thoại liên hệ' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2'  type='text' value={value}  onChange={onChange} ref={ref} />
+                                                <input placeholder='Điện thoại liên hệ' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2' type='text' value={value} onChange={onChange} ref={ref} />
                                             )}
                                         />{errors && <span className='text-red-800'>{errors.phoneNumber?.message}</span>}
-                                    </div>                                   
-                                    
+                                    </div>
+
                                 </div>
 
-                                <div  className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
+                                <div className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
                                     <TfiEmail className='text-4xl text-[#57585a] mr-5' />
                                     <div className='w-full'>
-                                        <Controller                                
+                                        <Controller
                                             control={control}
                                             name='email'
                                             render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
-                                                <input placeholder='Email' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2'  type='email' value={value}  onChange={onChange} ref={ref} />
+                                                <input placeholder='Email' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2' type='email' value={value} onChange={onChange} ref={ref} />
                                             )}
                                         />{errors && <span className='text-red-800 '>{errors.email?.message}</span>}
-                                    </div>                                   
-                                    
+                                    </div>
+
                                 </div>
 
-                                <div  className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
+                                <div className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
                                     <AiOutlineFileText className='text-4xl text-[#57585a] mr-5' />
                                     <div className='w-full'>
-                                        <Controller                                
+                                        <Controller
                                             control={control}
                                             name='topic'
                                             render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
-                                                <input placeholder='Chủ đề' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2'  type='text' value={value}  onChange={onChange} ref={ref} />
+                                                <input placeholder='Chủ đề' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2' type='text' value={value} onChange={onChange} ref={ref} />
                                             )}
                                         />{errors && <span className='text-red-800'>{errors.topic?.message}</span>}
-                                    </div>                                   
-                                    
+                                    </div>
+
                                 </div>
 
-                                <div  className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
+                                <div className='flex border border-[#E7E8E9] p-10 items-center rounded-tr-3xl rounded-bl-3xl'>
                                     <AiOutlineMessage className='text-4xl text-[#57585a] mr-5' />
                                     <div className='w-full'>
-                                        <Controller                                
+                                        <Controller
                                             control={control}
                                             name='note'
                                             render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
-                                                <input placeholder='Ghi chú' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2'  type='text' value={value}  onChange={onChange} ref={ref} />
+                                                <input placeholder='Ghi chú' className='w-full h-[45px] border rounded-tr-3xl rounded-bl-3xl border-[#E7E8E9] focus:outline-none p-2' type='text' value={value} onChange={onChange} ref={ref} />
                                             )}
                                         />{errors && <span className='text-red-800 '>{errors.note?.message}</span>}
-                                    </div>                                   
-                                    
+                                    </div>
+
                                 </div>
                                 <ButtonSqua css={cssBtn} children='Gửi' outline />
                             </form>

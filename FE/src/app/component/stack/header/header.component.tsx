@@ -200,28 +200,28 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
           <div className='hr-height'></div>
           <div css={cssCartMain} className='cart-main relative'>
             <Link to={'/cart'}>
-              <PiShoppingCartThin className='font-black text-[25px]' />
+              <AiOutlineShoppingCart className='font-extrabold' />
             </Link>
             {carts?.length >= 0 && accessToken ? <span className='absolute show-count'>{carts?.length}</span> : ''}
           </div>
         </div>
       </div>
-      <Marquee direction="left" className="p-3 mb-5 z-0 bg-yellow-400 rounded-lg" >
+      {content.length > 0 && content.some((item: any) => item.hidden === "Hiển thị") && (
+        <Marquee direction="left" className='py-3 mb-5 z-0' style={{ backgroundColor: "#FFAA00" }}>
+          {content.map((item: any) => {
+            if (item.hidden === "Hiển thị") {
+              return (
+                <p style={{ padding: "0px 300px" }} key={item._id} className='text-[20px] text-black italic flex' >
+                  <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
+                  {item.content}
+                </p>
+              );
+            }
+            return null;
+          })}
+        </Marquee>
+      )}
 
-        {content.map((item: any) => {
-          if (item?.hidden === "Hiển thị") {
-            return (
-              <p style={{ padding: "0px 300px" }} key={item?._id} className='text-[17px] text-black italic flex items-center' >
-                <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" />
-                {item?.content}
-              </p>
-            )
-          }
-          else {
-            return null
-          }
-        })}
-      </Marquee>
     </div>
   )
 }

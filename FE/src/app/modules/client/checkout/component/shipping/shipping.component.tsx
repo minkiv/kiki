@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import InputComponent from '~/app/component/parts/input/input.component';
 import { css } from '@emotion/react';
-import { Select } from 'antd';
 
 interface AddressData {
   city: string;
