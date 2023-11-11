@@ -20,11 +20,12 @@ const CategoryManagement = () => {
   }, [reset])
   useEffect(() => {
     const columTemp: any = []
+    const title = ['Tên']
     if (dataCategory.length > 0) {
       Object.keys(dataCategory[0]).forEach((itemKey) => {
         if (!['_id', '__v'].includes(itemKey)) {
           columTemp.push({
-            title: itemKey,
+            title: title[0],
             dataIndex: itemKey,
             key: itemKey,
             render: (text: any, record: any, index: any) => {

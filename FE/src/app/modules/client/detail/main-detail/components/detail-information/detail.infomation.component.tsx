@@ -58,7 +58,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
       setColorSelect(findElement)
     }
   }
-
   const handleSelectSize = (sizeId: any) => {
     const findElement = listSize.find((item: any) => item.id == sizeId)
     if (sizeId == sizeSelect?.id) {
@@ -67,7 +66,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
       setSizeSelect(findElement)
     }
   }
-
   useEffect(() => {
     const filterListQuantity = productDetail.listQuantityRemain?.filter(
       (item: any) => item.nameColor === colorSelect?.nameColor || item.nameSize === sizeSelect?.nameSize
@@ -219,22 +217,28 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
                   Màu Sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
                 </div>
                 <div className='flex items-center my-6'>
-                  {listColor?.map((item: any) => (
-                    <div
-                      key={item.id}
-                      style={{ backgroundColor: `${item.colorRbg}` }}
-                      className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${
-                        colorSelect?.id === item.id && 'border-red-600'
-                      } ${
-                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
-                        checkQuantity.length > 0 &&
-                        'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
-                      onClick={() => handleSelectColor(item.id)}
-                    >
-                      {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
-                    </div>
-                  ))}
+                  {listColor?.map((item: any) =>
+                    item.colorRbg ? (
+                      <div
+                        key={item.id}
+                        style={{
+                          backgroundColor: `${item.colorRbg}`
+                        }}
+                        className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${
+                          colorSelect?.id === item.id && 'border-red-600'
+                        } ${
+                          !checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                          checkQuantity.length > 0 &&
+                          'bg-slate-100 pointer-events-none text-gray-400'
+                        }`}
+                        onClick={() => handleSelectColor(item.id)}
+                      >
+                        {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
+                      </div>
+                    ) : (
+                      ''
+                    )
+                  )}
                 </div>
               </div>
               <div className='mt-3 '>
@@ -242,21 +246,25 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({}) => {
                   Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
                 </div>
                 <div className='flex items-center my-6'>
-                  {listSize?.map((item: any) => (
-                    <div
-                      key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${
-                        sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
-                      } ${
-                        !checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
-                        checkQuantity.length > 0 &&
-                        'bg-slate-100 pointer-events-none text-gray-400'
-                      }`}
-                      onClick={() => handleSelectSize(item.id)}
-                    >
-                      {item.nameSize}
-                    </div>
-                  ))}
+                  {listSize?.map((item: any) =>
+                    item.nameSize ? (
+                      <div
+                        key={item.id}
+                        className={`p-3 border rounded-md mr-4 cursor-pointer ${
+                          sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                        } ${
+                          !checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
+                          checkQuantity.length > 0 &&
+                          'bg-slate-100 pointer-events-none text-gray-400'
+                        }`}
+                        onClick={() => handleSelectSize(item.id)}
+                      >
+                        {item.nameSize}
+                      </div>
+                    ) : (
+                      ''
+                    )
+                  )}
                 </div>
               </div>
             </div>

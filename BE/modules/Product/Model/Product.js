@@ -18,6 +18,7 @@ const productSchema = new mongoose.Schema(
         brand: String,
         listQuantityRemain: [
             {
+                colorRbg: String,
                 nameColor: String,
                 nameSize: String,
                 quantity: Number,

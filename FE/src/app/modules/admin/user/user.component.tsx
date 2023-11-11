@@ -1,7 +1,7 @@
 import { DatePicker, Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
-import TemplateTable from "../common/template-table/template-table.component"
-import { changeUser, createUser, deleteUser, getAllUser, searchUser } from "./service/user.service"
+import TemplateTable from '../common/template-table/template-table.component'
+import { changeUser, createUser, deleteUser, getAllUser, searchUser } from './service/user.service'
 
 const UserManagemnet = () => {
   const [column, setColumn] = useState([])
@@ -15,17 +15,17 @@ const UserManagemnet = () => {
 
   useEffect(() => {
     const columTemp: any = []
+    const title = ['Giới tính', 'Địa chỉ', '', 'Tên', 'Email', '', 'Vai trò', '', 'Số điện thoại']
     if (dataUser.length > 0) {
-      Object?.keys(dataUser[0]).map((itemKey) => {
+      Object?.keys(dataUser[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'password', 'updatedAt', 'createdAt', 'nationality'].includes(itemKey)) {
           return columTemp.push({
-            title: itemKey,
+            title: title[key++],
             dataIndex: itemKey,
             key: itemKey
           })
         }
-      }
-      )
+      })
     }
     setColumn(columTemp)
   }, [dataUser])
@@ -35,10 +35,22 @@ const UserManagemnet = () => {
   }
   return (
     <div>
-      <TemplateTable searchFunc={searchUser} setData={setDataUser} dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
+      <TemplateTable
+        searchFunc={searchUser}
+        setData={setDataUser}
+        dataTable={dataUser}
+        columnTable={column}
+        handelGetList={handelGetList}
+        createFunc={createUser}
+        deleteFunc={deleteUser}
+        changeFunc={changeUser}
         formEdit={
           <Fragment>
+<<<<<<< HEAD
             <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Vui lòng nhập Email!' }]} >
+=======
+            <Form.Item label='Email' name='email' rules={[{ required: true, message: 'Please input your username!' }]}>
+>>>>>>> df39275 (feat: crud product admin)
               <Input />
             </Form.Item>
             <Form.Item label='Vai trò' name='role' rules={[{ required: true, message: 'Vui lòng chọn Vai trò!' }]}>
@@ -76,7 +88,15 @@ const UserManagemnet = () => {
             >
               <Input />
             </Form.Item>
+<<<<<<< HEAD
             <Form.Item label='Giới tính' name='gender' rules={[{ required: true, message: 'Vui lòng chọn Giới tính!' }]}>
+=======
+            <Form.Item
+              label='gender'
+              name='gender'
+              rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+>>>>>>> df39275 (feat: crud product admin)
               <Select placeholder='Please select'>
                 <Select.Option value='Nam'>Nam</Select.Option>
                 <Select.Option value='Nữ'>Nữ</Select.Option>
@@ -91,13 +111,18 @@ const UserManagemnet = () => {
               <Input />
             </Form.Item>
             <Form.Item
+<<<<<<< HEAD
               label="Ngày tháng năm sinh "
               name="birthday"
               rules={[{ required: true, message: 'Vui lòng nhập Ngày tháng năm sinh!' }]}
+=======
+              label='Ngày tháng năm'
+              name='birthday'
+              rules={[{ required: true, message: 'Please input your date of birth!' }]}
+>>>>>>> df39275 (feat: crud product admin)
             >
               <Input />
             </Form.Item>
-
           </Fragment>
         }
       />

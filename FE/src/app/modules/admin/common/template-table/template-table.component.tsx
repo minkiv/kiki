@@ -82,11 +82,11 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     setIsModelOpen(false)
     setTriggerLoadding(true)
     if (type == 'CREATE') {
+      // form.setFieldsValue([{ nameColor: 'red' }])
       form
         .validateFields()
         .then((values: any) => {
           form.resetFields()
-          console.log(values)
           createFunc(values).then(
             (res: any) => {
               if (res) {
@@ -110,7 +110,6 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           console.log('Validate Failed:', info)
         })
     }
-
     if (type === 'CHANGE') {
       form
         .validateFields()
@@ -168,6 +167,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     setIsModelOpen(false)
   }
   const showModel = (typeAction: any, recordTable?: any) => {
+    console.log(recordTable)
     setIsModelOpen(true)
     setType(typeAction)
     if (typeAction === 'CHANGE') {
@@ -180,7 +180,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const columns: ColumnsType<DataType> = [
     ...columnTable,
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
       render: (_, record: any) => (
         <Space size='middle' css={cssTemplateTable}>

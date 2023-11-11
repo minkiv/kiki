@@ -235,7 +235,9 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                               {getListColor(item, 'cart')?.map((item: any) => (
                                 <div
                                   key={item?.id}
-                                  style={{ backgroundColor: `${item.colorRbg}` }}
+                                  style={{
+                                    backgroundColor: `${item.colorRbg}`
+                                  }}
                                   className={`p-3 border h-[32px] w-[32px] rounded-md  mr-4 cursor-pointer ${
                                     colorSelect?.nameColor === item?.nameColor && 'bg-red-100 border-red-600'
                                   } ${

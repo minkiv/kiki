@@ -8,6 +8,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { getAllProduct } from '../product/service/product.service'
 const { Option } = Select
 
+<<<<<<< HEAD
 
 const { Title } = Typography
 
@@ -30,54 +31,77 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
   const [reset, setReset] = useState<boolean>(true)
   const [form] = Form.useForm()
 
+=======
+const OrderManagement = () => {
+  const [columns, setColumns] = useState([])
+  const [dataOrder, setDataOrder] = useState<any>([])
+  const [dataProduct, setDataProduct] = useState<any>([])
+  const [reset, setReset] = useState<boolean>(true)
+  const [form] = Form.useForm()
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+
+  const [selectedColor, setSelectedColor] = useState<any>(null)
+  const [selectedSize, setSelectedSize] = useState<any>(null)
+  const [availableColors, setAvailableColors] = useState<any>([])
+  const [availableSizes, setAvailableSizes] = useState<any>([])
+  const [productTotalPrices, setProductTotalPrices] = useState([])
+  const [grandTotal, setGrandTotal] = useState(0)
+>>>>>>> df39275 (feat: crud product admin)
   const handleProductChange = (value: any) => {
-    const product = dataProduct.find((product: any) => product._id === value);
-    setSelectedProduct(product);
+    const product = dataProduct.find((product: any) => product._id === value)
+    setSelectedProduct(product)
 
     if (product) {
-      const colors = product.listQuantityRemain.map((item: any) => item.nameColor);
-      setAvailableColors([...new Set(colors)]);
+      const colors = product.listQuantityRemain.map((item: any) => item.nameColor)
+      setAvailableColors([...new Set(colors)])
     } else {
-      setAvailableColors([]);
+      setAvailableColors([])
     }
+<<<<<<< HEAD
     setSelectedColor(null);
     setSelectedSize(null);
   };
+=======
+    setSelectedColor(null)
+    setSelectedSize(null)
+  }
+
+>>>>>>> df39275 (feat: crud product admin)
   const handleColorChange = (color: string) => {
-    setSelectedColor(color);
+    setSelectedColor(color)
     if (selectedProduct) {
       const sizes = selectedProduct.listQuantityRemain
         .filter((item: any) => item.nameColor === color)
-        .map((item: any) => item.nameSize);
+        .map((item: any) => item.nameSize)
       if (sizes.length === 0) {
-        setSelectedSize(null);
+        setSelectedSize(null)
       }
-      setAvailableSizes(sizes);
+      setAvailableSizes(sizes)
     }
-  };
+  }
 
   const handleSizeChange = (size: string) => {
-    setSelectedSize(size);
-  };
+    setSelectedSize(size)
+  }
   const getMaxQuantity = (color: any, size: any) => {
     if (selectedProduct && color && size) {
       const matchingItem = selectedProduct.listQuantityRemain.find((item: any) => {
-        return item.nameColor === color && item.nameSize === size;
+        return item.nameColor === color && item.nameSize === size
       })
       if (matchingItem) {
-        return matchingItem.quantity;
+        return matchingItem.quantity
       }
     }
-    return 1;
-  };
+    return 1
+  }
 
   const handelvalueQuantity = (event: any, index: number) => {
-    const newTotalPrice = event * selectedProduct.price;
-    const updatedTotalPrices: any = [...productTotalPrices];
-    updatedTotalPrices[index] = newTotalPrice;
-    setProductTotalPrices(updatedTotalPrices);
-    const totalPricesSum = updatedTotalPrices.reduce((acc: any, curr: any) => acc + (curr || 0), 0);
-    setGrandTotal(totalPricesSum);
+    const newTotalPrice = event * selectedProduct.price
+    const updatedTotalPrices: any = [...productTotalPrices]
+    updatedTotalPrices[index] = newTotalPrice
+    setProductTotalPrices(updatedTotalPrices)
+    const totalPricesSum = updatedTotalPrices.reduce((acc: any, curr: any) => acc + (curr || 0), 0)
+    setGrandTotal(totalPricesSum)
   }
 
   useEffect(() => {
@@ -85,6 +109,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       setDataOrder(res.data)
     })
     getAllProduct().then((res) => {
+<<<<<<< HEAD
       setDataProduct(res.data);
       setListProduct(res.data.map((item: any) => {
         return { value: item._id, label: item.name }
@@ -105,13 +130,98 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
         if (res) {
           setReset(!reset)
           toast.success("order thành công")
+=======
+      setDataProduct(res.data)
+    })
+  }, [reset])
+  console.log(dataOrder)
+  useEffect(() => {
+    const dataColum: any = []
+    const title = ['', '', 'Họ Tên', 'SĐT', 'Quận/Huyện', 'Xã', 'Địa chỉ', 'Trạng thái đơn hàng', 'Thành phố', 'Tên SP']
+
+    if (dataOrder.length > 0) {
+      Object.keys(dataOrder[0]).map((itemkey, key = 0) => {
+        if (!['_id', '__v', 'updatedAt', 'productOrder', 'user', 'createdAt'].includes(itemkey)) {
+          dataColum.push({
+            title: title[key++],
+            dataIndex: itemkey,
+            key: itemkey
+          })
+>>>>>>> df39275 (feat: crud product admin)
         }
       }, (err) => {
         toast.success("order thất bại")
       })
+<<<<<<< HEAD
       form.resetFields()
     })
   };
+=======
+    }
+    if (dataOrder[0]?.productOrder && dataOrder[0]?.productOrder.length > 0) {
+      const firstItem = dataOrder[0].productOrder[0].product
+      if (firstItem) {
+        Object.keys(firstItem).forEach((itemKey) => {
+          if (
+            ![
+              '_id',
+              'updatedAt',
+              'price',
+              'cost',
+              'description',
+              'images',
+              'brand',
+              'listQuantityRemain',
+              'categoryId',
+              'createdAt',
+              '__v'
+            ].includes(itemKey)
+          ) {
+            dataColum.push({
+              title: 'Tên SP',
+              dataIndex: `${itemKey}`,
+              key: `${itemKey}`,
+              render: (text: any, record: any, index: any) => {
+                return (
+                  <>
+                    {dataOrder[index]?.productOrder?.map((item: any, index: any) => (
+                      <p key={index}>{item.product[itemKey]}</p>
+                    ))}
+                  </>
+                )
+              }
+            })
+          }
+        })
+      }
+    }
+    if (dataOrder[0]?.productOrder && dataOrder[0]?.productOrder.length > 0) {
+      const firstItem = dataOrder[0].productOrder[0].quantityOrder
+      const title = ['Màu sắc', 'Size', 'Số lượng']
+      if (firstItem) {
+        Object.keys(firstItem).forEach((itemKey, key = 0) => {
+          if (![''].includes(itemKey)) {
+            dataColum.push({
+              title: title[key++],
+              dataIndex: `${itemKey}`,
+              key: `${itemKey}`,
+              render: (text: any, record: any, index: any) => {
+                return (
+                  <div className='flex gap-[8px]'>
+                    {dataOrder[index]?.productOrder?.map((item: any, index: any) => (
+                      <p key={index}>{item.quantityOrder[itemKey]}</p>
+                    ))}
+                  </div>
+                )
+              }
+            })
+          }
+        })
+      }
+    }
+    setColumns(dataColum)
+  }, [dataOrder])
+>>>>>>> df39275 (feat: crud product admin)
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -193,6 +303,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     }
   }
 
+<<<<<<< HEAD
   return (
     <div className='py-5'>
       <Segmented
@@ -227,6 +338,11 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
               >
                 <Input />
               </Form.Item>
+=======
+            <Form.Item label='city' name='city' rules={[{ required: true, message: 'Please input your name!' }]}>
+              <Input />
+            </Form.Item>
+>>>>>>> df39275 (feat: crud product admin)
 
               <Form.Item
                 label='Số điện thoại'
@@ -236,6 +352,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                 <Input />
               </Form.Item>
 
+<<<<<<< HEAD
               <Form.Item
                 label='Thành phố / Tỉnh'
                 name='city'
@@ -310,8 +427,84 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                               }}
                             >
                             </Select>
+=======
+            <Form.Item
+              label='locationDetail'
+              name='locationDetail'
+              rules={[{ required: true, message: 'Please input your name!' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.List name='productOrder' initialValue={[]}>
+              {(fields, { add, remove }) => (
+                <div>
+                  {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+                    <div key={key}>
+                      <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'product']}
+                          fieldKey={[fieldKey, 'product'] as any}
+                          label='Select Product'
+                          rules={[{ required: true, message: 'Please select a product' }]}
+                        >
+                          <Select placeholder='Select Product' onChange={(value) => handleProductChange(value)}>
+                            {dataProduct.map((product: any) => (
+                              <Select.Option key={product._id} value={product._id}>
+                                {product.name}
+                              </Select.Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'quantityOrder', 'nameColor']}
+                          label='Color'
+                          rules={[{ required: true, message: 'Please select a color' }]}
+                        >
+                          <Select placeholder='Color' onChange={(value) => handleColorChange(value)}>
+                            {availableColors.map((color: any) => (
+                              <Select.Option key={color} value={color}>
+                                {color}
+                              </Select.Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'quantityOrder', 'nameSize']}
+                          label='Size'
+                          rules={[{ required: true, message: 'Please select a size' }]}
+                        >
+                          <Select placeholder='Size' onChange={(value) => handleSizeChange(value)}>
+                            {availableSizes.map((size: any) => (
+                              <Select.Option key={size} value={size}>
+                                {size}
+                              </Select.Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                      </div>
+                      <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+                        {selectedProduct && selectedColor && selectedSize && (
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'quantityOrder', 'quantity']}
+                            label='Quantity'
+                            initialValue={1}
+                          >
+                            <InputNumber
+                              placeholder='Quantity'
+                              min={1}
+                              max={getMaxQuantity(selectedColor, selectedSize)}
+                              onChange={(value) => handelvalueQuantity(value, index)}
+                            />
+>>>>>>> df39275 (feat: crud product admin)
                           </Form.Item>
 
+<<<<<<< HEAD
 
 
                           <Form.Item
@@ -366,6 +559,18 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                               />
 
                             </Form.Item>
+=======
+                        {selectedProduct && (
+                          <Form.Item label='totalprice' name='totalprice'>
+                            {productTotalPrices[index]}
+                          </Form.Item>
+                        )}
+                        <Form.Item label='xoá'>
+                          {fields.length > 1 && (
+                            <Button type='dashed' onClick={() => remove(name)}>
+                              Remove
+                            </Button>
+>>>>>>> df39275 (feat: crud product admin)
                           )}
 
                           {selectedProduct && (
@@ -386,6 +591,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
 
                         </div>
                       </div>
+<<<<<<< HEAD
 
                     ))}
                     <Button type="dashed" onClick={() => add()} block>
@@ -415,6 +621,31 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       </Title>
 
       <TableOrderDetail buttonByStatus={buttonByStatus} dataTable={dataTable} />
+=======
+                    </div>
+                  ))}
+                  <Button type='dashed' onClick={() => add()} block>
+                    + Add Product
+                  </Button>
+                </div>
+              )}
+            </Form.List>
+
+            <Form.Item
+              label='orderStatus'
+              name='orderStatus'
+              rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+              <Select placeholder=' trạng thái'>
+                <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
+                <Select.Option value='đang vận chuyển'>đang vận chuyển</Select.Option>
+                <Select.Option value='hoàn thành'>hoàn thành</Select.Option>
+              </Select>
+            </Form.Item>
+          </Fragment>
+        }
+      />
+>>>>>>> df39275 (feat: crud product admin)
     </div>
   )
 }
