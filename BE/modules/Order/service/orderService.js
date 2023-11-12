@@ -86,11 +86,20 @@ export const searchOrder = async (req, res) => {
 };
 
 export const filterDataOrderByStatus = async (queryRequest) => {
-    const { status } = queryRequest
+    const { status, keyword } = queryRequest;
+
+    const matchStage = {
+        "orderStatus": { $in: [status] }
+    };
+
+    // Add phoneNumber filter if keyword is provided
+    if (keyword) {
+        matchStage.phoneNumber = { $regex: keyword, $options: 'i' };
+    }
 
     const orders = await Order.aggregate([
         {
-            $match: { "orderStatus": { $in: [status] } }
+            $match: matchStage
         },
         {
             $unwind: "$productOrder"
@@ -120,7 +129,6 @@ export const filterDataOrderByStatus = async (queryRequest) => {
                 district: { $first: "$district" },
                 city: { $first: "$city" },
                 commune: { $first: "$commune" },
-                fullname: { $first: "$fullname" },
                 locationDetail: { $first: "$locationDetail" },
                 productOrder: { $push: "$productOrder" },
                 createdAt: { $first: "$createdAt" },
@@ -130,7 +138,7 @@ export const filterDataOrderByStatus = async (queryRequest) => {
                 __v: { $first: "$__v" }
             }
         }
-    ])
+    ]);
 
-    return orders
+    return orders;
 }
