@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 const productSchema = new mongoose.Schema(
     {
         name: String,
+        code: String,
         price: Number,
         cost: Number,
         description: String,
@@ -17,6 +18,7 @@ const productSchema = new mongoose.Schema(
         brand: String,
         listQuantityRemain: [
             {
+                colorHex: String,
                 nameColor: String,
                 nameSize: String,
                 quantity: Number,

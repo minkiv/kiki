@@ -14,10 +14,10 @@ export const deleteProduct = async (req) => {
 export const addProduct = async (req) => {
     const fileImages = req.files
     const listQuantityRemain = Array.from(req.body.listQuantityRemain)
-    const check = fileImages.flatMap((item) => item.path)
+    // const check = fileImages.flatMap((item) => item.path)
     const products = await Product.create({
         ...req.body,
-        images: check,
+        // images: check,
         listQuantityRemain: listQuantityRemain
     })
     return products
@@ -25,13 +25,13 @@ export const addProduct = async (req) => {
 export const updateProduct = async (req) => {
     const id = req.params.id
     const fileImages = req.files
-    const check = fileImages.flatMap((item) => item.path)
+    // const check = fileImages.flatMap((item) => item.path)
     const update = await Product.updateOne({
         _id: id
     },
         {
             ...req.body,
-            images: check,
+            // images: check,
         });
     return update
 }

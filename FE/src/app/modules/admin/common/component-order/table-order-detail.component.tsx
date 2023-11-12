@@ -150,7 +150,7 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             key: 'images',
             render: (_: any, record: any) => (
                 <div style={{ width: 70 }}>
-                    {record?.product.images?.[0] ? <img src={record?.product.images[0]} /> : 'Chưa có ảnh sản phẩm'}
+                    {record?.product.images?.slice(0,1).map((image:any)=> image?.response || image?.url) ? <img src={record?.product.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} /> : 'Chưa có ảnh sản phẩm'}
                 </div>
             )
         },

@@ -187,7 +187,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
   for (let i = 1; i <= averageStar; i++) {
     starComponents.push(<StarIcon key={i} />);
   }
-
   return (
     <div css={cssInfomation}>
       {contextHolder}
@@ -224,7 +223,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
                   {listColor?.map((item: any) => (
                     <div
                       key={item.id}
-                      style={{ backgroundColor: `${item.nameColor}` }}
+                      style={{ backgroundColor: `${item.colorHex}` }}
                       className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${colorSelect?.id === item.id && 'border-red-600'
                         } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&

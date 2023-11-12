@@ -21,7 +21,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
   return (
     <div css={cssProduct} className={className}>
       <div className=' mb-[17px]'>
-        <img src={itemProduct?.images[0]} alt='' className=' h-[300px] m-auto' />
+        <img src={itemProduct?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className=' h-[300px] m-auto' />
       </div>
       <div className='main'>
         <div className='flex justify-between ml-4 mr-4 mb-4'>
@@ -41,7 +41,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
                     <div
                       key={item.id}
                       className='product-color inline-block mr-2'
-                      style={{ backgroundColor: `${item.nameColor}` }}
+                      style={{ backgroundColor: `${item?.colorHex}` }}
                     ></div>
                   )
               })}

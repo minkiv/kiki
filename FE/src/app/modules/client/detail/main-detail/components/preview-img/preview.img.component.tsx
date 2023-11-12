@@ -33,7 +33,7 @@ const PreviewImg: FunctionComponent<DemoCarouselProps> = () => {
       >
         {productDetail?.images?.map((item: any, index: any) => (
           <div className='img' key={index}>
-            <img className='imgchildren' src={item} />
+            <img className='imgchildren' src={item.response || item.url} />
           </div>
         ))}
       </Carousel>
