@@ -4,8 +4,9 @@ import toast from 'react-hot-toast'
 import { filterDataOrderByStatus } from '~/app/api/order/order.api'
 import { TableOrderDetail } from '../common/component-order/table-order-detail.component'
 import { createOrder, deleteOrder, getAllOrder, updateOrder } from './service/order.service'
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { getAllProduct } from '../product/service/product.service'
+import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component'
 const { Option } = Select
 
 
@@ -89,8 +90,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       setListProduct(res.data.map((item: any) => {
         return { value: item._id, label: item.name }
       }));
-    }).then(() => console.log(listProduct)
-    )
+    })
   }, [])
 
   const showModal = () => {
@@ -120,12 +120,25 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     setOrderStatus(value)
   }
 
+  const [keyword, setKeyword] = useState("")
+  const [search, setSearch] = useState(false)
+  const [triggerLoadding, setTriggerLoadding] = useState(false)
   const callAllOrder = useCallback(() => {
-    filterDataOrderByStatus(orderStatus).then((res) => {
-      if (res) {
-        setDataTable(res.data)
-      }
-    })
+    if (!search) {
+      filterDataOrderByStatus(orderStatus, "").then((res) => {
+        if (res) {
+          setDataTable(res.data)
+        }
+      })
+    }
+    else {
+      filterDataOrderByStatus(orderStatus, keyword).then((res) => {
+        if (res) {
+          setDataTable(res.data)
+        }
+      })
+    }
+
   }, [orderStatus, reset])
 
   useEffect(() => {
@@ -140,8 +153,30 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       }
     })
   }
+  const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    return setKeyword(event.target.value);
+  }
+  const handleSearchItem = () => {
+    setTriggerLoadding(true)
+    if (keyword) {
+      setTimeout(() => {
+        setTriggerLoadding(false)
+        setSearch(true)
+        callAllOrder()
+        setReset(!reset)
+      }, 1000)
 
+    }
+    else {
+      setTimeout(() => {
+        setTriggerLoadding(false)
+        setSearch(false)
+        callAllOrder();
+        setReset(!reset)
+      }, 1000)
 
+    }
+  }
   const handelDeleteOrder = (orderId: any) => {
     deleteOrder(orderId).then((res) => {
       if (res) {
@@ -194,228 +229,238 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
   }
 
   return (
-    <div className='py-5'>
-      <Segmented
-        options={[
-          { value: 'đang chờ duyệt', label: 'đang chờ duyệt' },
-          { value: 'duyệt thành công', label: 'duyệt thành công' },
-          { value: 'đang vận chuyển', label: 'đang vận chuyển' },
-          { value: 'hoàn thành', label: 'hoàn thành' },
-          { value: 'huỷ đơn', label: 'Đã huỷ' }
-        ]}
-        size='large'
-        value={orderStatus}
-        onChange={changeStatusDataOrder}
-      />
-      <div className='float-right'>
-        <Button
-          onClick={showModal}
-          type='primary'
-          className='p-0 h-[40px]  w-[44px] rounded-[4px] bg-[#D4FF00]'
-        >
-          <PlusOutlined className='text-[20px] mb-[4px]' />
-        </Button>
-      </div>
-      <div>
-        <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-          <Form form={form} layout='vertical' name='form_in_modal' >
-            <Fragment>
-              <Form.Item
-                label='Họ và tên'
-                name='fullname'
-                rules={[{ required: true, message: 'Vui lòng nhập Họ và tên!' }]}
-              >
-                <Input />
-              </Form.Item>
+    <LayoutLoading condition={triggerLoadding}>
 
-              <Form.Item
-                label='Số điện thoại'
-                name='phoneNumber'
-                rules={[{ required: true, message: 'Vui lòng nhập Số điện thoại!' }]}
-              >
-                <Input />
-              </Form.Item>
+      <div className='py-5'>
+        <Segmented
+          options={[
+            { value: 'đang chờ duyệt', label: 'đang chờ duyệt' },
+            { value: 'duyệt thành công', label: 'duyệt thành công' },
+            { value: 'đang vận chuyển', label: 'đang vận chuyển' },
+            { value: 'hoàn thành', label: 'hoàn thành' },
+            { value: 'huỷ đơn', label: 'Đã huỷ' }
+          ]}
+          size='large'
+          value={orderStatus}
+          onChange={changeStatusDataOrder}
+        />
+        <div className='float-right flex space-x-2'>
+          <div className='flex space-x-1 items-center'>
+            <Input placeholder='search item here' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
+            <Button type='primary' className='ml-3' onClick={handleSearchItem} >
+              Search
+            </Button>
+          </div>
+          <Button
+            onClick={showModal}
+            type='primary'
+            className='p-0 h-[40px]  w-[44px] rounded-[4px] bg-[#D4FF00]'
+          >
+            <PlusOutlined className='text-[20px] mb-[4px]' />
+          </Button>
+        </div>
+        <div>
+          <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Form form={form} layout='vertical' name='form_in_modal' >
+              <Fragment>
+                <Form.Item
+                  label='Họ và tên'
+                  name='fullname'
+                  rules={[{ required: true, message: 'Vui lòng nhập Họ và tên!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.Item
-                label='Thành phố / Tỉnh'
-                name='city'
-                rules={[{ required: true, message: 'Vui lòng nhập Thành phố hoặc Tỉnh!' }]}
-              >
-                <Input />
-              </Form.Item>
+                <Form.Item
+                  label='Số điện thoại'
+                  name='phoneNumber'
+                  rules={[{ required: true, message: 'Vui lòng nhập Số điện thoại!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.Item
-                label='Quận / Huyện'
-                name='district'
-                rules={[{ required: true, message: 'Vui lòng nhập Quận / Huyện!' }]}
-              >
-                <Input />
-              </Form.Item>
+                <Form.Item
+                  label='Thành phố / Tỉnh'
+                  name='city'
+                  rules={[{ required: true, message: 'Vui lòng nhập Thành phố hoặc Tỉnh!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.Item
-                label='Xã / Phường'
-                name='commune'
-                rules={[{ required: true, message: 'Vui lòng nhập Xã / Phường!' }]}
-              >
-                <Input />
-              </Form.Item>
+                <Form.Item
+                  label='Quận / Huyện'
+                  name='district'
+                  rules={[{ required: true, message: 'Vui lòng nhập Quận / Huyện!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.Item
-                label='Địa chỉ cụ thể'
-                name='locationDetail'
-                rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ cụ thể!' }]}
-              >
-                <Input />
-              </Form.Item>
+                <Form.Item
+                  label='Xã / Phường'
+                  name='commune'
+                  rules={[{ required: true, message: 'Vui lòng nhập Xã / Phường!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.Item
-                label="Phương thức thanh toán"
-                name="payment_methods"
-                rules={[{ required: true, message: 'Vui lòng chọn Phương thức thanh toán!' }]}
-              >
-                <Select placeholder="Phương thức thanh toán">
-                  <Select.Option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</Select.Option>
-                  <Select.Option value="vnpay" >vnpay</Select.Option>
-                </Select>
-              </Form.Item>
+                <Form.Item
+                  label='Địa chỉ cụ thể'
+                  name='locationDetail'
+                  rules={[{ required: true, message: 'Vui lòng nhập Địa chỉ cụ thể!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.List
-                name="productOrder"
-                initialValue={[]}
-              >
-                {(fields, { add, remove }) => (
-                  <div>
-                    {fields.map(({ key, name, fieldKey, ...restField }, index) => (
-                      <div key={key} >
-                        <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'product']}
-                            fieldKey={[fieldKey, 'product'] as any}
-                            label="Chọn sản phẩm"
-                            rules={[{ required: true, message: 'Vui lòng chọn Tên sản phẩm' }]}
-                          >
-                            <Select
-                              showSearch
-                              style={{ width: 200 }}
-                              placeholder="Lựa chọn sản phẩm"
-                              optionFilterProp="children"
-                              filterOption={(input, option: any) => (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())}
-                              filterSort={(optionA, optionB) =>
-                                (optionA?.name ?? '').toLowerCase().localeCompare((optionB?.name ?? '').toLowerCase())
-                              }
-                              options={listProduct}
-                              onChange={(value, label) => {
-                                handleProductChange(value); console.log(value, label);
-                              }}
-                            >
-                            </Select>
-                          </Form.Item>
+                <Form.Item
+                  label="Phương thức thanh toán"
+                  name="payment_methods"
+                  rules={[{ required: true, message: 'Vui lòng chọn Phương thức thanh toán!' }]}
+                >
+                  <Select placeholder="Phương thức thanh toán">
+                    <Select.Option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</Select.Option>
+                    <Select.Option value="vnpay" >vnpay</Select.Option>
+                  </Select>
+                </Form.Item>
 
-
-
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'quantityOrder', 'nameColor']}
-                            label="Màu"
-                            rules={[{ required: true, message: 'Vui lòng chọn Màu' }]}
-                          >
-                            <Select
-                              placeholder="Màu"
-                              onChange={(value) => handleColorChange(value)}
-                            >
-                              {availableColors.map((color: any) => (
-                                <Select.Option key={color} value={color}>
-                                  {color}
-                                </Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'quantityOrder', 'nameSize']}
-                            label="Kích cỡ"
-                            rules={[{ required: true, message: 'Vui lòng chọn Kích cỡ' }]}
-                          >
-                            <Select
-                              placeholder="Kích cỡ"
-                              onChange={(value) => handleSizeChange(value)}
-                            >
-                              {availableSizes.map((size: any) => (
-                                <Select.Option key={size} value={size}>
-                                  {size}
-                                </Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </div>
-                        <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
-                          {selectedProduct && selectedColor && selectedSize && (
+                <Form.List
+                  name="productOrder"
+                  initialValue={[]}
+                >
+                  {(fields, { add, remove }) => (
+                    <div>
+                      {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+                        <div key={key} >
+                          <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
                             <Form.Item
                               {...restField}
-                              name={[name, 'quantityOrder', 'quantity']}
-                              label="Số lượng"
-                              initialValue={1}
+                              name={[name, 'product']}
+                              fieldKey={[fieldKey, 'product'] as any}
+                              label="Chọn sản phẩm"
+                              rules={[{ required: true, message: 'Vui lòng chọn Tên sản phẩm' }]}
                             >
-                              <InputNumber
-                                placeholder="Số lượng"
-                                min={1}
-                                max={getMaxQuantity(selectedColor, selectedSize)}
-                                onChange={(value) => handelvalueQuantity(value, index)}
-                              />
-
+                              <Select
+                                showSearch
+                                style={{ width: 200 }}
+                                placeholder="Lựa chọn sản phẩm"
+                                optionFilterProp="children"
+                                filterOption={(input, option: any) => (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())}
+                                filterSort={(optionA, optionB) =>
+                                  (optionA?.name ?? '').toLowerCase().localeCompare((optionB?.name ?? '').toLowerCase())
+                                }
+                                options={listProduct}
+                                onChange={(value, label) => {
+                                  handleProductChange(value); console.log(value, label);
+                                }}
+                              >
+                              </Select>
                             </Form.Item>
-                          )}
 
-                          {selectedProduct && (
+
+
                             <Form.Item
-                              label='Giá sản phẩm'
-                              name='totalprice'
+                              {...restField}
+                              name={[name, 'quantityOrder', 'nameColor']}
+                              label="Màu"
+                              rules={[{ required: true, message: 'Vui lòng chọn Màu' }]}
                             >
-                              {productTotalPrices[index]}
+                              <Select
+                                placeholder="Màu"
+                                onChange={(value) => handleColorChange(value)}
+                              >
+                                {availableColors.map((color: any) => (
+                                  <Select.Option key={color} value={color}>
+                                    {color}
+                                  </Select.Option>
+                                ))}
+                              </Select>
                             </Form.Item>
-                          )}
-                          {fields.length > 1 && (
-                            <Form.Item label="Xoá">
-                              <Button type="dashed" onClick={() => remove(name)}>
-                                Remove
-                              </Button>
-                            </Form.Item>
-                          )}
 
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'quantityOrder', 'nameSize']}
+                              label="Kích cỡ"
+                              rules={[{ required: true, message: 'Vui lòng chọn Kích cỡ' }]}
+                            >
+                              <Select
+                                placeholder="Kích cỡ"
+                                onChange={(value) => handleSizeChange(value)}
+                              >
+                                {availableSizes.map((size: any) => (
+                                  <Select.Option key={size} value={size}>
+                                    {size}
+                                  </Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </div>
+                          <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+                            {selectedProduct && selectedColor && selectedSize && (
+                              <Form.Item
+                                {...restField}
+                                name={[name, 'quantityOrder', 'quantity']}
+                                label="Số lượng"
+                                initialValue={1}
+                              >
+                                <InputNumber
+                                  placeholder="Số lượng"
+                                  min={1}
+                                  max={getMaxQuantity(selectedColor, selectedSize)}
+                                  onChange={(value) => handelvalueQuantity(value, index)}
+                                />
+
+                              </Form.Item>
+                            )}
+
+                            {selectedProduct && (
+                              <Form.Item
+                                label='Giá sản phẩm'
+                                name='totalprice'
+                              >
+                                {productTotalPrices[index]}
+                              </Form.Item>
+                            )}
+                            {fields.length > 1 && (
+                              <Form.Item label="Xoá">
+                                <Button type="dashed" onClick={() => remove(name)}>
+                                  Remove
+                                </Button>
+                              </Form.Item>
+                            )}
+
+                          </div>
                         </div>
-                      </div>
 
-                    ))}
-                    <Button type="dashed" onClick={() => add()} block>
-                      + Mua thêm sản phẩm
-                    </Button>
-                  </div>
-                )}
-              </Form.List>
+                      ))}
+                      <Button type="dashed" onClick={() => add()} block>
+                        + Mua thêm sản phẩm
+                      </Button>
+                    </div>
+                  )}
+                </Form.List>
 
-              <Form.Item
-                label='Tình trạng đơn hàng'
-                name='orderStatus'
-                rules={[{ required: true, message: 'Vui lòng chọn Tình trạng đơn hàng!' }]}
-              >
-                <Select placeholder=' trạng thái'>
-                  <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
-                  <Select.Option value='đang vận chuyển'>đang vận chuyển</Select.Option>
-                  <Select.Option value='hoàn thành'>hoàn thành</Select.Option>
-                </Select>
-              </Form.Item>
-            </Fragment>
-          </Form>
-        </Modal>
+                <Form.Item
+                  label='Tình trạng đơn hàng'
+                  name='orderStatus'
+                  rules={[{ required: true, message: 'Vui lòng chọn Tình trạng đơn hàng!' }]}
+                >
+                  <Select placeholder=' trạng thái'>
+                    <Select.Option value='duyệt thành công'>duyệt thành công</Select.Option>
+                    <Select.Option value='đang vận chuyển'>đang vận chuyển</Select.Option>
+                    <Select.Option value='hoàn thành'>hoàn thành</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Fragment>
+            </Form>
+          </Modal>
+        </div>
+        <Title className='py-5' level={3}>
+          Đơn hàng: {dataTable.length}
+        </Title>
+
+        <TableOrderDetail buttonByStatus={buttonByStatus} dataTable={dataTable} />
       </div>
-      <Title className='py-5' level={3}>
-        Đơn hàng: {dataTable.length}
-      </Title>
+    </LayoutLoading>
 
-      <TableOrderDetail buttonByStatus={buttonByStatus} dataTable={dataTable} />
-    </div>
   )
 }
 

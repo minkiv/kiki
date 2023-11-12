@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component'
-import { createSupport, deleteSupport, getAllSupport, updateSupport } from './service/support-admin.service'
+import { createSupport, deleteSupport, getAllSupport, searchSupport, updateSupport } from './service/support-admin.service'
 import { Button, Form, Input, Modal, Select } from 'antd'
 import toast from 'react-hot-toast'
 import { repSupport } from '~/app/api/support/support.api'
@@ -16,10 +16,10 @@ const SupportAdmin = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [feedback, setFeedback] = useState('');
 
-    const handleInputChange = (e:any) => {
-      setFeedback(e.target.value);
+    const handleInputChange = (e: any) => {
+        setFeedback(e.target.value);
     };
-    const showModal = (dataId:any, topicRequest:any) => {
+    const showModal = (dataId: any, topicRequest: any) => {
         setIsModalOpen(true);
         setId(dataId)
         setTopicData(topicRequest)
@@ -37,7 +37,7 @@ const SupportAdmin = () => {
         })
     }, [reset])
     const onSubmit = () => {
-        repSupport({reqbody:feedback, id:id, topic:topicData}).then(
+        repSupport({ reqbody: feedback, id: id, topic: topicData }).then(
             (res) => {
                 if (res) {
                     toast.success('Phản hồi thành công')
@@ -48,7 +48,7 @@ const SupportAdmin = () => {
                 toast.error('Email không hợp lệ')
             }
         )
-        
+
     }
     useEffect(() => {
         const columnTemp: any = [];
@@ -67,7 +67,7 @@ const SupportAdmin = () => {
                 title: "phản hồi",
                 key: "action",
                 render: (text: any, record: any) => (
-                    <Button onClick={()=>showModal(record._id, record.topic)} type='primary' >Gửi email cho khách hàng</Button>
+                    <Button onClick={() => showModal(record._id, record.topic)} type='primary' >Gửi email cho khách hàng</Button>
                 ),
             });
         }
@@ -81,12 +81,12 @@ const SupportAdmin = () => {
     return (
         <div>
             <Modal bodyStyle={{ height: 210 }} title="Nhập phản hồi" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-            <textarea onChange={handleInputChange} className='w-full h-[170px] focus:outline-none p-2 border rounded-xl border-[#E7E8E9]' placeholder="Nhập phản hồi của bạn" value={feedback} />
-            <Button className='mt-3 float-right' type="primary" onClick={onSubmit}>
-                Gửi email
-            </Button>
+                <textarea onChange={handleInputChange} className='w-full h-[170px] focus:outline-none p-2 border rounded-xl border-[#E7E8E9]' placeholder="Nhập phản hồi của bạn" value={feedback} />
+                <Button className='mt-3 float-right' type="primary" onClick={onSubmit}>
+                    Gửi email
+                </Button>
             </Modal>
-            <TemplateTable columnTable={colums} createFunc={createSupport} changeFunc={updateSupport} dataTable={dataSupport} deleteFunc={deleteSupport} handelGetList={handelGetList} dataPage={7}
+            <TemplateTable searchFunc={searchSupport} setData={setDataSupport} columnTable={colums} createFunc={createSupport} changeFunc={updateSupport} dataTable={dataSupport} deleteFunc={deleteSupport} handelGetList={handelGetList} dataPage={7}
                 formEdit={
                     <Fragment>
                         <Form.Item

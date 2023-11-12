@@ -26,7 +26,7 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
         payment_methods: "",
         totalprice: Number,
     })
-    console.log(detailRecord)
+    // console.log(detailRecord)
     const handleShowPopupProduct = (record: any) => {
         setIsShowModal(true)
         setDetailRecord({

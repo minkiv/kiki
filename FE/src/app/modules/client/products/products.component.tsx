@@ -28,7 +28,7 @@ const Products: FunctionComponent<ProductProps> = () => {
 
   }, [keyword])
   useEffect(() => {
-    if (keyword) {
+    if (keyword && keyword !== "") {
       searchProduct(keyword).then(
         (res: any) => { setData(res.data), setDefaultData(res.data), setSearchError("") },
         (err: any) => {
@@ -96,21 +96,21 @@ const Products: FunctionComponent<ProductProps> = () => {
     if (type === 'new') {
       const currentDate: Date = new Date();
 
-const sortedData = [...data].sort((a, b) => {
-  const dateA = new Date(a.createdAt);
-  const dateB = new Date(b.createdAt);
+      const sortedData = [...data].sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
 
-  const timeDifferenceA = currentDate.getTime() - dateA.getTime();
-  const timeDifferenceB = currentDate.getTime() - dateB.getTime();
+        const timeDifferenceA = currentDate.getTime() - dateA.getTime();
+        const timeDifferenceB = currentDate.getTime() - dateB.getTime();
 
-  return timeDifferenceA - timeDifferenceB;
-});
+        return timeDifferenceA - timeDifferenceB;
+      });
 
-setData(sortedData);
+      setData(sortedData);
 
     }
   };
-  
+
   return (
     <div css={cssProduct}>
       <TitleProducts>TẤT CẢ SẢN PHẨM</TitleProducts>

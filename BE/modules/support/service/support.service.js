@@ -24,13 +24,13 @@ export const updateSupports = async (req) => {
     return support
 }
 
-export const deleteSupports = async(req)=>{
+export const deleteSupports = async (req) => {
     const support = await supportModel.findByIdAndDelete(req.params.id)
     return support
 }
 
-export const repSupports = async(req)=> {
-    const {reqbody, id, topic} = req.body
+export const repSupports = async (req) => {
+    const { reqbody, id, topic } = req.body
     const data = await supportModel.findById(id)
     const toemail = data.email;
     const transporter = nodemailer.createTransport({
@@ -42,7 +42,7 @@ export const repSupports = async(req)=> {
             pass: process.env.EMAIL_APP_PASSWORD
         }
     });
-     
+
     const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px;">
         <div>
@@ -61,5 +61,11 @@ export const repSupports = async(req)=> {
         html: emailContent
     });
     return info;
-    
+
+}
+export const searchSupport = async (req, res) => {
+    const { email } = req.query;
+    const searchRegex = new RegExp(email, "i");
+    const support = await supportModel.find({ email: searchRegex })
+    return support
 }
