@@ -160,7 +160,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   return (
     <div css={cssLeftCart}>
       {contextHolder}
-
       <div className='flex'>
         {/* <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' /> */}
         <span className='text-[20px] pb-[15px]'>Tất cả ({carts?.length} sản phẩm)</span>
@@ -198,7 +197,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   onChange={() => handleSelectProductBuy(item)}
                   checked={listProductBuy?.flatMap((items: any) => items?._id)?.includes(item?._id)}
                 />
-                <img src={item?.product?.images[0]} alt='' className='w-[100px]' />
+                <img src={item?.product?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className='w-[100px]' />
 
                 <div className='max-sm:mr-2 max-sm:p-[7px]'>
                   <div className=' max-sm:w-full relative'>
@@ -228,16 +227,16 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                         ref={wrapperRef}
                         className='bg-white w-[max-content] shadow-3xl mt-[-24px] s absolute p-3 rounded-lg z-10'
                       >
-                        <div className='flex'>
+                        <div className='flex gap-[10px]'>
                           <div className='my-2'>
                             <div>
-                              Màu sắc: <span className='font-semibold'></span>
+                              Màu sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
                             </div>
                             <div className='mt-3 sm:flex max-sm:flex items-center'>
                               {getListColor(item, 'cart')?.map((item: any) => (
                                 <div
                                   key={item?.id}
-                                  style={{ backgroundColor: `${item.nameColor}` }}
+                                  style={{ backgroundColor: `${item.colorHex}` }}
                                   className={`p-3 border h-[32px] w-[32px] rounded-md  mr-4 cursor-pointer ${colorSelect?.nameColor === item?.nameColor && 'bg-red-100 border-red-600'
                                     } ${!checkQuantityType
                                       ?.flatMap((itemFlat: any) => itemFlat?.nameColor)
@@ -247,7 +246,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                                     'bg-slate-100 pointer-events-none text-gray-400'
                                     }
                       ${Number(item.quantity) === 0 &&
-                                    checkQuantityType.length === 0 &&
+                                    checkQuantityType?.length === 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
                                     }
                         `}
@@ -268,7 +267,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                                     } ${!checkQuantityType
                                       ?.flatMap((itemType: any) => itemType?.nameSize)
                                       .includes(item?.nameSize) &&
-                                    checkQuantityType.length > 0 &&
+                                    checkQuantityType?.length > 0 &&
                                     'bg-slate-100 pointer-events-none text-gray-400'
                                     }`}
                                   onClick={() => handleSelectSize(item?.id)}

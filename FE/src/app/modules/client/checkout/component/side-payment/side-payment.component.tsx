@@ -113,7 +113,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
               {listProductBuy?.map((item: any, index: any) => (
                 <div className='flex flex-1 justify-between items-center' key={index}>
                   <div>
-                    <img src={item?.product?.images[0]} alt='' className='w-[40px] h-[50px]' />
+                    <img src={item?.product?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className='w-[40px] h-[50px]' />
                   </div>
                   <div className=''>{item?.quantityOrder?.quantity}x</div>
                   <div className='truncate w-[50%]'>{item?.product?.name}</div>
