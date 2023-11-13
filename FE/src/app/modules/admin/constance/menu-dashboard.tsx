@@ -18,62 +18,62 @@ export const menuDashBoard = [
     {
         key: '/admin',
         icon: <SiAdminer />,
-        label: 'DashBoard'
+        label: 'Bảng điều kiển'
     },
     {
         key: '/admin/user',
         icon: <UserOutlined />,
-        label: 'User'
+        label: 'Người dùng'
     },
     {
         key: '/admin/category',
         icon: <FileOutlined />,
-        label: 'Category'
+        label: 'Danh mục'
     },
     {
         key: '/admin/product',
         icon: <OrderedListOutlined />,
-        label: 'Product'
+        label: 'Sản phẩm'
     },
     {
         key: '/admin/comment',
         icon: <CommentOutlined />,
-        label: 'Comment & Review'
+        label: 'Đánh giá'
     },
     {
         key: '/admin/order',
         icon: <ShoppingCartOutlined />,
-        label: 'Order'
+        label: 'Đặt hàng'
     },
     {
         key: '/admin/support',
         icon: <CustomerServiceOutlined />,
-        label: 'Contact'
+        label: 'Liên hệ'
     },
     {
         key: '/admin/vorcher',
         icon: <MoneyCollectOutlined />,
-        label: 'Vocher'
+        label: 'Mã giảm giá'
     },
     {
         key: '/admin/content',
         icon: <FileAddOutlined />,
-        label: 'Content'
+        label: 'Nội dung'
     },
     {
         key: '/admin/statistics',
         icon: <BarChartOutlined />,
-        label: 'Statistical'
+        label: 'Thông kê'
     },
     {
         key: '/admin/paymentvnpay',
         icon: <BankOutlined />,
-        label: 'Payment VNPay'
+        label: 'Thanh toán VNPay'
     },
     {
         key: '/',
         icon: <HomeOutlined />,
-        label: 'home'
+        label: 'Trang chủ'
     },
 
 ]

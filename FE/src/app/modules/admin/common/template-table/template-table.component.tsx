@@ -80,8 +80,22 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     message.error('Đã hủy xoá')
   }
   const handleOk = () => {
-    setIsModelOpen(false)
-    setTriggerLoadding(true)
+
+    if(form.getFieldValue('images')){
+    const dataList = [...form.getFieldValue('images')].map((item:any)=> (
+      {
+        uid: item.uid,
+        name: item.name,
+        status: item.status,
+        url: item.url || item.response,
+        response: item.response || item.url
+      }
+    ));
+    
+    form.setFieldsValue({
+      images: dataList
+    })
+  }
     if (type == 'CREATE') {
       form
         .validateFields()
@@ -89,6 +103,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           createFunc(values).then(
             (res: any) => {
               if (res) {
+                setIsModelOpen(false)
+                setTriggerLoadding(true);
                 setTimeout(() => {
                   setTriggerLoadding(false)
                   message.success('thêm thành công')
@@ -118,6 +134,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           changeFunc(values, defaultValue._id).then(
             (res: any) => {
               if (res) {
+                setIsModelOpen(false)
+                setTriggerLoadding(true);
                 setTimeout(() => {
                   setTriggerLoadding(false)
                   message.success('sửa thành công')
@@ -179,12 +197,12 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const columns: ColumnsType<DataType> = [
     ...columnTable,
     {
-      title: 'Action',
+      title: 'Hành động',
       key: 'action',
       render: (_, record: any) => (
         <Space size='middle' css={cssTemplateTable}>
           <Button type='primary' onClick={() => showModel('CHANGE', record)}>
-            Edit
+            Sửa
           </Button>
           <Popconfirm
             title='Thông báo'
@@ -194,7 +212,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             okText='Yes'
             cancelText='No'
           >
-            <Button className='btn-delete'>Delete</Button>
+            <Button className='btn-delete'>Xóa</Button>
           </Popconfirm>
         </Space>
       )
@@ -266,9 +284,9 @@ const TemplateTable: FC<ITemplateTableProp> = ({
 
         <div className='flex space-x-3 items-center'>
           {isAdminProduct && <SelectInput />}
-          <Input placeholder='search item here' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
+          <Input placeholder='Tìm kiếm . . .' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
           <Button type='primary' className='ml-3' onClick={handleSearchItem} >
-            Search
+            Tìm kiếm
           </Button>
         </div>
       </div>

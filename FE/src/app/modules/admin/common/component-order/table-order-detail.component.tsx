@@ -89,7 +89,7 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             dataIndex: 'payment_methods'
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             key: 'action',
             render: (_, record: any) => (
                 <Space size='middle'>

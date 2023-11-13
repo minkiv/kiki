@@ -23,12 +23,13 @@ const ProductManagemnet = () => {
   }, [reset])
 
   useEffect(() => {
-    const columTemp: any = []
+    const columTemp: any = [];
+    const title = ['','Tên','Mã SP','Giá gốc','Giá mới','Mô tả','Ảnh','Thương hiệu','','Danh mục']
     if (dataProduct.length > 0) {
-      Object?.keys(dataProduct[0]).map((itemKey) => {
+      Object?.keys(dataProduct[0]).map((itemKey,key = 0) => {
         if (!['_id', '__v', 'updatedAt', 'createdAt', 'listQuantityRemain'].includes(itemKey)) {
           return columTemp.push({
-            title: itemKey,
+            title: title[key++],
             dataIndex: itemKey,
             key: itemKey,
             render: (text: any, record: any, index: any) => {
@@ -48,12 +49,13 @@ const ProductManagemnet = () => {
       })
     }
     if (dataProduct[0]?.listQuantityRemain && dataProduct[0]?.listQuantityRemain.length > 0) {
-      const firstItem = dataProduct[0].listQuantityRemain[0]
+      const firstItem = dataProduct[0].listQuantityRemain[0];
+      const title = ['Mã màu','Tên màu','Size','Số lượng']
       if (firstItem) {
-        Object.keys(firstItem).forEach((itemKey) => {
+        Object.keys(firstItem).forEach((itemKey,key = 0) => {
           if (!['_id', 'updatedAt'].includes(itemKey)) {
             columTemp.push({
-              title: `${itemKey}`,
+              title: `${title[key++]}`,
               dataIndex: `${itemKey}`,
               key: `${itemKey}`,
               render: (text: any, record: any, index: any) => {
@@ -94,15 +96,24 @@ const ProductManagemnet = () => {
     try {
       const res = await axios.post(`https://api.cloudinary.com/v1_1/df3xmajf8/image/upload`, fmData, config)
       onSuccess(res.data.url)
-      setFileList((prevFileList: any) => [
-        ...prevFileList,
-        {
-          uid: file.uid,
-          name: file.name,
-          status: res.status,
-          url: res.data.url
-        }
-      ])
+      const customFileImage =  {
+        uid: file.uid,
+        name: file.name,
+        status: res.status,
+        url: res.data.url,
+        response: res.data.url
+      }
+      const updataImage:any[] = [...fileList,customFileImage]
+      setFileList(updataImage)
+      // setFileList((prevFileList: any) => [
+      //   ...prevFileList,
+      //   {
+      //     uid: file.uid,
+      //     name: file.name,
+      //     status: res.status,
+      //     url: res.data.url
+      //   }
+      // ])
     } catch (err) {
       onError({ err })
     }
@@ -138,19 +149,19 @@ const ProductManagemnet = () => {
         handelGetList={handelGetList}
         formEdit={
           <Fragment>
-            <Form.Item label='Tên sản phẩm' name='name' rules={[{ required: true, message: 'Please input name!' }]}>
+            <Form.Item label='Tên sản phẩm' name='name' rules={[{ required: true, message: 'Trường tên là bắt buộc!' }]}>
               <Input />
             </Form.Item>
-            <Form.Item label='Mã sản phẩm' name='code' rules={[{ required: true, message: 'Please input Code!' }]}>
+            <Form.Item label='Mã sản phẩm' name='code' rules={[{ required: true, message: 'Trường mã sản phẩm là bắt buộc!' }]}>
               <Input />
             </Form.Item>
-            <Form.Item label='Giá gốc' name='price' rules={[{ required: true, message: 'Please input price!' }]}>
+            <Form.Item label='Giá gốc' name='price' rules={[{ required: true, message: 'Trường giá gốc là bắt buộc!' }]}>
               <InputNumber />
             </Form.Item>
-            <Form.Item label='Giá mới' name='cost'>
+            <Form.Item label='Giá mới' name='cost' rules={[{ required: true, message: 'Trường giá mới là bắt buộc!' }]}>
               <InputNumber />
             </Form.Item>
-            <Form.Item label='Mô tả' name='description'>
+            <Form.Item label='Mô tả' rules={[{ required: true, message: 'Trường mô tả là bắt buộc!' }]} name='description'>
               <Input.TextArea />
             </Form.Item>
             <Form.Item
@@ -159,21 +170,21 @@ const ProductManagemnet = () => {
               getValueFromEvent={(event) => event.fileList}
               rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}
               valuePropName={'fileList'}
-              initialValue={fileList}
+              // initialValue={fileList}
             >
               <Upload customRequest={customRequestUpload} listType='picture-card' onRemove={onRemove}>
-                {fileList.length < 5 && '+ Upload'}
+                {fileList.length < 6 && '+ Upload'}
               </Upload>
             </Form.Item>
-            <Form.Item label='Thương hiệu' name='brand'>
+            <Form.Item label='Thương hiệu' name='brand' rules={[{ required: true, message: 'Trường thương hiệu là bắt buộc!' }]}>
               <Input />
             </Form.Item>
             <Form.Item
               label='Category'
               name='categoryId'
-              rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}
+              rules={[{ required: true, message: 'Trường danh mục là bắt buộc' }]}
             >
-              <Select placeholder='Please select'>
+              <Select placeholder='Chọn danh mục'>
                 {categories?.map((itemCate: any) => <Option value={itemCate._id}>{itemCate.name}</Option>)}
               </Select>
             </Form.Item>
@@ -198,13 +209,13 @@ const ProductManagemnet = () => {
                         <ColorPicker defaultValue={'fff'} showText={(color) => color.toHexString()} format='hex' />
                       </Form.Item>
                       <Form.Item {...restField} name={[name, 'nameColor']}>
-                        <Input placeholder='Name Color' />
+                        <Input placeholder='Tên màu' />
                       </Form.Item>
                       <Form.Item {...restField} name={[name, 'nameSize']}>
-                        <Input placeholder='nameSize' />
+                        <Input placeholder='Tên size' />
                       </Form.Item>
                       <Form.Item {...restField} name={[name, 'quantity']}>
-                        <InputNumber placeholder='quantity' />
+                        <InputNumber placeholder='Số lượng' />
                       </Form.Item>
                       <CloseOutlined
                         onClick={() => {
