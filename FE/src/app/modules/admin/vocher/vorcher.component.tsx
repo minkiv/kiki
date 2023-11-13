@@ -19,12 +19,13 @@ const CategoryManagement = () => {
     }, [reset])
     useEffect(() => {
         const columTemp: any = [];
+        const title = ['','Tên','Giảm giá','Loại','Mã giảm giá','Ngày bắt đầu','Ngày kết thúc']
         if (dataVorcher.length > 0) {
-            Object.keys(dataVorcher[0]).forEach((itemKey) => {
+            Object.keys(dataVorcher[0]).forEach((itemKey,key= 0) => {
                 if (!['_id', '__v', 'createdAt', 'updatedAt', 'timeRemaining'].includes(itemKey)) {
                     if (itemKey === 'startday' || itemKey === 'endday') {
                         columTemp.push({
-                            title: itemKey,
+                            title: title[key++],
                             dataIndex: itemKey,
                             key: itemKey,
                             render: (text: any) => {
@@ -33,7 +34,7 @@ const CategoryManagement = () => {
                         });
                     } else {
                         columTemp.push({
-                            title: itemKey,
+                            title: title[key++],
                             dataIndex: itemKey,
                             key: itemKey,
                             render: (text: any, record: any, index: any) => {
@@ -48,7 +49,7 @@ const CategoryManagement = () => {
             });
 
             columTemp.push({
-                title: 'Time Remaining',
+                title: 'Thời gian còn lại',
                 dataIndex: 'timeRemaining',
                 key: 'timeRemaining',
                 render: (text: any, record: any) => {
@@ -127,7 +128,7 @@ const CategoryManagement = () => {
                         >
                             <Select>
                                 <Option value="Ngày lễ">Ngày lễ</Option>
-                                <Option value="Giới hạn">Giới hạn</Option>
+                                {/* <Option value="Giới hạn">Giới hạn</Option> */}
                                 <Option value="Mã Giảm giá">Mã Giảm giá</Option>
                             </Select>
                         </Form.Item>

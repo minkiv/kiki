@@ -52,19 +52,20 @@ const SupportAdmin = () => {
     }
     useEffect(() => {
         const columnTemp: any = [];
+        const title = ['','Tên','Số ĐT','Email','Đề tài','Ghi chú']
         if (dataSupport.length > 0) {
-            Object.keys(dataSupport[0]).forEach((itemKey) => {
+            Object.keys(dataSupport[0]).forEach((itemKey,key=0) => {
 
                 if (!['_id', 'updatedAt', 'createdAt', '__v'].includes(itemKey)) {
                     columnTemp.push({
-                        title: itemKey,
+                        title: title[key++],
                         dataIndex: itemKey,
                         key: itemKey,
                     })
                 }
             });
             columnTemp.push({
-                title: "phản hồi",
+                title: "Phản hồi",
                 key: "action",
                 render: (text: any, record: any) => (
                     <Button onClick={() => showModal(record._id, record.topic)} type='primary' >Gửi email cho khách hàng</Button>

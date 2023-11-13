@@ -5,7 +5,7 @@ const PaymentComponennt = () => {
     return (
         <div css={cssPayment}>
             <Link to="https://sandbox.vnpayment.vn/merchantv2/Users/Login.htm">
-                <button>truy cập vnPay</button>
+                <button>Truy cập VNPay</button>
             </Link>
         </div>
 

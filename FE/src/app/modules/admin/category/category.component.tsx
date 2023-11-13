@@ -14,12 +14,13 @@ const CategoryManagement = () => {
         })
     }, [reset])
     useEffect(() => {
-        const columTemp: any = []
+        const columTemp: any = [];
+        const title = ['Ảnh','Danh mục']
         if (dataCategory.length > 0) {
-            Object.keys(dataCategory[0]).forEach((itemKey) => {
+            Object.keys(dataCategory[0]).forEach((itemKey,key=0) => {
                 if (!['_id', '__v'].includes(itemKey)) {
                     columTemp.push({
-                        title: itemKey,
+                        title: title[key++],
                         dataIndex: itemKey,
                         key: itemKey,
                         render: (text: any, record: any, index: any) => {

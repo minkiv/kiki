@@ -246,9 +246,9 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
         />
         <div className='float-right flex space-x-2'>
           <div className='flex space-x-1 items-center'>
-            <Input placeholder='search item here' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
+            <Input placeholder='Tìm kiếm . . .' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
             <Button type='primary' className='ml-3' onClick={handleSearchItem} >
-              Search
+              Tìm kiếm
             </Button>
           </div>
           <Button

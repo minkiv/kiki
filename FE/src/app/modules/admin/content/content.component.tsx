@@ -16,11 +16,12 @@ const ContentManagement = () => {
   }, [reset]);
   useEffect(() => {
     const columTemp: any = []
+    const title = ['','Nội dung','Trạng thái hiển thị']
     if (dataContent.length > 0) {
-      Object.keys(dataContent[0]).forEach((itemKey) => {
+      Object.keys(dataContent[0]).forEach((itemKey,key = 0) => {
         if (!['_id', '__v', 'updatedAt', 'createdAt'].includes(itemKey)) {
           columTemp.push({
-            title: itemKey,
+            title: title[key++],
             dataIndex: itemKey,
             key: itemKey,
           });
