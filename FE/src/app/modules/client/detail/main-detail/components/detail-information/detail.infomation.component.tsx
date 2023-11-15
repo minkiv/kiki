@@ -15,6 +15,7 @@ import { TiTick } from 'react-icons/ti'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import { getAllComment } from '~/app/api/comment/comment.api'
+import ButtonComponent from '~/app/component/parts/button/Button.componet'
 interface DetailInformation {
 }
 
@@ -301,10 +302,10 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
             <ButtonSqua outline className='btn' onClick={handelAddProductToCart}>
               THÊM VÀO GIỎ
             </ButtonSqua>
-            <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua>
-            <ButtonSqua className='btn'>
-              <AiOutlineHeart />
-            </ButtonSqua>
+            {/* <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua> */}
+            <ButtonComponent outlineNew className='btn'>
+              <AiOutlineHeart className='text-[25px] text-white' />
+            </ButtonComponent>
           </div>
           <div className='mt-[80px]'>
             <div className='tab-header flex space-x-8 '>
@@ -373,7 +374,7 @@ const cssInfomation = css`
     justify-content: center;
     align-items: center;
     border-radius: 16px 0;
-    padding: 15px;
+    padding: 15px 50px 15px 50px;
     text-transform: uppercase;
     font-weight: 600;
     font-size: 16px;

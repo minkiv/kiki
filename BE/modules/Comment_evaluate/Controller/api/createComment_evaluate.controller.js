@@ -11,6 +11,7 @@ const createComment_avaluate = catchAsync(async (req, res) => {
         comment: req.body.comment,
         star: req.body.star
     }
+    console.log(bodyData)
     const userHasPurchased = await Order.findOne({
         user: bodyData.userId,
         orderStatus: "hoàn thành",
