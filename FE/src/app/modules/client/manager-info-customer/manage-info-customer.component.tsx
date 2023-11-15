@@ -66,19 +66,19 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
     ]
     const [getUser, setGetUser] = useState<any[]>([]);
 
-useEffect(() => {
-  getAllUser()
-    .then((res) => {
-      setGetUser(res.data);
-    })
-}, []);
+    useEffect(() => {
+        getAllUser()
+            .then((res) => {
+                setGetUser(res.data);
+            })
+    }, []);
     const [stateUpdatePassword, setstateUpdatePassword] = useState(false)
     const id = localStorage.getItem("userID")
     const { handleSubmit, control, formState: { errors } } = useForm({
         mode: 'onChange',
         resolver: yupResolver(validateManageInfo),
         defaultValues: async () => {
-            const userData = (await getOneUserSystem(id)).data;         
+            const userData = (await getOneUserSystem(id)).data;
             const filteredData: any = {};
             arrayField.forEach((key: any) => {
                 if (userData.hasOwnProperty(key?.field)) {
@@ -90,11 +90,11 @@ useEffect(() => {
     });
     const onSubmit = (data: any) => {
         const idUser = localStorage.getItem("userID")
-        updatUser(idUser, data).then((res:any)=>{
-            if(res){
+        updatUser(idUser, data).then((res: any) => {
+            if (res) {
                 toast.success("Cập nhật thông tin thành công!")
             }
-        }, (err)=> {
+        }, (err) => {
             toast.error("Cập nhật lỗi")
         })
     }
@@ -122,7 +122,7 @@ useEffect(() => {
                                             arrayField.map((item: any) => {
                                                 if (item.hidden) {
                                                     return null;
-                                                  }
+                                                }
                                                 return <div className='flex items-center h-[48px]' key={item.field}>
                                                     <div className='w-[170px] text-[#3e3e3f] text-[14px] leading-[16px]'>
                                                         {item.title}:
@@ -133,6 +133,12 @@ useEffect(() => {
                                                             name={item.field}
                                                             render={({ field: { onChange, value, ref }, fieldState: { error } }) => {
                                                                 if (item.field == 'birthday') {
+                                                                    const dateString = value;
+                                                                    const dateObject = new Date(dateString);
+                                                                    const year = dateObject.getFullYear();
+                                                                    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+                                                                    const day = dateObject.getDate();
+                                                                    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
                                                                     return (
                                                                         <div>
                                                                             <InputComponent
@@ -140,7 +146,7 @@ useEffect(() => {
                                                                                 type="date"
                                                                                 placeholder={item?.title}
                                                                                 onChange={onChange}
-                                                                                value={value}
+                                                                                value={formattedDate}
                                                                                 ref={ref}
                                                                                 hasErorr={error}
                                                                                 key={item.title}

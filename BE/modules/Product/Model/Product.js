@@ -25,8 +25,11 @@ const productSchema = new mongoose.Schema(
             },
         ],
         categoryId: {
-            type: mongoose.Types.ObjectId,
-            ref: 'Category',
+            _id: {
+                type: mongoose.Types.ObjectId,
+                ref: 'Category',
+            },
+            name: String
         },
     },
     {

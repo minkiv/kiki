@@ -5,6 +5,8 @@ export const getOneproduct = async (req) => {
 }
 export const getAllProduct = async () => {
     const product = await Product.find()
+        .populate("categoryId")
+
     return product
 }
 export const deleteProduct = async (req) => {
