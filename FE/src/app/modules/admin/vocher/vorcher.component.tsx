@@ -19,9 +19,9 @@ const CategoryManagement = () => {
     }, [reset])
     useEffect(() => {
         const columTemp: any = [];
-        const title = ['','Tên','Giảm giá','Loại','Mã giảm giá','Ngày bắt đầu','Ngày kết thúc']
+        const title = ['', 'Tên', 'Giảm giá', 'Loại', 'Mã giảm giá', 'Ngày bắt đầu', 'Ngày kết thúc']
         if (dataVorcher.length > 0) {
-            Object.keys(dataVorcher[0]).forEach((itemKey,key= 0) => {
+            Object.keys(dataVorcher[0]).forEach((itemKey, key = 0) => {
                 if (!['_id', '__v', 'createdAt', 'updatedAt', 'timeRemaining'].includes(itemKey)) {
                     if (itemKey === 'startday' || itemKey === 'endday') {
                         columTemp.push({
@@ -60,11 +60,12 @@ const CategoryManagement = () => {
 
                         if (now.isBefore(endTime)) {
                             const remainingTime = moment.duration(endTime - now);
+                            const daysRemaining = remainingTime.days();
                             const hoursRemaining = remainingTime.hours();
                             const minutesRemaining = remainingTime.minutes();
                             const secondsRemaining = remainingTime.seconds();
 
-                            return `${hoursRemaining} giờ ${minutesRemaining} phút ${secondsRemaining} giây còn lại`;
+                            return `${daysRemaining} ngày ${hoursRemaining} giờ ${minutesRemaining} phút ${secondsRemaining} giây còn lại`;
                         } else {
                             return 'Hết hạn';
                         }
@@ -133,7 +134,7 @@ const CategoryManagement = () => {
                             </Select>
                         </Form.Item>
                         <Form.Item
-                            label='Giảm giá'
+                            label='Số tiền giảm giá'
                             name='discount'
                             rules={[{ required: true, message: 'Vui lòng nhập Giảm giá!' }]}
                         >

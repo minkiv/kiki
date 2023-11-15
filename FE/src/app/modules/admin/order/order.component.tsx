@@ -25,7 +25,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
   const [availableColors, setAvailableColors] = useState<any>([]);
   const [availableSizes, setAvailableSizes] = useState<any>([]);
   const [listProduct, setListProduct] = useState<any>([]);
-  const [productTotalPrices, setProductTotalPrices] = useState([]);
+  const [productTotalPrices, setProductTotalPrices] = useState<any[]>([]);
   const [dataOrder, setDataOrder] = useState<any>([])
   const [grandTotal, setGrandTotal] = useState(0);
   const [reset, setReset] = useState<boolean>(true)
@@ -99,11 +99,13 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
 
   const handleOk = () => {
 
-    setIsModalOpen(false);
+
     form.validateFields().then((values: any) => {
       createOrder({ ...values, totalprice: grandTotal }).then((res) => {
+        setIsModalOpen(true);
         if (res) {
           setReset(!reset)
+          setIsModalOpen(false);
           toast.success("order thành công")
         }
       }, (err) => {
@@ -416,7 +418,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                                 label='Giá sản phẩm'
                                 name='totalprice'
                               >
-                                {productTotalPrices[index]}
+                                {productTotalPrices[index]?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
                               </Form.Item>
                             )}
                             {fields.length > 1 && (

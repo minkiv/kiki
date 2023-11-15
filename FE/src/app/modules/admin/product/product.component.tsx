@@ -24,9 +24,9 @@ const ProductManagemnet = () => {
 
   useEffect(() => {
     const columTemp: any = [];
-    const title = ['','Tên','Mã SP','Giá gốc','Giá mới','Mô tả','Ảnh','Thương hiệu','','Danh mục']
+    const title = ['Danh mục', '', 'Tên', 'Mã SP', 'Giá gốc', 'Giá mới', 'Mô tả', 'Ảnh', 'Thương hiệu', '']
     if (dataProduct.length > 0) {
-      Object?.keys(dataProduct[0]).map((itemKey,key = 0) => {
+      Object?.keys(dataProduct[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'updatedAt', 'createdAt', 'listQuantityRemain'].includes(itemKey)) {
           return columTemp.push({
             title: title[key++],
@@ -34,13 +34,19 @@ const ProductManagemnet = () => {
             key: itemKey,
             render: (text: any, record: any, index: any) => {
               if (itemKey === 'images') {
-                return <img src={dataProduct[index]?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='Product Image' style={{ maxWidth: '50px' }} />
+                return <img src={dataProduct[index]?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='Product Image' style={{ maxWidth: '50px' }} />
               }
               if (itemKey === 'price') {
                 return <div>{record?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
               }
               if (itemKey === 'cost') {
                 return <div>{record?.cost?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+              }
+              if (itemKey === 'description') {
+                return <div className='truncate w-[100px]'>{record?.description}</div>
+              }
+              if (itemKey == 'categoryId') {
+                return <div>{record?.categoryId?.name}</div>
               }
               return text
             }
@@ -50,9 +56,9 @@ const ProductManagemnet = () => {
     }
     if (dataProduct[0]?.listQuantityRemain && dataProduct[0]?.listQuantityRemain.length > 0) {
       const firstItem = dataProduct[0].listQuantityRemain[0];
-      const title = ['Mã màu','Tên màu','Size','Số lượng']
+      const title = ['Mã màu', 'Tên màu', 'Size', 'Số lượng']
       if (firstItem) {
-        Object.keys(firstItem).forEach((itemKey,key = 0) => {
+        Object.keys(firstItem).forEach((itemKey, key = 0) => {
           if (!['_id', 'updatedAt'].includes(itemKey)) {
             columTemp.push({
               title: `${title[key++]}`,
@@ -62,8 +68,8 @@ const ProductManagemnet = () => {
                 return (
                   <div>
                     {dataProduct[index]?.listQuantityRemain?.map((item: any, index: any) => (
-                      <div className='flex items-center h-[29px]'>
-                        <p className='mt-0 mb-3'>{item[itemKey]}</p>
+                      <div className='flex items-center h-[29px] w-[80px]'>
+                        <p className='mt-0 mb-3 truncate'>{item[itemKey]}</p>
                       </div>
                     ))}
                   </div>
@@ -96,14 +102,14 @@ const ProductManagemnet = () => {
     try {
       const res = await axios.post(`https://api.cloudinary.com/v1_1/df3xmajf8/image/upload`, fmData, config)
       onSuccess(res.data.url)
-      const customFileImage =  {
+      const customFileImage = {
         uid: file.uid,
         name: file.name,
         status: res.status,
         url: res.data.url,
         response: res.data.url
       }
-      const updataImage:any[] = [...fileList,customFileImage]
+      const updataImage: any[] = [...fileList, customFileImage]
       setFileList(updataImage)
       // setFileList((prevFileList: any) => [
       //   ...prevFileList,
@@ -156,10 +162,10 @@ const ProductManagemnet = () => {
               <Input />
             </Form.Item>
             <Form.Item label='Giá gốc' name='price' rules={[{ required: true, message: 'Trường giá gốc là bắt buộc!' }]}>
-              <InputNumber />
+              <InputNumber min={1} />
             </Form.Item>
             <Form.Item label='Giá mới' name='cost' rules={[{ required: true, message: 'Trường giá mới là bắt buộc!' }]}>
-              <InputNumber />
+              <InputNumber min={1} />
             </Form.Item>
             <Form.Item label='Mô tả' rules={[{ required: true, message: 'Trường mô tả là bắt buộc!' }]} name='description'>
               <Input.TextArea />
@@ -170,7 +176,7 @@ const ProductManagemnet = () => {
               getValueFromEvent={(event) => event.fileList}
               rules={[{ required: true, message: 'Đây là trường bắt buộc' }]}
               valuePropName={'fileList'}
-              // initialValue={fileList}
+            // initialValue={fileList}
             >
               <Upload customRequest={customRequestUpload} listType='picture-card' onRemove={onRemove}>
                 {fileList.length < 6 && '+ Upload'}
@@ -183,10 +189,16 @@ const ProductManagemnet = () => {
               label='Category'
               name='categoryId'
               rules={[{ required: true, message: 'Trường danh mục là bắt buộc' }]}
+              getValueFromEvent={(event, select) => ({ name: select?.children, _id: select?.value })}
+              getValueProps={(value) => ({ label: value?.name, value: value?._id })}
             >
-              <Select placeholder='Chọn danh mục'>
-                {categories?.map((itemCate: any) => <Option value={itemCate._id}>{itemCate.name}</Option>)}
+              <Select placeholder="lựa chọn tài khoản">
+                {categories.map((item: any) => (
+                  <Option value={item._id} key={item._id}>{item.name}</Option>
+                ))}
+
               </Select>
+
             </Form.Item>
             <Form.List
               name='listQuantityRemain'
@@ -208,14 +220,14 @@ const ProductManagemnet = () => {
                       <Form.Item className='colorFormItem' {...restField} name={[name, 'colorHex']}>
                         <ColorPicker defaultValue={'fff'} showText={(color) => color.toHexString()} format='hex' />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'nameColor']}>
+                      <Form.Item {...restField} name={[name, 'nameColor']} rules={[{ required: true, message: 'Trường mô tả là bắt buộc!' }]}>
                         <Input placeholder='Tên màu' />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'nameSize']}>
+                      <Form.Item {...restField} name={[name, 'nameSize']} rules={[{ required: true, message: 'Trường mô tả là bắt buộc!' }]}>
                         <Input placeholder='Tên size' />
                       </Form.Item>
-                      <Form.Item {...restField} name={[name, 'quantity']}>
-                        <InputNumber placeholder='Số lượng' />
+                      <Form.Item {...restField} name={[name, 'quantity']} rules={[{ required: true, message: 'Trường mô tả là bắt buộc!' }]}>
+                        <InputNumber placeholder='Số lượng' min={1} />
                       </Form.Item>
                       <CloseOutlined
                         onClick={() => {

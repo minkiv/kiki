@@ -15,9 +15,9 @@ const UserManagemnet = () => {
 
   useEffect(() => {
     const columTemp: any = []
-    const title = ['','Họ tên','Biệt danh','Email','Ngày sinh','Số ĐT','Giới tính','Địa chỉ','Vai trò']
+    const title = ['', 'Họ tên', 'Biệt danh', 'Email', 'Ngày sinh', 'Số ĐT', 'Giới tính', 'Địa chỉ', 'Vai trò']
     if (dataUser.length > 0) {
-      Object?.keys(dataUser[0]).map((itemKey,key=0) => {
+      Object?.keys(dataUser[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'password', 'updatedAt', 'createdAt', 'nationality'].includes(itemKey)) {
           return columTemp.push({
             title: title[key++],
@@ -39,14 +39,14 @@ const UserManagemnet = () => {
       <TemplateTable searchFunc={searchUser} setData={setDataUser} dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
         formEdit={
           <Fragment>
-            <Form.Item label='Email' name='email' rules={ [
-            {
+            <Form.Item label='Email' name='email' rules={[
+              {
                 required: true,
-                pattern: new RegExp("/\S+@\S+\.\S+/"),
+                pattern: new RegExp(/\S+@\S+\.\S+/),
                 message:
-                    'Vui lòng nhập email hợp lệ!',
-            },
-        ]} >
+                  'Vui lòng nhập email hợp lệ!',
+              },
+            ]} >
               <Input />
             </Form.Item>
             <Form.Item label='Vai trò' name='role' rules={[{ required: true, message: 'Vui lòng chọn Vai trò!' }]}>
