@@ -20,7 +20,7 @@ const comment_evaluateSchema = mongoose.Schema({
     star: {
         type: String,
         default: '5',
-        enum: ['1','2','3','4','5'],
+        enum: ['0','1','2','3','4','5'],
     },
 },
     {

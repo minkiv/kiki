@@ -14,7 +14,7 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
     const {
         data: { product: productDetail }
     } = useProductRedux()
-
+    const image = productDetail?.images?.map((item: any) => item?.url) || [];
     let { id } = useParams()
     const [commentText, setCommentText] = useState('')
     const { actions } = useCommentRedux()
@@ -78,7 +78,7 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
                             <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1200} bodyStyle={{ height: 500 }} footer={null}>
                                 <div className='flex my-5'>
                                     <div>
-                                        <img src={productDetail.images} alt="" className='h-[445px] w-[395px]' />
+                                        <img src={image[0]}  alt="" className='h-[445px] w-[395px]' />
                                     </div>
                                     <div className='px-4 w-full'>
                                         <h1 className='text-[22px] font-semibold'>{productDetail?.name}</h1>
@@ -101,10 +101,10 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
 
                                         <div className='flex items-center mt-6 float-right'>
                                             <div>
-                                                <ButtonSqua onClick={handelSubmitComment} children={"Submit"} className="rounded-tl-2xl rounded-br-2xl w-[100px]" />
+                                                <ButtonSqua onClick={handelSubmitComment} children={"Submit"} className="rounded-tl-2xl rounded-br-2xl w-[100px] py-3" />
                                             </div>
                                             <div>
-                                                <ButtonComponent onClick={handleCancel} children={"Cancel"} className="w-[100px]" />
+                                                <ButtonComponent outlineNew onClick={handleCancel} children={"Cancel"} className="rounded-tl-2xl rounded-br-2xl mx-3 w-[100px] py-3" />
                                             </div>
                                         </div>
                                     </div>

@@ -169,7 +169,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                 className="text-[18px] font-semibold text-[#3e3e3f]"
 
               >
-                <button onClick={() => setstateAddVorcher(true)}>Mã của tôi</button>
+                <button type="reset" onClick={() => setstateAddVorcher(true)}>Mã của tôi</button>
               </div>
             </div>
           </div>
@@ -195,7 +195,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                           <td className="py-2 px-4">{item?.code}</td>
                           <td className="py-2 px-4">{item?.discount}</td>
                           <td className="py-2 px-4">
-                            <button onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button type='reset' onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                               Áp dụng
                             </button>
                           </td>
@@ -221,7 +221,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                 localStorage.setItem('voucherCode', e.target.value)
               }}
             />
-            <ButtonSqua children='Áp dụng' className='btnSqua' onClick={handleApplyVoucher} />
+            <ButtonSqua children='Áp dụng' className='btnSqua' onClick={()=>handleApplyVoucher(valueVorcher)} />
           </div>
 
         </div>
@@ -249,7 +249,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                             <td className="py-2 px-4">{item?.code}</td>
                             <td className="py-2 px-4">{item?.discount}</td>
                             <td className="py-2 px-4">
-                              <button onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                              <button type='reset' onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Áp dụng
                               </button>
                             </td>
@@ -272,7 +272,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                     <span className="mx-[20px] w-[2px] h-[24px] bg-[#939598]"></span>
                     <div>
                       <div className="text-[18px] font-semibold text-[#3e3e3f]">
-                        <button onClick={() => setstateAddVorcherHoliday(true)}>Mã của tôi</button>
+                        <button type="reset" onClick={() => setstateAddVorcherHoliday(true)}>Mã của tôi</button>
                       </div>
                     </div>
                   </div>
@@ -287,7 +287,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                         localStorage.setItem('voucherCode', e.target.value)
                       }}
                     />
-                    <ButtonSqua children='Áp dụng' className='btnSqua' onClick={handleApplyVoucher} />
+                    <ButtonSqua children='Áp dụng' className='btnSqua' onClick={()=>handleApplyVoucher(valueVorcher)} />
                   </div>
                 </div>
               )}

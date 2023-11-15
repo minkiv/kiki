@@ -212,7 +212,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
             if (item.hidden === "Hiển thị") {
               return (
                 <p style={{ padding: "0px 300px" }} key={item._id} className='text-[20px] text-black italic flex' >
-                  <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
+                  <img className='w-auto h-[30px] px-3' src="https://thuannam.ninhthuan.gov.vn/chinhquyen/thuannam/Pictures/iconloathongbao59983935.gif" alt="Logo" />
                   {item.content}
                 </p>
               );
