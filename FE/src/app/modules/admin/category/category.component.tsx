@@ -2,7 +2,7 @@ import { Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import { changeCategory, createCategory, deleteCategory, getAllCategory, searchCategory } from "./service/category.service"
 import TemplateTable from '../common/template-table/template-table.component';
-
+import dayjs from 'dayjs';
 
 const CategoryManagement = () => {
     const [column, setColumn] = useState([])
@@ -11,28 +11,31 @@ const CategoryManagement = () => {
     useEffect(() => {
         getAllCategory().then((res) => {
             setDataCategory(res.data)
+
         })
     }, [reset])
     useEffect(() => {
         const columTemp: any = [];
-        const title = ['Ảnh','Danh mục']
+        const title = ['', 'Danh mục', 'Ngày tạo', 'Ngày cập nhật']
         if (dataCategory.length > 0) {
-            Object.keys(dataCategory[0]).forEach((itemKey,key=0) => {
+            Object.keys(dataCategory[0]).forEach((itemKey, key = 0) => {
                 if (!['_id', '__v'].includes(itemKey)) {
                     columTemp.push({
                         title: title[key++],
                         dataIndex: itemKey,
                         key: itemKey,
                         render: (text: any, record: any, index: any) => {
-                            if (itemKey === 'image' && dataCategory[index]?.image && dataCategory[index].image.length > 0) {
+                            if (itemKey === 'updatedAt') {
                                 return (
-                                    <img
-                                        src={dataCategory[index].image}
-                                        alt="Category Image"
-                                        style={{ maxWidth: '50px' }}
-                                    />
+                                    <div>{dayjs(record?.updatedAt).format('MM-DD-YYYY')}</div>
                                 );
                             }
+                            if (itemKey === 'createdAt') {
+                                return (
+                                    <div>{dayjs(record?.updatedAt).format('MM-DD-YYYY')}</div>
+                                );
+                            }
+
                             return text;
                         },
                     });

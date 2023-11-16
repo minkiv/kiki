@@ -2,19 +2,28 @@ import { Form, Input, DatePicker, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component';
 import { changeVorcher, createVorcher, deleteVorcher, getAllVorcher, searchVoucher } from './service/vorcher.service';
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import 'dayjs/locale/vi';
+dayjs.locale('vi');
+dayjs.extend(duration);
 const { Option } = Select
 
 const CategoryManagement = () => {
     const [column, setColumn] = useState([])
     const [reset, setReset] = useState<boolean>(true)
     const [dataVorcher, setDataVorcher] = useState<any>([])
-    const convertToVietnamTime = (utcTime: any) => {
-        return moment(utcTime).tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss');
-    };
+    // const convertToVietnamTime = (utcTime: any) => {
+    //     return moment(utcTime).tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss');
+    // };
     useEffect(() => {
         getAllVorcher().then((res) => {
-            setDataVorcher(res.data)
+            setDataVorcher(res.data.map((item: any) => {
+                item.startday = dayjs(item.startday).locale('vi')
+                item.endday = dayjs(item.endday).locale('vi')
+                return item
+            }))
+
         })
     }, [reset])
     useEffect(() => {
@@ -29,7 +38,12 @@ const CategoryManagement = () => {
                             dataIndex: itemKey,
                             key: itemKey,
                             render: (text: any) => {
-                                return convertToVietnamTime(text);
+                                const endday = dayjs(text); // Giả sử M2 là đối tượng thời gian
+
+                                const dayOfMonth = endday.date();
+                                const month = endday.month() + 1; // Lưu ý: Tháng trong `dayjs` là từ 0 đến 11
+                                const year = endday.year();
+                                return `${dayOfMonth}/ ${month}/${year}`;
                             },
                         });
                     } else {
@@ -54,12 +68,14 @@ const CategoryManagement = () => {
                 key: 'timeRemaining',
                 render: (text: any, record: any) => {
                     if (record.startday && record.endday) {
-                        const startTime = moment(record.startday);
-                        const endTime: any = moment(record.endday);
-                        const now: any = moment();
+                        // console.log(record.startday, record.endday);
+
+                        const startTime = dayjs(record.startday);
+                        const endTime: any = dayjs(record.endday);
+                        const now: any = dayjs();
 
                         if (now.isBefore(endTime)) {
-                            const remainingTime = moment.duration(endTime - now);
+                            const remainingTime = dayjs.duration(endTime.diff(now));
                             const daysRemaining = remainingTime.days();
                             const hoursRemaining = remainingTime.hours();
                             const minutesRemaining = remainingTime.minutes();
@@ -67,6 +83,8 @@ const CategoryManagement = () => {
 
                             return `${daysRemaining} ngày ${hoursRemaining} giờ ${minutesRemaining} phút ${secondsRemaining} giây còn lại`;
                         } else {
+                            // console.log(record.startday, record.endday);
+
                             return 'Hết hạn';
                         }
                     }
@@ -80,10 +98,10 @@ const CategoryManagement = () => {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            const now: any = moment();
+            const now: any = dayjs();
             const updatedDataVorcher = dataVorcher.map((voucher: any) => {
                 if (now.isBefore(voucher.endday)) {
-                    const remainingTime = moment.duration(voucher.endday - now);
+                    const remainingTime = dayjs?.duration(voucher.endday.diff(now));
                     const hoursRemaining = remainingTime.hours();
                     const minutesRemaining = remainingTime.minutes();
                     const secondsRemaining = remainingTime.seconds();
@@ -112,7 +130,16 @@ const CategoryManagement = () => {
     }
     return (
         <div>
-            <TemplateTable searchFunc={searchVoucher} setData={setDataVorcher} dataTable={dataVorcher} changeFunc={changeVorcher} columnTable={column} handelGetList={handelGetList} createFunc={createVorcher} deleteFunc={deleteVorcher}
+            <TemplateTable
+                searchFunc={searchVoucher}
+                setData={setDataVorcher}
+                dataTable={dataVorcher}
+
+                changeFunc={changeVorcher}
+                columnTable={column}
+                handelGetList={handelGetList}
+                createFunc={createVorcher}
+                deleteFunc={deleteVorcher}
                 formEdit={
                     <Fragment>
                         <Form.Item
@@ -152,7 +179,7 @@ const CategoryManagement = () => {
                             name='startday'
                             rules={[{ required: true, message: 'Vui lòng chọn Ngày bắt đầu!' }]}
                         >
-                            <DatePicker format="YYYY-MM-DD" />
+                            <DatePicker />
                         </Form.Item>
 
                         <Form.Item
@@ -160,7 +187,7 @@ const CategoryManagement = () => {
                             name='endday'
                             rules={[{ required: true, message: 'Vui lòng chọn Ngày kết thúc!' }]}
                         >
-                            <DatePicker format="YYYY-MM-DD" />
+                            <DatePicker />
                         </Form.Item>
 
                     </Fragment>
