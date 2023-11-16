@@ -2,6 +2,7 @@ import { DatePicker, Form, Input, Select } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from "../common/template-table/template-table.component"
 import { changeUser, createUser, deleteUser, getAllUser, searchUser } from "./service/user.service"
+import dayjs from 'dayjs'
 
 const UserManagemnet = () => {
   const [column, setColumn] = useState([])
@@ -15,14 +16,20 @@ const UserManagemnet = () => {
 
   useEffect(() => {
     const columTemp: any = []
-    const title = ['', 'Họ tên', 'Biệt danh', 'Email', 'Ngày sinh', 'Số ĐT', 'Giới tính', 'Địa chỉ', 'Vai trò']
+    const title = ['', 'Email', 'Số điện thoại', '', 'Giới tính', 'Vai trò', '', '', '', 'Địa chỉ', 'Họ Tên', 'Nick name', 'Ngày sinh']
     if (dataUser.length > 0) {
       Object?.keys(dataUser[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'password', 'updatedAt', 'createdAt', 'nationality'].includes(itemKey)) {
           return columTemp.push({
             title: title[key++],
             dataIndex: itemKey,
-            key: itemKey
+            key: itemKey,
+            render: (text: any, record: any, index: any) => {
+              if (itemKey === 'birthday') {
+                return <div>{dayjs(record?.birthday).format('MM-DD-YYYY')}</div>
+              }
+              return text
+            }
           })
         }
       }

@@ -28,7 +28,7 @@ const Products: FunctionComponent<ProductProps> = () => {
 
   }, [keyword])
   useEffect(() => {
-    if (keyword && keyword !== "") {
+    if (keyword || keyword == "") {
       searchProduct(keyword).then(
         (res: any) => { setData(res.data), setDefaultData(res.data), setSearchError("") },
         (err: any) => {
@@ -40,12 +40,12 @@ const Products: FunctionComponent<ProductProps> = () => {
   }, [keyword])
   const handleDataUpdate = (id: any) => {
     if (!keyword) {
-      const listPro = products.filter((pro: any) => pro.categoryId === id)
+      const listPro = products.filter((pro: any) => pro.categoryId._id === id)
       setData(listPro)
       if (id === 'all') setData(products)
     }
     else {
-      const listPro = defaultData.filter((pro: any) => pro.categoryId === id)
+      const listPro = defaultData.filter((pro: any) => pro.categoryId._id === id)
       setData(listPro)
       if (id === 'all') setData(defaultData)
     }

@@ -13,7 +13,11 @@ const Detail: FunctionComponent<DetailProps> = () => {
   const { id } = useParams()
   useEffect(() => {
     actions.getOneProduct(id)
-  }, [])
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [id])
   return (
     <div css={cssDetail}>
       <MainDetail />

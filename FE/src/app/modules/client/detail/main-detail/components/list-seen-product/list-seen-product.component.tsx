@@ -4,6 +4,7 @@ import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component
 import { SwiperSlide } from 'swiper/react'
 import SwiperListFiveProduct from '~/app/component/stack/swiper-list/swiperList-fiveProduct.component'
 import { useProductRedux } from '~/app/modules/client/redux/hook/useProductReducer'
+import { Link } from 'react-router-dom'
 
 interface ListSeenProduct {
     props?: any
@@ -21,7 +22,9 @@ const ListSeenProduct: FunctionComponent<ListSeenProduct> = () => {
                 <SwiperListFiveProduct css={cssSlide}>
                     {products?.map((item: any) => (
                         <SwiperSlide key={item._id}>
-                            <ItemProduct className='product' itemProduct={item} />
+                            <Link to={`/detail/${item._id}`}>
+                                <ItemProduct className='product' itemProduct={item} />
+                            </Link>
                         </SwiperSlide>
                     ))}
                 </SwiperListFiveProduct>
