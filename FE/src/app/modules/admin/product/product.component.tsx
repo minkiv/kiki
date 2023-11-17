@@ -151,7 +151,16 @@ const ProductManagemnet = () => {
           })
         }
         deleteFunc={deleteProduct}
-        changeFunc={editProduct}
+        changeFunc={(form: any,dataId:any) =>
+          editProduct({
+            ...form,
+            listQuantityRemain: [
+              ...form.listQuantityRemain.map((list: { colorHex: any }) => ({
+                ...list,
+                colorHex: typeof(list.colorHex)=='string' ?list.colorHex:list.colorHex.toHexString()
+              }))
+            ]
+          },dataId)}
         handelGetList={handelGetList}
         formEdit={
           <Fragment>
