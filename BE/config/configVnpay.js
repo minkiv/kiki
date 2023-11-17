@@ -7,5 +7,4 @@ const configs = {
         url: process.env.VNPAY_URL,
     },
 }
-console.log(configs)
 export default configs
