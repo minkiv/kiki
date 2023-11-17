@@ -86,11 +86,45 @@ export const statisticsMonneys = async (bodyRequest) => {
         {
             $match: {
                 $and: [
-                    { "createdAt": { $gte: startDateConvert, $lte: endDateConvert } }
+                    { "createdAt": { $gte: startDateConvert, $lte: endDateConvert } },
                 ]
+            }
+        },
+        {
+            $unwind: "$productOrder"
+        },
+        {
+            $lookup: {
+                from: "products",
+                localField: "productOrder.product",
+                foreignField: "_id",
+                as: "productInfo"
+            }
+        },
+        {
+            $unwind: "$productInfo"
+        },
+        {
+            $set: {
+                "productOrder.product": "$productInfo"
+            }
+        },
+        {
+            $group: {
+                _id: "$_id",
+                productOrder: { $push: "$productOrder" },
+                createdAt: { $first: "$createdAt" },
+                updatedAt: { $first: "$updatedAt" },
+                __v: { $first: "$__v" }
             }
         }
     ])
+    const totalQuantity = orders.reduce((total, order) => {
+        const orderTotal = order.productOrder.reduce((orderTotal, product) => {
+            return orderTotal + product.quantityOrder.quantity * product.product.price;
+        }, 0);
 
-    return { listOrderChart, orders }
+        return total + orderTotal;
+    }, 0);
+    return { listOrderChart, orders, totalQuantity }
 }

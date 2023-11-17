@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Select, Button, DatePicker, Row, Col } from 'antd';
-import { Bar, Line, Pie } from '@ant-design/plots';
-import { getAllOrder, getAllOrderByStatus } from './service/statistics.service';
+import { Line, Pie } from '@ant-design/plots';
+import { getAllOrder, getAllOrderByStatus, getAllStatistics } from './service/statistics.service';
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component';
 import moment from 'moment';
-import { FaMoneyCheckAlt } from 'react-icons/fa';
+import { FaMoneyCheckAlt } from "react-icons/fa"
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const Statistical = () => {
     const [dataChart, setDataChart] = useState<any>([]);
+    const [dataResponse, setDataResponse] = useState<any>({})
     const [dataRequest, setDataRequest] = useState({
         startDate: '',
         endDate: '',
@@ -88,9 +89,10 @@ const Statistical = () => {
         });
     }, []);
     const handleStatistical = async () => {
+
         setDataChart([]);
         const res = await getAllOrderByStatus(dataRequest);
-
+        setDataResponse(res.data)
         if (res.data) {
             const orderChartData = res.data.listOrderChart;
             const orderData = res.data.orders;
@@ -285,13 +287,13 @@ const Statistical = () => {
 
     return (
         <LayoutLoading condition={dataChart.length === 0}>
-            {/* <div className='bg-blue-500 rounded-lg p-6 mb-8 block w-[300px] h-44'>
+            <div className='bg-blue-500 rounded-lg p-6 mb-8 block w-[300px] h-44'>
                 <div className='flex'>
                     <div className='text-4xl text-white font-semibold'>Doanh Thu</div>
                     <div className='pl-40'><FaMoneyCheckAlt className='text-5xl text-white' /></div>
                 </div>
-                <div className='text-white pt-2'>Members online</div>
-            </div> */}
+                <div className='text-white text-3xl font-bold pt-2'>{dataResponse?.totalQuantity?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+            </div>
 
             <div className='py-5'>
                 <Row justify='center'>
