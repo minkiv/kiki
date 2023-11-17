@@ -24,8 +24,12 @@ const Products: FunctionComponent<ProductProps> = () => {
     actions.getAllProduct()
   }, [])
   useEffect(() => {
+     if (!keyword || keyword === "") {
+      setData(products)
+    }
+  }, [products])
+  useEffect(() => {
     setData(products)
-
   }, [keyword])
   useEffect(() => {
     if (keyword || keyword == "") {
@@ -35,7 +39,6 @@ const Products: FunctionComponent<ProductProps> = () => {
           setSearchError(err.response.data.message)
         }
       )
-
     }
   }, [keyword])
   const handleDataUpdate = (id: any) => {
@@ -110,7 +113,6 @@ const Products: FunctionComponent<ProductProps> = () => {
 
     }
   };
-
   return (
     <div css={cssProduct}>
       <TitleProducts>TẤT CẢ SẢN PHẨM</TitleProducts>

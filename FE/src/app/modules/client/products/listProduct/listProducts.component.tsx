@@ -18,11 +18,16 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
   }, []);
   const numEachPage = 12
   const [minPaginate, setMinPaginate] = useState(0)
-  const [maxPaginate, setMaxPaginate] = useState(1)
+  const [maxPaginate, setMaxPaginate] = useState(12)
   const handleChangePaginate = (value: any) => {
     setMinPaginate((value - 1) * numEachPage)
     setMaxPaginate(value * numEachPage)
   }
+  const [dt,setData] = useState(data)
+  useEffect(()=>{
+    setData(data)
+  },[data])
+  // console.log(dt)
   return (
     <div css={cssListProducts} className='w-[100%]'>
       <div className='grid grid-cols-4 gap-10 p-10'>
@@ -35,7 +40,7 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
         })}
       </div>
       <div className='w-[100%] text-center'>
-        <Pagination defaultPageSize={numEachPage} onChange={handleChangePaginate} defaultCurrent={1} total={data.length} />
+        <Pagination defaultPageSize={12} onChange={handleChangePaginate} defaultCurrent={1} total={data.length} />
       </div>
     </div>
   )

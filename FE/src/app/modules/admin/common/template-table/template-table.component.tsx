@@ -96,6 +96,12 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       images: dataList
     })
   }
+  // if(form.getFieldValue('startday')){
+  //   form.setFieldsValue({
+  //     startday: form.getFieldValue('startday').format("YYYY-MM-DD"),
+  //     endday: form.getFieldValue('endday').format("YYYY-MM-DD")
+  //   })
+  // }
     if (type == 'CREATE') {
       form
         .validateFields()
