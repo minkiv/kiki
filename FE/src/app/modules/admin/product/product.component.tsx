@@ -34,7 +34,7 @@ const ProductManagemnet = () => {
             key: itemKey,
             render: (text: any, record: any, index: any) => {
               if (itemKey === 'images') {
-                return <img src={dataProduct[index]?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='Product Image' style={{ maxWidth: '50px' }} />
+                return <img src={record?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='Product Image' style={{ maxWidth: '50px' }} />
               }
               if (itemKey === 'price') {
                 return <div>{record?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>

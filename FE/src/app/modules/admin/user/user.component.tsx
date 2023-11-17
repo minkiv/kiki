@@ -10,13 +10,16 @@ const UserManagemnet = () => {
   const [reset, setReset] = useState<boolean>(true)
   useEffect(() => {
     getAllUser().then((res) => {
-      setDataUser(res.data)
+      setDataUser(res.data.map((item: any) => {
+        item.birthday = dayjs(item.birthday).format('YYYY-MM-DD')
+        return item
+      }))
     })
   }, [reset])
 
   useEffect(() => {
     const columTemp: any = []
-    const title = ['', 'Email', 'Số điện thoại', '', 'Giới tính', 'Vai trò', '', '', '', 'Địa chỉ', 'Họ Tên', 'Nick name', 'Ngày sinh']
+    const title = ['', 'Họ Tên', 'Nick name', 'Email', 'Ngày sinh', 'Số điện thoại', '', 'Giới tính', 'Địa chỉ', 'Quyền', '']
     if (dataUser.length > 0) {
       Object?.keys(dataUser[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'password', 'updatedAt', 'createdAt', 'nationality'].includes(itemKey)) {
@@ -110,7 +113,7 @@ const UserManagemnet = () => {
               name="birthday"
               rules={[{ required: true, message: 'Vui lòng nhập Ngày tháng năm sinh!' }]}
             >
-              <Input />
+              <Input type='date' />
             </Form.Item>
 
           </Fragment>

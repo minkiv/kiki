@@ -201,6 +201,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
         </div>
         <div>({lengthEvaluate?.length} đánh giá)</div>
       </div>
+      <div className='mt-5 text-[20px]'>MASP: {productDetail?.code}</div>
       <div className='grid grid-cols-7 xl:mt-10'>
         <div className='col-span-12 '>
           <div className='flex pt-5 p-3'>
