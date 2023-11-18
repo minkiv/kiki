@@ -15,7 +15,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
         <div className='column-one'>
           <div className='logo flex justify-around gap-9 pb-6'>
             <div>
-              <img className='w-[93px] h-[26px] ' src="https://pubcdn.ivymoda.com/ivy2/images/logo-footer.png" alt="" />
+              <img className='w-[96px] h-[26px] ' src="https://res-console.cloudinary.com/db4xq5lij/media_explorer_thumbnails/eb301bdd3222ee349aca0f34715a6581/detailed" alt="" />
             </div>
             <div>
               <img className='w-[61px] h-[20px]' src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=0cfdeac4-6e7f-4fca-941f-57a0a0962777" alt="" />

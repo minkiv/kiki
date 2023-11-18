@@ -66,17 +66,23 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       setSearchTerm(keyword)
     } else setSearchTerm('')
   }, [keyword])
+  
   const accessToken = localStorage.getItem('accessToken')
-
   useEffect(() => {
     if (accessToken) {
       actions.getAllCart()
     }
   }, [accessToken])
-
+  
   const handleLoginLogout = () => {
     if (accessToken) {
       localStorage.removeItem('accessToken')
+      localStorage.removeItem('emailUser')
+      localStorage.removeItem('checkAuth')
+      localStorage.removeItem('userID')
+      localStorage.removeItem('voucherCode');
+      localStorage.removeItem("sale");
+      localStorage.removeItem("total");
       navigate('/customer/login')
     } else {
       navigate('/')
@@ -127,7 +133,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
           </div>
         </div>
         <Link to={'/'}>
-          <img src='https://pubcdn.ivymoda.com/ivy2/images/logo.png' className='w-[139px] mr-12 max-sm:hidden' />
+          <img src="https://res-console.cloudinary.com/db4xq5lij/media_explorer_thumbnails/eb301bdd3222ee349aca0f34715a6581/detailed" className='w-[250px] mr-12 max-sm:hidden' />
         </Link>
         <div className='flex align-items:center max-sm:hidden' css={cssWrapperMenu}>
           <div className='relative'>
@@ -212,7 +218,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
             if (item.hidden === "Hiển thị") {
               return (
                 <p style={{ padding: "0px 300px" }} key={item._id} className='text-[20px] text-black italic flex' >
-                  <img className='w-auto h-[30px] px-3' src="https://thuannam.ninhthuan.gov.vn/chinhquyen/thuannam/Pictures/iconloathongbao59983935.gif" alt="Logo" />
+                  <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
                   {item.content}
                 </p>
               );

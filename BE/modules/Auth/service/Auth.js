@@ -95,3 +95,7 @@ export const searchUser = async (req, res) => {
     const users = await Auth.find({ email: searchRegex });
     return users
 };
+export const getUserDetails = async (query) => {
+    const user = await authModel.findById(query.userId)
+    return user
+}

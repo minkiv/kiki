@@ -6,6 +6,7 @@ import deleteUser from './Api/deleteUser.js';
 import updateUser from './Api/updateUser.js';
 import searchUsers from './Api/searchUser.js';
 import sendEmail from "./Api/forgotPassword.js";
+import getUserDetail from "./Api/get-user-detail.js";
 const authController = {
     registers,
     signIn,
@@ -14,6 +15,7 @@ const authController = {
     deleteUser,
     updateUser,
     sendEmail,
-    searchUsers
+    searchUsers,
+    getUserDetail
 }
 export default authController

@@ -8,7 +8,7 @@ import Login from './app/modules/client/accountLogin/login.component'
 import Register from './app/modules/client/accountLogin/register.component'
 import { adminRouter } from './app/modules/admin/router'
 import DefaultAdmin from './app/container/defaul-admin/defaul-admin.component'
-
+import { CheckAuth } from './app/container/check-auth/CheckAuth.component'
 function App() {
   let element: any = useRoutes([
     {
@@ -22,7 +22,11 @@ function App() {
         },
         {
           path: 'admin',
-          element: <DefaultAdmin />,
+          element: (
+            <CheckAuth>
+              <DefaultAdmin />
+            </CheckAuth>
+          ),
           children: adminRouter
         },
         {
