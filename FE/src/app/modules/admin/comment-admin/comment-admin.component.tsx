@@ -27,9 +27,9 @@ const CommentAdminComponent = () => {
     }, [reset])
     useEffect(() => {
         const columnTemp: any = [];
-        const title = ['Email','Tên sản phẩm','','Comment','Sao']
+        const title = ['Email', 'Tên sản phẩm', '', 'Comment', 'Đánh giá']
         if (dataComment.length > 0) {
-            Object.keys(dataComment[0]).forEach((itemKey,key=0) => {
+            Object.keys(dataComment[0]).forEach((itemKey, key = 0) => {
                 if (!['_id', 'updatedAt', 'createdAt', '__v'].includes(itemKey)) {
                     columnTemp.push({
                         title: title[key++],

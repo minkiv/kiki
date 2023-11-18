@@ -20,7 +20,7 @@ const ListSeenProduct: FunctionComponent<ListSeenProduct> = () => {
             <h2 className='text-center font-semibold mb-11 text-[40px] tracking-wider font-sans'>Sản phẩm đã xem</h2>
             <div>
                 <SwiperListFiveProduct css={cssSlide}>
-                    {products?.map((item: any) => (
+                    {products?.slice(0, 10).map((item: any) => (
                         <SwiperSlide key={item._id}>
                             <Link to={`/detail/${item._id}`}>
                                 <ItemProduct className='product' itemProduct={item} />

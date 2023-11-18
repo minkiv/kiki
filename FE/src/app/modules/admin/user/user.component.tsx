@@ -44,6 +44,14 @@ const UserManagemnet = () => {
   const handelGetList = () => {
     setReset(!reset)
   }
+  const validatePhone = (rule: any, value: any, callback: any) => {
+    const phoneRegExp = /^(?:(?:\+|0{0,2})84|0[3-9]|00{0,2}\d{1,4})(\d{7,11})$/;
+    if (value && !value.match(phoneRegExp)) {
+      callback('Vui lòng nhập số điện thoại hợp lệ!');
+    } else {
+      callback();
+    }
+  };
   return (
     <div>
       <TemplateTable searchFunc={searchUser} setData={setDataUser} dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
@@ -76,7 +84,12 @@ const UserManagemnet = () => {
             <Form.Item
               label='Số điện thoại'
               name='phoneNumber'
-              rules={[{ required: true, message: 'Vui lòng nhập Số điện thoại!' }]}
+              rules={[
+                {
+                  validator: validatePhone,
+                },
+                { required: true, message: 'Vui lòng nhập Số điện thoại!' }
+              ]}
             >
               <Input />
             </Form.Item>
