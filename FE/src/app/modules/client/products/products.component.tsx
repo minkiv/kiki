@@ -41,6 +41,12 @@ const Products: FunctionComponent<ProductProps> = () => {
       )
     }
   }, [keyword])
+  useEffect(()=>{
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    });
+  },[])
   const handleDataUpdate = (id: any) => {
     if (!keyword) {
       const listPro = products.filter((pro: any) => pro.categoryId._id === id)

@@ -10,11 +10,12 @@ interface SidePaymentProps {
 }
 
 const SidePayment: FunctionComponent<SidePaymentProps> = () => {
-  const [isClicked, setIsClicked] = useState(false)
-  const [textContent, setTextContent] = useState('Xem thông tin')
-  const [totalPrice, setTotalPrice] = useState<any>(0)
+  const [isClicked, setIsClicked] = useState(false);
+  const [textContent, setTextContent] = useState('Xem thông tin');
+  const [totalPrice, setTotalPrice] = useState<any>(0);
   const [voucherCode, setVoucherCode] = useState<any>('');
   const [sale, setSale] = useState<any>('');
+  const [appliedVouchers, setAppliedVouchers] = useState<string[]>([]);
   const handleClick = () => {
     if (isClicked) {
       setTextContent('Xem thông tin')
@@ -41,37 +42,61 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
       const calculatedTotal = listProductBuy.reduce(
         (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
         0
-      )
-      setTotalPrice(calculatedTotal)
+      );
+      const discountedAmount: number = Math.min(sale, calculatedTotal);
+      const updatedTotalPrice = calculatedTotal - discountedAmount;
+      const finalTotalPrice = updatedTotalPrice >= 0 ? updatedTotalPrice : 0;
+      setTotalPrice(finalTotalPrice);
+      localStorage.setItem("sale", sale.toString());
+      localStorage.setItem("total", finalTotalPrice.toString());
     }
-  }, [listProductBuy])
-
+  }, [listProductBuy, sale]);
   const handleApplyVoucher = (value: string) => {
     if (value === '') {
-      message.error('Voucher code is required');
+      message.error('Bạn chưa nhập Vorcher');
       setSale(0);
+      setTotalPrice(0);
+      setAppliedVouchers([]);
       return;
     }
+    if (appliedVouchers.includes(value)) {
+      message.warning('Bạn đã áp dụng voucher này trước đó');
+      return;
+    }
+
     let found = false;
     for (let i = 0; i < vorchers.length; i++) {
       if (vorchers[i].code === value) {
-        setSale(vorchers[i].discount);
+        const discountedAmount: number = Math.min(vorchers[i].discount, totalPrice);
+        setSale(discountedAmount);
+        localStorage.setItem("sale", discountedAmount.toString());
+        localStorage.setItem("total", (totalPrice - discountedAmount).toString());
         found = true;
         break;
       }
     }
-
     if (!found) {
       setSale(0);
     }
-
+  
+    setAppliedVouchers([value]);
     localStorage.setItem('voucherCode', value);
-  }
+    const updatedTotalPrice = listProductBuy.reduce(
+      (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
+      0
+    );
+    const finalTotalPrice = Math.max(updatedTotalPrice - sale, 0);
+    setTotalPrice(finalTotalPrice);
+  };
+  const setSaletotal = localStorage.getItem("sale") || '0';
+  const totalPriceValue: number = totalPrice || 0;
+  const saleResult: number = sale || 0;
+  const gettotal: any = localStorage.getItem('total') || (totalPriceValue - saleResult) || 0;
 
   const [stateAddVorcher, setstateAddVorcher] = useState(false)
   const [stateAddVorcherHoliday, setstateAddVorcherHoliday] = useState(false)
   const isHoliday = vorchers.some((item: any) => item.type === "Ngày lễ");
-
+  const isHolidayVouchers = vorchers.filter((item: any) => item.type === "Ngày lễ")
 
   const [valueVorcher, setValivocher] = useState<any>('')
   const getValueVocher = localStorage.getItem("voucherCode")
@@ -143,17 +168,16 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
 
           <div className='summary-flexRow'>
             <div className='summary-label'>Giảm giá</div>
-            <div className='summary-value summary-value-positive'>{sale?.toLocaleString('vi', {
-              style: 'currency',
-              currency: 'VND'
-            })}</div>
+            <div className='summary-value summary-value-positive'>
+            {setSaletotal ? parseFloat(setSaletotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : null}
+            </div>
           </div>
         </div>
         <div className='order-total'>
           <div className='order-total-label'>Tổng tiền</div>
           <div className='order-total-value'>
             <div className='order-total-total'>
-              {(totalPrice - sale)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+            {Number(gettotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
             </div>
           </div>
         </div>
@@ -193,7 +217,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                           <td className="py-2 px-4">{index + 1}</td>
                           <td className="py-2 px-4">{item?.name}</td>
                           <td className="py-2 px-4">{item?.code}</td>
-                          <td className="py-2 px-4">{item?.discount}</td>
+                          <td className="py-2 px-4">{item?.discount?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</td>
                           <td className="py-2 px-4">
                             <button type='reset' onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                               Áp dụng
@@ -242,12 +266,12 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {vorchers.map((item: any, index: any) => (
+                        {isHolidayVouchers.map((item: any, index: any) => (
                           <tr className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} key={index}>
                             <td className="py-2 px-4">{index + 1}</td>
                             <td className="py-2 px-4">{item?.name}</td>
                             <td className="py-2 px-4">{item?.code}</td>
-                            <td className="py-2 px-4">{item?.discount}</td>
+                            <td className="py-2 px-4">{item?.discount?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</td>
                             <td className="py-2 px-4">
                               <button type='reset' onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Áp dụng

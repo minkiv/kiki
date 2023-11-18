@@ -30,7 +30,8 @@ const Login: FunctionComponent<LoginProps> = () => {
                     navigate("/");
                     location.reload();
                 });
-            }
+            }   
+            localStorage.setItem("checkAuth", res.data.user.role)
         },
 
             (err) => {

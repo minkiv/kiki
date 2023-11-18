@@ -10,6 +10,7 @@ import CommentAdminComponent from './comment-admin/comment-admin.component'
 import SupportAdmin from './support-admin/support-admin.component'
 import DashBoard from './dashBoard/dashBoard.component'
 import ContentManagement from './content/content.component'
+import { CheckAdmin } from '~/app/container/check-auth/CheckAdmin.component'
 
 
 export const adminRouter: RouteObject[] = [
@@ -20,7 +21,12 @@ export const adminRouter: RouteObject[] = [
     },
     {
         path: 'user',
-        element: <UserManagemnet />,
+        element: (
+            <CheckAdmin>
+                <UserManagemnet/>
+            </CheckAdmin>
+        )
+        ,
         children: []
     },
     {

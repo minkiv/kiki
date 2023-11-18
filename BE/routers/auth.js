@@ -11,5 +11,6 @@ router.get('/:id', authController.getOneUser)
 router.delete('/:id', authController.deleteUser)
 router.put('/update/:id', authController.updateUser)
 router.post('/sendEmail', authController.sendEmail)
+router.get('/user-detail', authController.getUserDetail)
 export default router
 

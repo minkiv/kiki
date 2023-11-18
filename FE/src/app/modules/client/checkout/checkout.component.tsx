@@ -76,7 +76,7 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
         const voucher = vorchers?.find((item: any) => item.code === voucherCode);
         const discount = voucher?.discount;
         let sumOrderPrice = discount ? totalPrice - discount : totalPrice;
-
+        sumOrderPrice = Math.max(sumOrderPrice, 0);
         if (!voucher && voucherCode) {
             toast.error('Voucher không khớp');
             return;
@@ -109,6 +109,8 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
                 setLoadingCreate(false);
                 localStorage.removeItem('listSelectCart');
                 localStorage.removeItem('voucherCode');
+                localStorage.removeItem("sale");
+                localStorage.removeItem("total");
                 actions.clearCart();
                 toast.success('Tạo đơn hàng thành công');
                 navigate('/thankcustomers');

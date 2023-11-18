@@ -19,3 +19,6 @@ export const sendEmail = async (email:any) => {
 export const updatUser= async (id: any, data: any)=>{
     return await axiosPrivate.put(`/auth/update/${id}`,data)
 }
+export const getUserDetail = async (id: any) => {
+    return await axiosPrivate.get(`/auth/user-detail?userId=${id}`)
+}
