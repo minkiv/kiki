@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { css } from '@emotion/react'
 import ItemProduct from '~/app/component/parts/itemproduct/itemproduct.component'
 import { SwiperSlide } from 'swiper/react'
@@ -11,16 +11,24 @@ interface ListSimilarProduct {
 }
 
 const ListSimilarProduct: FunctionComponent<ListSimilarProduct> = () => {
-  const { data: { products }, actions } = useProductRedux()
+  const { data: { products, product }, actions } = useProductRedux()
+  const [newData, setNewData] = useState<any>([])
+
   useEffect(() => {
     actions.getAllProduct()
-  }, [])
+    const dataCateProduct = products?.filter((item: any) =>
+      item?.categoryId._id == product.categoryId._id
+    )
+    setNewData(dataCateProduct)
+
+  }, [product])
+
   return (
     <div className='bg-slate-50 p-5'>
       <h2 className='text-center font-semibold mb-11 text-[40px] tracking-wider font-sans'>Sản phẩm tương tự</h2>
       <div>
         <SwiperListFiveProduct css={cssSlide}>
-          {products?.map((item: any) => (
+          {newData?.map((item: any) => (
             <SwiperSlide key={item._id}>
               <Link to={`/detail/${item._id}`}>
                 <ItemProduct className='product' itemProduct={item} />

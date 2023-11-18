@@ -156,10 +156,10 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
                                                                     );
                                                                 }
                                                                 else if (item.field == 'gender') {
-                                                                    return <Radio.Group onChange={onChange} defaultValue={"male"} value={value} >
-                                                                        <Radio value={"male"}>Nam</Radio>
-                                                                        <Radio value={"female"}>Nữ</Radio>
-                                                                        <Radio value={"other"}>Khác</Radio>
+                                                                    return <Radio.Group onChange={onChange} defaultValue={"Nam"} value={value} >
+                                                                        <Radio value={"Nam"}>Nam</Radio>
+                                                                        <Radio value={"Nữ"}>Nữ</Radio>
+                                                                        <Radio value={"Khác"}>Khác</Radio>
                                                                     </Radio.Group>
                                                                 }
                                                                 else if (item.field == 'email') {

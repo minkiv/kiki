@@ -81,27 +81,21 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   }
   const handleOk = () => {
 
-    if(form.getFieldValue('images')){
-    const dataList = [...form.getFieldValue('images')].map((item:any)=> (
-      {
-        uid: item.uid,
-        name: item.name,
-        status: item.status,
-        url: item.url || item.response,
-        response: item.response || item.url
-      }
-    ));
-    
-    form.setFieldsValue({
-      images: dataList
-    })
-  }
-  // if(form.getFieldValue('startday')){
-  //   form.setFieldsValue({
-  //     startday: form.getFieldValue('startday').format("YYYY-MM-DD"),
-  //     endday: form.getFieldValue('endday').format("YYYY-MM-DD")
-  //   })
-  // }
+    if (form.getFieldValue('images')) {
+      const dataList = [...form.getFieldValue('images')].map((item: any) => (
+        {
+          uid: item.uid,
+          name: item.name,
+          status: item.status,
+          url: item.url || item.response,
+          response: item.response || item.url
+        }
+      ));
+
+      form.setFieldsValue({
+        images: dataList
+      })
+    }
     if (type == 'CREATE') {
       form
         .validateFields()
@@ -172,7 +166,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         if (res) {
           setTimeout(() => {
             setTriggerLoadding(false)
-            
+
             setData(res.data)
             setErrorSearch("")
           }, 1000)
@@ -242,7 +236,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       setApplyFilter(true);
     } else {
       setApplyFilter(false);
-      const list = dataFilter.filter((item) => item.categoryId === value);
+      const list = dataFilter.filter((item) => item.categoryId._id === value);
       setData(list);
     }
   };

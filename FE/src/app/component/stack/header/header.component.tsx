@@ -140,7 +140,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
             />
             {stateInput && (
               <div className='absolute z-20 rounded-lg bg-white top-full left-0 w-full'>
-                {!searchError && searchProducts?.map((product: any) => {
+                {!searchError && searchProducts?.slice(0, 10).map((product: any) => {
                   return (
                     <ul key={product?._id} className=''>
                       <Link
