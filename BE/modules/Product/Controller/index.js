@@ -1,5 +1,5 @@
 import getOneproducts from "./Api/getOneproduct.js";
-import getAllProducts from "./api/getAllProduct.js";
+import getAllProducts from "./Api/getAllProduct.js";
 import deleteProducts from "./Api/deleteProduct.js";
 import addProducts from "./Api/addProduct.js";
 import editProduct from "./Api/updateroduct.js";

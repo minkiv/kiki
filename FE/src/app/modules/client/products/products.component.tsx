@@ -121,7 +121,7 @@ const Products: FunctionComponent<ProductProps> = () => {
   };
   return (
     <div css={cssProduct}>
-      <TitleProducts>TẤT CẢ SẢN PHẨM</TitleProducts>
+      <TitleProducts>Tất cả sản phẩm</TitleProducts>
       <div className='title relative'>
         <h1 className='text-title absolute'>TẤT CẢ SẢN PHẨM </h1>
       </div>

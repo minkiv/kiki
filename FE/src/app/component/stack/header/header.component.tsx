@@ -90,7 +90,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   }
   return (
     <div>
-      <div className='mx-auto flex items-center justify-between sm:w-[1380px] h-[80px]'>
+      <div className='mx-auto top-0 flex items-center justify-between z-[2] sm:px-[50px] w-[100%] bg-white fixed  h-[80px]'>
         <div css={cssMenu} className='space-x-8'>
           <div>
             <Link className='hover:text-red-500' to={'/'}>
@@ -213,7 +213,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         </div>
       </div>
       {content.length > 0 && content.some((item: any) => item.hidden === "Hiển thị") && (
-        <Marquee direction="left" className='py-3 mb-5 z-0' style={{ backgroundColor: "#FFAA00" }}>
+        <Marquee css={cssMarquee} direction="left" className='py-3 z-0 sticky' style={{ borderTop:'1px solid black',borderBottom:'1px solid black',width:'95%',margin:'100px auto 5px', animationPlayState:'paused' }}>
           {content.map((item: any) => {
             if (item.hidden === "Hiển thị") {
               return (
@@ -283,7 +283,7 @@ const cssWrapperMenu = css`
     border-bottom: 1px solid #e7e8e9;
     top: 30px;
     right: -16px;
-    width: 150px;
+    width: 162px;
     display: flex;
     flex-direction: column;
     padding: 5px;
@@ -370,4 +370,9 @@ const cssDarkScreen = css`
   bottom: 0;
   left: 0;
   right: 0;
+`
+const cssMarquee = css `
+.rfm-marquee:hover{
+  animation-play-state: paused
+}
 `
