@@ -222,7 +222,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
                 </div>
                 <div className='flex items-center my-[30px]'>
                   {listColor?.map((item: any) => (
-                    <div key={item.id} className={`h-[40px] w-[40px] border rounded-[50%] p-[3px] mr-[20px] cursor-pointer ${colorSelect?.id === item.id && 'border-black'
+                    <div key={item.id} className={`h-[40px] w-[40px] border rounded-[50%] inline-flex items-center justify-center mr-[20px] cursor-pointer ${colorSelect?.id === item.id && 'border-black'
                   } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                   checkQuantity.length > 0 &&
                   'bg-slate-100 pointer-events-none text-gray-400'
@@ -230,7 +230,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
                     <div
                       key={item.id}
                       style={{ backgroundColor: `${item.colorHex}` }}
-                      className={`p-3 border h-[32px] w-[32px] rounded-[50%]  ${colorSelect?.id === item.id && ''
+                      className={`p-3 border h-[32px] w-[32px]  rounded-[50%]  ${colorSelect?.id === item.id && ''
                         } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
@@ -269,7 +269,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
             <Popup
               modal
               trigger={
-                <button>
+                <button className='flex gap-[10px]'>
                   <CiRuler className='inline-block' /> <span>Kiểm tra size của bạn</span>
                 </button>
               }
@@ -284,10 +284,8 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
           </div>
          
 
-          <div className='flex mt-[6rem] space-x-5 items-center'>
-            <ButtonSqua outline className='btn' onClick={handelAddProductToCart}>
-              THÊM VÀO GIỎ
-            </ButtonSqua>
+          <div className='mt-[3rem] space-x-5 items-center'>
+           
             {/* <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua> */}
             <div className='flex items-center'>
             <label htmlFor='quantity' className='text-[18px]'>
@@ -310,8 +308,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
               )}
             </div>
           </div>
+          <ButtonSqua outline className='btn mt-[3rem]' onClick={handelAddProductToCart}>
+              THÊM VÀO GIỎ
+            </ButtonSqua>
           </div>
-          <div className='mt-[60px]'>
+          <div className='mt-[50px]'>
             <div className='tab-header flex space-x-8 '>
               <div className={optionInfo === 'intro' ? 'active' : ''} onClick={() => changeInfo('intro')}>
                 GIỚI THIỆU
