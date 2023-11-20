@@ -56,7 +56,7 @@ const DefaultAdmin: React.FC = () => {
         <div css={cssLogoAdmin}>
           <img
           className='w-[300px]'
-            src='https://res-console.cloudinary.com/db4xq5lij/media_explorer_thumbnails/eb301bdd3222ee349aca0f34715a6581/detailed'
+            src='https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/404263307_357890920233334_4206441658182925266_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=CIe-0hEhr1YAX9eSH-4&_nc_ht=scontent.fhan14-1.fna&oh=00_AfBhxKIHBbEZq4gmG7rKuokBaGaBIoTNrhkRZ_u8GAA-xg&oe=655FAA1F'
             alt=''
           />
         </div>
