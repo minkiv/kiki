@@ -41,9 +41,9 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
                     <div
                       key={item.id}
                       className=
-                      {`${(key=== 0)?'colorSelected':''} product-color inline-block mr-2`}
+                      {`${(key=== 0)?'colorSelected':''} product-color inline-flex items-center justify-center mr-2`}
                     >
-                      <div style={{ backgroundColor: `${item?.colorHex}` }} className={`m-[2px] h-[18px] rounded-[50%]`}></div>
+                      <div style={{ backgroundColor: `${item?.colorHex}` }} className={` h-[18px] w-[18px] rounded-[50%]`}></div>
                     </div>
                   )
               })}
