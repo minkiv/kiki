@@ -16,8 +16,8 @@ const ListSeenProduct: FunctionComponent<ListSeenProduct> = () => {
         actions.getAllProduct()
     }, [])
     return (
-        <div className='bg-slate-50 p-5'>
-            <h2 className='text-center font-semibold mb-11 text-[40px] tracking-wider font-sans'>Sản phẩm đã xem</h2>
+        <div className='p-5'>
+            <h2 className='text-center font-semibold mb-11 text-[32px] tracking-wider font-sans'>Sản phẩm đã xem</h2>
             <div>
                 <SwiperListFiveProduct css={cssSlide}>
                     {products?.slice(0, 10).map((item: any) => (

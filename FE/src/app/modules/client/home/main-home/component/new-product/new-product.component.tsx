@@ -26,7 +26,7 @@ const NewProduct: FunctionComponent<NewProductProps> = () => {
           </Link>
         ))}
       </div>
-      <div className='text-center mt-10'>
+      <div className='text-center mt-[8rem]'>
         <Link to={'/products'}>
           {' '}
           <ButtonSqua children='Xem tất cả' css={cssButton} />
@@ -62,8 +62,8 @@ const cssProduct = css`
     display: grid;
     justify-content: center;
     align-self: stretch;
-    gap: 12px;
-    grid-template-columns: repeat(5, 264px);
+    gap: 20px;
+    grid-template-columns: repeat(5, 280px);
   }
   @media (min-width: 0) and (max-width: 739px) {
     .list-product {

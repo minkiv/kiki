@@ -63,8 +63,8 @@ const cssProduct = css`
     display: grid;
     justify-content: center;
     align-self: stretch;
-    gap: 12px;
-    grid-template-columns: repeat(5, 264px);
+    gap: 20px;
+    grid-template-columns: repeat(5, 280px);
   }
   @media (min-width: 0) and (max-width: 739px) {
     .list-product {

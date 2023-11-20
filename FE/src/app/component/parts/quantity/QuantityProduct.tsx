@@ -78,18 +78,18 @@ const QuantityProduct: FunctionComponent<QuantityProduct> = ({
   }
   return (
     <div className='pb-6'>
-      <div className='sm:flex items-center mt-5 max-sm:flex'>
-        <button className='border border-gray-300 py-4 px-6' onClick={handleDecrement}>
+      <div className='sm:flex items-center mt-5 max-sm:flex border border-gray-300  rounded-[19px]'>
+        <button className=' py-4 px-6' onClick={handleDecrement}>
           -
         </button>
         <input
           type='text'
           onChange={handleChangeInput}
-          className='max-sm:w-[25px] border border-gray-300 h-[2.7em] w-16 text-center focus:outline-none focus:border-sky-600 '
+          className='max-sm:w-[25px]  h-[2.7em] w-16 text-center focus:outline-none focus:border-sky-600 '
           value={quantity}
         />
         <button
-          className={`border border-gray-300 py-4 px-6 ${objectError.increment && 'pointer-events-none bg-slate-200'} `}
+          className={`py-4 px-6 ${objectError.increment && 'pointer-events-none bg-slate-200'} `}
           onClick={handleIncrement}
         >
           +

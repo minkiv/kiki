@@ -17,20 +17,20 @@ const ListSimilarProduct: FunctionComponent<ListSimilarProduct> = () => {
   useEffect(() => {
     actions.getAllProduct()
     const dataCateProduct = products?.filter((item: any) =>
-      item?.categoryId._id == product.categoryId._id
+      item?.categoryId?._id == product?.categoryId?._id
     )
     setNewData(dataCateProduct)
 
   }, [product])
-
+console.log(newData)
   return (
-    <div className='bg-slate-50 p-5'>
-      <h2 className='text-center font-semibold mb-11 text-[40px] tracking-wider font-sans'>Sản phẩm tương tự</h2>
+    <div className='p-5'>
+      <h2 className='text-center font-semibold mb-11 text-[32px] tracking-wider font-sans'>Sản phẩm tương tự</h2>
       <div>
         <SwiperListFiveProduct css={cssSlide}>
           {newData?.map((item: any) => (
-            <SwiperSlide key={item._id}>
-              <Link to={`/detail/${item._id}`}>
+            <SwiperSlide key={item?._id}>
+              <Link to={`/detail/${item?._id}`}>
                 <ItemProduct className='product' itemProduct={item} />
               </Link>
             </SwiperSlide>

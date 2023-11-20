@@ -21,28 +21,30 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
   return (
     <div css={cssProduct} className={className}>
       <div className=' mb-[17px]'>
-        <img src={itemProduct?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className=' h-[300px] m-auto' />
+        <img src={itemProduct?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className='w-[100%]max-h-[400px] m-auto' />
       </div>
       <div className='main'>
-        <div className='flex justify-between ml-4 mr-4 mb-4'>
+        <div className='flex justify-between mb-4'>
           <div className='text-item'>
             <h3 className='truncate'>{itemProduct?.name}</h3>
           </div>
           <div>
-            <AiOutlineHeart className='text-[20px] text-red-600' />
+            <AiOutlineHeart className='text-[23px] mt-[-4px] text-red-600' />
           </div>
         </div>
-        <div className='flex justify-between ml-4 h-[20px] mr-4 mb-4'>
+        <div className='flex justify-between  h-[24px] mt-8 mb-10'>
           <div className='color'>
             {listColor &&
-              listColor?.map((item: any) => {
+              listColor?.map((item: any,key=0) => {
                 if (item.nameColor)
                   return (
                     <div
                       key={item.id}
-                      className='product-color inline-block mr-2'
-                      style={{ backgroundColor: `${item?.colorHex}` }}
-                    ></div>
+                      className=
+                      {`${(key=== 0)?'colorSelected':''} product-color inline-block mr-2`}
+                    >
+                      <div style={{ backgroundColor: `${item?.colorHex}` }} className={`m-[2px] h-[18px] rounded-[50%]`}></div>
+                    </div>
                   )
               })}
           </div>
@@ -80,15 +82,22 @@ const cssProduct = css`
     overflow: hidden;
   }
   .product-color {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
+    border: 1px solid #d1d1d1;
+  }
+  .colorSelected{
     border: 1px solid gray;
   }
   .product-size {
-    border: 1px solid #333;
-    border-radius: 4px;
-    padding: 3px;
+    border: 1px solid #d1d1d1;
+    border-radius: 2px;
+    width: 24px;
+    height: 22px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
   .color li {
     width: 18px;
@@ -110,7 +119,7 @@ const cssProduct = css`
     color: #3e3e3f;
     font-weight: 600;
     vertical-align: baseline;
-    margin: auto 10px;
+    margin: auto 0;
   }
   .asa {
     margin-top: 5px;
@@ -130,7 +139,7 @@ const cssProduct = css`
       transform 0.3s,
       box-shadow 0.3s;
     transform: translateY(-3px);
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+    // box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   }
 `
 const cssBtn = css`

@@ -25,7 +25,7 @@ const MainDetail: FunctionComponent<MainDetailProps> = () => {
       <div className='item-list-silder mt-5'>
         <ListSimilarProduct />
       </div>
-      <div className='item-list-silder mt-5'>
+      <div className='item-list-silder mt-[6.5rem]'>
         <ListSeenProduct />
       </div>
       <div className='banner mt-[70px]'>

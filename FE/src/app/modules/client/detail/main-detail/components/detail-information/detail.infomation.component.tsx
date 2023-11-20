@@ -52,7 +52,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
     setIsShowInfo(productDetail?.description)
   }, [productDetail])
 
-
   const handleSelectColor = (colorId: any) => {
     const findElement = listColor.find((item: any) => item.id == colorId)
     if (colorId == colorSelect?.id) {
@@ -178,7 +177,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
 
         setLengthEvaluate(productComments)
         const totalStars = productComments.reduce((sum: any, comment: any) => sum + parseInt(comment.star), 0);
-        const avgStar = productComments.length > 0 ? totalStars / productComments.length : 1;
+        const avgStar = productComments.length > 0 ? totalStars / productComments.length : 5;
         setAverageStar(avgStar);
       }
     });
@@ -204,7 +203,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
       <div className='mt-5 text-[20px]'>MASP: {productDetail?.code}</div>
       <div className='grid grid-cols-7 xl:mt-10'>
         <div className='col-span-12 '>
-          <div className='flex pt-5 p-3'>
+          <div className='flex pt-5 mb-[20px] p-3'>
             <h1 className='text-black font-semibold text-[26px] '>
               {productDetail?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
             </h1>
@@ -217,16 +216,21 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
           </div>
           <div className='mt-5 max-sm:ml-5'>
             <div>
-              <div className='mt-3 '>
-                <div className='mb-3 text-[18px]'>
+              <div className='mt-5 '>
+                <div className='mb-5 text-[18px]'>
                   Màu Sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
                 </div>
-                <div className='flex items-center my-6'>
+                <div className='flex items-center my-[30px]'>
                   {listColor?.map((item: any) => (
+                    <div key={item.id} className={`h-[40px] w-[40px] border rounded-[50%] p-[3px] mr-[20px] cursor-pointer ${colorSelect?.id === item.id && 'border-black'
+                  } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                  checkQuantity.length > 0 &&
+                  'bg-slate-100 pointer-events-none text-gray-400'
+                  }`}>
                     <div
                       key={item.id}
                       style={{ backgroundColor: `${item.colorHex}` }}
-                      className={`p-3 border h-[32px] w-[32px]  mr-4 cursor-pointer ${colorSelect?.id === item.id && 'border-red-600'
+                      className={`p-3 border h-[32px] w-[32px] rounded-[50%]  ${colorSelect?.id === item.id && ''
                         } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
@@ -235,18 +239,19 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
                     >
                       {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
                     </div>
+                    </div>
                   ))}
                 </div>
               </div>
-              <div className='mt-3 '>
+              <div className='mt-5 '>
                 <div className='mb-3 text-[18px]'>
                   Kích cỡ: <span className='font-semibold'>{sizeSelect?.nameSize}</span>
                 </div>
-                <div className='flex items-center my-6'>
+                <div className='flex items-center my-[30px]'>
                   {listSize?.map((item: any) => (
                     <div
                       key={item.id}
-                      className={`p-3 border rounded-md mr-4 cursor-pointer ${sizeSelect?.id === item.id && 'bg-red-100 border-red-600'
+                      className={`p-3 border w-[48px] items-center inline-flex justify-center rounded-[2px] mr-[2rem] cursor-pointer ${sizeSelect?.id === item.id && 'border-black'
                         } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameSize).includes(item.nameSize) &&
                         checkQuantity.length > 0 &&
                         'bg-slate-100 pointer-events-none text-gray-400'
@@ -272,12 +277,19 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
               <div className='popup-contents h-[500px] overflow-x-hidden'>
                 <img
                   width={'100%'}
-                  src='//image.uniqlo.com/UQ/ST3/vn/imagesother/sizechart/vn_graph_bodysize_uq_m_20fw.jpg'
+                  src='https://canifa.com/assets/Boy-measurement.png'
                 />
               </div>
             </Popup>
           </div>
-          <div className='flex items-center'>
+         
+
+          <div className='flex mt-[6rem] space-x-5 items-center'>
+            <ButtonSqua outline className='btn' onClick={handelAddProductToCart}>
+              THÊM VÀO GIỎ
+            </ButtonSqua>
+            {/* <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua> */}
+            <div className='flex items-center'>
             <label htmlFor='quantity' className='text-[18px]'>
               Số Lượng:
             </label>
@@ -292,23 +304,14 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
             </div>
             <div>
               {quantityRemainProduct && (
-                <div className='pb-7 my-4 ml-4 text-gray-600 text-[1.6rem]'>
+                <div className='my-auto ml-4 text-gray-600 text-[1.6rem]'>
                   {quantityRemainProduct?.quantity} sản phẩm có sẵn
                 </div>
               )}
             </div>
           </div>
-
-          <div className='flex mt-5 space-x-5'>
-            <ButtonSqua outline className='btn' onClick={handelAddProductToCart}>
-              THÊM VÀO GIỎ
-            </ButtonSqua>
-            {/* <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua> */}
-            <ButtonComponent outlineNew className='btn'>
-              <AiOutlineHeart className='text-[25px] text-white' />
-            </ButtonComponent>
           </div>
-          <div className='mt-[80px]'>
+          <div className='mt-[60px]'>
             <div className='tab-header flex space-x-8 '>
               <div className={optionInfo === 'intro' ? 'active' : ''} onClick={() => changeInfo('intro')}>
                 GIỚI THIỆU
@@ -342,7 +345,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
 export default DetailInformation
 
 const cssInfomation = css`
-  margin: 5px 10px 0px 90px;
+  margin: 5px 10px 0px 100px;
   font-family: sans-serif;
   .ruler {
     font-size: 14px;
