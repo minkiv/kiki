@@ -12,6 +12,7 @@ interface ProductProps {
 
 const Products: FunctionComponent<ProductProps> = () => {
   let keyword = new URLSearchParams(location.search).get('q')
+  const [listColor, setListColor] = useState<any>()
 
   const {
     data: { products },
@@ -46,7 +47,7 @@ const Products: FunctionComponent<ProductProps> = () => {
       top: 0,
       behavior: "instant",
     });
-  },[])
+  },[data])
   const handleDataUpdate = (id: any) => {
     if (!keyword) {
       const listPro = products.filter((pro: any) => pro.categoryId._id === id)
@@ -60,7 +61,6 @@ const Products: FunctionComponent<ProductProps> = () => {
     }
   }
   const handleSortPrice = (type: any) => {
-    console.log(type)
     if (type == 'decending') {
       const listPrice = data.map((p: any) => p.price).sort((a: any, b: any) => b - a)
       const listSorted: any = []
@@ -119,6 +119,56 @@ const Products: FunctionComponent<ProductProps> = () => {
 
     }
   };
+  const handleSortSize = (size: any) => {
+    const sorted: any = []
+    products.map((item: any) => {
+      item.listQuantityRemain.map((list: any) => {
+        if (list.nameSize === size) {
+          sorted.push(item)
+        }
+      })
+    })
+    const uniqueItems = sorted.reduce((acc: any[], item: any) => {
+      if (!acc.some((obj) => obj._id === item._id)) {
+        acc.push(item)
+      }
+      return acc
+    }, [])
+    setData(uniqueItems)
+  }
+  useEffect(() => {
+    const listColor: any = []
+    products.map((item: any) => {
+      item.listQuantityRemain.map((list: any) => {
+        listColor.push(list.colorHex)
+      })
+    })
+    const listUniqueColor = listColor.reduce((acc: any[], obj: any) => {
+      if (!acc.some((item) => item === obj)) {
+        acc.push(obj)
+      }
+      return acc
+    }, [])
+    setListColor(listUniqueColor)
+  }, [products])
+  const handleSortColor = (color: any) => {
+    const sorted: any = []
+    products.map((item: any) => {
+      item.listQuantityRemain.map((list: any) => {
+        if (list.colorHex === color) {
+          sorted.push(item)
+        }
+      })
+    })
+    const uniqueItems = sorted.reduce((acc: any[], item: any) => {
+      if (!acc.some((obj) => obj._id === item._id)) {
+        acc.push(item)
+      }
+      return acc
+    }, [])
+    setData(uniqueItems)
+  }
+ 
   return (
     <div css={cssProduct}>
       <TitleProducts>Tất cả sản phẩm</TitleProducts>
@@ -127,11 +177,14 @@ const Products: FunctionComponent<ProductProps> = () => {
       </div>
       <div className='flex mt-[48px]'>
         <SidebarProducts
+          sortColor={handleSortColor}
           data={data}
+          listColor={listColor}
           onDataUpdate={handleDataUpdate}
           getPrices={handleGetPrice}
           sortPrices={handleSortPrice}
           sortNewProduct={reverseProducts}
+          sortSize={handleSortSize}
         />
         {!searchError && <ListProducts data={data} />}
         {searchError && <h1 className='text-[16px] font-semibold'>{searchError}!</h1>}
