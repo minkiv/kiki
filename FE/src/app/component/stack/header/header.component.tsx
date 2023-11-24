@@ -67,14 +67,14 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       setSearchTerm(keyword)
     } else setSearchTerm('')
   }, [keyword])
-  
+
   const accessToken = localStorage.getItem('accessToken')
   useEffect(() => {
     if (accessToken) {
       actions.getAllCart()
     }
   }, [accessToken])
-  
+
   const handleLoginLogout = () => {
     if (accessToken) {
       localStorage.removeItem('accessToken')
@@ -196,7 +196,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                           </Link>
                           <CheckAuth children={<Link to={'/admin'} className='inline-block w-[100%] font-normal bg-black mt-4 rounded-[8px] text-white text-[15px] py-3 hover:bg-[#ffaa00] p-6' >
                             Quản lý website
-                          </Link>}/>
+                          </Link>} />
                         </button>
                       </li>
                     </ul>
@@ -216,22 +216,23 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
           </div>
         </div>
       </div>
-      {content.length > 0 && content.some((item: any) => item.hidden === "Hiển thị") && (
-        <Marquee css={cssMarquee} direction="left" className='py-3 z-0 sticky' style={{ borderTop:'1px solid black',borderBottom:'1px solid black',width:'95%',margin:'100px auto 5px', animationPlayState:'paused' }}>
-          {content.map((item: any) => {
-            if (item.hidden === "Hiển thị") {
-              return (
-                <p style={{ padding: "0px 300px" }} key={item._id} className='text-[20px] text-black italic flex' >
-                  <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
-                  {item.content}
-                </p>
-              );
-            }
-            return null;
-          })}
-        </Marquee>
-      )}
-
+      <div className='mt-[100px]'>
+        {content.length > 0 && content.some((item: any) => item.hidden === "Hiển thị") && (
+          <Marquee css={cssMarquee} direction="left" className='py-3 z-0 sticky' style={{ borderTop: '1px solid black', borderBottom: '1px solid black', width: '95%', margin: 'auto', marginBottom: '5px', animationPlayState: 'paused' }}>
+            {content.map((item: any) => {
+              if (item.hidden === "Hiển thị") {
+                return (
+                  <p style={{ padding: "0px 300px" }} key={item._id} className='text-[20px] text-black italic flex' >
+                    <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
+                    {item.content}
+                  </p>
+                );
+              }
+              return null;
+            })}
+          </Marquee>
+        )}
+      </div>
     </div>
   )
 }
@@ -375,7 +376,7 @@ const cssDarkScreen = css`
   left: 0;
   right: 0;
 `
-const cssMarquee = css `
+const cssMarquee = css`
 .rfm-marquee:hover{
   animation-play-state: paused
 }

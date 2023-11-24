@@ -10,7 +10,7 @@ const CategoryManagement = () => {
     const [dataCategory, setDataCategory] = useState<any>([])
     useEffect(() => {
         getAllCategory().then((res) => {
-            setDataCategory(res.data)
+            setDataCategory(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
 
         })
     }, [reset])

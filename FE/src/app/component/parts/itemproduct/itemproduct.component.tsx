@@ -21,7 +21,7 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
   return (
     <div css={cssProduct} className={className}>
       <div className=' mb-[17px]'>
-        <img src={itemProduct?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className='w-[100%]max-h-[400px] m-auto' />
+        <img src={itemProduct?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='' className='w-[100%] max-h-[400px] h-[385.95px] m-auto' />
       </div>
       <div className='main'>
         <div className='flex justify-between mb-4'>
@@ -35,13 +35,13 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
         <div className='flex justify-between  h-[24px] mt-8 mb-10'>
           <div className='color'>
             {listColor &&
-              listColor?.map((item: any,key=0) => {
+              listColor?.map((item: any, key = 0) => {
                 if (item.nameColor)
                   return (
                     <div
                       key={item.id}
                       className=
-                      {`${(key=== 0)?'colorSelected':''} product-color inline-flex items-center justify-center mr-2`}
+                      {`${(key === 0) ? 'colorSelected' : ''} product-color inline-flex items-center justify-center mr-2`}
                     >
                       <div style={{ backgroundColor: `${item?.colorHex}` }} className={` h-[18px] w-[18px] rounded-[50%]`}></div>
                     </div>

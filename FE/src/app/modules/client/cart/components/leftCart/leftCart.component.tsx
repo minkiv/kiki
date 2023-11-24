@@ -197,7 +197,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   onChange={() => handleSelectProductBuy(item)}
                   checked={listProductBuy?.flatMap((items: any) => items?._id)?.includes(item?._id)}
                 />
-                <img src={item?.product?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className='w-[100px]' />
+                <img src={item?.product?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='' className='w-[90px]' />
 
                 <div className='max-sm:mr-2 max-sm:p-[7px]'>
                   <div className=' max-sm:w-full relative'>

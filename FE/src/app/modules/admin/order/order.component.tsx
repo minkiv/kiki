@@ -85,6 +85,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     getAllOrder().then((res) => {
       setDataOrder(res.data)
     })
+    console.log(dataOrder);
     getAllProduct().then((res) => {
       setDataProduct(res.data);
       setListProduct(res.data.map((item: any) => {
@@ -129,14 +130,14 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     if (!search) {
       filterDataOrderByStatus(orderStatus, "").then((res) => {
         if (res) {
-          setDataTable(res.data)
+          setDataTable(res.data.sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()))
         }
       })
     }
     else {
       filterDataOrderByStatus(orderStatus, keyword).then((res) => {
         if (res) {
-          setDataTable(res.data)
+          setDataTable(res.data.sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()))
         }
       })
     }

@@ -15,7 +15,7 @@ const ProductManagemnet = () => {
   const [reset, setReset] = useState<boolean>(true)
   useEffect(() => {
     getAllProduct().then((res) => {
-      setDataProduct(res.data)
+      setDataProduct(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
     })
     getAllCategory().then((res: any) => {
       setCategories(res.data)
@@ -151,16 +151,16 @@ const ProductManagemnet = () => {
           })
         }
         deleteFunc={deleteProduct}
-        changeFunc={(form: any,dataId:any) =>
+        changeFunc={(form: any, dataId: any) =>
           editProduct({
             ...form,
             listQuantityRemain: [
               ...form.listQuantityRemain.map((list: { colorHex: any }) => ({
                 ...list,
-                colorHex: typeof(list.colorHex)=='string' ?list.colorHex:list.colorHex.toHexString()
+                colorHex: typeof (list.colorHex) == 'string' ? list.colorHex : list.colorHex.toHexString()
               }))
             ]
-          },dataId)}
+          }, dataId)}
         handelGetList={handelGetList}
         formEdit={
           <Fragment>

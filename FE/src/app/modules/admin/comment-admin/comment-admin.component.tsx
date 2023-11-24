@@ -16,7 +16,7 @@ const CommentAdminComponent = () => {
     const [users, setUsers] = useState([])
     useEffect(() => {
         getAllComment().then((res) => {
-            setDataComment(res.data)
+            setDataComment(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
         })
         getAllProduct().then((res) => {
             setProducts(res.data)
@@ -27,7 +27,7 @@ const CommentAdminComponent = () => {
     }, [reset])
     useEffect(() => {
         const columnTemp: any = [];
-        const title = ['Email', 'Tên sản phẩm', '', 'Comment', 'Đánh giá']
+        const title = ['Email', 'Tên sản phẩm', '', 'Bình luận', 'Đánh giá']
         if (dataComment.length > 0) {
             Object.keys(dataComment[0]).forEach((itemKey, key = 0) => {
                 if (!['_id', 'updatedAt', 'createdAt', '__v'].includes(itemKey)) {
@@ -61,7 +61,7 @@ const CommentAdminComponent = () => {
     return (
         <div>
             <div>
-                <TemplateTable columnTable={colums} dataTable={dataComment} searchFunc={searchComment} setData={setDataComment} changeFunc={updateComment} createFunc={createComment} dataPage={7} deleteFunc={deleteComment} handelGetList={handelGetList} formEdit={
+                <TemplateTable columnTable={colums} dataTable={dataComment} noEdit={true} noCreate={true} searchFunc={searchComment} setData={setDataComment} changeFunc={updateComment} createFunc={createComment} dataPage={7} deleteFunc={deleteComment} handelGetList={handelGetList} formEdit={
                     <Fragment>
                         <Form.Item
                             label='Tên người dùng'
