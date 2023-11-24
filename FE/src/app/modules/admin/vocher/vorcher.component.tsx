@@ -18,7 +18,7 @@ const CategoryManagement = () => {
     // };
     useEffect(() => {
         getAllVorcher().then((res) => {
-            setDataVorcher(res.data.map((item: any) => {
+            setDataVorcher(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((item: any) => {
                 item.startday = dayjs(item.startday).locale('vi')
                 item.endday = dayjs(item.endday).locale('vi')
                 return item

@@ -33,7 +33,7 @@ const SupportAdmin = () => {
     };
     useEffect(() => {
         getAllSupport().then((res) => {
-            setDataSupport(res.data)
+            setDataSupport(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
         })
     }, [reset])
     const onSubmit = () => {
@@ -52,9 +52,9 @@ const SupportAdmin = () => {
     }
     useEffect(() => {
         const columnTemp: any = [];
-        const title = ['','Tên','Số ĐT','Email','Đề tài','Ghi chú']
+        const title = ['', 'Tên', 'Số ĐT', 'Email', 'Đề tài', 'Ghi chú']
         if (dataSupport.length > 0) {
-            Object.keys(dataSupport[0]).forEach((itemKey,key=0) => {
+            Object.keys(dataSupport[0]).forEach((itemKey, key = 0) => {
 
                 if (!['_id', 'updatedAt', 'createdAt', '__v'].includes(itemKey)) {
                     columnTemp.push({

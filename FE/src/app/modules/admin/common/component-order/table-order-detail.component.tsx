@@ -44,11 +44,11 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
 
     const columns: ColumnsType<AnyObject> = [
         {
-            title: 'Mã code / Ngày',
+            title: 'Ngày',
             key: '_id',
             render: (_, record: any) => (
                 <div className=''>
-                    {record._id} / {dayjs(record.createdAt).format('MM-DD-YYYY')}
+                    {dayjs(record.createdAt).format('MM-DD-YYYY')}
                 </div>
             )
         },
@@ -150,7 +150,7 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             key: 'images',
             render: (_: any, record: any) => (
                 <div style={{ width: 70 }}>
-                    {record?.product.images?.slice(0,1).map((image:any)=> image?.response || image?.url) ? <img src={record?.product.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} /> : 'Chưa có ảnh sản phẩm'}
+                    {record?.product.images?.slice(0, 1).map((image: any) => image?.response || image?.url) ? <img src={record?.product.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} /> : 'Chưa có ảnh sản phẩm'}
                 </div>
             )
         },

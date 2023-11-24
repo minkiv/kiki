@@ -51,7 +51,7 @@ const DashBoard = () => {
 
                 <div className='bg-green-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
-                        { <div className='text-6xl text-white font-semibold pb-[22px]'>{categorys?.length}</div> }
+                        {<div className='text-6xl text-white font-semibold pb-[22px]'>{categorys?.length}</div>}
                         <div className='text-white font-medium text-3xl mb-9'>Danh Mục Sản Phẩm</div>
                     </div>
                     <div className='bg-green-600 rounded-lg text-white justify-center p-4 w-full flex '>
@@ -112,7 +112,7 @@ const DashBoard = () => {
                 <div className='bg-lime-500 rounded-lg pt-6 mb-8 block w-[300px] h-[150px]'>
                     <div className='block px-6'>
                         {<div className='text-6xl text-white font-semibold pb-[22px]'>{vorchers?.length}</div>}
-                        <div className='text-white font-medium text-3xl mb-9'>Vocher</div>
+                        <div className='text-white font-medium text-3xl mb-9'>Khuyến mãi</div>
                     </div>
                     <div className='bg-lime-600 rounded-lg text-white justify-center p-4 w-full flex '>
                         <div className='px-2 text-xl font-medium'>Chi tiết</div>

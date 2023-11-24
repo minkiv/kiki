@@ -10,44 +10,35 @@ interface ListProductProps {
 }
 
 const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
-  useEffect(() => {
+  const numEachPage = 12;
+  const [currentPage, setCurrentPage] = useState(1);
+  const sortedData = [...data].sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const itemsPerPage = sortedData.slice((currentPage - 1) * numEachPage, currentPage * numEachPage);
+
+  const handleChangePaginate = (value: number) => {
+    setCurrentPage(value);
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     })
-  }, []);
-  const numEachPage = 12
-  const [minPaginate, setMinPaginate] = useState(0)
-  const [maxPaginate, setMaxPaginate] = useState(12)
-  const handleChangePaginate = (value: any) => {
-    setMinPaginate((value - 1) * numEachPage)
-    setMaxPaginate(value * numEachPage)
-  }
-  const [dt,setData] = useState(data)
-  useEffect(()=>{
-    setData(data)
-  },[data])
-  // console.log(dt)
+  };
+
   return (
     <div css={cssListProducts} className='w-[100%]'>
       <div className='grid grid-cols-4 gap-10 p-10'>
-        {data.slice(minPaginate, maxPaginate).map((item: any, index: any) => {
-          return (
-            <Link to={`/detail/${item._id}`} key={index}>
-              <ItemProduct itemProduct={item} />
-            </Link>
-          )
-        })}
+        {itemsPerPage.map((item: any, index: number) => (
+          <Link to={`/detail/${item._id}`} key={index}>
+            <ItemProduct itemProduct={item} />
+          </Link>
+        ))}
       </div>
       <div className='w-[100%] text-center'>
-        <Pagination defaultPageSize={12} onChange={handleChangePaginate} defaultCurrent={1} total={data.length} />
+        <Pagination defaultPageSize={numEachPage} onChange={handleChangePaginate} defaultCurrent={currentPage} total={sortedData.length} />
       </div>
     </div>
-  )
-}
-
-export default ListProducts
-
+  );
+};
+export default ListProducts;
 const cssListProducts = css`
 
 .select-title{

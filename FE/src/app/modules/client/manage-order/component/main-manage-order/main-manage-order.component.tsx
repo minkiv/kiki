@@ -21,8 +21,16 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
     const {
         data: { orders }, actions
     } = useOrderRedux()
+    const sortedData = [...orders].sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+    // Tính toán phần của mảng cần hiển thị trên trang hiện tại
+
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
         actions.getAllOrder()
     }, [])
 
@@ -63,7 +71,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.slice(startIndex, endIndex).map((order: any, index: any) => {
+                        {sortedData.slice(startIndex, endIndex).map((order: any, index: any) => {
 
                             return (
                                 <tr key={order?._id}>
@@ -91,16 +99,19 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                     </td>
                                     <td>{order?.totalprice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</td>
                                     <td>
-                                        <Popconfirm
-                                            title="Delete the task"
-                                            description="Are you sure to delete this task?"
-                                            onConfirm={() => confirm(order?._id, order?.orderStatus)}
-                                            onCancel={cancel}
-                                            okText="Yes"
-                                            cancelText="No"
-                                        >
-                                            <Button danger>huỷ đơn hàng</Button>
-                                        </Popconfirm></td>
+                                        {order?.orderStatus == "đang chờ duyệt" &&
+                                            <Popconfirm
+                                                title="Delete the task"
+                                                description="Are you sure to delete this task?"
+                                                onConfirm={() => confirm(order?._id, order?.orderStatus)}
+                                                onCancel={cancel}
+                                                okText="Yes"
+                                                cancelText="No"
+                                            >
+                                                <Button danger>huỷ đơn hàng</Button>
+                                            </Popconfirm>
+                                        }
+                                    </td>
                                 </tr>)
                         })}
                     </tbody>

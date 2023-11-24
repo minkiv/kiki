@@ -27,7 +27,9 @@ interface ITemplateTableProp {
   handelGetList?: any
   dataPage?: any,
   setData?: any,
-  isAdminProduct?: boolean
+  isAdminProduct?: boolean,
+  noCreate?: boolean,
+  noEdit?: boolean
 }
 
 const TemplateTable: FC<ITemplateTableProp> = ({
@@ -42,7 +44,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   formEdit,
   setData,
   isAdminProduct,
-
+  noCreate,
+  noEdit
 }) => {
   const [defaultValue, setDefaultValue] = useState<any>(null)
   const [form] = Form.useForm()
@@ -201,9 +204,9 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       key: 'action',
       render: (_, record: any) => (
         <Space size='middle' css={cssTemplateTable}>
-          <Button type='primary' onClick={() => showModel('CHANGE', record)}>
+          {!noEdit && <Button type='primary' onClick={() => showModel('CHANGE', record)}>
             Sửa
-          </Button>
+          </Button>}
           <Popconfirm
             title='Thông báo'
             description='Bạn có chắc muốn xóa không?'
@@ -274,13 +277,17 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   return (
     <LayoutLoading condition={triggerLoadding}>
       <div className='flex pb-4 justify-between'>
-        <Button
-          type='primary'
-          onClick={() => showModel('CREATE')}
-          className='p-0 h-[40px] w-[44px] rounded-[4px] bg-[#D4FF00]'
-        >
-          <PlusOutlined className='text-[20px] mb-[4px]' />
-        </Button>
+        <div>
+          {!noCreate &&
+            <Button
+              type='primary'
+              onClick={() => showModel('CREATE')}
+              className='p-0 h-[40px] w-[44px] rounded-[4px] bg-[#D4FF00]'
+            >
+              <PlusOutlined className='text-[20px] mb-[4px]' />
+            </Button>
+          }
+        </div>
 
         <div className='flex space-x-3 items-center'>
           {isAdminProduct && <SelectInput />}

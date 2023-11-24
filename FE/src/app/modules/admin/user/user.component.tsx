@@ -10,7 +10,7 @@ const UserManagemnet = () => {
   const [reset, setReset] = useState<boolean>(true)
   useEffect(() => {
     getAllUser().then((res) => {
-      setDataUser(res.data.map((item: any) => {
+      setDataUser(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((item: any) => {
         item.birthday = dayjs(item.birthday).format('YYYY-MM-DD')
         return item
       }))
