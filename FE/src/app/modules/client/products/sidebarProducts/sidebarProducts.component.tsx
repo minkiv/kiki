@@ -18,7 +18,9 @@ interface SidebarProductsProps {
   getPrices: any
   sortPrices: any
   sortNewProduct :any
- 
+  sortSize:any
+  sortColor: any
+  listColor: any
 }
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -40,7 +42,9 @@ function getItem(
 }
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4']
 const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
-  const { data, onDataUpdate, getPrices, sortPrices,sortNewProduct} = props
+  const [colorSelected, setColorSelected] = useState<any>()
+  const { data, onDataUpdate, getPrices, sortPrices,sortNewProduct,sortSize , sortColor,
+    listColor} = props
   const {
     data: { categorys },
     actions
@@ -61,7 +65,6 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
   const sortNews = (type: string) => {
     sortNewProduct(type)
   }
- 
   const items: MenuItem[] = [
     getItem(
       'Danh Mục',
@@ -149,6 +152,7 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
     }
   }
+  const menuSize = [{id: 1,name: 'S'},{id: 2,name: 'M'},{id: 3,name: 'L'},{id: 4,name: 'XL'}]
   return (
     <div css={cssSidebarProductsProduct}>
       <Menu
@@ -158,12 +162,95 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
         style={{ width: 300, fontSize: 18, paddingRight: 20, marginRight: 20 }}
         items={items}
       />
+      <div className="filter-size" css={cssFilterSize}>
+        <div className="title">
+          <p>Kích cỡ</p>
+        </div>
+        <div className="list-size">
+          {menuSize.map((size:any)=><div key={size.id} onClick={()=> sortSize(size.name)} className="size">{size.name}</div>)}
+        </div>
+      </div>
+      <div className="filter-color" css={cssFilterSize}>
+        <div className="title title-color">
+          <p>Màu sắc</p>
+        </div>
+        <div className='color' css={cssColor}>
+       {listColor &&
+         listColor?.map((item: any, key = 0) => {
+           return (
+             <div
+               key={key++}
+               className={`${
+                 item === colorSelected ? 'colorSelected' : ''
+               } product-color inline-flex items-center justify-center mr-2`}
+             >
+               <div
+                 style={{ backgroundColor: `${item}` }}
+                 onClick={() => {
+                   sortColor(item)
+                   setColorSelected(item)
+                 }}
+                 className={` h-[18px] w-[18px] rounded-[50%]`}
+               ></div>
+             </div>
+           )
+         })}
+     </div>
+      </div>
+      
     </div>
   )
 }
 
 export default SidebarProducts
+const cssColor = css`
+ width: 300px;
+ .product-color {
+   width: 24px;
+   height: 24px;
+   border-radius: 50%;
+   border: 1px solid #d1d1d1;
+   cursor: pointer;
+   margin: 10px 10px 10px 0;
+ }
+ .colorSelected,.product-color:hover {
+   border: 1px solid gray;
+ }
+`
 
+const cssFilterSize= css`
+width: 300px;
+padding-right: 20px;
+.title{
+  padding: 12px 16px;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  width:280px;
+}
+.title-color{
+  margin-top: 24px;
+}
+.list-size{
+  width: fit-content;
+  margin:auto;
+}
+.size{
+  display: inline-flex;
+  font-size: 18px;
+  width: 40px;
+  height: 30px;
+  justify-content:center;
+  align-items: center;
+  border: 1px solid #d1d1d1;
+  margin-right: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.size:hover{
+  border-color: #111
+}
+`
 const cssSidebarProductsProduct = css`
   .btn {
     min-width: 30px;
