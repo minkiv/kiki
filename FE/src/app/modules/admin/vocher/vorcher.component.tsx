@@ -1,4 +1,4 @@
-import { Form, Input, DatePicker, Select } from 'antd'
+import { Form, Input, DatePicker, Select, InputNumber } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import TemplateTable from '../common/template-table/template-table.component';
 import { changeVorcher, createVorcher, deleteVorcher, getAllVorcher, searchVoucher } from './service/vorcher.service';
@@ -53,7 +53,7 @@ const CategoryManagement = () => {
                             key: itemKey,
                             render: (text: any, record: any, index: any) => {
                                 if (itemKey === 'discount') {
-                                    return <div>{(record?.discount)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
+                                    return <div>{record?.discount}%</div>
                                 }
                                 return text
                             },
@@ -163,9 +163,12 @@ const CategoryManagement = () => {
                         <Form.Item
                             label='Số tiền giảm giá'
                             name='discount'
-                            rules={[{ required: true, message: 'Vui lòng nhập Giảm giá!' }]}
+                            rules={[
+                                { required: true, message: 'Vui lòng nhập Giảm giá!' },
+                                { type: 'number', min: 0, max: 100, message: 'Giảm giá phải nằm trong khoảng từ 0 đến 100' }
+                            ]}
                         >
-                            <Input />
+                            <InputNumber />
                         </Form.Item>
                         <Form.Item
                             label='Mã code giảm giá'
