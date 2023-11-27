@@ -49,6 +49,20 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
         })
     };
 
+    const confirmSucceer = (id: any, dataStatus: any) => {
+        if (dataStatus != "đang vận chuyển") {
+            return toast.error("chưa thể xác nhận ")
+        }
+        updateOrder({ orderId: id, orderStatus: 'hoàn thành' }).then((res) => {
+            if (res) {
+                toast.success("xác nhận thành công")
+                actions.getAllOrder()
+            }
+        }, (err) => {
+            toast.error("lỗi khi xác nhận")
+        })
+    }
+
     const cancel = (e: any) => {
         message.error('đã xác nhận không huỷ');
     };
@@ -101,14 +115,28 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                     <td>
                                         {order?.orderStatus == "đang chờ duyệt" &&
                                             <Popconfirm
-                                                title="Delete the task"
-                                                description="Are you sure to delete this task?"
+                                                title="huỷ đơn"
+                                                description="bạn có chắn chắn huỷ không?"
                                                 onConfirm={() => confirm(order?._id, order?.orderStatus)}
                                                 onCancel={cancel}
                                                 okText="Yes"
                                                 cancelText="No"
                                             >
                                                 <Button danger>huỷ đơn hàng</Button>
+                                            </Popconfirm>
+                                        }
+                                    </td>
+                                    <td>
+                                        {order?.orderStatus == "đang vận chuyển" &&
+                                            <Popconfirm
+                                                title="xác nhận"
+                                                description="bạ đã nhận được hàng chưa?"
+                                                onConfirm={() => confirmSucceer(order?._id, order?.orderStatus)}
+                                                onCancel={cancel}
+                                                okText="Yes"
+                                                cancelText="No"
+                                            >
+                                                <Button className='bg-green-700 text-white hover:text-white'>hoàn thành</Button>
                                             </Popconfirm>
                                         }
                                     </td>

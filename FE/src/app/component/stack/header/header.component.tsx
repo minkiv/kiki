@@ -11,7 +11,6 @@ import { searchProduct } from '~/app/modules/admin/product/service/product.servi
 import Marquee from 'react-fast-marquee'
 import { getAllContent } from '~/app/api/content/content.api'
 import { FiUserCheck } from 'react-icons/fi';
-import { PiShoppingCartThin } from 'react-icons/pi'
 import { CheckAuth } from '~/app/container/check-auth/CheckAuth.component'
 
 interface HeaderComponentProps {
@@ -69,6 +68,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   }, [keyword])
 
   const accessToken = localStorage.getItem('accessToken')
+  const checkAuth = localStorage.getItem('checkAuth')
   useEffect(() => {
     if (accessToken) {
       actions.getAllCart()
@@ -194,9 +194,10 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
                               Quản lý{' '}
                             </p>
                           </Link>
-                          <CheckAuth children={<Link to={'/admin'} className='inline-block w-[100%] font-normal bg-black mt-4 rounded-[8px] text-white text-[15px] py-3 hover:bg-[#ffaa00] p-6' >
+                          {checkAuth == "ADMIN" && <Link to={'/admin'} className='inline-block w-[100%] font-normal bg-black mt-4 rounded-[8px] text-white text-[15px] py-3 hover:bg-[#ffaa00] p-6' >
                             Quản lý website
-                          </Link>} />
+                          </Link>}
+
                         </button>
                       </li>
                     </ul>
