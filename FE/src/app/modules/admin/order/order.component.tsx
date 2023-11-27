@@ -210,12 +210,12 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
           </Button>
         )
         break
-      case 'đang vận chuyển':
-        return (
-          <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'hoàn thành')}>
-            Chuyển hoàn thành
-          </Button>
-        )
+      // case 'đang vận chuyển':
+      //   return (
+      //     <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'hoàn thành')}>
+      //       Chuyển hoàn thành
+      //     </Button>
+      //   )
       case 'hoàn thành':
         break
       case 'huỷ đơn':

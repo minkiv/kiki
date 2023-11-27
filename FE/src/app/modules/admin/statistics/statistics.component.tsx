@@ -72,7 +72,7 @@ const Statistical = () => {
         }).then((res) => {
             const orderChartData = res.data.listOrderChart;
             const orderData = res.data.orders.filter((order: any) => order.orderStatus === "hoàn thành");
-
+            setDataResponse(res.data)
             const totalPrices = orderChartData.map((chartData: any) => {
                 const date = chartData.date;
                 const totalPrice = orderData
@@ -297,6 +297,10 @@ const Statistical = () => {
 
             <div className='py-5'>
                 <Row justify='center'>
+
+                    <Col span={6}>
+                        <RangePicker format={'YYYY-MM-DD'} onChange={onChange} />
+                    </Col>
                     <Col span={6}>
                         <Select
                             defaultValue="day"
@@ -308,9 +312,6 @@ const Statistical = () => {
                             <Option value="month">Tháng</Option>
                             <Option value="year">Năm</Option>
                         </Select>
-                    </Col>
-                    <Col span={6}>
-                        <RangePicker format={'YYYY-MM-DD'} onChange={onChange} />
                     </Col>
                     <Col span={1}>
                         <Button type='primary' onClick={handleStatistical}>

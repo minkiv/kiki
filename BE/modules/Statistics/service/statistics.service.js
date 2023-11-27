@@ -113,6 +113,7 @@ export const statisticsMonneys = async (bodyRequest) => {
             $group: {
                 _id: "$_id",
                 productOrder: { $push: "$productOrder" },
+                orderStatus: { $first: "$orderStatus" },
                 createdAt: { $first: "$createdAt" },
                 updatedAt: { $first: "$updatedAt" },
                 __v: { $first: "$__v" }
@@ -120,11 +121,14 @@ export const statisticsMonneys = async (bodyRequest) => {
         }
     ])
     const totalQuantity = orders.reduce((total, order) => {
-        const orderTotal = order.productOrder.reduce((orderTotal, product) => {
-            return orderTotal + product.quantityOrder.quantity * product.product.price;
-        }, 0);
-
-        return total + orderTotal;
+        if (order.orderStatus == 'hoàn thành') {
+            const orderTotal = order.productOrder.reduce((orderTotal, product) => {
+                return orderTotal + (product.quantityOrder.quantity * product.product.price)
+            }, 0);
+            return total + orderTotal;
+        }
+        return total
     }, 0);
+
     return { listOrderChart, orders, totalQuantity }
 }
