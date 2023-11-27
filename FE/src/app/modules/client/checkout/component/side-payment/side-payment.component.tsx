@@ -43,50 +43,58 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
         (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
         0
       );
-      const discountedAmount: number = Math.min(sale, calculatedTotal);
-      const updatedTotalPrice = calculatedTotal - discountedAmount;
-      const finalTotalPrice = updatedTotalPrice >= 0 ? updatedTotalPrice : 0;
-      setTotalPrice(finalTotalPrice);
-      localStorage.setItem("sale", sale.toString());
-      localStorage.setItem("total", finalTotalPrice.toString());
+      // const discountedAmount: number = Math.min(sale, calculatedTotal);
+      // const updatedTotalPrice = calculatedTotal - discountedAmount;
+      // console.log(updatedTotalPrice)
+      // const finalTotalPrice = updatedTotalPrice >= 0 ? updatedTotalPrice : 0;
+      // console.log(finalTotalPrice)
+      setTotalPrice(calculatedTotal);
     }
   }, [listProductBuy, sale]);
   const handleApplyVoucher = (value: string) => {
+    localStorage.removeItem('total');
+    localStorage.removeItem('sale');
+  
     if (value === '') {
-      message.error('Bạn chưa nhập Vorcher');
+      message.error('Bạn chưa nhập Voucher');
       setSale(0);
       setTotalPrice(0);
       setAppliedVouchers([]);
       return;
     }
+  
     if (appliedVouchers.includes(value)) {
       message.warning('Bạn đã áp dụng voucher này trước đó');
       return;
     }
-
-    let found = false;
-    for (let i = 0; i < vorchers.length; i++) {
-      if (vorchers[i].code === value) {
-        const discountedAmount: number = Math.min(vorchers[i].discount, totalPrice);
-        setSale(discountedAmount);
-        localStorage.setItem("sale", discountedAmount.toString());
-        localStorage.setItem("total", (totalPrice - discountedAmount).toString());
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      setSale(0);
-    }
   
-    setAppliedVouchers([value]);
-    localStorage.setItem('voucherCode', value);
-    const updatedTotalPrice = listProductBuy.reduce(
-      (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
-      0
-    );
-    const finalTotalPrice = Math.max(updatedTotalPrice - sale, 0);
-    setTotalPrice(finalTotalPrice);
+    const voucher = vorchers.find((voucher:any) => voucher.code === value);
+  
+    if (voucher) {
+      const discountPercentage = voucher.discount;
+      const calculatedDiscount = (totalPrice * discountPercentage) / 100;
+      const discountedAmount: number = Math.min(calculatedDiscount, totalPrice);
+  
+      setSale(discountedAmount);
+      setAppliedVouchers([value]);
+      localStorage.setItem('voucherCode', value);
+  
+      const updatedTotalPrice = listProductBuy.reduce(
+        (total: any, item: any) =>
+          total + item?.product?.price * item?.quantityOrder.quantity,
+        0
+      );
+  
+      const finalTotalPrice = Math.max(updatedTotalPrice - discountedAmount, 0);
+      setTotalPrice(finalTotalPrice);
+      localStorage.setItem('total', finalTotalPrice.toString());
+      localStorage.setItem('sale', discountedAmount.toString());
+    } else {
+      setSale(0);
+      setTotalPrice(0);
+      setAppliedVouchers([]);
+      message.warning('Không tìm thấy voucher phù hợp');
+    }
   };
   const setSaletotal = localStorage.getItem("sale") || '0';
   const totalPriceValue: number = totalPrice || 0;
@@ -162,11 +170,6 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
             </div>
           </div>
           <div className='summary-flexRow'>
-            <div className='summary-label'>Phí vận chuyển</div>
-            <div className='summary-value'>0 đ</div>
-          </div>
-
-          <div className='summary-flexRow'>
             <div className='summary-label'>Giảm giá</div>
             <div className='summary-value summary-value-positive'>
             {setSaletotal ? parseFloat(setSaletotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : null}
@@ -217,7 +220,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                           <td className="py-2 px-4">{index + 1}</td>
                           <td className="py-2 px-4">{item?.name}</td>
                           <td className="py-2 px-4">{item?.code}</td>
-                          <td className="py-2 px-4">{item?.discount?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</td>
+                          <td className="py-2 px-4">{item?.discount}%</td>
                           <td className="py-2 px-4">
                             <button type='reset' onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                               Áp dụng
@@ -245,7 +248,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                 localStorage.setItem('voucherCode', e.target.value)
               }}
             />
-            <ButtonSqua children='Áp dụng' className='btnSqua' onClick={()=>handleApplyVoucher(valueVorcher)} />
+            <ButtonSqua type={"reset"} children='Áp dụng' className='btnSqua' onClick={() => {if (!valueVorcher) {message.error('Bạn chưa nhập Vorcher');return;}handleApplyVoucher(valueVorcher);}}/>
           </div>
 
         </div>
@@ -271,7 +274,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                             <td className="py-2 px-4">{index + 1}</td>
                             <td className="py-2 px-4">{item?.name}</td>
                             <td className="py-2 px-4">{item?.code}</td>
-                            <td className="py-2 px-4">{item?.discount?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</td>
+                            <td className="py-2 px-4">{item?.discount}%</td>
                             <td className="py-2 px-4">
                               <button type='reset' onClick={() => handleApplyVoucher(item?.code)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Áp dụng
@@ -311,7 +314,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                         localStorage.setItem('voucherCode', e.target.value)
                       }}
                     />
-                    <ButtonSqua children='Áp dụng' className='btnSqua' onClick={()=>handleApplyVoucher(valueVorcher)} />
+                    <ButtonSqua type={"reset"} children='Áp dụng' className='btnSqua' onClick={() => {if (!valueVorcher) {message.error('Bạn chưa nhập Vorcher');return;}handleApplyVoucher(valueVorcher);}}/>
                   </div>
                 </div>
               )}

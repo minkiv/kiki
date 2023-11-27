@@ -75,7 +75,8 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
         const voucherCode = localStorage.getItem('voucherCode');
         const voucher = vorchers?.find((item: any) => item.code === voucherCode);
         const discount = voucher?.discount;
-        let sumOrderPrice = discount ? totalPrice - discount : totalPrice;
+        const discountAmount = discount ? (discount / 100) * totalPrice : 0;
+        let sumOrderPrice = totalPrice - discountAmount;
         sumOrderPrice = Math.max(sumOrderPrice, 0);
         if (!voucher && voucherCode) {
             toast.error('Voucher không khớp');
