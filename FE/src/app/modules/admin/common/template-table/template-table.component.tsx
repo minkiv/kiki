@@ -29,7 +29,8 @@ interface ITemplateTableProp {
   setData?: any,
   isAdminProduct?: boolean,
   noCreate?: boolean,
-  noEdit?: boolean
+  noEdit?: boolean,
+  component?: string
 }
 
 const TemplateTable: FC<ITemplateTableProp> = ({
@@ -45,7 +46,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   setData,
   isAdminProduct,
   noCreate,
-  noEdit
+  noEdit,
+  component
 }) => {
   const [defaultValue, setDefaultValue] = useState<any>(null)
   const [form] = Form.useForm()
@@ -60,6 +62,20 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const [applyFilter, setApplyFilter] = useState<boolean>(false);
   const confirmDelete = (idItem: any) => {
     setTriggerLoadding(true)
+    if(component==='category'){
+      changeFunc({status:false}, idItem).then(
+        (res: any) => {
+          if (res) {
+            setIsModelOpen(false)
+            setTriggerLoadding(true);
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.success('xóa thành công')
+              handelGetList()
+            }, 1000)
+          }
+        })
+    }else{
     deleteFunc(idItem).then(
       (res: any) => {
         if (res) {
@@ -78,6 +94,24 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         }, 1000)
       }
     )
+    }
+  }
+  const confirmReset = (idItem:any)=>{
+    setTriggerLoadding(true)
+    if(component==='category'){
+      changeFunc({status:true}, idItem).then(
+        (res: any) => {
+          if (res) {
+            setIsModelOpen(false)
+            setTriggerLoadding(true);
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.success('Khôi phục thành công')
+              handelGetList()
+            }, 1000)
+          }
+        })
+    }
   }
   const cancel = (e: any) => {
     message.error('Đã hủy xoá')
@@ -134,6 +168,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         .validateFields()
         .then((values: any) => {
           form.resetFields()
+          console.log(defaultValue)
           changeFunc(values, defaultValue._id).then(
             (res: any) => {
               if (res) {
@@ -202,8 +237,23 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     {
       title: 'Hành động',
       key: 'action',
-      render: (_, record: any) => (
-        <Space size='middle' css={cssTemplateTable}>
+      render: (_, record: any) => {
+        if(component ==='category' && (!record?.status || record.status === undefined)){
+        return <Space size='middle' css={cssTemplateTable}>
+          <Popconfirm
+            title='Thông báo'
+            description='Bạn có chắc muốn khôi phục không?'
+            onConfirm={() => confirmReset(record?._id)}
+            onCancel={cancel}
+            okText='Yes'
+            cancelText='No'
+          >
+            <Button className='btn-edit'>Khôi phục</Button>
+          </Popconfirm>
+        </Space>
+        }else{
+          console.log(component,record.status)
+          return <Space size='middle' css={cssTemplateTable}>
           {!noEdit && <Button type='primary' onClick={() => showModel('CHANGE', record)}>
             Sửa
           </Button>}
@@ -218,7 +268,9 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             <Button className='btn-delete'>Xóa</Button>
           </Popconfirm>
         </Space>
-      )
+        }
+        
+      }
     }
   ]
 

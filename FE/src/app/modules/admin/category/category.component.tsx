@@ -11,7 +11,6 @@ const CategoryManagement = () => {
     useEffect(() => {
         getAllCategory().then((res) => {
             setDataCategory(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
-
         })
     }, [reset])
     useEffect(() => {
@@ -50,7 +49,7 @@ const CategoryManagement = () => {
     }
     return (
         <div>
-            <TemplateTable searchFunc={searchCategory} setData={setDataCategory} dataTable={dataCategory} columnTable={column} deleteFunc={deleteCategory} createFunc={createCategory} handelGetList={handelGetList} changeFunc={changeCategory}
+            <TemplateTable component='category' searchFunc={searchCategory} setData={setDataCategory} dataTable={dataCategory} columnTable={column} deleteFunc={deleteCategory} createFunc={createCategory} handelGetList={handelGetList} changeFunc={changeCategory} 
                 formEdit={
                     <Fragment>
                         <Form.Item

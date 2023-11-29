@@ -18,7 +18,7 @@ const ProductManagemnet = () => {
       setDataProduct(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
     })
     getAllCategory().then((res: any) => {
-      setCategories(res.data)
+      setCategories(res.data.filter((cate:any)=> cate?.status !== false))
     })
   }, [reset])
 

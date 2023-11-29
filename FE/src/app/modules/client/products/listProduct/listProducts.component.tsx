@@ -24,11 +24,7 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
     setMinPaginate((value - 1) * numEachPage)
     setMaxPaginate(value * numEachPage)
   }
-  const [dt,setData] = useState(data)
-  useEffect(()=>{
-    setData(data)
-  },[data])
-  // console.log(dt)
+
   return (
     <div css={cssListProducts} className='w-[100%]'>
       <div className='grid grid-cols-4 gap-10 p-10'>
