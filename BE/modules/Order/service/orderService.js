@@ -97,13 +97,16 @@ export const searchOrder = async (req, res) => {
 export const filterDataOrderByStatus = async (queryRequest) => {
     const { status, keyword } = queryRequest;
 
-    const matchStage = {
-        "orderStatus": { $in: [status] }
-    };
+    let matchStage = { "orderStatus": { $in: [status] } };
 
-    // Add phoneNumber filter if keyword is provided
     if (keyword) {
-        matchStage.phoneNumber = { $regex: keyword, $options: 'i' };
+        matchStage = {
+            $or: [
+                { fullname: { $regex: keyword, $options: 'i' } },
+                { phoneNumber: { $regex: keyword, $options: 'i' } }
+            ],
+            $and: [matchStage]
+        };
     }
 
     const orders = await Order.aggregate([

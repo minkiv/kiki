@@ -157,7 +157,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     })
   }
   const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    return setKeyword(event.target.value);
+    return setKeyword(event.target.value.trim());
   }
   const handleSearchItem = () => {
     setTriggerLoadding(true)
