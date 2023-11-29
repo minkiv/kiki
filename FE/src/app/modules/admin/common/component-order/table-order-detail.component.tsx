@@ -134,7 +134,7 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
         },
         {
             key: '6',
-            label: 'Địa chỉ chi tiếttiết',
+            label: 'Địa chỉ chi tiết',
             children: detailRecord?.locationDetail
         }
     ]

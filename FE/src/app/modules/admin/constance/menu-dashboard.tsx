@@ -38,12 +38,12 @@ export const menuDashBoard = [
     {
         key: '/admin/comment',
         icon: <CommentOutlined />,
-        label: 'Đánh giá'
+        label: 'Bình luận - Đánh giá'
     },
     {
         key: '/admin/order',
         icon: <ShoppingCartOutlined />,
-        label: 'Đặt hàng'
+        label: 'Đơn hàng'
     },
     {
         key: '/admin/support',

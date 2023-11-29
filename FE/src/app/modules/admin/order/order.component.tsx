@@ -44,6 +44,48 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     setSelectedColor(null);
     setSelectedSize(null);
   };
+  const [customerInfo, setCustomerInfo] = useState<any>(null)
+  console.log(customerInfo)
+  const handlePhoneChange = (value: any) => {
+    getAllOrder().then((res) => {
+      const orders = res.data;
+
+      const matchingOrders = orders.filter((order: any) => {
+        const orderPhoneNumber = order.phoneNumber?.trim().toLowerCase();
+        const inputValue = value?.trim().toLowerCase();
+        return orderPhoneNumber === inputValue;
+      });
+
+      console.log("Matching Orders:", matchingOrders);
+
+      if (matchingOrders.length > 0) {
+        const firstMatchingOrder = matchingOrders[0];
+        setCustomerInfo({
+          fullname: firstMatchingOrder.fullname,
+          phoneNumber: firstMatchingOrder.phoneNumber,
+          city: firstMatchingOrder.city,
+          district: firstMatchingOrder.district,
+          commune: firstMatchingOrder.commune,
+          locationDetail: firstMatchingOrder.locationDetail,
+        });
+      } else {
+        setCustomerInfo(null);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (customerInfo) {
+      form.setFieldsValue({
+        fullname: customerInfo.fullname,
+        phoneNumber: customerInfo.phoneNumber,
+        city: customerInfo.city,
+        district: customerInfo.district,
+        commune: customerInfo.commune,
+        locationDetail: customerInfo.locationDetail,
+      });
+    }
+  }, [customerInfo, form]);
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
     if (selectedProduct) {
@@ -291,7 +333,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                     { required: true, message: 'Vui lòng nhập Số điện thoại!' }
                   ]}
                 >
-                  <Input />
+                  <Input onChange={(e) => handlePhoneChange(e.target.value)} />
                 </Form.Item>
 
                 <Form.Item
