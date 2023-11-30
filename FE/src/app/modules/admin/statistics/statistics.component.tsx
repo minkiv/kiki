@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Select, Button, DatePicker, Row, Col } from 'antd';
 import { Line, Pie } from '@ant-design/plots';
-import { getAllOrder, getAllOrderByStatus, getAllStatistics } from './service/statistics.service';
+import { getAllOrder, getAllOrderByStatus } from './service/statistics.service';
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component';
 import moment from 'moment';
 import { FaMoneyCheckAlt } from "react-icons/fa"
@@ -12,13 +12,14 @@ const { RangePicker } = DatePicker;
 const Statistical = () => {
     const [dataChart, setDataChart] = useState<any>([]);
     const [dataResponse, setDataResponse] = useState<any>({})
-    const [dataRequest, setDataRequest] = useState({
+    const [dataRequest, setDataRequest] = useState<any>({
         startDate: '',
         endDate: '',
-        granularity: 'day',
+        granularity: '',
     });
     const [orders, setOrders] = useState<any>([])
     const [productSalesData, setProductSalesData] = useState<any>([]);
+
     useEffect(() => {
         getAllOrder().then((res) => {
             const completedOrders = res.data.filter((order: any) => order.orderStatus === "hoàn thành");
@@ -63,33 +64,40 @@ const Statistical = () => {
     };
 
     useEffect(() => {
-        handleStatistical();
-    }, [dataRequest]);
-    useEffect(() => {
-        getAllOrderByStatus({
-            startDate: '2023-11-01',
-            endDate: '2023-11-06',
-        }).then((res) => {
-            const orderChartData = res.data.listOrderChart;
-            const orderData = res.data.orders.filter((order: any) => order.orderStatus === "hoàn thành");
-            setDataResponse(res.data)
-            const totalPrices = orderChartData.map((chartData: any) => {
-                const date = chartData.date;
-                const totalPrice = orderData
-                    .filter((order: any) => order.createdAt.startsWith(date))
-                    .reduce((total: any, order: any) => total + order.totalprice, 0);
-                return {
-                    date,
-                    totalprice: totalPrice,
-                    subtotal: chartData.subtotal
-                };
-            });
+        if (orders) {
+            handleStatistical();
+            setDataRequest({
+                startDate: '2023-11-01',
+                endDate: '2023-11-30',
+                granularity: 'day',
+            })
+        }
 
-            setDataChart(totalPrices);
-        });
-    }, []);
+    }, [orders]);
+
+    // useEffect(() => {
+    //     getAllOrderByStatus({
+    //         startDate: '2023-11-01',
+    //         endDate: '2023-11-29',
+    //     }).then((res) => {
+    //         const orderChartData = res.data.listOrderChart;
+    //         const orderData = res.data.orders.filter((order: any) => order.orderStatus === "hoàn thành");
+    //         setDataResponse(res.data)
+    //         const totalPrices = orderChartData.map((chartData: any) => {
+    //             const date = chartData.date;
+    //             const totalPrice = orderData
+    //                 .filter((order: any) => order.createdAt.startsWith(date))
+    //                 .reduce((total: any, order: any) => total + order.totalprice, 0);
+    //             return {
+    //                 date,
+    //                 totalprice: totalPrice,
+    //                 subtotal: chartData.subtotal
+    //             };
+    //         });
+    //         setDataChart(totalPrices);
+    //     });
+    // }, []);
     const handleStatistical = async () => {
-
         setDataChart([]);
         const res = await getAllOrderByStatus(dataRequest);
         setDataResponse(res.data)
@@ -99,6 +107,7 @@ const Statistical = () => {
             let totalPrices = [];
 
             if (dataRequest.granularity === 'day') {
+
                 const productSales: any = {};
                 totalPrices = orderChartData.map((chartData: any) => {
                     const date = chartData.date;
@@ -251,14 +260,14 @@ const Statistical = () => {
 
 
     const handleGranularityChange = (value: string) => {
-        setDataRequest((prev) => ({
+        setDataRequest((prev: any) => ({
             ...prev,
             granularity: value,
         }));
     };
 
     const onChange = (value: any, dateString: [string, string]) => {
-        setDataRequest((prev) => ({
+        setDataRequest((prev: any) => ({
             ...prev,
             startDate: dateString[0],
             endDate: dateString[1],
@@ -286,7 +295,7 @@ const Statistical = () => {
     };
 
     return (
-        <LayoutLoading condition={dataChart.length === 0}>
+        <LayoutLoading condition={orders.length == 0}>
             <div className='bg-blue-500 rounded-lg p-6 mb-8 block w-[300px] h-44'>
                 <div className='flex'>
                     <div className='text-4xl text-white font-semibold'>Doanh Thu</div>
