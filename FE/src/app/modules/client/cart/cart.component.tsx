@@ -17,7 +17,9 @@ const Cart: FunctionComponent<CartProps> = () => {
   useEffect(() => {
     actions.getAllCart()
   }, [])
-
+  localStorage.removeItem('total');
+  localStorage.removeItem('sale');
+  localStorage.removeItem('voucherCode');
   return (
     <>
       {accessToken ? (
