@@ -54,7 +54,6 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
   const handleApplyVoucher = (value: string) => {
     localStorage.removeItem('total');
     localStorage.removeItem('sale');
-  
     if (value === '') {
       message.error('Bạn chưa nhập Voucher');
       setSale(0);
@@ -62,13 +61,12 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
       setAppliedVouchers([]);
       return;
     }
-  
     if (appliedVouchers.includes(value)) {
       message.warning('Bạn đã áp dụng voucher này trước đó');
       return;
     }
   
-    const voucher = vorchers.find((voucher:any) => voucher.code === value);
+    const voucher = vorchers.find((voucher: any) => voucher.code === value);
   
     if (voucher) {
       const discountPercentage = voucher.discount;
@@ -96,7 +94,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
       message.warning('Không tìm thấy voucher phù hợp');
     }
   };
-  const setSaletotal = localStorage.getItem("sale") || '0';
+  const setSaletotal = localStorage.getItem("sale") || sale || 0;
   const totalPriceValue: number = totalPrice || 0;
   const saleResult: number = sale || 0;
   const gettotal: any = localStorage.getItem('total') || (totalPriceValue - saleResult) || 0;
@@ -111,6 +109,22 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
   useEffect(() => {
     setValivocher(getValueVocher)
   }, [getValueVocher])
+  useEffect(() => {
+    if (getValueVocher === "") {
+      setAppliedVouchers([]);
+      localStorage.removeItem('total');
+      localStorage.removeItem('sale');
+      localStorage.removeItem('voucherCode');
+      setSale(0)
+      localStorage.getItem('total');
+      const calculatedTotal = listProductBuy.reduce(
+        (total: any, item: any) => total + item?.product?.price * item?.quantityOrder.quantity,
+        0
+      );
+      setTotalPrice(calculatedTotal);
+      localStorage.setItem('total', calculatedTotal.toString());
+    }
+  }, [listProductBuy, getValueVocher]);
   return (
     <div css={cssSidebar} className=' max-md:hidden mt-[30px]'>
       <div className='sidebar-wrapper max-sm:hidden'>
@@ -172,7 +186,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           <div className='summary-flexRow'>
             <div className='summary-label'>Giảm giá</div>
             <div className='summary-value summary-value-positive'>
-            {setSaletotal ? parseFloat(setSaletotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : null}
+            {setSaletotal ? parseFloat(setSaletotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : "0 đ"}
             </div>
           </div>
         </div>
@@ -311,6 +325,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                       placeholder="Mã giảm giá"
                       onChange={(e: any) => {
                         setVoucherCode(e.target.value)
+                        localStorage.getItem("voucherCode")
                         localStorage.setItem('voucherCode', e.target.value)
                       }}
                     />
