@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
-import { Button, Form, Input, Popconfirm, Space, Table, Tag, message, Select } from 'antd'
+import { Button, Form, Input, Popconfirm, Space, Table, Tag, message, Select, Modal } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import TemplateModal from '../template-modal/template-modal.component'
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component'
@@ -30,7 +30,9 @@ interface ITemplateTableProp {
   isAdminProduct?: boolean,
   noCreate?: boolean,
   noEdit?: boolean,
+  chageProductCategoryFunc?: any,
   component?: string
+  dataProduct?:any[]
 }
 
 const TemplateTable: FC<ITemplateTableProp> = ({
@@ -47,6 +49,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   isAdminProduct,
   noCreate,
   noEdit,
+  dataProduct,
+  chageProductCategoryFunc,
   component
 }) => {
   const [defaultValue, setDefaultValue] = useState<any>(null)
@@ -60,6 +64,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const [dataFilter, setDataFilter] = useState<any[]>([])
   const [selectedValue, setSelectedValue] = useState<string>('all');
   const [applyFilter, setApplyFilter] = useState<boolean>(false);
+  const [modal, contextHolder] = Modal.useModal();
   const confirmDelete = (idItem: any) => {
     setTriggerLoadding(true)
     if(component==='category'){
@@ -96,6 +101,51 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     )
     }
   }
+  const deleteAbsolute=(category:any)=>{
+      const listProduct = dataProduct?.filter((product:any)=>product.categoryId._id === category._id);
+      listProduct?.map((product:any)=>{
+        chageProductCategoryFunc({...product, categoryId:{_id: '656b0b5bf0981478cdf1a957', name: 'Chưa phân loại'}}, product._id).then(
+          (res: any) => {
+            if (res) {
+              setIsModelOpen(false)
+              setTriggerLoadding(true);
+            }
+          },
+          (err: any) => {
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.error('sửa thất bại ')
+            }, 1000)
+          }
+        )
+      })
+      deleteFunc(category._id).then(
+        (res: any) => {
+          if (res) {
+            console.log(res)
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.success('Xóa thành công')
+              handelGetList()
+            }, 1000)
+          }
+        },
+        (err: any) => {
+          setTimeout(() => {
+            setTriggerLoadding(false)
+            message.error(err.response.data)
+          }, 1000)
+        }
+      )
+  }
+  const configDeleteCateogry = {
+    title: 'Tất cả sản phẩm sẽ được chuyển đến danh mục chưa phân loại!',
+    content: (
+      <>
+       
+      </>
+    ),
+  };
   const confirmReset = (idItem:any)=>{
     setTriggerLoadding(true)
     if(component==='category'){
@@ -238,7 +288,8 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       title: 'Hành động',
       key: 'action',
       render: (_, record: any) => {
-        if(component ==='category' && (!record?.status || record.status === undefined)){
+        if(component ==='category' && (!record?.status)){
+          if(record.name !== 'Chưa phân loại'){
         return <Space size='middle' css={cssTemplateTable}>
           <Popconfirm
             title='Thông báo'
@@ -250,9 +301,21 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           >
             <Button className='btn-edit'>Khôi phục</Button>
           </Popconfirm>
+          
+            <Button danger type='text'
+          onClick={async () => {
+            const confirmed = await modal.confirm(configDeleteCateogry);
+            if(confirmed){
+              deleteAbsolute(record)
+            }
+          }}
+        >
+          Xóa vĩnh viễn
+        </Button>
+        {contextHolder}
         </Space>
+          } return ;
         }else{
-          console.log(component,record.status)
           return <Space size='middle' css={cssTemplateTable}>
           {!noEdit && <Button type='primary' onClick={() => showModel('CHANGE', record)}>
             Sửa

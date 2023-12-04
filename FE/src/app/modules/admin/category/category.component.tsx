@@ -3,11 +3,18 @@ import { Fragment, useEffect, useState } from 'react'
 import { changeCategory, createCategory, deleteCategory, getAllCategory, searchCategory } from "./service/category.service"
 import TemplateTable from '../common/template-table/template-table.component';
 import dayjs from 'dayjs';
+import { getAllProduct,editProduct } from '../product/service/product.service';
 
 const CategoryManagement = () => {
     const [column, setColumn] = useState([])
     const [reset, setReset] = useState<boolean>(true)
     const [dataCategory, setDataCategory] = useState<any>([])
+    const [dataProduct, setDataProduct] = useState<any>([])
+    useEffect(()=>{
+        getAllProduct().then((res) => {
+            setDataProduct(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+          })
+    },[])
     useEffect(() => {
         getAllCategory().then((res) => {
             setDataCategory(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
@@ -49,7 +56,7 @@ const CategoryManagement = () => {
     }
     return (
         <div>
-            <TemplateTable component='category' searchFunc={searchCategory} setData={setDataCategory} dataTable={dataCategory} columnTable={column} deleteFunc={deleteCategory} createFunc={createCategory} handelGetList={handelGetList} changeFunc={changeCategory} 
+            <TemplateTable dataProduct={dataProduct} chageProductCategoryFunc={editProduct} component='category' searchFunc={searchCategory} setData={setDataCategory} dataTable={dataCategory} columnTable={column} deleteFunc={deleteCategory} createFunc={(form:any)=>createCategory({...form, status: true})} handelGetList={handelGetList} changeFunc={changeCategory} 
                 formEdit={
                     <Fragment>
                         <Form.Item
