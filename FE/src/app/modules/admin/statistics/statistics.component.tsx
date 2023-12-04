@@ -335,7 +335,8 @@ const Statistical = () => {
             </div>
             <div className='py-10 my-10'>
                 <h1 className='mt-10 font-semibold text-4xl'>Thống kê sản phẩm</h1>
-                <Pie {...conFig} />
+                {productSalesData.length == 0 ? (<div className='text-center mt-5 text-[25px]'>Không có đơn nào để thống kê sản phẩm</div>) : (<Pie {...conFig} />)}
+
             </div>
         </LayoutLoading>
     );

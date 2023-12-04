@@ -169,7 +169,14 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
   const [search, setSearch] = useState(false)
   const [triggerLoadding, setTriggerLoadding] = useState(false)
   const callAllOrder = useCallback(() => {
-    if (!search) {
+    if (orderStatus === 'tất cả đơn hàng') {
+      getAllOrder().then((res) => {
+        if (res) {
+          setDataTable(res.data.sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
+        }
+      });
+    }
+    else if (!search) {
       filterDataOrderByStatus(orderStatus, "").then((res) => {
         if (res) {
           setDataTable(res.data.sort((a: any, b: any) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()))
@@ -184,7 +191,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       })
     }
 
-  }, [orderStatus, reset])
+  }, [orderStatus, reset,orderStatus])
 
   useEffect(() => {
     callAllOrder()
@@ -286,6 +293,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       <div className='py-5'>
         <Segmented
           options={[
+            { value: 'tất cả đơn hàng', label: 'tất cả đơn hàng' },
             { value: 'đang chờ duyệt', label: 'đang chờ duyệt' },
             { value: 'duyệt thành công', label: 'duyệt thành công' },
             { value: 'đang vận chuyển', label: 'đang vận chuyển' },
