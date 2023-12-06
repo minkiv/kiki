@@ -186,7 +186,7 @@ const Products: FunctionComponent<ProductProps> = () => {
           sortNewProduct={reverseProducts}
           sortSize={handleSortSize}
         />
-        {!searchError && <ListProducts data={data} />}
+        {!searchError && <ListProducts data={data.filter((product:any)=> product.categoryId._id !== '656b0b5bf0981478cdf1a957')} />}
         {searchError && <h1 className='text-[16px] font-semibold'>{searchError}!</h1>}
       </div>
     </div>

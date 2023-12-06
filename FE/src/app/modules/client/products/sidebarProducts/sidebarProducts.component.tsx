@@ -71,7 +71,7 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       'sub1',
       <SiZenn />,
       [
-        ...categorys.filter((cate:any)=> cate?.status !== false).map((cate: any, key = 0) =>
+        ...categorys.filter((cate:any)=> (cate?.status === true || cate._id !== '656b0b5bf0981478cdf1a957')).map((cate: any, key = 0) =>
           getItem(
             <div key={key + 1} onClick={() => getAllcategory(cate._id)}>
               {cate.name}
