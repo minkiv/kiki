@@ -64,14 +64,7 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
         }
 
     ]
-    const [getUser, setGetUser] = useState<any[]>([]);
 
-    useEffect(() => {
-        getAllUser()
-            .then((res) => {
-                setGetUser(res.data);
-            })
-    }, []);
     const [stateUpdatePassword, setstateUpdatePassword] = useState(false)
     const id = localStorage.getItem("userID")
     const { handleSubmit, control, formState: { errors } } = useForm({
@@ -105,17 +98,17 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
         <div css={cssManageInfo}>
             {
                 accessToken ? (
-                    <div className='w-[1440px] m-auto flex justify-center mt-16 relative' >
+                    <div className='w-full lg:w-[1440px] m-auto block lg:flex justify-center mt-16 relative' >
                         <div>
                             <MenuSideBar />
                         </div>
-                        <div className='pl-[20px] w-full'>
+                        <div className='px-[20px]  md:pl-[20px] w-full'>
                             <h2 className='font-semibold text-[24px] uppercase leading-8'>Tài khoản của tôi</h2>
                             <div className='mt-3 flex'>
                                 <h3 className='alert'>"Vì chính sách an toàn thẻ, bạn không thể thay đổi SĐT, Ngày sinh, Họ tên. Vui lòng liên hệ CSKH 0905898683 để được hỗ trợ"</h3>
                             </div>
 
-                            <div className='flex space-x-28 ml-24'>
+                            <div className='flex space-x-28 md:ml-24 w-full'>
                                 <form onSubmit={handleSubmit(onSubmit)} className='w-[650px] mt-8'>
                                     <div className='space-y-10'>
                                         {
@@ -123,11 +116,11 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
                                                 if (item.hidden) {
                                                     return null;
                                                 }
-                                                return <div className='flex items-center h-[48px]' key={item.field}>
-                                                    <div className='w-[170px] text-[#3e3e3f] text-[14px] leading-[16px]'>
+                                                return <div className='block md:flex items-center h-[48px]' key={item.field}>
+                                                    <div className='w-full md:w-[170px] text-[#3e3e3f] text-[14px] leading-[16px]'>
                                                         {item.title}:
                                                     </div>
-                                                    <div className='w-[480px]'>
+                                                    <div className='w-full md:w-[480px]'>
                                                         <Controller
                                                             control={control}
                                                             name={item.field}
@@ -205,7 +198,7 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
 
                                 </form>
 
-                                <div className='mt-8'>
+                                <div className='mt-8 hidden lg:block'>
                                     <table className='table'>
                                         <tbody>
                                             <tr>
@@ -226,7 +219,7 @@ const ManageInfoCustomer: FunctionComponent<InFo> = () => {
                             </div>
 
                         </div>
-                        {stateUpdatePassword && <div className='absolute w-[800px] z-50'>
+                        {stateUpdatePassword && <div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] lg:w-[800px] z-50'>
                             <div className='absolute right-2 top-2 text-[30px]' onClick={() => setstateUpdatePassword(false)}><GrFormClose /></div>
                             <UpdatePassword />
                         </div>}

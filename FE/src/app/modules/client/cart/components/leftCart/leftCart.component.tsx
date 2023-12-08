@@ -183,35 +183,41 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
             <th className='taitle-table'>Số lượng</th>
             <th className='taitle-table'>Thành tiền</th>
             <th className='remove-all'>
-              <RiDeleteBinLine size={17} className='delete-icon sm:mr-4 max-sm:mr-5' />
+              <RiDeleteBinLine size={20} className='delete-icon sm:mr-4 max-sm:mr-5 hidden lg:block' />
             </th>
           </tr>
         </thead>
         <tbody>
           {carts?.map((item: any, index: any) => (
-            <tr className='trbody' key={index}>
-              <td className='flex items-center space-x-3'>
-                <input
-                  type='checkbox'
-                  className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-6 max-sm:mr-2'
-                  onChange={() => handleSelectProductBuy(item)}
-                  checked={listProductBuy?.flatMap((items: any) => items?._id)?.includes(item?._id)}
-                />
-                <img src={item?.product?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='' className='w-[90px]' />
+            <tr className='trbody w-[320px] relative' key={index}>
+              <td className='flex relative w-[320px] md:w-full lg:w-full items-start lg:items-center space-x-3'>
+                <div className='flex items-center w-[98px] md:w-auto'>
+                  <input
+                    type='checkbox'
+                    className='sm:w-[18px] sm:mr-4 sm:ml-5 max-sm:ml-0 max-sm:mr-2'
+                    onChange={() => handleSelectProductBuy(item)}
+                    checked={listProductBuy?.flatMap((items: any) => items?._id)?.includes(item?._id)}
+                  />
+                  <img src={item?.product?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='' className=' w-[80px] md:w-[100px] lg:w-[90px]' />
+                </div>
 
-                <div className='max-sm:mr-2 max-sm:p-[7px]'>
-                  <div className=' max-sm:w-full relative'>
-                    <div className='product-detail'>
-                      <div className='text-[20px] font-medium pb-4'>{item?.product?.name}</div>
-                      <div className=' inline-block mr-4'>
-                        <span className='mr-2'>Màu:</span>
-                        <span className='product-real-prices'>{item?.quantityOrder?.nameColor}</span>
+                <div className='w-[60%] lg:w-full pl-0 md:pl-0 lg:pl-10'>
+                  <div className='w-[90%]'>
+                    <div className='product-detail w-[90%]'>
+                      <div className='text-[16px] lg:text-[20px]  font-medium pb-4 truncate md:whitespace-normal'>{item?.product?.name}</div>
+                      <div className='block md:flex'>
+                        <div className=' inline-block mr-4'>
+                          <span className='mr-2'>Màu:</span>
+                          <span className='product-real-prices'>{item?.quantityOrder?.nameColor}</span>
+                        </div>
+                        <div>
+                          <span className='mr-2'>Kích cỡ:</span>
+                          <div className='product-real-prices inline-block'>{item?.quantityOrder?.nameSize}</div>
+                        </div>
                       </div>
-                      <span className='mr-2'>Kích cỡ:</span>
-                      <div className='product-real-prices inline-block'>{item?.quantityOrder?.nameSize}</div>
                     </div>
                     <div
-                      className='card-update sm:w-[190px] mt-4 flex inline-block cursor-pointer '
+                      className='card-update w-[90%] md:w-[190px] mt-4 flex cursor-pointer '
                       onClick={() => {
                         setShowPopupSelect((prev: any) => ({
                           show: !prev.show,
@@ -225,9 +231,9 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                     {showPopupSelect.index === index && showPopupSelect.show && (
                       <div
                         ref={wrapperRef}
-                        className='bg-white w-[max-content] shadow-3xl mt-[-24px] s absolute p-3 rounded-lg z-10'
+                        className='bg-white w-[80%] md:w-[max-content] shadow-3xl mt-[-24px] s absolute p-3 rounded-lg z-10'
                       >
-                        <div className='flex gap-[10px]'>
+                        <div className='block md:flex gap-[10px]'>
                           <div className='my-2'>
                             <div>
                               Màu sắc: <span className='font-semibold'>{colorSelect?.nameColor}</span>
@@ -291,7 +297,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   </div>
                 </div>
               </td>
-              <td className='text-[16px]'>
+              <td className='text-[16px] max-lg:hidden'>
                 <span className='real-prices'>
                   {' '}
                   {(item?.product?.price)?.toLocaleString('vi', {
@@ -300,7 +306,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   })}
                 </span>
               </td>
-              <td>
+              <td className='absolute lg:relative bottom-0 right-0 md:right-5 lg:bottom-auto lg:right-auto'>
                 <div className=''>
                   <SelectQuantityCart
                     itemCart={item}
@@ -323,7 +329,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   />
                 </div>
               </td>
-              <td>
+              <td className='absolute lg:relative bottom-0 left-[104px] md:left-[150px] lg:bottom-auto lg:left-auto'>
                 <span className='product-final-prices sm:mt-6 text-[17px]'>
                   {(item?.product?.price * item?.quantityOrder?.quantity)?.toLocaleString('vi', {
                     style: 'currency',
@@ -331,10 +337,10 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                   })}
                 </span>
               </td>
-              <td className='product-delete'>
+              <td className='absolute lg:relative top-0 right-0 md:right-5 lg:top-auto lg:right-auto'>
                 <RiDeleteBinLine
-                  size={17}
-                  className='delete-icon mr-11 max-sm:mr-12'
+                  size={20}
+                  className='delete-icon mr-0 lg:mr-11 max-sm:mr-0'
                   onClick={() => handleDeleteProductCart(item)}
                 />
               </td>
@@ -366,16 +372,7 @@ thead{
   color: #ffaa00 ;
   text-decoration: underline;
 }
-      .style-heading {
-      padding: 9px 16px;
-      border-radius: 4px;
-      color: rgb(36, 36, 36);
-      font-weight: 400;
-      font-size: 13px;
-      margin-bottom: 12px;
-      top: 105px;
-      z-index: 99;
-  }
+    
   .taitle-table {
     text-align:left;
     font-size:16px;
@@ -404,19 +401,8 @@ thead{
   .trbody td{
     margin: 12px 0;
   }
-  @media only screen and (max-width: 739px) {
-    .style-heading {
-      display: flex;
-      -webkit-box-pack: justify;
-      justify-content: space-between;
-      top: 122px;
-      left: 0px;
-      width: 100%;
-      z-index: 5;
-      background: rgb(255, 255, 255);
-      padding: 11px 16px;
-    }
-    .taitle-table {
+  @media only screen and (max-width: 1024px) {
+    .taitle-table:not(:first-child) {
       display: none;
     }
   }

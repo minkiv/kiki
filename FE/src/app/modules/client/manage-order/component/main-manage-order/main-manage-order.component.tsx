@@ -72,14 +72,14 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
 
         <div css={cssMainManangeOrder} >
             <h1>Quản lý đơn hàng</h1>
-            <div>
-                <table className='w-[1200px]'>
+            <div className='hidden md:block'>
+                <table className='w-full lg:w-[1200px] text-[18px] lg:text-[16px]'>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>STT</th>
                             <th>Ngày</th>
                             <th>Trạng thái đơn hàng</th>
-                            <th className='w-[400px]'>Sản phẩm</th>
+                            <th className='w-auto lg:w-[400px]'>Sản phẩm</th>
                             <th>Tổng tiền</th>
                             <th>Hành động</th>
                         </tr>
@@ -99,7 +99,7 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                         {order.productOrder.map((product: any) => (
                                             <div key={product?._id} className='title'>
                                                 <div>
-                                                    <p className='pb-4'>{product?.product?.name} <a href="#" className='text-green-600'>chi tiết</a></p>
+                                                    <p className='pb-4 text-[18px] lg:text-[16px]'>{product?.product?.name} <a href="#" className='text-green-600'>chi tiết</a></p>
                                                 </div>
                                                 <div className='news-product right-16'>
                                                     <p className="product-color">Màu sắc: {product?.quantityOrder?.nameColor}</p>
@@ -125,8 +125,6 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                                 <Button danger>huỷ đơn hàng</Button>
                                             </Popconfirm>
                                         }
-                                    </td>
-                                    <td>
                                         {order?.orderStatus == "đang vận chuyển" &&
                                             <Popconfirm
                                                 title="xác nhận"
@@ -140,11 +138,85 @@ const MainManangeOrder: FunctionComponent<MainManangeOrderProps> = () => {
                                             </Popconfirm>
                                         }
                                     </td>
+
                                 </tr>)
                         })}
                     </tbody>
                 </table>
-                <Pagination className='py-20 float-right' current={currentPage}
+                <Pagination className='py-20 text-right' current={currentPage}
+                    pageSize={pageSize}
+                    total={orders.length}
+                    onChange={setCurrentPage}
+                />
+            </div>
+            <div className='block md:hidden'>
+                {sortedData.slice(startIndex, endIndex).map((order: any, index: any) => {
+
+                    return (
+                        <div className='w-full pb-5 mb-5  border-b-2 space-y-5' key={order?._id}>
+                            <div className='flex justify-between'>
+                                <div>STT: {index + 1}</div>
+                                <div>{moment.utc(order?.updatedAt).utcOffset(+7).format('YYYY-MM-DD HH:mm:ss')}</div>
+                            </div>
+                            <div className='flex justify-between'>
+                                <div>Trạng thái:</div>
+                                <div className={order?.orderStatus === 'đang chờ duyệt' || order?.orderStatus === 'huỷ đơn' ? 'text-red-700' : 'text-green-700'}>
+                                    {order?.orderStatus}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>Sản phẩm: </div>
+
+                                {order.productOrder.map((product: any) => (
+                                    <div key={product?._id} className='title ml-3'>
+                                        <div className='flex justify-between'>
+                                            <p className='pb-2'>-{product?.product?.name} </p><a href="#" className='text-green-600'>chi tiết</a>
+                                        </div>
+                                        <div className='news-product right-16'>
+                                            <p className="product-color">Màu sắc: {product?.quantityOrder?.nameColor}</p>
+                                            <p className="product-size">Kích thước: {product?.quantityOrder?.nameSize}</p>
+                                            <p className="product-quantity">Số lượng: {product?.quantityOrder?.quantity}</p>
+
+                                        </div>
+
+                                    </div>
+                                ))}
+                            </div>
+                            <div className='flex justify-between'>
+                                <p>Tổng tiền:</p>
+                                <p>{order?.totalprice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</p>
+                            </div>
+                            <div className='text-right'>
+                                {order?.orderStatus == "đang chờ duyệt" &&
+                                    <Popconfirm
+                                        title="huỷ đơn"
+                                        description="bạn có chắn chắn huỷ không?"
+                                        onConfirm={() => confirm(order?._id, order?.orderStatus)}
+                                        onCancel={cancel}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <Button danger>Huỷ đơn hàng</Button>
+                                    </Popconfirm>
+                                }
+                                {order?.orderStatus == "đang vận chuyển" &&
+                                    <Popconfirm
+                                        title="xác nhận"
+                                        description="bạ đã nhận được hàng chưa?"
+                                        onConfirm={() => confirmSucceer(order?._id, order?.orderStatus)}
+                                        onCancel={cancel}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <Button className='bg-green-700 text-white hover:text-white'>Hoàn thành</Button>
+                                    </Popconfirm>
+                                }
+                            </div>
+
+                        </div>)
+                })}
+                <Pagination className='py-20 text-right' current={currentPage}
                     pageSize={pageSize}
                     total={orders.length}
                     onChange={setCurrentPage}

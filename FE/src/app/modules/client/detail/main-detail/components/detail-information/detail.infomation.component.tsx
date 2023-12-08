@@ -207,12 +207,12 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
             <h1 className='text-black font-semibold text-[26px] '>
               {productDetail?.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
             </h1>
-            <h3 className='pl-5 text-[18px] text-[#a8a9ad]'>
+            {(productDetail?.cost !== productDetail?.price) && <h3 className='pl-5 text-[18px] text-[#a8a9ad]'>
               <del>{productDetail?.cost?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</del>
-            </h3>
-            <div className='px-6'>
-              <p className='text-white bg-[#dc633a] p-2'>-22%</p>
-            </div>
+            </h3>}
+            {(productDetail?.cost !== productDetail?.price) && <div className='px-6'>
+              <p className='text-white bg-[#dc633a] p-2'>-{Math.floor(((productDetail?.cost - productDetail?.price) / productDetail?.cost) * 100)}%</p>
+            </div>}
           </div>
           <div className='mt-5 max-sm:ml-5'>
             <div>
@@ -223,22 +223,22 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
                 <div className='flex items-center my-[30px]'>
                   {listColor?.map((item: any) => (
                     <div key={item.id} className={`h-[40px] w-[40px] border rounded-[50%] inline-flex items-center justify-center mr-[20px] cursor-pointer ${colorSelect?.id === item.id && 'border-black'
-                  } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
-                  checkQuantity.length > 0 &&
-                  'bg-slate-100 pointer-events-none text-gray-400'
-                  }`}>
-                    <div
-                      key={item.id}
-                      style={{ backgroundColor: `${item.colorHex}` }}
-                      className={`p-3 border h-[32px] w-[32px]  rounded-[50%]  ${colorSelect?.id === item.id && ''
-                        } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
-                        checkQuantity.length > 0 &&
-                        'bg-slate-100 pointer-events-none text-gray-400'
-                        }`}
-                      onClick={() => handleSelectColor(item.id)}
-                    >
-                      {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
-                    </div>
+                      } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                      checkQuantity.length > 0 &&
+                      'bg-slate-100 pointer-events-none text-gray-400'
+                      }`}>
+                      <div
+                        key={item.id}
+                        style={{ backgroundColor: `${item.colorHex}` }}
+                        className={`p-3 border h-[32px] w-[32px]  rounded-[50%]  ${colorSelect?.id === item.id && ''
+                          } ${!checkQuantity?.flatMap((itemType: any) => itemType?.nameColor).includes(item.nameColor) &&
+                          checkQuantity.length > 0 &&
+                          'bg-slate-100 pointer-events-none text-gray-400'
+                          }`}
+                        onClick={() => handleSelectColor(item.id)}
+                      >
+                        {colorSelect?.id === item.id && <TiTick className=' text-black text-[16px] m-auto' />}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -282,39 +282,39 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
               </div>
             </Popup>
           </div>
-         
+
 
           <div className='mt-[3rem] space-x-5 items-center'>
-           
+
             {/* <ButtonSqua className='btn'>MUA HÀNG</ButtonSqua> */}
             <div className='flex items-center'>
-            <label htmlFor='quantity' className='text-[18px]'>
-              Số Lượng:
-            </label>
-            <div className='mx-3'>
-              <QuantityProduct
-                quantity={quantity}
-                listQuantityRemain={productDetail?.listQuantityRemain}
-                setQuantity={setQuantity}
-                sizeSelect={sizeSelect}
-                colorSelect={colorSelect}
-              />
+              <label htmlFor='quantity' className='text-[18px]'>
+                Số Lượng:
+              </label>
+              <div className='mx-3'>
+                <QuantityProduct
+                  quantity={quantity}
+                  listQuantityRemain={productDetail?.listQuantityRemain}
+                  setQuantity={setQuantity}
+                  sizeSelect={sizeSelect}
+                  colorSelect={colorSelect}
+                />
+              </div>
+              <div>
+                {quantityRemainProduct && (
+                  <div className='my-auto ml-4 text-gray-600 text-[1.6rem]'>
+                    {quantityRemainProduct?.quantity} sản phẩm có sẵn
+                  </div>
+                )}
+              </div>
             </div>
-            <div>
-              {quantityRemainProduct && (
-                <div className='my-auto ml-4 text-gray-600 text-[1.6rem]'>
-                  {quantityRemainProduct?.quantity} sản phẩm có sẵn
-                </div>
-              )}
-            </div>
-          </div>
-          <ButtonSqua outline className='btn mt-[3rem]' onClick={handelAddProductToCart}>
+            <ButtonSqua outline className='btn mt-[3rem]' onClick={handelAddProductToCart}>
               THÊM VÀO GIỎ
             </ButtonSqua>
           </div>
           <div className='mt-[50px]'>
-            <div className='tab-header flex space-x-8 '>
-              <div className={optionInfo === 'intro' ? 'active' : ''} onClick={() => changeInfo('intro')}>
+            <div className='tab-header flex space-x-8'>
+              <div className={optionInfo === 'intro' ? 'active' : 'placeholder:'} onClick={() => changeInfo('intro')}>
                 GIỚI THIỆU
               </div>
               <div className={optionInfo === 'detail' ? 'active' : ''} onClick={() => changeInfo('detail')}>
@@ -325,7 +325,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
               </div>
             </div>
             <div className='tab-body pt-6'>
-              <div className={hidden ? `tab-body pt-6` : 'tab-body pt-6 h-[100px] overflow-hidden'}>{showInfo}</div>
+              <div className={hidden ? `tab-body pt-6` : 'tab-body pt-6 w-full h-[100px] overflow-hidden'}>{showInfo}</div>
             </div>
             <div className='h-[2px] bg-gray-300 flex items-center '>
               <a className='mx-auto bg-white text-[34px]  text-gray-300 '>
@@ -406,6 +406,7 @@ const cssInfomation = css`
     border-bottom: 2px solid #000;
   }
   @media (max-width: 640px) {
+    margin: 10px;
     .title {
       font-size: 20px;
       padding: 0px 5px;
@@ -418,6 +419,41 @@ const cssInfomation = css`
       padding: 2px;
       margin-left: 5px;
       background-color: rgb(254 242 242);
+    }
+    .tab-body div {
+      font-size: 16px;
+      line-height: 24px;
+      color: #3e3e3f;
+      margin-bottom: 2em;
+      width: 100%;
+    }
+    .tab-header div {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 18px;
+      padding: 18px 0;
+      color: #6c6d70;
+      cursor: pointer;
+      position: relative;
+    }
+  }
+  @media(max-width: 1024px){
+    margin: 10px;
+    .tab-body div {
+      font-size: 16px;
+      line-height: 24px;
+      color: #3e3e3f;
+      margin-bottom: 2em;
+      width: 100%;
+    }
+    .tab-header div {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 18px;
+      padding: 18px 0;
+      color: #6c6d70;
+      cursor: pointer;
+      position: relative;
     }
   }
 `

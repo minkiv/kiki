@@ -138,17 +138,17 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
         <>
             {accessToken ? (
                 <LayoutLoading condition={loadingCreate}>
-                    <div css={checkoutcss}>
+                    <div css={checkoutcss} className='mx-auto w-full lg:w-[1440px]'>
                         <form action="" onSubmit={handleSubmit(onSubmit)}>
-                            <div className='flex justify-center'>
-                                <div className='flex w-[64%]'>
+                            <div className='block lg:flex justify-center'>
+                                <div className='block w-full lg:flex lg:w-[64%]'>
                                     <Shipping control={control} />
                                     <Payments
                                         selectedPaymentMethod={selectedPaymentMethod}
                                         handlePaymentMethodChange={handlePaymentMethodChange}
                                     />
                                 </div>
-                                <div className='w-[25%]'>
+                                <div className='w-full lg:w-[25%]'>
                                     <SidePayment />
                                 </div>
                             </div>
@@ -165,6 +165,4 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
 export default CheckOut;
 
 const checkoutcss = css`
-  margin: auto;
-  width: 1440px;
-`;
+`

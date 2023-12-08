@@ -8,8 +8,8 @@ interface PaymentsProps {
 
 const Payments: FunctionComponent<PaymentsProps> = ({ selectedPaymentMethod, handlePaymentMethodChange }) => {
   return (
-    <div className='w-[40%]'>
-      <div css={delivercss} className=' max-md:hidden'>
+    <div className='w-full px-[16px] lg:mx-0 lg:w-[40%]'>
+      <div css={delivercss} className=''>
         <h3 className=''>Chọn hình thức thanh toán</h3>
         <div className='method-list'>
           <label htmlFor='Thanh toán khi nhận hàng' className='radio-button flex'>

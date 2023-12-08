@@ -32,7 +32,7 @@ const Cart: FunctionComponent<CartProps> = () => {
           </div>
         ) : (
           <div css={cssCart} className='box-cart'>
-            <div className='flex'>
+            <div className='block lg:flex'>
               <div className='left-cart'>
                 <div className='title'>
                   <h1>Giỏ Hàng</h1>
@@ -82,11 +82,20 @@ const cssCart = css`
     .title {
       display: none;
     }
-    .flex {
-      display: block;
-    }
     .left-cart {
       width: 100%;
+      padding: 0;
+    }
+    .right-cart {
+      width: 100%;
+      display: inline-block;
+    }
+  }
+  @media only screen and (max-width: 1024px){
+    width: 100%;
+    .left-cart {
+      width: 100%;
+      padding: 0;
     }
     .right-cart {
       width: 100%;

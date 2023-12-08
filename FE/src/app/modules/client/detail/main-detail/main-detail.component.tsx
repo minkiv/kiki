@@ -14,11 +14,11 @@ interface MainDetailProps {
 const MainDetail: FunctionComponent<MainDetailProps> = () => {
   return (
     <div css={cssmain}>
-      <div className='grid xl:grid-cols-7 bg-white sm:grid-cols-12'>
-        <div className='xl:col-span-3 sm:grid-cols-7 '>
+      <div className='grid lg:grid-cols-7 bg-white sm:grid-cols-12'>
+        <div className='lg:col-span-3 sm:grid-cols-7 md:col-span-6 '>
           <PreviewImg />
         </div>
-        <div className='md:col-span-4 sm:grid-cols-5 '>
+        <div className='lg:col-span-4 sm:grid-cols-5 md:col-span-6'>
           <DetailInformation />
         </div>
       </div>
@@ -32,10 +32,10 @@ const MainDetail: FunctionComponent<MainDetailProps> = () => {
         <img src='https://pubcdn.ivymoda.com/files/news/2023/09/20/98aeda6d6c19f27a692226be8a0fb3a0.jpg' alt='' />
       </div>
       <div className='item-list-silder mt-5'>
-        <CommentEvaluateComponent/>
+        <CommentEvaluateComponent />
       </div>
-      <div className='item-list-silder mt-5'>
-        <ReviewComponent/>
+      <div className='item-list-silder'>
+        <ReviewComponent />
       </div>
     </div>
   )
