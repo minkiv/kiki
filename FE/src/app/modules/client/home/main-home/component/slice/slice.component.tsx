@@ -17,10 +17,10 @@ interface SliceHomeProps {
 
 const SliceHome: FunctionComponent<SliceHomeProps> = () => {
   const arrayImage = [
-    'https://pubcdn.ivymoda.com/files/news/2023/09/18/763adf6054c6f80388f529ab509315d4.jpg',
-    'https://pubcdn.ivymoda.com/files/news/2023/09/08/4fc7664285a1fa2ba47f9671afe955d9.jpg',
-    'https://pubcdn.ivymoda.com/files/news/2023/10/04/ff74da15a8c24facbaeb14418c38360a.jpg',
-    'https://pubcdn.ivymoda.com/files/news/2023/09/12/85a22eb8724d03a769ca210448b1ed79.jpg'
+    'https://pubcdn.ivymoda.com/files/news/2023/12/06/14278a699545b1d2a97c85c9fbcf4cee.jpg',
+    'https://pubcdn.ivymoda.com/files/news/2023/12/02/bb2bdd4a04fb1200d172f4841ba23110.jpg',
+    'https://pubcdn.ivymoda.com/files/news/2023/11/30/6e15c4ed40d8434ef1e9f9f2b1f91aeb.jpg'
+
   ]
   return (
     <>

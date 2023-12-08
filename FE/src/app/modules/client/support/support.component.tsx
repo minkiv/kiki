@@ -13,18 +13,19 @@ const Support = (props: Props) => {
         <>
             {
                 accessToken ? (
-                    <div className='w-[1440px] m-auto flex mt-16' >
+                    <div className='w-full lg:w-[1440px] m-auto block lg:flex mt-16' >
                         <div>
                             <MenuSideBar />
                         </div>
-                        <div className='pl-[20px]'>
+                        <div className='px-5 lg:px-0 lg:pl-[20px]'>
+                            <h2 className='font-semibold text-[24px] uppercase leading-8 mb-5'>Hỗ trợ</h2>
                             <ButtonSqua css={cssBtn} outline>
                                 <a href="" className='space-x-2'>
                                     <div className='text-[18px]'><AiFillPlusCircle /></div>
                                     <div>Gửi yêu cầu hỗ trợ</div>
                                 </a>
                             </ButtonSqua>
-                            <div className='w-[1200px] mt-3'>
+                            <div className='w-full lg:w-[1200px] mt-3'>
                                 <h1 className='text-center text-[#6C6D70] text-[24px]'>Bạn chưa có yêu cầu hỗ trợ nào !</h1>
                             </div>
                         </div>

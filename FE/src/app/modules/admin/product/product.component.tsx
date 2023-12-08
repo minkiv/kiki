@@ -18,13 +18,13 @@ const ProductManagemnet = () => {
       setDataProduct(res.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
     })
     getAllCategory().then((res: any) => {
-      setCategories(res.data.filter((cate:any)=> cate?.status !== false))
+      setCategories(res.data.filter((cate: any) => cate?.status !== false))
     })
   }, [reset])
 
   useEffect(() => {
     const columTemp: any = [];
-    const title = ['Danh mục', '', 'Tên', 'Mã SP', 'Giá gốc', 'Giá mới', 'Mô tả', 'Ảnh', 'Thương hiệu', '']
+    const title = ['Danh mục', '', 'Tên', 'Mã SP', 'Giá mới', 'Giá gốc', 'Mô tả', 'Ảnh', 'Thương hiệu', '']
     if (dataProduct.length > 0) {
       Object?.keys(dataProduct[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'updatedAt', 'createdAt', 'listQuantityRemain'].includes(itemKey)) {
@@ -170,10 +170,10 @@ const ProductManagemnet = () => {
             <Form.Item label='Mã sản phẩm' name='code' rules={[{ required: true, message: 'Trường mã sản phẩm là bắt buộc!' }]}>
               <Input />
             </Form.Item>
-            <Form.Item label='Giá gốc' name='price' rules={[{ required: true, message: 'Trường giá gốc là bắt buộc!' }]}>
+            <Form.Item label='Giá gốc' name='cost' rules={[{ required: true, message: 'Trường giá gốc là bắt buộc!' }]}>
               <InputNumber min={1} />
             </Form.Item>
-            <Form.Item label='Giá mới' name='cost' rules={[{ required: true, message: 'Trường giá mới là bắt buộc!' }]}>
+            <Form.Item label='Giá mới' name='price' rules={[{ required: true, message: 'Trường giá mới là bắt buộc!' }]}>
               <InputNumber min={1} />
             </Form.Item>
             <Form.Item label='Mô tả' rules={[{ required: true, message: 'Trường mô tả là bắt buộc!' }]} name='description'>

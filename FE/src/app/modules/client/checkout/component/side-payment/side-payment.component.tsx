@@ -65,24 +65,24 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
       message.warning('Bạn đã áp dụng voucher này trước đó');
       return;
     }
-  
+
     const voucher = vorchers.find((voucher: any) => voucher.code === value);
-  
+
     if (voucher) {
       const discountPercentage = voucher.discount;
       const calculatedDiscount = (totalPrice * discountPercentage) / 100;
       const discountedAmount: number = Math.min(calculatedDiscount, totalPrice);
-  
+
       setSale(discountedAmount);
       setAppliedVouchers([value]);
       localStorage.setItem('voucherCode', value);
-  
+
       const updatedTotalPrice = listProductBuy.reduce(
         (total: any, item: any) =>
           total + item?.product?.price * item?.quantityOrder.quantity,
         0
       );
-  
+
       const finalTotalPrice = Math.max(updatedTotalPrice - discountedAmount, 0);
       setTotalPrice(finalTotalPrice);
       localStorage.setItem('total', finalTotalPrice.toString());
@@ -126,8 +126,8 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
     }
   }, [listProductBuy, getValueVocher]);
   return (
-    <div css={cssSidebar} className=' max-md:hidden mt-[30px]'>
-      <div className='sidebar-wrapper max-sm:hidden'>
+    <div css={cssSidebar} className='  mt-[30px]'>
+      <div className='sidebar-wrapper '>
         <div className='header'>
           <h1 className='title text-[22px] font-semibold mb-[45px]'>Tóm tắt đơn hàng</h1>
           <div className='block-header-subtitle flex'>
@@ -160,7 +160,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
               {listProductBuy?.map((item: any, index: any) => (
                 <div className='flex flex-1 justify-between items-center' key={index}>
                   <div>
-                    <img src={item?.product?.images?.slice(0,1).map((image:any)=> image?.response || image?.url)} alt='' className='w-[40px] h-[50px]' />
+                    <img src={item?.product?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='' className='w-[40px] h-[50px]' />
                   </div>
                   <div className=''>{item?.quantityOrder?.quantity}x</div>
                   <div className='truncate w-[50%]'>{item?.product?.name}</div>
@@ -186,7 +186,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           <div className='summary-flexRow'>
             <div className='summary-label'>Giảm giá</div>
             <div className='summary-value summary-value-positive'>
-            {setSaletotal ? parseFloat(setSaletotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : "0 đ"}
+              {setSaletotal ? parseFloat(setSaletotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : "0 đ"}
             </div>
           </div>
         </div>
@@ -194,14 +194,14 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
           <div className='order-total-label'>Tổng tiền</div>
           <div className='order-total-value'>
             <div className='order-total-total'>
-            {Number(gettotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+              {Number(gettotal).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
             </div>
           </div>
         </div>
         <div className='styles_Divider'></div>
 
         {totalPrice >= 1000000 ? (<div>
-          <div className='flex px-[16px] py-[8px]'>
+          <div className='flex justify-between px-[16px] py-[8px]'>
             <div className='text-[18px] font-semibold text-[#3e3e3f]'>Mã phiếu giảm giá</div>
             <span className='mx-[20px] w-[2px] h-[24px] bg-[#939598]'></span>
 
@@ -251,9 +251,9 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
             <div className='absolute top-2 right-2 text-[20px]' onClick={() => setstateAddVorcher(false)}><GrFormClose /></div>
           </div>}
           {stateAddVorcher && <div className='darkscreen fixed z-40' onClick={() => setstateAddVorcher(false)}></div>}
-          <div className='flex px-[16px] py-[20px]'>
+          <div className='flex justify-between px-[16px] py-[20px]'>
             <input
-              className="border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
+              className="border flex-1 border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
               type="text"
               value={valueVorcher}
               placeholder="Mã giảm giá"
@@ -262,7 +262,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                 localStorage.setItem('voucherCode', e.target.value)
               }}
             />
-            <ButtonSqua type={"reset"} children='Áp dụng' className='btnSqua' onClick={() => {if (!valueVorcher) {message.error('Bạn chưa nhập Vorcher');return;}handleApplyVoucher(valueVorcher);}}/>
+            <ButtonSqua type={"reset"} children='Áp dụng' className='btnSqua' onClick={() => { if (!valueVorcher) { message.error('Bạn chưa nhập Vorcher'); return; } handleApplyVoucher(valueVorcher); }} />
           </div>
 
         </div>
@@ -329,7 +329,7 @@ const SidePayment: FunctionComponent<SidePaymentProps> = () => {
                         localStorage.setItem('voucherCode', e.target.value)
                       }}
                     />
-                    <ButtonSqua type={"reset"} children='Áp dụng' className='btnSqua' onClick={() => {if (!valueVorcher) {message.error('Bạn chưa nhập Vorcher');return;}handleApplyVoucher(valueVorcher);}}/>
+                    <ButtonSqua type={"reset"} children='Áp dụng' className='btnSqua' onClick={() => { if (!valueVorcher) { message.error('Bạn chưa nhập Vorcher'); return; } handleApplyVoucher(valueVorcher); }} />
                   </div>
                 </div>
               )}

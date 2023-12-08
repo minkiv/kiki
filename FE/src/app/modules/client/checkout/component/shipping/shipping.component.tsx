@@ -65,11 +65,11 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
   }, [selectedDistrict]);
 
   return (
-    <div className='sm:py-20 w-[60%]'>
+    <div className='sm:py-20 px-[16px] w-full lg:w-[60%] lg:mx-0'>
       <h3 className="title text-[22px] font-semibold"> Địa chỉ giao hàng</h3>
       <div css={itemForm}>
-        <form className='form-item rounded-md bg-white py-6 mt-4 max-sm:px-4 space-y-6'>
-          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 w-[460px]'>
+        <form className='rounded-md bg-white py-6 mt-4 space-y-6'>
+          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 w-full lg:w-[460px]'>
             <div className='sm:w-[200px] max-sm:px-3'>Họ và tên</div>
             <div className='w-full h-[34px]'>
               <Controller
@@ -77,7 +77,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                 name="fullname"
                 render={({ field: { onChange, value, ref }, fieldState: { error } }) => {
                   return (
-                    <div>
+                    <div className='w-full'>
                       <InputComponent
                         hideIcon={false}
                         placeholder="Họ và tên"
@@ -93,7 +93,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
               />
             </div>
           </div>
-          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 w-[460px]'>
+          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 sm:w-[460px]'>
             <div className='sm:w-[200px] max-sm:px-3'>Số điện thoại</div>
             <div className='w-full h-[34px]'>
               <Controller
@@ -101,7 +101,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                 name="phoneNumber"
                 render={({ field: { onChange, value, ref }, fieldState: { error } }) => {
                   return (
-                    <div>
+                    <div className='max-sm:w-full sm:w-[320px]'>
                       <InputComponent
                         hideIcon={false}
                         placeholder="Số điện thoại"
@@ -117,7 +117,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
               />
             </div>
           </div>
-          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 w-[460px]'>
+          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 sm:w-[460px]'>
             <div className='sm:w-[200px] max-sm:px-3'>Tỉnh/Thành Phố</div>
             <div className='w-full h-[34px]'>
               <Controller
@@ -128,11 +128,11 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                     <div className="relative">
                       <input
                         list="brow"
+
                         style={{
                           padding: '10px',
                           border: '1px solid #ccc',
                           borderRadius: '4px',
-                          width: '320px',
                         }}
                         onChange={(e) => {
                           const selectedValue = e.target.value;
@@ -142,6 +142,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                           onChange(selectedValue);
                         }}
                         value={value}
+                        className='sm:w-[320px] max-sm:w-full'
                       />
                       <datalist id="brow">
                         <option value="">Chọn Tỉnh/Thành Phố</option>
@@ -160,7 +161,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
             </div>
           </div>
 
-          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 w-[460px]'>
+          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 sm:w-[460px]'>
             <div className='sm:w-[200px] max-sm:px-3'>Quận/Huyện</div>
             <div className='w-full h-[34px]'>
               <Controller
@@ -171,7 +172,6 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                     <input
                       list="districtsDatalist"
                       style={{
-                        width: '320px',
                         padding: '10px',
                         border: '1px solid #ccc',
                         borderRadius: '4px',
@@ -183,6 +183,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                         onChange(selectedValue);
                       }}
                       value={value}
+                      className='sm:w-[320px] max-sm:w-full'
                     />
                     <datalist id="districtsDatalist">
                       <option value="">Chọn Quận/Huyện</option>
@@ -203,7 +204,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
             </div>
           </div>
 
-          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 w-[460px]'>
+          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 sm:w-[460px]'>
             <div className='sm:w-[200px] max-sm:px-3'>Phường/Xã</div>
             <div className='w-full h-[34px]'>
               <Controller
@@ -214,7 +215,6 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                     <input
                       list="communesDatalist"
                       style={{
-                        width: '320px',
                         padding: '10px',
                         border: '1px solid #ccc',
                         borderRadius: '4px',
@@ -225,6 +225,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                         onChange(selectedValue);
                       }}
                       value={value}
+                      className='sm:w-[320px] max-sm:w-full'
                     />
                     <datalist id="communesDatalist">
                       <option value="">Chọn Phường/Xã</option>
@@ -245,7 +246,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
 
           </div>
 
-          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 w-[460px]'>
+          <div className='sm:flex pt-5 items-center sm:my-6 max-sm:my-14 sm:w-[460px]'>
             <div className='sm:w-[200px] max-sm:px-3'>Địa chỉ chi tiết</div>
             <div className='w-full h-[34px]'>
               <Controller
@@ -253,7 +254,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
                 name="locationDetail"
                 render={({ field: { onChange, value, ref }, fieldState: { error } }) => {
                   return (
-                    <div>
+                    <div className='sm:w-[320px] max-sm:w-full'>
                       <InputComponent
                         hideIcon={false}
                         placeholder="Địa chỉ chi tiết"
@@ -278,7 +279,7 @@ const Address: FunctionComponent<AddressProps> = ({ control }) => {
 export default Address;
 
 const itemForm = css`
-  padding-left: 20px;
+
   .bt {
     border: 1px solid rgb(2, 159, 209);
     color: rgb(255, 255, 255);

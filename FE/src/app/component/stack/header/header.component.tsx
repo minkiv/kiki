@@ -84,6 +84,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       localStorage.removeItem('voucherCode');
       localStorage.removeItem("sale");
       localStorage.removeItem("total");
+      localStorage.removeItem("listSelectCart")
       navigate('/customer/login')
     } else {
       navigate('/')
@@ -91,7 +92,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   }
   return (
     <div>
-      <div className='mx-auto top-0 flex items-center justify-between z-[2] sm:px-[50px] w-[100%] bg-white fixed  h-[80px]'>
+      <div className='mx-auto top-0 flex items-center justify-between z-[200] sm:px-[50px] w-[100%] bg-white fixed  h-[80px]'>
         <div css={cssMenu} className='space-x-8'>
           <div>
             <Link className='hover:text-red-500' to={'/'}>

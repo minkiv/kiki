@@ -11,18 +11,18 @@ interface FooterComponentProps {
 const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
   return (
     <footer css={cssFooter}>
-      <div className='main-footer flex justify-around py-40'>
+      <div className='main-footer px-2 md:px-0 block md:flex justify-around py-40'>
         <div className='column-one'>
-          <div className='logo flex justify-around gap-9 pb-6'>
+          <div className='logo flex justify-between gap-9 pb-6'>
             <div>
-              <img className='w-[290px]  ' src="https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/404263307_357890920233334_4206441658182925266_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=CIe-0hEhr1YAX9eSH-4&_nc_ht=scontent.fhan14-1.fna&oh=00_AfBhxKIHBbEZq4gmG7rKuokBaGaBIoTNrhkRZ_u8GAA-xg&oe=655FAA1F" alt="" />
-            </div>
-            {/* <div>
-              <img className='w-[61px] h-[20px]' src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=0cfdeac4-6e7f-4fca-941f-57a0a0962777" alt="" />
+              <img className='' src="https://pubcdn.ivymoda.com/ivy2/images/logo-footer.png" alt="" />
             </div>
             <div>
-              <img className='w-[70px] h-[26px]' src="https://pubcdn.ivymoda.com/ivy2/images/img-congthuong.png" alt="" />
-            </div> */}
+              <img className='' src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=0cfdeac4-6e7f-4fca-941f-57a0a0962777" alt="" />
+            </div>
+            <div>
+              <img className='' src="https://pubcdn.ivymoda.com/ivy2/images/img-congthuong.png" alt="" />
+            </div>
           </div>
 
           <div className='text-content'>
@@ -46,8 +46,8 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
             <img className='w-[24px]' src="https://pubcdn.ivymoda.com/ivy2/images/ic_ytb.svg" alt="" />
           </div>
 
-          <div className='hotline py-4'>
-            <a href="">Hotline: 0246 662 3434</a>
+          <div className='hotline  py-4'>
+            <a href='' className='px-[10px] py-[12px] md:px-[5px] lg:px-[24px]'>Hotline: 0246 662 3434</a>
           </div>
         </div>
         <div className='column-two'>
@@ -157,7 +157,6 @@ const cssFooter = css`
     text-align: center;
     text-transform: uppercase;
     color: #F7F8F9;
-    padding: 12px 24px;
     font-family: 'Roboto', sans-serif
   }
 
@@ -188,6 +187,26 @@ const cssFooter = css`
     border-radius:24px 0;
   }
   
-@media (min-width: 0) and (max-width: 739px) {  
+@media (min-width: 0) and (max-width: 739px) { 
+  .column-one{
+    max-width:100%;
+    margin-bottom:10px;
+  } 
+  .column-two{
+    max-width:100%;
+    margin-bottom:10px;
+  }
+  .column-three{
+    max-width:100%;
+    margin-bottom:10px;
+  }
+  .column-four{
+    max-width:100%;
+    margin-bottom:10px;
+  }
+  .column-five{
+    max-width:100%;
+    margin-bottom:10px;
+  }
   }
 `
