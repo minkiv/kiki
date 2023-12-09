@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Select, Button, DatePicker, Row, Col } from 'antd';
-import { Line, Pie } from '@ant-design/plots';
+import { Select, Button, DatePicker, Row, Col, Table } from 'antd';
+import { Bar, Line, Pie } from '@ant-design/plots';
 import { getAllOrder, getAllOrderByStatus } from './service/statistics.service';
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component';
 import moment from 'moment';
-import { FaMoneyCheckAlt } from "react-icons/fa"
-
+import { FaMoneyCheckAlt } from 'react-icons/fa';
+import { BiLineChart, BiLineChartDown } from "react-icons/bi"
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const Statistical = () => {
     const [dataChart, setDataChart] = useState<any>([]);
     const [dataResponse, setDataResponse] = useState<any>({})
+    const [subTotal, setSubTotal] = useState<any>()
+    const [subCancel, setSubCancel] = useState<any>()
+    const [peopel, setPeople] = useState<any>()
     const [dataRequest, setDataRequest] = useState<any>({
         startDate: '',
         endDate: '',
@@ -97,6 +100,7 @@ const Statistical = () => {
     //         setDataChart(totalPrices);
     //     });
     // }, []);
+
     const handleStatistical = async () => {
         setDataChart([]);
         const res = await getAllOrderByStatus(dataRequest);
@@ -104,10 +108,66 @@ const Statistical = () => {
         if (res.data) {
             const orderChartData = res.data.listOrderChart;
             const orderData = res.data.orders;
+            const completedOrders = orderData.filter((item: any) => item.orderStatus === 'hoàn thành');
+            const cancelOrders = orderData.filter((item: any) => item.orderStatus === 'huỷ đơn');
+            setSubTotal(completedOrders);
+            setSubCancel(cancelOrders)
+
+
+            const orderCounts: any = {};
+            orders.forEach((order: any) => {
+                const userId = order.user;
+                orderCounts[userId] = (orderCounts[userId] || 0) + 1;
+            });
+
+            const sortedPeople = Object.entries(orderCounts)
+                .sort((a: any, b: any) => b[1] - a[1])
+                .map(([userId, orderCount]) => {
+                    const userOrder = orders.find((order: any) => order.user === userId);
+                    return {
+                        userId,
+                        fullName: userOrder.fullname,
+                        phoneNumber: userOrder.phoneNumber,
+                        district: userOrder.district,
+                        orderCount,
+                    }
+                })
+
+            setPeople(sortedPeople)
+
             let totalPrices = [];
+            if (dataRequest.granularity === 'day'
+                || dataRequest.granularity === 'week'
+                || dataRequest.granularity === 'month'
+                || dataRequest.granularity === 'year') {
+                const productSales: any = {};
+                totalPrices = orderChartData.map((chartData: any) => {
+                    const date = chartData.date;
+                    const ordersInDay = orders.filter((order: any) => {
+                        const orderDate = moment(order.createdAt).format('YYYY-MM-DD');
+                        return orderDate === date;
+                    })
 
+                    ordersInDay.forEach((order: any) => {
+                        order.productOrder.forEach((productOrder: any) => {
+                            const productId = productOrder.product.name;
+                            const quantitySold = productOrder.quantityOrder.quantity;
+
+                            if (productSales[productId]) {
+                                productSales[productId] += quantitySold;
+                            } else {
+                                productSales[productId] = quantitySold;
+                            }
+                        });
+                    });
+                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                        productId,
+                        quantity,
+                    }));
+                    setProductSalesData(productSalesArray);
+                });
+            }
             if (dataRequest.granularity === 'day') {
-
                 const productSales: any = {};
                 totalPrices = orderChartData.map((chartData: any) => {
                     const date = chartData.date;
@@ -128,12 +188,11 @@ const Statistical = () => {
                             }
                         });
                     });
-
-                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
-                        productId,
-                        quantity,
-                    }));
-                    setProductSalesData(productSalesArray);
+                    // const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                    //     productId,
+                    //     quantity,
+                    // }));
+                    // setProductSalesData(productSalesArray);
 
                     return {
                         date,
@@ -166,11 +225,11 @@ const Statistical = () => {
                         });
                     });
 
-                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
-                        productId,
-                        quantity,
-                    }));
-                    setProductSalesData(productSalesArray);
+                    // const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                    //     productId,
+                    //     quantity,
+                    // }));
+                    // setProductSalesData(productSalesArray);
 
                     return {
                         date: `Tuần ${weekNumber}`,
@@ -202,11 +261,11 @@ const Statistical = () => {
                         });
                     });
 
-                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
-                        productId,
-                        quantity,
-                    }));
-                    setProductSalesData(productSalesArray);
+                    // const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                    //     productId,
+                    //     quantity,
+                    // }));
+                    // setProductSalesData(productSalesArray);
 
                     return {
                         date: month,
@@ -238,11 +297,11 @@ const Statistical = () => {
                         });
                     });
 
-                    const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
-                        productId,
-                        quantity,
-                    }));
-                    setProductSalesData(productSalesArray);
+                    // const productSalesArray = Object.entries(productSales).map(([productId, quantity]) => ({
+                    //     productId,
+                    //     quantity,
+                    // }));
+                    // setProductSalesData(productSalesArray);
 
                     return {
                         date: year,
@@ -251,13 +310,9 @@ const Statistical = () => {
                     };
                 });
             }
-
-
-
             setDataChart(totalPrices);
         }
     };
-
 
     const handleGranularityChange = (value: string) => {
         setDataRequest((prev: any) => ({
@@ -293,16 +348,31 @@ const Statistical = () => {
             },
         },
     };
-
+    const columns = [
+        {
+            title: 'STT',
+            dataIndex: 'stt',
+            key: 'stt',
+            render: (text: any, record: any, index: any) => index + 1,
+        },
+        {
+            title: 'Họ và Tên',
+            dataIndex: 'fullName',
+            key: 'fullName',
+        },
+        {
+            title: 'Số Điện Thoại',
+            dataIndex: 'phoneNumber',
+            key: 'phoneNumber',
+        },
+        {
+            title: 'Số Đơn Hàng',
+            dataIndex: 'orderCount',
+            key: 'orderCount',
+        },
+    ];
     return (
         <LayoutLoading condition={orders.length == 0}>
-            <div className='bg-blue-500 rounded-lg p-6 mb-8 block w-[300px] h-44'>
-                <div className='flex'>
-                    <div className='text-4xl text-white font-semibold'>Doanh Thu</div>
-                    <div className='pl-40'><FaMoneyCheckAlt className='text-5xl text-white' /></div>
-                </div>
-                <div className='text-white text-3xl font-bold pt-2'>{dataResponse?.totalQuantity?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</div>
-            </div>
 
             <div className='py-5'>
                 <Row justify='center'>
@@ -329,6 +399,39 @@ const Statistical = () => {
                     </Col>
                 </Row>
             </div>
+            <div className='flex space-x-8 p-8'>
+
+                <div className='bg-gradient-to-br from-blue-500 to-indigo-700 rounded-lg p-6 mb-8 block w-[300px] h-44'>
+                    <div className='flex items-center justify-between'>
+                        <div className='text-4xl text-white font-semibold'>Doanh Thu</div>
+                        <div><FaMoneyCheckAlt className='text-5xl text-white' /></div>
+                    </div>
+                    <div className='text-white text-3xl font-bold pt-2'>
+                        {dataResponse?.totalQuantity?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                    </div>
+                </div>
+
+
+                <div className='bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-6 mb-8 block w-[300px] h-44'>
+                    <div className='flex items-center justify-between'>
+                        <div className='text-4xl text-white font-semibold'>Số đơn bán được</div>
+                        <div><BiLineChart className='text-5xl text-white' /></div>
+                    </div>
+                    <div className='text-white text-3xl font-bold pt-2'>
+                        {subTotal?.length}
+                    </div>
+                </div>
+
+                <div className='bg-gradient-to-br from-red-500 to-red-700 rounded-lg p-6 mb-8 block w-[300px] h-44'>
+                    <div className='flex items-center justify-between'>
+                        <div className='text-4xl text-white font-semibold'>Số đơn bị huỷ</div>
+                        <div><BiLineChartDown className='text-5xl text-white' /></div>
+                    </div>
+                    <div className='text-white text-3xl font-bold pt-2'>
+                        {subCancel?.length}
+                    </div>
+                </div>
+            </div>
             <div className='chart'>
                 <h1 className='py-10 font-semibold text-4xl'>Biểu đồ thống kê</h1>
                 <Line {...config} />
@@ -338,6 +441,18 @@ const Statistical = () => {
                 {productSalesData.length == 0 ? (<div className='text-center mt-5 text-[25px]'>Không có đơn nào để thống kê sản phẩm</div>) : (<Pie {...conFig} />)}
 
             </div>
+            <div>
+                <h1 className="mt-10 font-semibold text-4xl mb-4 text-center">Bảng Xếp Hạng Khách hàng mua nhiều nhất</h1>
+                <Table
+                    columns={columns}
+                    dataSource={peopel}
+                    bordered
+                    size="middle"
+                    pagination={false}
+                    className="ranking-table"
+                />
+            </div>
+
         </LayoutLoading>
     );
 };

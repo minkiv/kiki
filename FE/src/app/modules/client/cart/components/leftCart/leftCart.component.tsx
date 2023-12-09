@@ -150,7 +150,9 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
           }
         })
       },
-      onCancel() { }
+      onCancel() {
+        messageApi.error('Đã huỷ tính năng xoá')
+      }
     })
   }
 

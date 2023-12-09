@@ -17,6 +17,9 @@ const Cart: FunctionComponent<CartProps> = () => {
   useEffect(() => {
     actions.getAllCart()
   }, [])
+  // window.addEventListener('unload', function () {
+  //   localStorage.removeItem('voucherCode');
+  // });
   localStorage.removeItem('total');
   localStorage.removeItem('sale');
   localStorage.removeItem('voucherCode');
