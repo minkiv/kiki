@@ -1,27 +1,83 @@
 import { css } from '@emotion/react'
-import React, { Children, FunctionComponent } from 'react'
+import React, { Children, FunctionComponent, useState } from 'react'
 import { FaFacebookF, FaYoutube, FaTelegram } from 'react-icons/fa';
 import ButtonSqua from '../../parts/button/ButtonSqua';
-
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 
 interface FooterComponentProps {
   props?: any
 }
 
 const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    key,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('Giới thiệu', 'sub1', [
+    getItem('Về IVY moda', '1'),
+    getItem('Tuyển dụng', '2'),
+    getItem('Hệ thống cửa hàng', '3'),
+  ]),
+  getItem('Dịch vụ khách hàng', 'sub2', [
+    getItem('Chính sách điều khoản', '5'),
+    getItem('Hướng dẫn mua hàng', '6'),
+    getItem('Chính sách thanh toán', '7'),
+    getItem('Chính sách đổi trả', '8'),
+    getItem('Chính sách bảo hành', '9'),
+    getItem('Chính sách giao nhận vận chuyển', '10'),
+    getItem('Chính sách thẻ thành viên', '11'),
+    getItem('Hệ thống cửa hàng', '12'),
+    getItem('Q&A', '13'),
+  ]),
+  getItem('Liên hệ', 'sub4', [
+    getItem('Hotline', '14'),
+    getItem('Email', '15'),
+    getItem('Live chat', '16'),
+    getItem('Messenger', '17'),
+    getItem('Liên hệ', '18'),
+  ]),
+];
+
+// submenu keys of first level
+const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+const [openKeys, setOpenKeys] = useState(['']);
+
+  const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
   return (
     <footer css={cssFooter}>
-      <div className='main-footer px-2 md:px-0 block md:flex justify-around py-40'>
+      <div className='main-footer px-2 md:px-0 block md:flex justify-around sm:py-40 py-10'>
         <div className='column-one'>
           <div className='logo flex justify-between gap-9 pb-6'>
             <div>
               <img className='' src="https://pubcdn.ivymoda.com/ivy2/images/logo-footer.png" alt="" />
             </div>
             <div>
-              <img className='' src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=0cfdeac4-6e7f-4fca-941f-57a0a0962777" alt="" />
+              <img className='max-sm:max-w-[80%]' src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=0cfdeac4-6e7f-4fca-941f-57a0a0962777" alt="" />
             </div>
             <div>
-              <img className='' src="https://pubcdn.ivymoda.com/ivy2/images/img-congthuong.png" alt="" />
+              <img className='max-sm:max-w-[90%]' src="https://pubcdn.ivymoda.com/ivy2/images/img-congthuong.png" alt="" />
             </div>
           </div>
 
@@ -38,7 +94,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
             </div>
           </div>
 
-          <div className='social flex gap-14 py-9'>
+          <div className='social flex gap-14 sm:py-9 py-4'>
             <img className='w-[12px]' src="https://pubcdn.ivymoda.com/ivy2/images/ic_fb.svg" alt="" />
             <img className='w-[22px]' src="https://pubcdn.ivymoda.com/ivy2/images/ic_gg.svg" alt="" />
             <img className='w-[29px]' src="https://pubcdn.ivymoda.com/ivy2/images/ic_instagram.svg" alt="" />
@@ -50,7 +106,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
             <a href='' className='px-[10px] py-[12px] md:px-[5px] lg:px-[24px]'>Hotline: 0246 662 3434</a>
           </div>
         </div>
-        <div className='column-two'>
+        <div className='column-two max-sm:hidden'>
           <h2 className='text-title'>Giới thiệu</h2>
           <div className='text-content' >
             <p>Về IVY moda</p>
@@ -58,7 +114,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
             <p>Hệ thống cửa hàng</p>
           </div>
         </div>
-        <div className='column-three'>
+        <div className='column-three max-sm:hidden'>
           <h2 className='text-title'>Dịch vụ khách hàng</h2>
           <div className='text-content' >
             <p>Chính sách điều khoản</p>
@@ -72,7 +128,7 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
             <p>Q&A</p>
           </div>
         </div>
-        <div className='column-four'>
+        <div className='column-four max-sm:hidden'>
           <h2 className='text-title'>Liên hệ</h2>
           <div className='text-content' >
             <p>Hotline</p>
@@ -82,6 +138,15 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
             <p>Liên hệ</p>
           </div>
         </div>
+       <div className='sm:hidden'>
+       <Menu
+      mode="inline"
+      openKeys={openKeys}
+      onOpenChange={onOpenChange}
+      style={{ width: "100%" }}
+      items={items}
+    />
+       </div>
         <div className='column-five'>
           <div className='form'>
             <h2 className='text-title'>Nhận thông tin các chương trình của IVY moda</h2>
@@ -95,8 +160,8 @@ const FooterComponent: FunctionComponent<FooterComponentProps> = () => {
 
           <div className='down-app'>
             <p className='text-title'> Download App</p>
-            <div className=''>
-              <img className='mb-4' src="https://pubcdn.ivymoda.com/ivy2/images/appstore.png" alt="" />
+            <div className='max-sm:flex gap-[10px]'>
+              <img className='sm:mb-4' src="https://pubcdn.ivymoda.com/ivy2/images/appstore.png" alt="" />
               <img src="https://pubcdn.ivymoda.com/ivy2/images/googleplay.png" alt="" />
             </div>
           </div>
@@ -188,6 +253,8 @@ const cssFooter = css`
   }
   
 @media (min-width: 0) and (max-width: 739px) { 
+  position: relative;
+  height: 0;
   .column-one{
     max-width:100%;
     margin-bottom:10px;
@@ -207,6 +274,15 @@ const cssFooter = css`
   .column-five{
     max-width:100%;
     margin-bottom:10px;
+  }
+  .text-content p{
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 0;
+  }
+  .text-title{
+    font-size: 16px;
+    line-height: 32px;
   }
   }
 `

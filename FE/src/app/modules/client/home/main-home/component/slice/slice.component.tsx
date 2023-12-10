@@ -63,6 +63,14 @@ const cssSlider = css`
   .swiper-button-next {
     color: white;
   }
+  @media screen and (max-width: 640px){
+    .swiper-button-prev::after {
+      font-size:16px;
+    }
+    .swiper-button-next::after {
+      font-size: 16px;
+    }
+}
   .swiper-pagination-bullet-active {
     background: #fff;
   }

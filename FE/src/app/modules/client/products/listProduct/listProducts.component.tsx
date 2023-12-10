@@ -31,7 +31,7 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
 
   return (
     <div css={cssListProducts} className='w-[100%]'>
-      <div className='grid grid-cols-4 gap-10 p-10'>
+      <div className='grid max-sm:grid-cols-2 grid-cols-4 gap-10 p-10'>
         {itemsPerPage.map((item: any, index: number) => (
           <Link to={`/detail/${item._id}`} key={index}>
             <ItemProduct itemProduct={item} />

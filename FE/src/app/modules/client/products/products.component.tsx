@@ -6,6 +6,7 @@ import ListProducts from './listProduct/listProducts.component'
 import { useProductRedux } from '../redux/hook/useProductReducer'
 import { searchProduct } from '../../admin/product/service/product.service'
 
+
 interface ProductProps {
   props?: any
 }
@@ -175,6 +176,7 @@ const Products: FunctionComponent<ProductProps> = () => {
       <div className='title relative'>
         <h1 className='text-title absolute'>TẤT CẢ SẢN PHẨM </h1>
       </div>
+
       <div className='flex mt-[48px]'>
         <SidebarProducts
           sortColor={handleSortColor}
@@ -212,4 +214,10 @@ const cssProduct = css`
     padding: 12px 40px 12px 16px;
     text-transform: uppercase;
   }
+  @media screen and (max-width: 640px){
+    .text-title {
+      right: 18%;
+    }
+   
+}
 `

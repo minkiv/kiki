@@ -21,19 +21,19 @@ const ItemProduct: FunctionComponent<ItemProductProps> = ({ className, itemProdu
   return (
     <div css={cssProduct} className={className}>
       <div className=' mb-[17px]'>
-        <img src={itemProduct?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='' className='w-[100%] max-h-[400px] h-[385.95px] m-auto' />
+        <img src={itemProduct?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} alt='' className='sm:width-[100%] min-h-[240px] max-sm:max-w-[160px] m-auto' />
       </div>
       <div className='main'>
-        <div className='flex justify-between mb-4'>
+        <div className='flex justify-between mb-4 max-sm:mb-2'>
           <div className='text-item'>
             <h3 className='truncate'>{itemProduct?.name}</h3>
           </div>
           <div>
-            <AiOutlineHeart className='text-[23px] mt-[-4px] text-red-600' />
+            <AiOutlineHeart className='max-sm:text-[16px] text-[23px] max-sm:mt-[-1px] mt-[-4px] text-red-600' />
           </div>
         </div>
-        <div className='flex justify-between  h-[24px] mt-8 mb-10'>
-          <div className='color'>
+        <div className='sm:flex justify-between  h-[24px] sm:mt-8 sm:mb-10 mb-[3.5rem]'>
+          <div className='color max-sm:mb-4 max-sm:px-[4px]'>
             {listColor &&
               listColor?.map((item: any, key = 0) => {
                 if (item.nameColor)
@@ -77,10 +77,6 @@ const cssProduct = css`
   overflow: hidden;
   border-radius: 4px;
   // background: rgb(255, 255, 255);
-  .text-item {
-    width: 75%;
-    overflow: hidden;
-  }
   .product-color {
     width: 24px;
     height: 24px;
@@ -93,7 +89,7 @@ const cssProduct = css`
   .product-size {
     border: 1px solid #d1d1d1;
     border-radius: 2px;
-    width: 24px;
+    width: 28px;
     height: 22px;
     display: inline-flex;
     justify-content: center;
@@ -112,6 +108,8 @@ const cssProduct = css`
     font-weight: 400;
     margin-bottom: 10px;
     text-transform: capitalize;
+    width: 75%;
+    overflow: hidden;
   }
   .price {
     font-size: 100%;
@@ -141,6 +139,12 @@ const cssProduct = css`
     transform: translateY(-3px);
     // box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   }
+  @media screen and (max-width: 640px){
+      .text-item {
+       width: 130px;
+       font-size: 13px;
+      }
+}
 `
 const cssBtn = css`
   padding: 8px;

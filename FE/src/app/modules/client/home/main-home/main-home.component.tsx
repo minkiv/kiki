@@ -46,7 +46,7 @@ const MainHome: FunctionComponent<MainHomeProps> = () => {
           <Skeleton active />
         )}
       </div>
-      <div className='item-list-slider relative mt-[80px]'>
+      <div className='item-list-slider relative max-sm:hidden mt-[80px]'>
         <img
           className='banner-img'
           src='https://im.uniqlo.com/global-cms/spa/res619b373fb11838f1eb9998aabc6746a8fr.jpg'
@@ -60,13 +60,13 @@ const MainHome: FunctionComponent<MainHomeProps> = () => {
           <Link to={'#'}> XEM THÊM</Link>
         </div>
       </div>
-      <div className='item-list-slider'>
+      <div className='item-list-slider max-sm:hidden'>
         <ListBanner />
       </div>
       <div className='item-list-slider'>
         <TruthValue />
       </div>
-      <div className='item-list-slider'>
+      <div className='item-list-slider max-sm:hidden'>
         <Gallery />
       </div>
     </div>
@@ -86,7 +86,7 @@ const cssmain = css`
     margin-bottom: 20px;
   }
   .banner-img {
-    border-radius: 80px 0;
+    border-radius: 40px 0;
   }
   .banner-overlay {
     position: absolute;
