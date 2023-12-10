@@ -28,6 +28,13 @@ const SaleProduct: FunctionComponent<SaleProductProps> = () => {
           </Link>
         ))}
       </div>
+      <div className='list-product-mobile'>
+        {products.slice(0,2).map((item: any, index: any) => (
+          <Link to={`/detail/${item._id}`} key={index}>
+            <ItemProduct itemProduct={item} />
+          </Link>
+        ))}
+      </div>
       <div className='text-center mt-10'>
         <Link to={'/products'}>
           <ButtonSqua children='Xem tất cả' css={cssButton} />
@@ -66,10 +73,26 @@ const cssProduct = css`
     gap: 20px;
     grid-template-columns: repeat(5, 257px);
   }
+  .list-product-mobile {
+    display:none
+  }
   @media (min-width: 0) and (max-width: 739px) {
-    .list-product {
-      grid-template-columns: repeat(2, 1fr);
+    .list-product{
+      display: none
+    }
+    .list-product-mobile {
+      grid-template-columns: 1fr 1fr;
       padding: 5px 10px;
+      display:grid;
+      gap: 10px;
+    }
+    .titles {
+      font-size: 20px;
+      margin-top: 0;
+    }
+    .titles-desc{
+      font-size: 16px;
+      margin: 16px auto 32px;
     }
   }
 `

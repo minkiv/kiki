@@ -19,14 +19,21 @@ const NewProduct: FunctionComponent<NewProductProps> = () => {
     <div css={cssProduct}>
       <div className='titles'>MỚI RA MẮT</div>
       <p className='text-center titles-desc'>Các sản phẩm bắt nhịp quốc tế, nàng thời thượng không nên bỏ lỡ</p>
-      <div className='list-product'>
+      <div className='list-product '>
         {products.slice(-5).map((item: any, index: any) => (
           <Link to={`/detail/${item._id}`} key={index}>
             <ItemProduct itemProduct={item} />
           </Link>
         ))}
       </div>
-      <div className='text-center mt-[8rem]'>
+      <div className='list-product-mobile'>
+        {products.slice(-2).map((item: any, index: any) => (
+          <Link to={`/detail/${item._id}`} key={index}>
+            <ItemProduct itemProduct={item} />
+          </Link>
+        ))}
+      </div>
+      <div className='text-center sm:mt-[8rem] mt-[20px]'>
         <Link to={'/products'}>
           {' '}
           <ButtonSqua children='Xem tất cả' css={cssButton} />
@@ -51,6 +58,7 @@ const cssProduct = css`
     color: #221f20;
     margin-top: 40px;
   }
+
   .titles-desc {
     font-size: 20px;
     font-family: 'MuliDisplayVN', sans-serif;
@@ -65,10 +73,26 @@ const cssProduct = css`
     gap: 20px;
     grid-template-columns: repeat(5, 257px);
   }
+  .list-product-mobile {
+    display:none
+  }
   @media (min-width: 0) and (max-width: 739px) {
-    .list-product {
-      grid-template-columns: repeat(2, 1fr);
+    .list-product{
+      display: none
+    }
+    .list-product-mobile {
+      grid-template-columns: 1fr 1fr;
       padding: 5px 10px;
+      display:grid;
+      gap: 10px;
+    }
+    .titles {
+      font-size: 20px;
+      margin-top: 0;
+    }
+    .titles-desc{
+      font-size: 16px;
+      margin: 16px auto 32px;
     }
   }
 `

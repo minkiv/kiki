@@ -12,13 +12,47 @@ import Marquee from 'react-fast-marquee'
 import { getAllContent } from '~/app/api/content/content.api'
 import { FiUserCheck } from 'react-icons/fi';
 import { CheckAuth } from '~/app/container/check-auth/CheckAuth.component'
+import { CgMenuLeftAlt } from "react-icons/cg";
+import { Drawer,Menu,MenuProps } from 'antd'
+import { FaHome } from 'react-icons/fa'
+import { TbBrandProducthunt } from "react-icons/tb";
+import { SiStylelint } from 'react-icons/si'
+import { MdContactSupport } from 'react-icons/md'
 
 interface HeaderComponentProps {
   props?: any
 }
+type MenuItem = Required<MenuProps>['items'][number];
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
 
+const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   const [content, setContent] = useState([])
+  const [open, setOpen] = useState(false);
+  const [openKeys, setOpenKeys] = useState(['']);
+
+  const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
   useEffect(() => {
     getAllContent().then(({ data }) => setContent(data));
   }, []);
@@ -84,15 +118,101 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       localStorage.removeItem('voucherCode');
       localStorage.removeItem("sale");
       localStorage.removeItem("total");
-      localStorage.removeItem("listSelectCart")
       navigate('/customer/login')
     } else {
       navigate('/')
     }
   }
+  
+  const onClose = () => {
+    setOpen(false);
+  };
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const items: MenuItem[] = [
+    getItem(<div className='item-menu'>
+      {accessToken ? (
+          <span className='px-4 text-black'>
+            XIN CHÀO
+          </span>
+      ) : (
+        <Link to={'/customer/login'}>Tài khoản</Link>
+      )}
+  </div>, 'sub1', <FiUserCheck />, [
+      getItem(<p className=' font-normal text-[15px] py-3 hover:text-red-500 p-6' onClick={handleLoginLogout}>
+      Đăng xuất
+    </p>, '12', <HiOutlineLogout />),
+      getItem(<Link to={'/manage'}>
+      <p className=' font-normal text-[15px] py-3 p-6'>
+        Quản lý{' '}
+      </p>
+    </Link>, '13',<AiOutlineSetting/>),
+      getItem(<div>{checkAuth == "ADMIN" && <Link to={'/admin'} className='inline-block w-[100%] font-normal  mt-4 rounded-[8px] text-[15px] py-3 hover:bg-[#ffaa00] p-6' >
+      Quản lý website
+    </Link>}</div>, '14'),
+    ]),
+    getItem( <div onClick={onClose}>
+      <Link className='hover:text-red-500' to={'/'}>
+        Trang chủ
+      </Link>
+    </div>, 'home', <FaHome />),
+    getItem(<div onClick={onClose}>
+      <Link className='hover:text-red-500' to={'/products'}>
+        Sản phẩm
+      </Link>
+    </div>, 'sub2', <TbBrandProducthunt />),
+    getItem(<div onClick={onClose}>
+      <Link className='hover:text-red-500' to={'/LifeStyle'}>
+        LifeStyle
+      </Link>
+    </div>, 'sub3', <SiStylelint />),
+    getItem(<div onClick={onClose}>
+      <Link className='hover:text-red-500' to={'/Contacts'}>
+        Liên hệ
+      </Link>
+    </div>, 'sub4', <MdContactSupport />),
+    getItem(<div >
+      <Link className='hover:text-red-500' to={''}>
+        Về chúng tôi
+      </Link>
+    </div>, 'sub5', null, [
+      getItem(<Link onClick={onClose} to={'/general'} className='py-4 px-4 font-semibold'>
+      {' '}
+      Về Ivy modar
+    </Link>, '9'),
+      getItem(<Link onClick={onClose} to={'/Community-Activities'} className='py-4 px-4 font-semibold'>
+      {' '}
+      Fashion Show
+    </Link>, '10'),
+      getItem(<Link onClick={onClose} to={'/fashion-Show'} className='py-4 px-4 font-semibold'>
+      {' '}
+      Hoạt động cộng đồng
+    </Link>, '11'),
+    ]),
+  ];
   return (
     <div>
-      <div className='mx-auto top-0 flex items-center justify-between z-[200] sm:px-[50px] w-[100%] bg-white fixed  h-[80px]'>
+      <Drawer
+        title="Menu"
+        placement={'left'}
+        onClose={onClose}
+        open={open}
+      >
+        <div className="menu-drawer" css={cssMenuDrawer}>
+        <Menu
+      mode="inline"
+      openKeys={openKeys}
+      onOpenChange={onOpenChange}
+      style={{ width: '100%' }}
+      items={items}
+      className='mobile-menu'
+    />
+          
+        </div>
+      </Drawer>
+      <div className='mx-auto top-0 flex items-center justify-between z-[2]  lg:px-[30px] px-[10px] w-[100%] bg-white fixed  h-[80px]'>
+        <div className='md:hidden text-[22px]' onClick={showDrawer}><CgMenuLeftAlt /></div>
         <div css={cssMenu} className='space-x-8'>
           <div>
             <Link className='hover:text-red-500' to={'/'}>
@@ -135,10 +255,10 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
           </div>
         </div>
         <Link to={'/'}>
-          <img src="https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/404263307_357890920233334_4206441658182925266_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=CIe-0hEhr1YAX9eSH-4&_nc_ht=scontent.fhan14-1.fna&oh=00_AfBhxKIHBbEZq4gmG7rKuokBaGaBIoTNrhkRZ_u8GAA-xg&oe=655FAA1F" className='w-[170px] mr-12 max-sm:hidden' />
+          <img src="https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/404263307_357890920233334_4206441658182925266_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=CIe-0hEhr1YAX9eSH-4&_nc_ht=scontent.fhan14-1.fna&oh=00_AfBhxKIHBbEZq4gmG7rKuokBaGaBIoTNrhkRZ_u8GAA-xg&oe=655FAA1F" className='sm:w-[170px] sm:mr-12 ' />
         </Link>
-        <div className='flex align-items:center max-sm:hidden' css={cssWrapperMenu}>
-          <div className='relative'>
+        <div className='flex align-items:center' css={cssWrapperMenu}>
+          <div className='relative max-sm:hidden'>
             <InputComponent
               onChange={handleSearchInputChange}
               onClick={handelSubmitData}
@@ -220,12 +340,12 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       </div>
       <div className='mt-[100px]'>
         {content.length > 0 && content.some((item: any) => item.hidden === "Hiển thị") && (
-          <Marquee css={cssMarquee} direction="left" className='py-3 z-0 sticky' style={{ borderTop: '1px solid black', borderBottom: '1px solid black', width: '95%', margin: 'auto', marginBottom: '5px', animationPlayState: 'paused' }}>
+          <Marquee css={cssMarquee} direction="left" className='sm:py-3 z-0 sticky' style={{ borderTop: '1px solid black', borderBottom: '1px solid black', width: '95%', margin: 'auto', marginBottom: '5px', animationPlayState: 'paused' }}>
             {content.map((item: any) => {
               if (item.hidden === "Hiển thị") {
                 return (
-                  <p style={{ padding: "0px 300px" }} key={item._id} className='text-[20px] text-black italic flex' >
-                    <img className='w-auto h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
+                  <p style={{ padding: "0px 300px" }} key={item._id} className='max-sm:text-[14px] max-sm:mt-[2px] text-[20px] text-black italic flex' >
+                    <img className='w-auto max-sm:h-[24px] h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
                     {item.content}
                   </p>
                 );
@@ -240,9 +360,29 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
 }
 
 export default HeaderComponent
+const cssMenuDrawer = css`
+div {
+  padding: 10px;
+  font-size: 16px;
+}
+div:hover{
+  background-color: #f5f5f5
+}
+div a:hover{
+  color: red;
+}
+.mobile-menu .ant-menu-item{
+  padding-left: 40px !important
+}
+.mobile-menu .ant-menu-sub{
+  background-color: transparent !important
+}
+`
 const cssMenu = css`
+@media not all and (min-width: 640px){
+    display: none;
+}
   display: flex;
-  font-size: 13px;
   color: #221f20;
   font-weight: 600;
   text-transform: uppercase;
@@ -310,19 +450,25 @@ const cssWrapperMenu = css`
   .links:hover {
     visibility: visible;
   }
-  .item-menu {
-    display: flex;
-    padding: 8px 16px;
-    align-items: center;
-    border-radius: 8px;
-    cursor: pointer;
-    justify-content: flex-end;
-    border: 1px solid rgba(39, 39, 42, 0.12);
-    margin: 0 4px;
-    .icon {
-      margin-right: 4px;
-      font-size: 22px;
-    }
+  .item-menu{
+    display:none
+  }
+  @media screen and (min-width: 640px){
+    .item-menu {
+      display: flex;
+      padding: 8px 16px;
+      align-items: center;
+      border-radius: 8px;
+      cursor: pointer;
+      justify-content: flex-end;
+      border: 1px solid rgba(39, 39, 42, 0.12);
+      margin: 0 4px;
+      .icon {
+        margin-right: 4px;
+        font-size: 22px;
+      }
+}
+
     .title {
       font-weight: 500;
       font-size: 14px;
@@ -341,19 +487,30 @@ const cssWrapperMenu = css`
   }
 `
 const cssCartMain = css`
+.show-count{
+  top: -4px;
+  right: -4px;
+  border-radius: 50px;
+  background: #ef4444;
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 12px;
+    height: 12px;
+}
+@media screen and (min-width: 640px){
   .show-count {
     top: 0px;
     right: 0px;
-    border-radius: 50px;
-    background: #ef4444;
     font-size: 1.3rem;
-    color: white;
     width: 20px;
     height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
+}
+
+
   position: relative;
   display: block;
   height: 100%;

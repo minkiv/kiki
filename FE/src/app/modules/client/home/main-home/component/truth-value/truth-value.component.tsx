@@ -32,9 +32,19 @@ const TruthValue: FunctionComponent<TruthValueProps> = () => {
   ]
   return (
     <div className='mt-4' css={cssValue}>
-      <h3 className='text-center text-[30px] pb-12'>LỜI BÀY TỎ TỪ GIÁ TRỊ ĐÍCH THỰC</h3>
-      <div className='list-value'>
+      <h3 className='text-center max-sm:text-[18px] text-[30px] pb-12'>LỜI BÀY TỎ TỪ GIÁ TRỊ ĐÍCH THỰC</h3>
+      <div className='list-value max-sm:hidden'>
         {listTruthValue.map((value: any) => (
+          <div key={value.id}>
+            <div className='img-block'>
+              <img src={value.img} alt='' />
+            </div>
+            <p>{value.name}</p>
+          </div>
+        ))}
+      </div>
+      <div className='list-value-mobile'>
+        {listTruthValue.slice(0,2).map((value: any) => (
           <div key={value.id}>
             <div className='img-block'>
               <img src={value.img} alt='' />
@@ -51,13 +61,22 @@ export default TruthValue
 
 const cssValue = css`
   h3 {
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     font-weight: 600;
-    letter-spacing: 1px;
+    line-height: 32px;
+    font-family: 'Montserrat';
+    color: #221f20;
+    margin-top: 40px;
   }
   .list-value {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 24px;
+  }
+  .list-value-mobile {
+    display: none;
   }
   .img-block {
     height: 256px;
@@ -72,4 +91,28 @@ const cssValue = css`
     font-size: 16px;
     letter-spacing: 0.5px;
   }
+  @media screen and (max-width: 640px){
+    .list-value{
+      display: none;
+    }
+    .list-value-mobile {
+      margin: 0 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 15px;
+    }
+    .img-block {
+      height: fit-content;
+      width: 175px;
+      overflow: hidden;
+      border-radius: 20px 0;
+    }
+    .list-value-mobile p {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 550;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+}
 `

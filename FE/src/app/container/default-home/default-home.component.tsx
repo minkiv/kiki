@@ -9,7 +9,7 @@ interface DefaultHomeProps {
 const DefaultHome: FunctionComponent<DefaultHomeProps> = () => {
   return (
     <div>
-      <div className=' max-sm:px-[10px] bg-white'>
+      <div className='bg-white'>
         <HeaderComponent />
       </div>
       <Outlet />

@@ -33,8 +33,10 @@ const TitleProducts: FunctionComponent<TitleProductProps> = ({ children }) => {
 export default TitleProducts
 
 const cssTitleProduct = css`
+margin: 0 auto 8px;
+@media screen and (min-width: 640px){
   width: 1380px;
-  margin: 0 auto 8px;
+}
   .arrival {
     display: flex;
     list-style-type: none;
@@ -50,4 +52,9 @@ const cssTitleProduct = css`
     font-size: 14px;
     line-height: 24px;
   }
+  @media screen and (max-width: 640px){
+    .arrival {
+      padding: 16px 10px;
+    }
+}
 `
