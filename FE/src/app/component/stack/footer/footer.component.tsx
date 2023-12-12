@@ -71,7 +71,7 @@ const [openKeys, setOpenKeys] = useState(['']);
         <div className='column-one'>
           <div className='logo flex justify-between gap-9 pb-6'>
             <div>
-              <img className='' src="https://pubcdn.ivymoda.com/ivy2/images/logo-footer.png" alt="" />
+              <img className='' src="https://res.cloudinary.com/dfj3obru8/image/upload/v1702389365/pwrxo90fsvgcfwxregrs.png" alt="" />
             </div>
             <div>
               <img className='max-sm:max-w-[80%]' src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=0cfdeac4-6e7f-4fca-941f-57a0a0962777" alt="" />

@@ -28,6 +28,10 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
     });
     setCurrentPage(value);
   };
+  useEffect(()=>{
+    handleChangePaginate(1)
+    setCurrentPage(1);
+  },[data])
 
   return (
     <div css={cssListProducts} className='w-[100%]'>
