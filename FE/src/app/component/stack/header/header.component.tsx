@@ -140,15 +140,15 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         <Link to={'/customer/login'}>Tài khoản</Link>
       )}
   </div>, 'sub1', <FiUserCheck />, [
-      getItem(<p className=' font-normal text-[15px] py-3 hover:text-red-500 p-6' onClick={handleLoginLogout}>
+      getItem(<p  className=' font-normal text-[15px] py-3 hover:text-red-500 p-6' onClick={handleLoginLogout}>
       Đăng xuất
     </p>, '12', <HiOutlineLogout />),
-      getItem(<Link to={'/manage'}>
+      getItem(<Link onClick={onClose} to={'/manage'}>
       <p className=' font-normal text-[15px] py-3 p-6'>
         Quản lý{' '}
       </p>
     </Link>, '13',<AiOutlineSetting/>),
-      getItem(<div>{checkAuth == "ADMIN" && <Link to={'/admin'} className='inline-block w-[100%] font-normal  mt-4 rounded-[8px] text-[15px] py-3 hover:bg-[#ffaa00] p-6' >
+      getItem(<div onClick={onClose}>{checkAuth == "ADMIN" && <Link to={'/admin'} className='inline-block w-[100%] font-normal  mt-4 rounded-[8px] text-[15px] py-3 hover:bg-[#ffaa00] p-6' >
       Quản lý website
     </Link>}</div>, '14'),
     ]),
@@ -255,7 +255,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
           </div>
         </div>
         <Link to={'/'}>
-          <img src="https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/404263307_357890920233334_4206441658182925266_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=CIe-0hEhr1YAX9eSH-4&_nc_ht=scontent.fhan14-1.fna&oh=00_AfBhxKIHBbEZq4gmG7rKuokBaGaBIoTNrhkRZ_u8GAA-xg&oe=655FAA1F" className='sm:w-[170px] sm:mr-12 ' />
+          <img src="https://res.cloudinary.com/dfj3obru8/image/upload/v1702389365/pwrxo90fsvgcfwxregrs.png" className='sm:w-[170px] max-h-[80px] max-w-[160px] sm:mr-12 ' />
         </Link>
         <div className='flex align-items:center' css={cssWrapperMenu}>
           <div className='relative max-sm:hidden'>
