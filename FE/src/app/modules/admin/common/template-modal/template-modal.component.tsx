@@ -12,7 +12,7 @@ interface ITemplateModel {
 const TemplateModal: FC<ITemplateModel> = ({ isModelOpen, handleOk, handleCancel, children }) => {
     return (
         <>
-            <Modal title="Basic Modal" open={isModelOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal open={isModelOpen} onOk={handleOk} onCancel={handleCancel}>
                 {children}
             </Modal>
         </>

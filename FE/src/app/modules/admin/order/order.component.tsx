@@ -191,7 +191,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
       })
     }
 
-  }, [orderStatus, reset,orderStatus])
+  }, [orderStatus, reset, orderStatus])
 
   useEffect(() => {
     callAllOrder()
@@ -259,12 +259,12 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
           </Button>
         )
         break
-      // case 'đang vận chuyển':
-      //   return (
-      //     <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'hoàn thành')}>
-      //       Chuyển hoàn thành
-      //     </Button>
-      //   )
+      case 'đang vận chuyển':
+        return (
+          <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'hoàn thành')}>
+            Chuyển hoàn thành
+          </Button>
+        )
       case 'hoàn thành':
         break
       case 'huỷ đơn':
@@ -485,9 +485,9 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                               </Form.Item>
                             )}
                             {fields.length > 1 && (
-                              <Form.Item label="Xoá">
-                                <Button type="dashed" onClick={() => remove(name)}>
-                                  Remove
+                              <Form.Item>
+                                <Button danger onClick={() => remove(name)}>
+                                  xoá
                                 </Button>
                               </Form.Item>
                             )}
