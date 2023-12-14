@@ -13,7 +13,7 @@ import { getAllContent } from '~/app/api/content/content.api'
 import { FiUserCheck } from 'react-icons/fi';
 import { CheckAuth } from '~/app/container/check-auth/CheckAuth.component'
 import { CgMenuLeftAlt } from "react-icons/cg";
-import { Drawer,Menu,MenuProps } from 'antd'
+import { Drawer, Menu, MenuProps } from 'antd'
 import { FaHome } from 'react-icons/fa'
 import { TbBrandProducthunt } from "react-icons/tb";
 import { SiStylelint } from 'react-icons/si'
@@ -44,6 +44,8 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   const [content, setContent] = useState([])
   const [open, setOpen] = useState(false);
   const [openKeys, setOpenKeys] = useState(['']);
+  const cartAccount = localStorage.getItem('cartNoAccount')
+  const cartNoLogin = JSON.parse(cartAccount || '[]');
 
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -113,6 +115,8 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     if (accessToken) {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('emailUser')
+      localStorage.removeItem('cartNoAccount')
+      localStorage.removeItem('listSelectCart')
       localStorage.removeItem('checkAuth')
       localStorage.removeItem('userID')
       localStorage.removeItem('voucherCode');
@@ -123,7 +127,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       navigate('/')
     }
   }
-  
+
   const onClose = () => {
     setOpen(false);
   };
@@ -133,26 +137,26 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   const items: MenuItem[] = [
     getItem(<div className='item-menu'>
       {accessToken ? (
-          <span className='px-4 text-black'>
-            XIN CHÀO
-          </span>
+        <span className='px-4 text-black'>
+          XIN CHÀO
+        </span>
       ) : (
         <Link to={'/customer/login'}>Tài khoản</Link>
       )}
-  </div>, 'sub1', <FiUserCheck />, [
-      getItem(<p  className=' font-normal text-[15px] py-3 hover:text-red-500 p-6' onClick={handleLoginLogout}>
-      Đăng xuất
-    </p>, '12', <HiOutlineLogout />),
+    </div>, 'sub1', <FiUserCheck />, [
+      getItem(<p className=' font-normal text-[15px] py-3 hover:text-red-500 p-6' onClick={handleLoginLogout}>
+        Đăng xuất
+      </p>, '12', <HiOutlineLogout />),
       getItem(<Link onClick={onClose} to={'/manage'}>
-      <p className=' font-normal text-[15px] py-3 p-6'>
-        Quản lý{' '}
-      </p>
-    </Link>, '13',<AiOutlineSetting/>),
+        <p className=' font-normal text-[15px] py-3 p-6'>
+          Quản lý{' '}
+        </p>
+      </Link>, '13', <AiOutlineSetting />),
       getItem(<div onClick={onClose}>{checkAuth == "ADMIN" && <Link to={'/admin'} className='inline-block w-[100%] font-normal  mt-4 rounded-[8px] text-[15px] py-3 hover:bg-[#ffaa00] p-6' >
-      Quản lý website
-    </Link>}</div>, '14'),
+        Quản lý website
+      </Link>}</div>, '14'),
     ]),
-    getItem( <div onClick={onClose}>
+    getItem(<div onClick={onClose}>
       <Link className='hover:text-red-500' to={'/'}>
         Trang chủ
       </Link>
@@ -178,17 +182,17 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       </Link>
     </div>, 'sub5', null, [
       getItem(<Link onClick={onClose} to={'/general'} className='py-4 px-4 font-semibold'>
-      {' '}
-      Về Ivy modar
-    </Link>, '9'),
+        {' '}
+        Về Ivy modar
+      </Link>, '9'),
       getItem(<Link onClick={onClose} to={'/Community-Activities'} className='py-4 px-4 font-semibold'>
-      {' '}
-      Fashion Show
-    </Link>, '10'),
+        {' '}
+        Fashion Show
+      </Link>, '10'),
       getItem(<Link onClick={onClose} to={'/fashion-Show'} className='py-4 px-4 font-semibold'>
-      {' '}
-      Hoạt động cộng đồng
-    </Link>, '11'),
+        {' '}
+        Hoạt động cộng đồng
+      </Link>, '11'),
     ]),
   ];
   return (
@@ -200,15 +204,15 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         open={open}
       >
         <div className="menu-drawer" css={cssMenuDrawer}>
-        <Menu
-      mode="inline"
-      openKeys={openKeys}
-      onOpenChange={onOpenChange}
-      style={{ width: '100%' }}
-      items={items}
-      className='mobile-menu'
-    />
-          
+          <Menu
+            mode="inline"
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            style={{ width: '100%' }}
+            items={items}
+            className='mobile-menu'
+          />
+
         </div>
       </Drawer>
       <div className='mx-auto top-0 flex items-center justify-between z-[2]  lg:px-[30px] px-[10px] w-[100%] bg-white fixed  h-[80px]'>
@@ -334,7 +338,11 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
             <Link to={'/cart'}>
               <AiOutlineShoppingCart className='font-extrabold' />
             </Link>
-            {carts?.length >= 0 && accessToken ? <span className='absolute show-count'>{carts?.length}</span> : ''}
+            {carts && accessToken ? (
+              carts?.length >= 0 ? <span className='absolute show-count'>{carts?.length}</span> : ''
+            ) : (
+              cartNoLogin?.length >= 0 ? <span className='absolute show-count'>{cartNoLogin?.length}</span> : ''
+            )}
           </div>
         </div>
       </div>

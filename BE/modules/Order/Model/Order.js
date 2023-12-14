@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 const orderSchema = mongoose.Schema({
     user: {
         type: mongoose.Types.ObjectId,
-        ref: 'Auth',
+        ref: 'Auth'
+        // default: null,
     },
     fullname: String,
     phoneNumber: String,

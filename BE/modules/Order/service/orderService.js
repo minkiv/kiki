@@ -3,40 +3,42 @@ import Cart from "../../Cart/Model/Cart.js"
 import ProductModel from "../../Product/Model/Product.js"
 
 export const addOder = async (req) => {
-    const listProductOrder = req.body.productOrder
-    const userId = req.user.id
-    const cartUser = await Cart.findOne({
-        user: req.user._id
-    })
-    if (cartUser) {
-        const filterArray = cartUser.carts.filter(
-            (itemCart) => listProductOrder.filter(
-                (itemListProduct) => itemListProduct.product._id === String(itemCart.product) &&
-                    itemListProduct.quantityOrder.nameSize == itemCart.quantityOrder.nameSize &&
-                    itemListProduct.quantityOrder.nameColor == itemCart.quantityOrder.nameColor
-            ).length === 0
-        )
-        for (let index = 0; index < listProductOrder.length; index++) {
-            const element = listProductOrder[index];
-            const productOrder = element.quantityOrder
-            const productDetail = await ProductModel.findOne({
-                _id: element.product
-            })
-            console.log(productDetail)
-            const findObjectRemain = productDetail.listQuantityRemain.find(
-                (item) => item.nameColor == productOrder.nameColor && item.nameSize == productOrder.nameSize
-            )
-            findObjectRemain.quantity = findObjectRemain.quantity - productOrder.quantity
-            await productDetail.save()
+    const listProductOrder = req.body.productOrder;
+    const userId = req.user ? req.user.id : null;
+    if (req.user) {
+        const cartUser = await Cart.findOne({ user: req.user._id });
+        if (cartUser) {
+            const filterArray = cartUser.carts.filter(
+                (itemCart) => listProductOrder.filter(
+                    (itemListProduct) => itemListProduct.product._id === String(itemCart.product) &&
+                        itemListProduct.quantityOrder.nameSize == itemCart.quantityOrder.nameSize &&
+                        itemListProduct.quantityOrder.nameColor == itemCart.quantityOrder.nameColor
+                ).length === 0
+            );
+            for (let index = 0; index < listProductOrder.length; index++) {
+                const element = listProductOrder[index];
+                const productOrder = element.quantityOrder;
+                const productDetail = await ProductModel.findOne({
+                    _id: element.product
+                });
+
+                const findObjectRemain = productDetail.listQuantityRemain.find(
+                    (item) => item.nameColor == productOrder.nameColor && item.nameSize == productOrder.nameSize
+                );
+                findObjectRemain.quantity = findObjectRemain.quantity - productOrder.quantity;
+                await productDetail.save();
+            }
+
+            cartUser.carts = filterArray;
+            await cartUser.save();
         }
-        cartUser.carts = filterArray
-        await cartUser.save()
     }
     const newOrder = await Order.create({
         user: userId,
         ...req.body
-    })
-    return newOrder
+    });
+
+    return newOrder;
 }
 export const updateOrder = async (req) => {
     const { orderStatus, orderId } = req.body

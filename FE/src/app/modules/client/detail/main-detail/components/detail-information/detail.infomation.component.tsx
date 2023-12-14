@@ -16,6 +16,7 @@ import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import { getAllComment } from '~/app/api/comment/comment.api'
 import ButtonComponent from '~/app/component/parts/button/Button.componet'
+import mongoose from 'mongoose'
 interface DetailInformation {
 }
 
@@ -80,14 +81,66 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
     setCheckQuantity(filterListQuantity)
     setquantityRemainProduct(findQuantityRemain)
   }, [colorSelect, sizeSelect])
+  const generateUniqueId = () => {
+    const objectId = new mongoose.Types.ObjectId();
+    return objectId.toString();
+  };
+
   const handelAddProductToCart = () => {
     const accessToken = localStorage.getItem('accessToken')
     if (!accessToken) {
-      messageApi.error('bạn chưa đăng nhập tài khoản')
-      setTimeout(() => {
-        navigate('/customer/login')
-      }, 2000)
+      const storedCartString = localStorage.getItem('cartNoAccount');
+
+      if (storedCartString !== null) {
+        try {
+          const existingCart = JSON.parse(storedCartString);
+
+          const newProduct = {
+            _id: generateUniqueId(),
+            product: productDetail,
+            quantityOrder: {
+              quantity,
+              nameColor: colorSelect.nameColor,
+              nameSize: sizeSelect.nameSize
+            }
+          };
+
+          const existingProductIndex = existingCart.findIndex((item: any) => {
+            return (
+              item.product._id === productDetail._id &&
+              item.quantityOrder.nameColor === colorSelect.nameColor &&
+              item.quantityOrder.nameSize === sizeSelect.nameSize
+            );
+          });
+
+          if (existingProductIndex !== -1) {
+            existingCart[existingProductIndex].quantityOrder.quantity += quantity;
+          } else {
+            existingCart.push(newProduct);
+          }
+          localStorage.setItem('cartNoAccount', JSON.stringify(existingCart));
+          message.success('thêm vào giỏ hàng thành công')
+        } catch (error) {
+
+        }
+      } else {
+        const newCart = [{
+          _id: generateUniqueId(),
+          product: productDetail,
+          quantityOrder: {
+            quantity,
+            nameColor: colorSelect.nameColor,
+            nameSize: sizeSelect.nameSize
+          }
+        }];
+
+        localStorage.setItem('cartNoAccount', JSON.stringify(newCart));
+
+        console.log('Giỏ hàng sau khi thêm sản phẩm mới:', newCart);
+      }
     }
+
+
     if (!colorSelect || !sizeSelect) {
       messageApi.error('Vui lòng chọn thông tin')
       return
@@ -125,40 +178,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
       })
     }
   }
-  // const handelAddProductOrder = () => {
-  //   const accessToken = localStorage.getItem('accessToken')
-  //   if (!accessToken) {
-  //     messageApi.error('bạn chưa đăng nhập tài khoản')
-  //     setTimeout(() => {
-  //       navigate('/customer/login')
-  //     }, 2000)
-  //   }
-  //   if (!colorSelect || !sizeSelect) {
-  //     messageApi.error('Vui lòng chọn thông tin')
-  //     return
-  //   }
-  //   if (quantityRemainProduct.quantity == null) {
-  //     message.error("hêt hàng")
-  //     return
-  //   }
-  //   if (accessToken) {
-  //     const requestProduct = {
-  //       product: productDetail,
-  //       quantityOrder: {
-  //         quantity,
-  //         nameColor: colorSelect.nameColor,
-  //         nameSize: sizeSelect.nameSize
-  //       }
-  //     }
-  //     const existingList = JSON.parse(localStorage.getItem("listSelectCart")!) || [];
-  //     existingList.push(requestProduct);
-  //     const updatedListJSON = JSON.stringify(existingList);
-  //     localStorage.setItem("listSelectCart", updatedListJSON);
-  //     console.log(localStorage.getItem("listSelectCart"))
-  //     message.success('mua hàng thành công')
-  //     navigate("/payment")
-  //   }
-  // }
+
   const changeInfo = (type: any) => {
 
     setOptionInfo(type)
@@ -173,8 +193,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
     getAllComment().then((res) => {
       if (res) {
         const productComments = res.filter((item: any) => item.productId._id === id);
-        console.log(productComments);
-
         setLengthEvaluate(productComments)
         const totalStars = productComments.reduce((sum: any, comment: any) => sum + parseInt(comment.star), 0);
         const avgStar = productComments.length > 0 ? totalStars / productComments.length : 5;

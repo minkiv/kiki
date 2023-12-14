@@ -9,21 +9,18 @@ interface ManageOrderProps {
 }
 
 const ManageOrder: FunctionComponent<ManageOrderProps> = () => {
-    const accessToken = localStorage.getItem("accessToken")
     return (
         <>
-            {
-                accessToken ? (
-                    <div css={cssManageOrder} className=' w-full lg:w-[1440px] m-auto block lg:flex mt-16'  >
-                        <div>
-                            <MenuSideBar />
-                        </div>
-                        <div>
-                            <MainManangeOrder />
-                        </div>
-                    </div >
-                ) : (<Skeleton active />)
-            }
+
+            <div css={cssManageOrder} className=' w-full lg:w-[1440px] m-auto block lg:flex mt-16'  >
+                <div>
+                    <MenuSideBar />
+                </div>
+                <div>
+                    <MainManangeOrder />
+                </div>
+            </div >
+
         </>
 
 
