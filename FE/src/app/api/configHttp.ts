@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { io } from "socket.io-client";
 const accessToken = localStorage.getItem("accessToken")
 export const axiosPrivate = axios.create({
     baseURL: "http://localhost:8081/api",
@@ -35,3 +36,6 @@ axios.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+export const socket = io("http://localhost:8081");
+

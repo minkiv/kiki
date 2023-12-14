@@ -1,11 +1,12 @@
-import { axiosPrivate } from "../configHttp"
-
+import { axiosPrivate, socket } from "../configHttp"
 export const addOrder = async (data: any) => {
     return await axiosPrivate.post("/order/add", data)
 }
 
 export const updateOrder = async (data: any) => {
-    return await axiosPrivate.post(`/order/edit`, data)
+    const response =  await axiosPrivate.post(`/order/edit`, data)
+        socket.emit("order_updated", data);
+        return response
 }
 
 export const filterDataOrderByStatus = async (typeOrder: any, keyword: any) => {
