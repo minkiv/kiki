@@ -3,23 +3,29 @@ import status from "http-status";
 import jwt from "jsonwebtoken"
 const veryfiletoken = async (req, res, next) => {
     try {
-        const token = req.headers.authorization
-        const accessToken = token.split(" ")[1]
+        const token = req.headers.authorization;
         if (!token) {
-            return res.status(status.BAD_REQUEST).json('Bạn chưa đăng nhập')
+            req.user = null;
+            return next();
         }
-        const decoder = await jwt.verify(accessToken, process.env.SECRET_KEY)
-        if (!decoder) {
-            return res.status(status.BAD_REQUEST).json('lỗi token')
-        }
-        const user = await Auth.findOne({ _id: decoder._id })
-        req.user = user
-        next()
 
+        const accessToken = token.split(" ")[1];
+        const decoder = await jwt.verify(accessToken, process.env.SECRET_KEY);
+        if (!decoder) {
+            req.user = null;
+            return next();
+        }
+
+        const user = await Auth.findOne({ _id: decoder._id });
+        req.user = user;
+        next();
     } catch (error) {
-        return res.status(status.INTERNAL_SERVER_ERROR).json('lỗi')
+        console.error('Lỗi trong quá trình xác thực:', error.message);
+        req.user = null;
+        next();
     }
-}
+};
+
 const checkAdminAuthorization = (req, res, next) => {
     veryfiletoken(req, res, () => {
         if (req.user.role == "ADMIN") {

@@ -6,6 +6,7 @@ import { getListColor, getListSize } from '../../../helper/tranform.data'
 import SelectQuantityCart from '~/app/component/parts/quantity/quantitySelect'
 import { UpdateProductToCart, deleteProductToCart } from '~/app/api/cart/cart.api'
 import { message, Modal } from 'antd'
+import toast from 'react-hot-toast'
 interface leftCartProps {
   props?: any
 }
@@ -18,7 +19,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   } = useCartRedux()
   useEffect(() => {
     actions.getAllCart()
-
   }, [])
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [showPopupSelect, setShowPopupSelect] = useState<any>({
@@ -32,6 +32,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   const [checkQuantityType, setCheckQuantityType] = useState<any[]>([])
   const [quantityRemainProduct, setquantityRemainProduct] = useState<any>({})
   const [clickProductDetail, setClickProductDetail] = useState<any>()
+
   useEffect(() => {
     function handleClickOutside(event: any) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -126,15 +127,18 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     }
 
     actions.updateSelectQuantityCart(objectIncrement)
-    const requestObjectProduct = {
-      productId: clickProductDetail.product._id,
-      quantityOrder: {
-        nameColor: colorSelect.nameColor,
-        nameSize: sizeSelect.nameSize,
-        quantity: clickProductDetail.quantityOrder.quantity
+    if (carts.length > 0) {
+      const requestObjectProduct = {
+        productId: clickProductDetail.product._id,
+        quantityOrder: {
+          nameColor: colorSelect.nameColor,
+          nameSize: sizeSelect.nameSize,
+          quantity: clickProductDetail.quantityOrder.quantity
+        }
       }
+      UpdateProductToCart(requestObjectProduct)
     }
-    UpdateProductToCart(requestObjectProduct)
+
   }
 
   const handleDeleteProductCart = (productId: any) => {
@@ -143,28 +147,27 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
       content: 'Bạn có muốn xoá sản phẩm khỏi giỏ hàng không ?',
       okButtonProps: { className: 'bg-blue-500 hover:bg-blue-600' },
       onOk() {
+        toast.success('Đã xoá sản phẩm khỏi giỏ hàng')
         actions.deleteProductCart(productId._id)
-        deleteProductToCart(productId._id).then((res) => {
-          if (res) {
-            messageApi.success('Đã xoá sản phẩm khỏi giỏ hàng')
-          }
-        })
+        deleteProductToCart(productId._id)
       },
       onCancel() {
-        messageApi.error('Đã huỷ tính năng xoá')
+        toast.error('Đã huỷ tính năng xoá')
       }
     })
   }
-
+  const cartNoLoginData = localStorage.getItem("cartNoAccount");
+  const cartNoLogin = JSON.parse(cartNoLoginData || '[]');
+  const combinedData = carts?.length > 0 ? carts : cartNoLogin;
   const isAllSelected =
-    listProductBuy.length >= carts.length &&
-    listProductBuy.every((itemBuy: any) => carts.some((item: any) => item._id === itemBuy._id))
+    listProductBuy.length >= combinedData?.length &&
+    listProductBuy.every((itemBuy: any) => combinedData.some((item: any) => item._id === itemBuy._id))
   return (
     <div css={cssLeftCart}>
       {contextHolder}
       <div className='flex'>
         {/* <input type='checkbox' className='sm:w-[18px] max-sm:w-[17px] max-sm:h-[17px] sm:mr-[5px]' /> */}
-        <span className='text-[20px] pb-[15px]'>Tất cả ({carts?.length} sản phẩm)</span>
+        <span className='text-[20px] pb-[15px]'>Tất cả ({combinedData?.length} sản phẩm)</span>
       </div>
 
       <table className='w-full'>
@@ -175,7 +178,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
                 type='checkbox'
                 className='w-[18px] mr-3'
                 onChange={() => {
-                  handelAllProduct(carts)
+                  handelAllProduct(combinedData)
                 }}
                 checked={isAllSelected}
               />
@@ -190,7 +193,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
           </tr>
         </thead>
         <tbody>
-          {carts?.map((item: any, index: any) => (
+          {combinedData?.map((item: any, index: any) => (
             <tr className='trbody w-[320px] relative' key={index}>
               <td className='flex relative w-[320px] md:w-full lg:w-full items-start lg:items-center space-x-3'>
                 <div className='flex items-center w-[98px] md:w-auto'>

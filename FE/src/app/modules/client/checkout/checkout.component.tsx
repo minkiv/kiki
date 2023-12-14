@@ -23,7 +23,6 @@ interface CheckOutProps {
 
 const CheckOut: FunctionComponent<CheckOutProps> = () => {
     const [loadingCreate, setLoadingCreate] = useState(false);
-    const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
     const id = localStorage.getItem('userID');
     const arrayField = ['fullname', 'phoneNumber'];
@@ -105,9 +104,22 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
                 toast.error('Lỗi khi tạo đơn hàng: ' + error.message);
             }
             const res = await addOrder(cartData);
-
             if (res) {
+
                 setLoadingCreate(false);
+                const cartLocal = localStorage.getItem('cartNoAccount')
+                const cartFromStorage = JSON.parse(cartLocal || '[]')
+                if (cartData) {
+                    cartData.productOrder.forEach((orderedProduct: any) => {
+                        const productIndex = cartFromStorage.findIndex(
+                            (item: any) => item._id === orderedProduct._id
+                        );
+                        if (productIndex !== -1) {
+                            cartFromStorage.splice(productIndex, 1);
+                        }
+                    });
+                    localStorage.setItem('cartNoAccount', JSON.stringify(cartFromStorage));
+                }
                 localStorage.removeItem('listSelectCart');
                 localStorage.removeItem('voucherCode');
                 localStorage.removeItem("sale");
@@ -122,6 +134,19 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
             const res = await addOrder(cartData);
             if (res) {
                 setLoadingCreate(false);
+                const cartLocal = localStorage.getItem('cartNoAccount')
+                const cartFromStorage = JSON.parse(cartLocal || '[]')
+                if (cartData) {
+                    cartData.productOrder.forEach((orderedProduct: any) => {
+                        const productIndex = cartFromStorage.findIndex(
+                            (item: any) => item._id === orderedProduct._id
+                        );
+                        if (productIndex !== -1) {
+                            cartFromStorage.splice(productIndex, 1);
+                        }
+                    });
+                    localStorage.setItem('cartNoAccount', JSON.stringify(cartFromStorage));
+                }
                 localStorage.removeItem('listSelectCart');
                 localStorage.removeItem('voucherCode');
                 actions.clearCart();
@@ -136,28 +161,25 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
 
     return (
         <>
-            {accessToken ? (
-                <LayoutLoading condition={loadingCreate}>
-                    <div css={checkoutcss} className='mx-auto w-full lg:w-[1440px]'>
-                        <form action="" onSubmit={handleSubmit(onSubmit)}>
-                            <div className='block lg:flex justify-center'>
-                                <div className='block w-full lg:flex lg:w-[64%]'>
-                                    <Shipping control={control} />
-                                    <Payments
-                                        selectedPaymentMethod={selectedPaymentMethod}
-                                        handlePaymentMethodChange={handlePaymentMethodChange}
-                                    />
-                                </div>
-                                <div className='w-full lg:w-[25%]'>
-                                    <SidePayment />
-                                </div>
+            <LayoutLoading condition={loadingCreate}>
+                <div css={checkoutcss} className='mx-auto w-full lg:w-[1440px]'>
+                    <form action="" onSubmit={handleSubmit(onSubmit)}>
+                        <div className='block lg:flex justify-center'>
+                            <div className='block w-full lg:flex lg:w-[64%]'>
+                                <Shipping control={control} />
+                                <Payments
+                                    selectedPaymentMethod={selectedPaymentMethod}
+                                    handlePaymentMethodChange={handlePaymentMethodChange}
+                                />
                             </div>
-                        </form>
-                    </div>
-                </LayoutLoading>
-            ) : (
-                <Skeleton active />
-            )}
+                            <div className='w-full lg:w-[25%]'>
+                                <SidePayment />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </LayoutLoading>
+
         </>
     );
 };

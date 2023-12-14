@@ -80,7 +80,7 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
                 // const orderTotal = record.productOrder.reduce((orderTotal: number, productCur: any) => {
                 //     return orderTotal + productCur.quantityOrder.quantity * productCur.product.price
                 // }, 0)
-                return <strong className='block text-center'>{record?.totalprice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</strong>
+                return <strong className='block text-center'>{record?.totalprice?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</strong>
             }
         },
         {

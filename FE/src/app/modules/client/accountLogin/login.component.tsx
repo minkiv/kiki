@@ -27,10 +27,12 @@ const Login: FunctionComponent<LoginProps> = () => {
                 localStorage.setItem('userID', res.data.user._id);
                 localStorage.setItem("emailUser", res.data.user.email)
                 message.success("Đăng nhập thành công", () => {
+                    localStorage.removeItem('cartNoAccount')
+                    localStorage.removeItem('listSelectCart')
                     navigate("/");
                     location.reload();
                 });
-            }   
+            }
             localStorage.setItem("checkAuth", res.data.user.role)
         },
 
