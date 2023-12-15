@@ -139,6 +139,7 @@ const ProductManagemnet = () => {
         isAdminProduct={true}
         searchFunc={searchProduct}
         setData={setDataProduct}
+        component='products'
         createFunc={(form: any) =>
           createProduct({
             ...form,
