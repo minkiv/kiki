@@ -159,26 +159,30 @@ const CheckOut: FunctionComponent<CheckOutProps> = () => {
         }
     };
 
+    const checkcartLocal = localStorage.getItem("listSelectCart")
     return (
         <>
-            <LayoutLoading condition={loadingCreate}>
-                <div css={checkoutcss} className='mx-auto w-full lg:w-[1440px]'>
-                    <form action="" onSubmit={handleSubmit(onSubmit)}>
-                        <div className='block lg:flex justify-center'>
-                            <div className='block w-full lg:flex lg:w-[64%]'>
-                                <Shipping control={control} />
-                                <Payments
-                                    selectedPaymentMethod={selectedPaymentMethod}
-                                    handlePaymentMethodChange={handlePaymentMethodChange}
-                                />
+            {
+                checkcartLocal ? (<LayoutLoading condition={loadingCreate}>
+                    <div css={checkoutcss} className='mx-auto w-full lg:w-[1440px]'>
+                        <form action="" onSubmit={handleSubmit(onSubmit)}>
+                            <div className='block lg:flex justify-center'>
+                                <div className='block w-full lg:flex lg:w-[64%]'>
+                                    <Shipping control={control} />
+                                    <Payments
+                                        selectedPaymentMethod={selectedPaymentMethod}
+                                        handlePaymentMethodChange={handlePaymentMethodChange}
+                                    />
+                                </div>
+                                <div className='w-full lg:w-[25%]'>
+                                    <SidePayment />
+                                </div>
                             </div>
-                            <div className='w-full lg:w-[25%]'>
-                                <SidePayment />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </LayoutLoading>
+                        </form>
+                    </div>
+                </LayoutLoading>) : (<Skeleton />)
+            }
+
 
         </>
     );

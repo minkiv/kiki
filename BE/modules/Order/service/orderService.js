@@ -15,6 +15,7 @@ export const addOder = async (req) => {
                         itemListProduct.quantityOrder.nameColor == itemCart.quantityOrder.nameColor
                 ).length === 0
             );
+
             for (let index = 0; index < listProductOrder.length; index++) {
                 const element = listProductOrder[index];
                 const productOrder = element.quantityOrder;
@@ -31,6 +32,21 @@ export const addOder = async (req) => {
 
             cartUser.carts = filterArray;
             await cartUser.save();
+        }
+
+    } else {
+        for (let index = 0; index < listProductOrder.length; index++) {
+            const element = listProductOrder[index];
+            const productOrder = element.quantityOrder;
+            const productDetail = await ProductModel.findOne({
+                _id: element.product
+            });
+
+            const findObjectRemain = productDetail.listQuantityRemain.find(
+                (item) => item.nameColor == productOrder.nameColor && item.nameSize == productOrder.nameSize
+            );
+            findObjectRemain.quantity = findObjectRemain.quantity - productOrder.quantity;
+            await productDetail.save();
         }
     }
     const newOrder = await Order.create({
