@@ -10,7 +10,7 @@ const productSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getAllProduct.fulfilled, (state: any, action) => {
-            state.products = action.payload
+            state.products = action.payload.filter((product:any) => product.status )
         })
         builder.addCase(getOneProduct.fulfilled, (state: any, action) => {
             state.product = action.payload

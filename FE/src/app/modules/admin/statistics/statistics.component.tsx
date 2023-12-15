@@ -486,7 +486,7 @@ const Statistical = () => {
     return (
         <LayoutLoading condition={orders?.length == 0}>
 
-            <div className='py-5'>
+            <div className='py-5 sticky bg-white z-[1] top-[-24px]'>
                 <Row justify='center'>
 
                     <Col span={6}>

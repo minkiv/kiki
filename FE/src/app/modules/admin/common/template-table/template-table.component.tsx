@@ -65,39 +65,60 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const [selectedValue, setSelectedValue] = useState<string>('all')
   const [applyFilter, setApplyFilter] = useState<boolean>(false)
   const [modal, contextHolder] = Modal.useModal()
-  const confirmDelete = (idItem: any) => {
+  const confirmDelete = (record: any) => {
     setTriggerLoadding(true)
-    if (component === 'category') {
-      changeFunc({ status: false }, idItem).then((res: any) => {
-        if (res) {
-          setIsModelOpen(false)
-          setTriggerLoadding(true)
-          setTimeout(() => {
-            setTriggerLoadding(false)
-            message.success('xóa thành công')
-            handelGetList()
-          }, 1000)
-        }
-      })
-    } else {
-      deleteFunc(idItem).then(
+    if(component==='category'){
+      changeFunc({status:false}, record?._id).then(
         (res: any) => {
           if (res) {
-            console.log(res)
+            setIsModelOpen(false)
+            setTriggerLoadding(true);
             setTimeout(() => {
               setTriggerLoadding(false)
-              message.success('Xóa thành công')
+              message.success('xóa thành công')
               handelGetList()
             }, 1000)
           }
-        },
-        (err: any) => {
-          setTimeout(() => {
-            setTriggerLoadding(false)
-            message.error(err.response.data)
-          }, 1000)
-        }
-      )
+        })
+    }else{
+      if(component ==='products'){
+        changeFunc({...record,status:false},record?._id).then(
+          (res: any) => {
+            if (res) {
+              setTimeout(() => {
+                setTriggerLoadding(false)
+                message.success('Xóa thành công')
+                handelGetList()
+              }, 1000)
+            }
+          },
+          (err: any) => {
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.error(err.response.data)
+            }, 1000)
+          }
+        )
+      }else{
+        deleteFunc(record._id).then(
+          (res: any) => {
+            if (res) {
+              console.log(res)
+              setTimeout(() => {
+                setTriggerLoadding(false)
+                message.success('Xóa thành công')
+                handelGetList()
+              }, 1000)
+            }
+          },
+          (err: any) => {
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.error(err.response.data)
+            }, 1000)
+          }
+        )
+      }
     }
   }
   const deleteAbsolute = (category: any) => {
@@ -144,20 +165,35 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     title: 'Tất cả sản phẩm sẽ được chuyển đến danh mục chưa phân loại!',
     content: <></>
   }
-  const confirmReset = (idItem: any) => {
+  const confirmReset = (record:any)=>{
     setTriggerLoadding(true)
-    if (component === 'category') {
-      changeFunc({ status: true }, idItem).then((res: any) => {
-        if (res) {
-          setIsModelOpen(false)
-          setTriggerLoadding(true)
-          setTimeout(() => {
-            setTriggerLoadding(false)
-            message.success('Khôi phục thành công')
-            handelGetList()
-          }, 1000)
-        }
-      })
+    if(component==='category'){
+      changeFunc({status:true}, record?._id).then(
+        (res: any) => {
+          if (res) {
+            setIsModelOpen(false)
+            setTriggerLoadding(true);
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.success('Khôi phục thành công')
+              handelGetList()
+            }, 1000)
+          }
+        })
+    }
+    if(component==='products'){
+      changeFunc({...record,status:true}, record?._id).then(
+        (res: any) => {
+          if (res) {
+            setIsModelOpen(false)
+            setTriggerLoadding(true);
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.success('Khôi phục thành công')
+              handelGetList()
+            }, 1000)
+          }
+        })
     }
   }
   const cancel = (e: any) => {
@@ -289,7 +325,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
                 <Popconfirm
                   title='Thông báo'
                   description='Bạn có chắc muốn khôi phục không?'
-                  onConfirm={() => confirmReset(record?._id)}
+                  onConfirm={() => confirmReset(record)}
                   onCancel={cancel}
                   okText='Yes'
                   cancelText='No'
@@ -326,7 +362,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
                 <Popconfirm
                   title='Thông báo'
                   description='Bạn có chắc muốn xóa không?'
-                  onConfirm={() => confirmDelete(record?._id)}
+                  onConfirm={() => confirmDelete(record)}
                   onCancel={cancel}
                   okText='Yes'
                   cancelText='No'
@@ -346,27 +382,36 @@ const TemplateTable: FC<ITemplateTableProp> = ({
               </Space>
             )
           }
-        } else {
-          return (
-            <Space size='middle' css={cssTemplateTable}>
-              {!noEdit && (
-                <Button type='primary' onClick={() => showModel('CHANGE', record)}>
-                  Sửa
-                </Button>
-              )}
-              <Popconfirm
-                title='Thông báo'
-                description='Bạn có chắc muốn xóa không?'
-                onConfirm={() => confirmDelete(record?._id)}
-                onCancel={cancel}
-                okText='Yes'
-                cancelText='No'
-              >
-                <Button className='btn-delete'>Xóa</Button>
-              </Popconfirm>
-            </Space>
-          )
-        }
+        }else{
+          if(component === 'products' && !record?.status){
+            return<Popconfirm
+            title='Thông báo'
+            description='Bạn có chắc muốn khôi phục không?'
+            onConfirm={() => confirmReset(record)}
+            onCancel={cancel}
+            okText='Yes'
+            cancelText='No'
+          >
+            <Button className='btn-edit'>Khôi phục</Button>
+          </Popconfirm>
+          }else{
+            return <Space size='middle' css={cssTemplateTable}>
+            {!noEdit && <Button type='primary' onClick={() => showModel('CHANGE', record)}>
+              Sửa
+            </Button>}
+            <Popconfirm
+              title='Thông báo'
+              description='Bạn có chắc muốn xóa không?'
+              onConfirm={() => confirmDelete(record)}
+              onCancel={cancel}
+              okText='Yes'
+              cancelText='No'
+            >
+              <Button className='btn-delete'>Xóa</Button>
+            </Popconfirm>
+          </Space>
+          } 
+        } 
       }
     }
   ]
