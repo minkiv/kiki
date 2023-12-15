@@ -114,6 +114,7 @@ export const statisticsMonneys = async (bodyRequest) => {
                 _id: "$_id",
                 productOrder: { $push: "$productOrder" },
                 totalprice: { $first: "$totalprice" },
+                payment_methods: { $first: "$payment_methods" },
                 orderStatus: { $first: "$orderStatus" },
                 createdAt: { $first: "$createdAt" },
                 updatedAt: { $first: "$updatedAt" },
@@ -130,4 +131,3 @@ export const statisticsMonneys = async (bodyRequest) => {
 
     return { listOrderChart, orders, totalQuantity }
 }
-  

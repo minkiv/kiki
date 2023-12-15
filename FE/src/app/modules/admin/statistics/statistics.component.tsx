@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Select, Button, DatePicker, Row, Col, Table } from 'antd';
-import { Bar, Line, Pie } from '@ant-design/plots';
+import { Bar, Line } from '@ant-design/plots';
+import { Column } from '@ant-design/plots';
 import { getAllOrder, getAllOrderByStatus } from './service/statistics.service';
 import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding.component';
 import moment from 'moment';
@@ -11,7 +12,7 @@ const { RangePicker } = DatePicker;
 
 const Statistical = () => {
     const [dataChart, setDataChart] = useState<any>([]);
-    const [dataResponse, setDataResponse] = useState<any>({})
+    const [dataResponse, setDataResponse] = useState<any>()
     const [subTotal, setSubTotal] = useState<any>()
     const [subCancel, setSubCancel] = useState<any>()
     const [peopel, setPeople] = useState<any>()
@@ -22,7 +23,53 @@ const Statistical = () => {
     });
     const [orders, setOrders] = useState<any>([])
     const [productSalesData, setProductSalesData] = useState<any>([]);
+    const calculateChartData = () => {
+        const paymentMethodCounts: any = {};
 
+        dataResponse?.orders?.forEach((order: any) => {
+            const paymentMethod = order.payment_methods;
+            if (order.orderStatus === 'hoàn thành') {
+                if (paymentMethodCounts[paymentMethod]) {
+                    console.log(paymentMethodCounts[paymentMethod]++);
+                    paymentMethodCounts[paymentMethod]++;
+                } else {
+                    paymentMethodCounts[paymentMethod] = 1;
+                }
+            }
+        });
+
+        const data = Object.keys(paymentMethodCounts).map((method) => ({
+            paymentMethod: method,
+            count: paymentMethodCounts[method],
+        }));
+
+        return data;
+    };
+
+
+    const [data, setData] = useState<any>();
+    useEffect(() => {
+        setData(calculateChartData());
+    }, [dataResponse?.orders]);
+    const coNfig: any = {
+        data,
+        xField: 'count',
+        yField: 'paymentMethod',
+        legend: {
+            position: 'top-left',
+        },
+        barBackground: {
+            style: {
+                fill: 'rgba(0,0,0,0.1)',
+            },
+        },
+        interactions: [
+            {
+                type: 'active-region',
+                enable: false,
+            },
+        ],
+    };
     useEffect(() => {
         getAllOrder().then((res) => {
             const completedOrders = res.data.filter((order: any) => order.orderStatus === "hoàn thành");
@@ -50,28 +97,43 @@ const Statistical = () => {
         }));
         setProductSalesData(productSalesArray);
     }, [orders]);
-    const conFig = {
+    const paletteSemanticRed = '#F4664A';
+    const brandColor = '#5B8FF9';
+    const conFig: any = {
         data: productSalesData,
-        appendPadding: 10,
-        angleField: 'quantity',
-        colorField: 'productId',
-        radius: 0.8,
-        label: {
-            type: 'outer',
+        xField: 'productId',
+        yField: 'quantity',
+        seriesField: '',
+        color: (quantity: any) => {
+            if (quantity == 1) {
+                return paletteSemanticRed;
+            }
+            return brandColor;
         },
-        interactions: [
-            {
-                type: 'element-active',
+        label: {
+            content: (originData: any) => {
+                const val = parseFloat(originData.value);
+                if (val < 0.05) {
+                    return (val * 100).toFixed(1) + '%';
+                }
             },
-        ],
+            offset: 10,
+        },
+        legend: false,
+        xAxis: {
+            label: {
+                autoHide: true,
+                autoRotate: false,
+            },
+        },
     };
 
     useEffect(() => {
         if (orders) {
             handleStatistical();
             setDataRequest({
-                startDate: '2023-11-01',
-                endDate: '2023-11-30',
+                startDate: '2023-11-19',
+                endDate: '2023-12-06',
                 granularity: 'day',
             })
         }
@@ -372,7 +434,7 @@ const Statistical = () => {
         },
     ];
     return (
-        <LayoutLoading condition={orders.length == 0}>
+        <LayoutLoading condition={orders?.length == 0}>
 
             <div className='py-5'>
                 <Row justify='center'>
@@ -438,11 +500,16 @@ const Statistical = () => {
             </div>
             <div className='py-10 my-10'>
                 <h1 className='mt-10 font-semibold text-4xl'>Thống kê sản phẩm</h1>
-                {productSalesData.length == 0 ? (<div className='text-center mt-5 text-[25px]'>Không có đơn nào để thống kê sản phẩm</div>) : (<Pie {...conFig} />)}
+                {productSalesData?.length == 0 ? (<div className='text-center mt-5 text-[25px]'>Không có đơn nào để thống kê sản phẩm</div>) : (<Column {...conFig} />)}
+
+            </div>
+            <div className='py-10 my-10 h-[200px]'>
+                <h1 className='mt-10 font-semibold text-4xl'>Biểu đồ thống kê hình thức thanh toán</h1>
+                {productSalesData?.length == 0 ? (<div className='text-center mt-5 text-[25px]'>Không có đơn nào để thống kê </div>) : (<Bar {...coNfig} />)}
 
             </div>
             <div>
-                <h1 className="mt-10 font-semibold text-4xl mb-4 text-center">Bảng Xếp Hạng Khách hàng mua nhiều nhất</h1>
+                <h1 className="mt-52 font-semibold text-4xl mb-4 text-center">Bảng Xếp Hạng Khách hàng mua nhiều nhất</h1>
                 <Table
                     columns={columns}
                     dataSource={peopel}

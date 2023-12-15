@@ -55,7 +55,7 @@ const DefaultAdmin: React.FC = () => {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div css={cssLogoAdmin}>
           <img
-          className='w-[300px]'
+            className='w-[300px] h-[70px]'
             src='https://res.cloudinary.com/dfj3obru8/image/upload/v1702389365/pwrxo90fsvgcfwxregrs.png'
             alt=''
           />
