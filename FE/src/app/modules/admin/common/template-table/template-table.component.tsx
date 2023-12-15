@@ -25,14 +25,14 @@ interface ITemplateTableProp {
   columnTable?: any
   formEdit?: ReactNode
   handelGetList?: any
-  dataPage?: any,
-  setData?: any,
-  isAdminProduct?: boolean,
-  noCreate?: boolean,
-  noEdit?: boolean,
-  chageProductCategoryFunc?: any,
+  dataPage?: any
+  setData?: any
+  isAdminProduct?: boolean
+  noCreate?: boolean
+  noEdit?: boolean
+  chageProductCategoryFunc?: any
   component?: string
-  dataProduct?:any[]
+  dataProduct?: any[]
 }
 
 const TemplateTable: FC<ITemplateTableProp> = ({
@@ -58,68 +58,29 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const [isModelOpen, setIsModelOpen] = useState(false)
   const [triggerLoadding, setTriggerLoadding] = useState(false)
   const [type, setType] = useState('CREATE')
-  const [keyword, setKeyword] = useState("")
-  const [errorSearch, setErrorSearch] = useState("")
+  const [keyword, setKeyword] = useState('')
+  const [errorSearch, setErrorSearch] = useState('')
   const [filter, setFilter] = useState<any[]>([])
   const [dataFilter, setDataFilter] = useState<any[]>([])
-  const [selectedValue, setSelectedValue] = useState<string>('all');
-  const [applyFilter, setApplyFilter] = useState<boolean>(false);
-  const [modal, contextHolder] = Modal.useModal();
+  const [selectedValue, setSelectedValue] = useState<string>('all')
+  const [applyFilter, setApplyFilter] = useState<boolean>(false)
+  const [modal, contextHolder] = Modal.useModal()
   const confirmDelete = (idItem: any) => {
     setTriggerLoadding(true)
-    if(component==='category'){
-      changeFunc({status:false}, idItem).then(
-        (res: any) => {
-          if (res) {
-            setIsModelOpen(false)
-            setTriggerLoadding(true);
-            setTimeout(() => {
-              setTriggerLoadding(false)
-              message.success('xóa thành công')
-              handelGetList()
-            }, 1000)
-          }
-        })
-    }else{
-    deleteFunc(idItem).then(
-      (res: any) => {
+    if (component === 'category') {
+      changeFunc({ status: false }, idItem).then((res: any) => {
         if (res) {
-          console.log(res)
+          setIsModelOpen(false)
+          setTriggerLoadding(true)
           setTimeout(() => {
             setTriggerLoadding(false)
-            message.success('Xóa thành công')
+            message.success('xóa thành công')
             handelGetList()
           }, 1000)
         }
-      },
-      (err: any) => {
-        setTimeout(() => {
-          setTriggerLoadding(false)
-          message.error(err.response.data)
-        }, 1000)
-      }
-    )
-    }
-  }
-  const deleteAbsolute=(category:any)=>{
-      const listProduct = dataProduct?.filter((product:any)=>product.categoryId._id === category._id);
-      listProduct?.map((product:any)=>{
-        chageProductCategoryFunc({...product, categoryId:{_id: '656b0b5bf0981478cdf1a957', name: 'Chưa phân loại'}}, product._id).then(
-          (res: any) => {
-            if (res) {
-              setIsModelOpen(false)
-              setTriggerLoadding(true);
-            }
-          },
-          (err: any) => {
-            setTimeout(() => {
-              setTriggerLoadding(false)
-              message.error('sửa thất bại ')
-            }, 1000)
-          }
-        )
       })
-      deleteFunc(category._id).then(
+    } else {
+      deleteFunc(idItem).then(
         (res: any) => {
           if (res) {
             console.log(res)
@@ -137,47 +98,80 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           }, 1000)
         }
       )
+    }
   }
-  const configDeleteCateogry = {
-    title: 'Tất cả sản phẩm sẽ được chuyển đến danh mục chưa phân loại!',
-    content: (
-      <>
-       
-      </>
-    ),
-  };
-  const confirmReset = (idItem:any)=>{
-    setTriggerLoadding(true)
-    if(component==='category'){
-      changeFunc({status:true}, idItem).then(
+  const deleteAbsolute = (category: any) => {
+    const listProduct = dataProduct?.filter((product: any) => product.categoryId._id === category._id)
+    listProduct?.map((product: any) => {
+      chageProductCategoryFunc(
+        { ...product, categoryId: { _id: '656b0b5bf0981478cdf1a957', name: 'Chưa phân loại' } },
+        product._id
+      ).then(
         (res: any) => {
           if (res) {
             setIsModelOpen(false)
-            setTriggerLoadding(true);
-            setTimeout(() => {
-              setTriggerLoadding(false)
-              message.success('Khôi phục thành công')
-              handelGetList()
-            }, 1000)
+            setTriggerLoadding(true)
           }
-        })
+        },
+        (err: any) => {
+          setTimeout(() => {
+            setTriggerLoadding(false)
+            message.error('sửa thất bại ')
+          }, 1000)
+        }
+      )
+    })
+    deleteFunc(category._id).then(
+      (res: any) => {
+        if (res) {
+          console.log(res)
+          setTimeout(() => {
+            setTriggerLoadding(false)
+            message.success('Xóa thành công')
+            handelGetList()
+          }, 1000)
+        }
+      },
+      (err: any) => {
+        setTimeout(() => {
+          setTriggerLoadding(false)
+          message.error(err.response.data)
+        }, 1000)
+      }
+    )
+  }
+  const configDeleteCateogry = {
+    title: 'Tất cả sản phẩm sẽ được chuyển đến danh mục chưa phân loại!',
+    content: <></>
+  }
+  const confirmReset = (idItem: any) => {
+    setTriggerLoadding(true)
+    if (component === 'category') {
+      changeFunc({ status: true }, idItem).then((res: any) => {
+        if (res) {
+          setIsModelOpen(false)
+          setTriggerLoadding(true)
+          setTimeout(() => {
+            setTriggerLoadding(false)
+            message.success('Khôi phục thành công')
+            handelGetList()
+          }, 1000)
+        }
+      })
     }
   }
   const cancel = (e: any) => {
     message.error('Đã hủy xoá')
   }
   const handleOk = () => {
-
     if (form.getFieldValue('images')) {
-      const dataList = [...form.getFieldValue('images')].map((item: any) => (
-        {
-          uid: item.uid,
-          name: item.name,
-          status: item.status,
-          url: item.url || item.response,
-          response: item.response || item.url
-        }
-      ));
+      const dataList = [...form.getFieldValue('images')].map((item: any) => ({
+        uid: item.uid,
+        name: item.name,
+        status: item.status,
+        url: item.url || item.response,
+        response: item.response || item.url
+      }))
 
       form.setFieldsValue({
         images: dataList
@@ -191,7 +185,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             (res: any) => {
               if (res) {
                 setIsModelOpen(false)
-                setTriggerLoadding(true);
+                setTriggerLoadding(true)
                 setTimeout(() => {
                   setTriggerLoadding(false)
                   message.success('thêm thành công')
@@ -223,7 +217,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             (res: any) => {
               if (res) {
                 setIsModelOpen(false)
-                setTriggerLoadding(true);
+                setTriggerLoadding(true)
                 setTimeout(() => {
                   setTriggerLoadding(false)
                   message.success('sửa thành công')
@@ -245,7 +239,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     }
   }
   const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    return setKeyword(event.target.value);
+    return setKeyword(event.target.value)
   }
   const handleSearchItem = () => {
     setTriggerLoadding(true)
@@ -256,14 +250,14 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             setTriggerLoadding(false)
 
             setData(res.data)
-            setErrorSearch("")
+            setErrorSearch('')
           }, 1000)
         }
       },
       (err: any) => {
         setTimeout(() => {
           setTriggerLoadding(false)
-          console.log(err.response.data.message);
+          console.log(err.response.data.message)
           setErrorSearch(err.response.data.message)
         }, 1000)
       }
@@ -288,91 +282,131 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       title: 'Hành động',
       key: 'action',
       render: (_, record: any) => {
-        if(component ==='category' && (!record?.status)){
-          if(record.name !== 'Chưa phân loại'){
-        return <Space size='middle' css={cssTemplateTable}>
-          <Popconfirm
-            title='Thông báo'
-            description='Bạn có chắc muốn khôi phục không?'
-            onConfirm={() => confirmReset(record?._id)}
-            onCancel={cancel}
-            okText='Yes'
-            cancelText='No'
-          >
-            <Button className='btn-edit'>Khôi phục</Button>
-          </Popconfirm>
-          
-            <Button danger type='text'
-          onClick={async () => {
-            const confirmed = await modal.confirm(configDeleteCateogry);
-            if(confirmed){
-              deleteAbsolute(record)
-            }
-          }}
-        >
-          Xóa vĩnh viễn
-        </Button>
-        {contextHolder}
-        </Space>
-          } return ;
-        }else{
-          return <Space size='middle' css={cssTemplateTable}>
-          {!noEdit && <Button type='primary' onClick={() => showModel('CHANGE', record)}>
-            Sửa
-          </Button>}
-          <Popconfirm
-            title='Thông báo'
-            description='Bạn có chắc muốn xóa không?'
-            onConfirm={() => confirmDelete(record?._id)}
-            onCancel={cancel}
-            okText='Yes'
-            cancelText='No'
-          >
-            <Button className='btn-delete'>Xóa</Button>
-          </Popconfirm>
-        </Space>
+        if (component === 'category' && !record?.status) {
+          if (record.name !== 'Chưa phân loại') {
+            return (
+              <Space size='middle' css={cssTemplateTable}>
+                <Popconfirm
+                  title='Thông báo'
+                  description='Bạn có chắc muốn khôi phục không?'
+                  onConfirm={() => confirmReset(record?._id)}
+                  onCancel={cancel}
+                  okText='Yes'
+                  cancelText='No'
+                >
+                  <Button className='btn-edit'>Khôi phục</Button>
+                </Popconfirm>
+
+                <Button
+                  danger
+                  type='text'
+                  onClick={async () => {
+                    const confirmed = await modal.confirm(configDeleteCateogry)
+                    if (confirmed) {
+                      deleteAbsolute(record)
+                    }
+                  }}
+                >
+                  Xóa vĩnh viễn
+                </Button>
+                {contextHolder}
+              </Space>
+            )
+          }
+          return
+        } else if (component === 'voucher' && !record?.status) {
+          if (record.timeRemaining === 'Hết hạn') {
+            return (
+              <Space size='middle' css={cssTemplateTable}>
+                {!noEdit && (
+                  <Button type='primary' onClick={() => showModel('CHANGE', record)}>
+                    Sửa
+                  </Button>
+                )}
+                <Popconfirm
+                  title='Thông báo'
+                  description='Bạn có chắc muốn xóa không?'
+                  onConfirm={() => confirmDelete(record?._id)}
+                  onCancel={cancel}
+                  okText='Yes'
+                  cancelText='No'
+                >
+                  <Button className='btn-delete'>Xóa</Button>
+                </Popconfirm>
+              </Space>
+            )
+          } else {
+            return (
+              <Space size='middle' css={cssTemplateTable}>
+                {!noEdit && (
+                  <Button type='primary' onClick={() => showModel('CHANGE', record)}>
+                    Sửa
+                  </Button>
+                )}
+              </Space>
+            )
+          }
+        } else {
+          return (
+            <Space size='middle' css={cssTemplateTable}>
+              {!noEdit && (
+                <Button type='primary' onClick={() => showModel('CHANGE', record)}>
+                  Sửa
+                </Button>
+              )}
+              <Popconfirm
+                title='Thông báo'
+                description='Bạn có chắc muốn xóa không?'
+                onConfirm={() => confirmDelete(record?._id)}
+                onCancel={cancel}
+                okText='Yes'
+                cancelText='No'
+              >
+                <Button className='btn-delete'>Xóa</Button>
+              </Popconfirm>
+            </Space>
+          )
         }
-        
       }
     }
   ]
 
   useEffect(() => {
     getAllCategory().then((res: any) => {
-      setFilter(res.data.map((item: any) => {
-        return { value: item._id, label: item.name }
-      }));
-
+      setFilter(
+        res.data.map((item: any) => {
+          return { value: item._id, label: item.name }
+        })
+      )
     })
     if (isAdminProduct) {
-      getAllProduct().then(res => setDataFilter(res.data))
+      getAllProduct().then((res) => setDataFilter(res.data))
     }
   }, [])
   const handleSelectChange = (value: any, option: any) => {
-    setSelectedValue(value);
+    setSelectedValue(value)
     if (value === 'all') {
-      setApplyFilter(true);
+      setApplyFilter(true)
     } else {
-      setApplyFilter(false);
-      const list = dataFilter.filter((item) => item.categoryId._id === value);
-      setData(list);
+      setApplyFilter(false)
+      const list = dataFilter.filter((item) => item.categoryId._id === value)
+      setData(list)
     }
-  };
+  }
 
   useEffect(() => {
     if (applyFilter) {
-      setApplyFilter(false);
-      setData(dataFilter);
+      setApplyFilter(false)
+      setData(dataFilter)
     }
-  }, [applyFilter]);
-
+  }, [applyFilter])
 
   const SelectInput: React.FC = () => (
     <Select
       showSearch
       style={{ width: 200 }}
-      placeholder="Search to Select"
-      optionFilterProp="children"
+      placeholder='Search to Select'
+      optionFilterProp='children'
       filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())}
       filterSort={(optionA, optionB) =>
         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
@@ -381,19 +415,19 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       value={selectedValue}
       onChange={handleSelectChange}
     >
-      <Select.Option value="all">All</Select.Option>
+      <Select.Option value='all'>All</Select.Option>
       {filter.map((option) => (
         <Select.Option key={option.value} value={option.value}>
           {option.label}
         </Select.Option>
       ))}
     </Select>
-  );
+  )
   return (
     <LayoutLoading condition={triggerLoadding}>
       <div className='flex pb-4 justify-between'>
         <div>
-          {!noCreate &&
+          {!noCreate && (
             <Button
               type='primary'
               onClick={() => showModel('CREATE')}
@@ -401,30 +435,36 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             >
               <PlusOutlined className='text-[20px] mb-[4px]' />
             </Button>
-          }
+          )}
         </div>
 
         <div className='flex space-x-3 items-center'>
           {isAdminProduct && <SelectInput />}
-          <Input placeholder='Tìm kiếm . . .' className='w-[350px]' onChange={handleValue} prefix={<SearchOutlined />} />
-          <Button type='primary' className='ml-3' onClick={handleSearchItem} >
+          <Input
+            placeholder='Tìm kiếm . . .'
+            className='w-[350px]'
+            onChange={handleValue}
+            prefix={<SearchOutlined />}
+          />
+          <Button type='primary' className='ml-3' onClick={handleSearchItem}>
             Tìm kiếm
           </Button>
         </div>
       </div>
-      {!errorSearch && <div className=''>
-        <div className='overflow-auto'>
-          <Table columns={columns} dataSource={dataTable} />
+      {!errorSearch && (
+        <div className=''>
+          <div className='overflow-auto'>
+            <Table columns={columns} dataSource={dataTable} />
+          </div>
+          <div>
+            <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
+              <Form form={form} layout='vertical' name='form_in_modal'>
+                {formEdit}
+              </Form>
+            </TemplateModal>
+          </div>
         </div>
-        <div>
-          <TemplateModal isModelOpen={isModelOpen} handleOk={handleOk} handleCancel={handleCancel}>
-            <Form form={form} layout='vertical' name='form_in_modal' >
-              {formEdit}
-            </Form>
-          </TemplateModal>
-        </div>
-      </div>
-      }
+      )}
       {errorSearch && <div>{errorSearch}</div>}
     </LayoutLoading>
   )
