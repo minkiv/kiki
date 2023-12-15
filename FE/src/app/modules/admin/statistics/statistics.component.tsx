@@ -7,6 +7,7 @@ import LayoutLoading from '~/app/component/stack/layout-loadding/layout-loadding
 import moment from 'moment';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { BiLineChart, BiLineChartDown } from "react-icons/bi"
+import { getAllUser } from '../user/service/user.service';
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -16,6 +17,8 @@ const Statistical = () => {
     const [subTotal, setSubTotal] = useState<any>()
     const [subCancel, setSubCancel] = useState<any>()
     const [peopel, setPeople] = useState<any>()
+    const [user, setUser] = useState<any>()
+    const [user1, setUser1] = useState<any>()
     const [dataRequest, setDataRequest] = useState<any>({
         startDate: '',
         endDate: '',
@@ -23,6 +26,54 @@ const Statistical = () => {
     });
     const [orders, setOrders] = useState<any>([])
     const [productSalesData, setProductSalesData] = useState<any>([]);
+
+    useEffect(() => {
+        getAllUser().then((res) => {
+            if (res) {
+                setUser(res?.data)
+            }
+        })
+    }, [])
+
+    const calculateChartDataUser = () => {
+        const genderUser: any = {};
+        user?.forEach((item: any) => {
+            const gendelData = item.gender;
+            if (genderUser[gendelData]) {
+                genderUser[gendelData]++;
+            } else {
+                genderUser[gendelData] = 1;
+            }
+        })
+        const data = Object.keys(genderUser).map((method) => ({
+            gender: method,
+            count: genderUser[method],
+        }));
+        return data
+    }
+
+    useEffect(() => {
+        setUser1(calculateChartDataUser());
+    }, [user]);
+    const conFig1: any = {
+        data: user1,
+        xField: 'count',
+        yField: 'gender',
+        legend: {
+            position: 'top-left',
+        },
+        barBackground: {
+            style: {
+                fill: 'rgba(0,0,0,0.1)',
+            },
+        },
+        interactions: [
+            {
+                type: 'active-region',
+                enable: false,
+            },
+        ],
+    };
     const calculateChartData = () => {
         const paymentMethodCounts: any = {};
 
@@ -30,7 +81,6 @@ const Statistical = () => {
             const paymentMethod = order.payment_methods;
             if (order.orderStatus === 'hoàn thành') {
                 if (paymentMethodCounts[paymentMethod]) {
-                    console.log(paymentMethodCounts[paymentMethod]++);
                     paymentMethodCounts[paymentMethod]++;
                 } else {
                     paymentMethodCounts[paymentMethod] = 1;
@@ -506,6 +556,11 @@ const Statistical = () => {
             <div className='py-10 my-10 h-[200px]'>
                 <h1 className='mt-10 font-semibold text-4xl'>Biểu đồ thống kê hình thức thanh toán</h1>
                 {productSalesData?.length == 0 ? (<div className='text-center mt-5 text-[25px]'>Không có đơn nào để thống kê </div>) : (<Bar {...coNfig} />)}
+
+            </div>
+            <div className='py-10 mt-[80px] my-10 h-[200px]'>
+                <h1 className='mt-10 font-semibold text-4xl'>Biểu đồ thống kê giới tính khách hàng</h1>
+                {productSalesData?.length == 0 ? (<div className='text-center mt-5 text-[25px]'>Không có đơn nào để thống kê </div>) : (<Bar {...conFig1} />)}
 
             </div>
             <div>
