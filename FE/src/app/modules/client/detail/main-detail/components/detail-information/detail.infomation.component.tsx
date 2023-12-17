@@ -24,8 +24,11 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
   const {
     data: { product: productDetail }
   } = useProductRedux()
+  const {
+    data: { carts,cartAccount },
+    actions
+  } = useCartRedux();
   const navigate = useNavigate()
-  const { actions } = useCartRedux()
   const [quantity, setQuantity] = useState(1)
   const [colorSelect, setColorSelect] = useState<any>()
   const [sizeSelect, setSizeSelect] = useState<any>()
@@ -90,7 +93,15 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
     const accessToken = localStorage.getItem('accessToken')
     if (!accessToken) {
       const storedCartString = localStorage.getItem('cartNoAccount');
-
+      actions.addProductToCartNoUser({
+        _id: generateUniqueId(),
+        product: productDetail,
+        quantityOrder: {
+          quantity,
+          nameColor: colorSelect.nameColor,
+          nameSize: sizeSelect.nameSize
+        }
+      });
       if (storedCartString !== null) {
         try {
           const existingCart = JSON.parse(storedCartString);

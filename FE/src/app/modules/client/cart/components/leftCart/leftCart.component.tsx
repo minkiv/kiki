@@ -14,12 +14,15 @@ interface leftCartProps {
 const LeftCart: FunctionComponent<leftCartProps> = () => {
   const [messageApi, contextHolder] = message.useMessage()
   const {
-    data: { carts, listProductBuy },
+    data: { carts, listProductBuy,cartAccount },
     actions
   } = useCartRedux()
   useEffect(() => {
     actions.getAllCart()
   }, [])
+  useEffect(()=>{
+    console.log(listProductBuy,'hệ')
+  },[cartAccount,listProductBuy])
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [showPopupSelect, setShowPopupSelect] = useState<any>({
     show: false,
@@ -158,10 +161,11 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   }
   const cartNoLoginData = localStorage.getItem("cartNoAccount");
   const cartNoLogin = JSON.parse(cartNoLoginData || '[]');
-  const combinedData = carts?.length > 0 ? carts : cartNoLogin;
+  const combinedData = carts?.length > 0 ? carts : cartAccount;
   const isAllSelected =
     listProductBuy.length >= combinedData?.length &&
     listProductBuy.every((itemBuy: any) => combinedData.some((item: any) => item._id === itemBuy._id))
+    console.log(isAllSelected,combinedData.length,listProductBuy.length)
   return (
     <div css={cssLeftCart}>
       {contextHolder}

@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllOrder } from "./thunk/order.thunk";
+import { getAllOrder,getAllOrderAdmin } from "./thunk/order.thunk";
 
 const initialState = {
     orders: [],
+    ordersAdmin:[],
     infoOrder: {}
 } as any
 export const orrderSlice = createSlice({
@@ -16,6 +17,9 @@ export const orrderSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getAllOrder.fulfilled, (state, action) => {
             state.orders = action.payload
+        })
+        builder.addCase(getAllOrderAdmin.fulfilled, (state, action) => {
+            state.ordersAdmin = action.payload
         })
     }
 })

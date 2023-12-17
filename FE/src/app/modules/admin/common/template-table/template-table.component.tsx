@@ -7,6 +7,8 @@ import { SearchOutlined, PlusOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 import { getAllCategory } from '../../category/service/category.service'
 import { getAllProduct } from '../../product/service/product.service'
+import { useOrderRedux } from '~/app/modules/client/redux/hook/useOrderReducer'
+import { getAllOrderAdmin } from '~/app/modules/client/redux/reducer/orderSlice/thunk/order.thunk'
 
 interface DataType {
   key: string
@@ -64,7 +66,14 @@ const TemplateTable: FC<ITemplateTableProp> = ({
   const [dataFilter, setDataFilter] = useState<any[]>([])
   const [selectedValue, setSelectedValue] = useState<string>('all')
   const [applyFilter, setApplyFilter] = useState<boolean>(false)
-  const [modal, contextHolder] = Modal.useModal()
+  const [modal, contextHolder] = Modal.useModal();
+  const {
+    data: { ordersAdmin },
+    actions
+  } = useOrderRedux();
+  useEffect(()=>{
+    actions.getAllOrderAdmin()
+  },[])
   const confirmDelete = (record: any) => {
     setTriggerLoadding(true)
     if(component==='category'){
@@ -81,7 +90,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           }
         })
     }else{
-      if(component ==='products'){
+      if(component ==='products' || component === 'users'){
         changeFunc({...record,status:false},record?._id).then(
           (res: any) => {
             if (res) {
@@ -121,7 +130,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       }
     }
   }
-  const deleteAbsolute = (category: any) => {
+  const deleteAbsoluteCategory = (category: any) => {
     const listProduct = dataProduct?.filter((product: any) => product.categoryId._id === category._id)
     listProduct?.map((product: any) => {
       chageProductCategoryFunc(
@@ -161,6 +170,61 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       }
     )
   }
+  const deleteAbsolute = (record:any)=>{
+    if(component ==='products'){
+      const exit = ordersAdmin.filter((order:any) =>{
+        return order.productOrder.some((product:any) => product.product?._id === record._id)
+      });
+      if(exit.length>0){
+        message.error('Không thể xóa sản phẩm này!');
+        return
+      }else{
+        deleteFunc(record._id).then(
+          (res: any) => {
+            if (res) {
+              console.log(res)
+              setTimeout(() => {
+                setTriggerLoadding(false)
+                message.success('Xóa thành công')
+                handelGetList()
+              }, 1000)
+            }
+          },
+          (err: any) => {
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.error(err.response.data)
+            }, 1000)
+          }
+        )
+      }
+    }else if(component === 'users'){
+      const exit = ordersAdmin.filter((order:any)=> order.user == record._id);
+      if(exit.length>0){
+        message.error('Không thể xóa người dùng này!');
+        return
+      }else{
+        deleteFunc(record._id).then(
+          (res: any) => {
+            if (res) {
+              console.log(res)
+              setTimeout(() => {
+                setTriggerLoadding(false)
+                message.success('Xóa thành công')
+                handelGetList()
+              }, 1000)
+            }
+          },
+          (err: any) => {
+            setTimeout(() => {
+              setTriggerLoadding(false)
+              message.error(err.response.data)
+            }, 1000)
+          }
+        )
+      }
+    }
+  }
   const configDeleteCateogry = {
     title: 'Tất cả sản phẩm sẽ được chuyển đến danh mục chưa phân loại!',
     content: <></>
@@ -181,7 +245,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           }
         })
     }
-    if(component==='products'){
+    if(component==='products' || component==='users'){
       changeFunc({...record,status:true}, record?._id).then(
         (res: any) => {
           if (res) {
@@ -339,7 +403,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
                   onClick={async () => {
                     const confirmed = await modal.confirm(configDeleteCateogry)
                     if (confirmed) {
-                      deleteAbsolute(record)
+                      deleteAbsoluteCategory(record)
                     }
                   }}
                 >
@@ -383,18 +447,42 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             )
           }
         }else{
-          if(component === 'products' && !record?.status){
-            return<Popconfirm
-            title='Thông báo'
-            description='Bạn có chắc muốn khôi phục không?'
-            onConfirm={() => confirmReset(record)}
-            onCancel={cancel}
-            okText='Yes'
-            cancelText='No'
-          >
-            <Button className='btn-edit'>Khôi phục</Button>
-          </Popconfirm>
-          }else{
+          if((component === 'products' && !record?.status)||component === 'users' && !record?.status){
+            return (
+              <Space size='middle' css={cssTemplateTable}>
+                <Popconfirm
+                  title='Thông báo'
+                  description='Bạn có chắc muốn khôi phục không?'
+                  onConfirm={() => confirmReset(record)}
+                  onCancel={cancel}
+                  okText='Yes'
+                  cancelText='No'
+                >
+                  <Button className='btn-edit'>Khôi phục</Button>
+                </Popconfirm>
+                <Popconfirm
+                  title='Thông báo'
+                  description='Bạn có chắc muốn xóa vĩn viễn không?'
+                  onConfirm={() => deleteAbsolute(record)}
+                  onCancel={cancel}
+                  okText='Yes'
+                  cancelText='No'
+                >
+                  <Button
+                  danger
+                  type='text'
+                >
+                  Xóa vĩnh viễn
+                </Button>
+                </Popconfirm>
+                
+                {contextHolder}
+              </Space>
+            )
+          }else {
+            if(component === 'users' && record.role === 'ADMIN'){
+              return
+            }
             return <Space size='middle' css={cssTemplateTable}>
             {!noEdit && <Button type='primary' onClick={() => showModel('CHANGE', record)}>
               Sửa

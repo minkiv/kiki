@@ -19,7 +19,7 @@ const UserManagemnet = () => {
 
   useEffect(() => {
     const columTemp: any = []
-    const title = ['', 'Họ Tên', 'Nick name', 'Email', 'Ngày sinh', 'Số điện thoại', '', 'Giới tính', 'Địa chỉ', 'Quyền', '']
+    const title = ['','', 'Họ Tên', 'Nick name', 'Email', 'Ngày sinh', 'Số điện thoại', '', 'Giới tính', 'Địa chỉ', 'Quyền', '']
     if (dataUser.length > 0) {
       Object?.keys(dataUser[0]).map((itemKey, key = 0) => {
         if (!['_id', '__v', 'password', 'updatedAt', 'createdAt', 'nationality'].includes(itemKey)) {
@@ -54,7 +54,7 @@ const UserManagemnet = () => {
   };
   return (
     <div>
-      <TemplateTable searchFunc={searchUser} setData={setDataUser} dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
+      <TemplateTable component='users' searchFunc={searchUser} setData={setDataUser} dataTable={dataUser} columnTable={column} handelGetList={handelGetList} createFunc={createUser} deleteFunc={deleteUser} changeFunc={changeUser}
         formEdit={
           <Fragment>
             <Form.Item label='Email' name='email' rules={[
