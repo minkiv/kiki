@@ -34,6 +34,10 @@ const authSchema = mongoose.Schema({
         type: String,
         enum: ["USER", "USER_STORE", "ADMIN"],
         default: "USER"
+    },
+    status: {
+        type: Boolean,
+        default: true
     }
 }, {
     timestamps: true

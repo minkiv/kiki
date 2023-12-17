@@ -6,7 +6,6 @@ const initialState = {
     cartAccount: JSON.parse(localStorage.getItem('cartNoAccount')!) ?? []
 } as any
 
-console.log(initialState.cartAccount)
 const cartSlice = createSlice({
     name: "cart",
     initialState,
@@ -27,7 +26,22 @@ const cartSlice = createSlice({
                 state.carts.push(action.payload)
             }
         },
+        addProductToCartNoUser: (state, action) => {
+            const productPayload = action.payload as any
+            const findProductInToCart = state.cartAccount.findIndex((itemProduct: any) => {
+                itemProduct.product.name == productPayload.product.name &&
+                    itemProduct.quantityOrder.nameColor == productPayload.quantityOrder.nameColor &&
+                    itemProduct.quantityOrder.nameSize == productPayload.quantityOrder.nameSize
+            })
 
+            if (findProductInToCart > -1) {
+                state.cartAccount[findProductInToCart].quantityOrder.quantity =
+                    state.cartAccount[findProductInToCart].quantityOrder.quantity = productPayload.quantityOrder.quantity
+            }
+            else {
+                state.cartAccount.push(action.payload)
+            }
+        },
         updateOrderProduct: (state, action) => {
             if (state.carts.length > 0) {
                 const findProductIntoCart = state.carts.find(
@@ -159,7 +173,7 @@ const cartSlice = createSlice({
         //     state.cartAccount = localStorage.setItem('cartNoAccount', JSON.stringify(state.cartAccount))
         // },
         selectAllProductBuy: (state) => {
-            if (state.carts.length > 0) {
+                if (state.carts.length > 0) {
                 const productIndex = state.listProductBuy.length == state.carts.length
                 if (productIndex) {
                     localStorage.removeItem("listSelectCart");
@@ -171,6 +185,16 @@ const cartSlice = createSlice({
                 }
             }
             else {
+                if (state.cartAccount.length > 0) {
+                    const productIndex = state.listProductBuy.length == state.cartAccount.length
+                    if (productIndex) {
+                        localStorage.removeItem("listSelectCart");
+                        state.listProductBuy = [];
+                    } else {
+                        state.listProductBuy = [...state.cartAccount];
+                        localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy));
+                    }
+                }else{
                 const productIndex = state.listProductBuy.length == state.cartAccount.length
                 if (productIndex) {
                     localStorage.removeItem("listSelectCart");
@@ -180,6 +204,7 @@ const cartSlice = createSlice({
                     localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy));
 
                 }
+            }
             }
         },
 

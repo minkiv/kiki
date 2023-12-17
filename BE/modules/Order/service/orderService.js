@@ -108,7 +108,12 @@ export const deleteUsers = async (req) => {
 export const searchOrder = async (req, res) => {
     const { fullname } = req.query;
     const searchRegex = new RegExp(fullname, "i");
-    const orders = await Order.find({ fullname: searchRegex });
+    const orders = await Order.find({ fullname: searchRegex }).populate({
+        path: 'productOrder',
+        populate: {
+            path: 'product',
+        },
+    });
     return orders
 };
 

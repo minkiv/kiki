@@ -15,11 +15,9 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
   const numEachPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Tạo bản sao của mảng trước khi sắp xếp
-  const sortedData = [...data].sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   // Tính toán phần của mảng cần hiển thị trên trang hiện tại
-  const itemsPerPage = sortedData.slice((currentPage - 1) * numEachPage, currentPage * numEachPage);
+  const itemsPerPage = data.slice((currentPage - 1) * numEachPage, currentPage * numEachPage);
 
   const handleChangePaginate = (value: number) => {
     window.scrollTo({
@@ -43,7 +41,7 @@ const ListProducts: FunctionComponent<ListProductProps> = ({ data }) => {
         ))}
       </div>
       <div className='w-[100%] text-center'>
-        <Pagination defaultPageSize={numEachPage} onChange={handleChangePaginate} defaultCurrent={currentPage} total={sortedData.length} />
+        <Pagination defaultPageSize={numEachPage} onChange={handleChangePaginate} defaultCurrent={currentPage} total={data.length} />
       </div>
     </div>
   );

@@ -132,7 +132,6 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
       'sub5',
       <GrFormFilter />,
       [
-        getItem(<div className='sideBar-sort'>Mặc định</div>, 'sort1'),
         getItem(<div className='sideBar-sort' onClick={() => sortNews('new')}>Mới nhất</div>, 'sort2', <MdOutlineAutorenew />),
         // getItem(<div className='sideBar-sort'>Được mua nhiều nhất</div>, 'sort3', <ImStarEmpty />),
         // getItem(<div className='sideBar-sort'>Được yêu thích nhất</div>, 'sort4', <IoIosHeartEmpty />),

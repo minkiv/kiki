@@ -44,8 +44,8 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   const [content, setContent] = useState([])
   const [open, setOpen] = useState(false);
   const [openKeys, setOpenKeys] = useState(['']);
-  const cartAccount = localStorage.getItem('cartNoAccount')
-  const cartNoLogin = JSON.parse(cartAccount || '[]');
+  const cartAccounts = localStorage.getItem('cartNoAccount')
+  const cartNoLogin = JSON.parse(cartAccounts || '[]');
 
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -60,9 +60,11 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   }, []);
   let navigate = useNavigate()
   const {
-    data: { carts },
+    data: { carts,cartAccount },
     actions
-  } = useCartRedux()
+  } = useCartRedux();
+  useEffect(()=>{
+  },[cartAccount])
   const [searchTerm, setSearchTerm] = useState('')
   const [searchProducts, setSearchProducts] = useState<any[]>([])
   const [stateInput, setStateInput] = useState(false)
@@ -134,6 +136,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
   const showDrawer = () => {
     setOpen(true);
   };
+  let not:any;
   const items: MenuItem[] = [
     getItem(<div className='item-menu'>
       {accessToken ? (
@@ -194,6 +197,10 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
         Hoạt động cộng đồng
       </Link>, '11'),
     ]),
+  !accessToken? getItem(<Link onClick={onClose} to={'/order-process'} className='py-4 px-4 font-semibold'>
+  {' '}
+  Kiểm tra đơn hàng
+</Link>, 'sub5'): not
   ];
   return (
     <div>
@@ -217,7 +224,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       </Drawer>
       <div className='mx-auto top-0 flex items-center justify-between z-[2]  lg:px-[30px] px-[10px] w-[100%] bg-white fixed  h-[80px]'>
         <div className='md:hidden text-[22px]' onClick={showDrawer}><CgMenuLeftAlt /></div>
-        <div css={cssMenu} className='space-x-8'>
+        <div css={cssMenu} className='space-x-6'>
           <div>
             <Link className='hover:text-red-500' to={'/'}>
               TRANG CHỦ
@@ -257,9 +264,14 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
               </Link>
             </div>
           </div>
+          {!accessToken&&<div>
+            <Link className='hover:text-red-500' to={'/order-process'}>
+              ĐƠN HÀNG CỦA BẠN
+            </Link>
+          </div>}
         </div>
         <Link to={'/'}>
-          <img src="https://res.cloudinary.com/dfj3obru8/image/upload/v1702389365/pwrxo90fsvgcfwxregrs.png" className='sm:w-[170px] max-h-[80px] max-w-[160px] sm:mr-12 ' />
+          <img src="https://res.cloudinary.com/dfj3obru8/image/upload/v1702389365/pwrxo90fsvgcfwxregrs.png" className='sm:w-[150px] max-h-[80px] max-w-[160px] sm:mr-12 ' />
         </Link>
         <div className='flex align-items:center' css={cssWrapperMenu}>
           <div className='relative max-sm:hidden'>
@@ -395,7 +407,7 @@ const cssMenu = css`
   font-weight: 600;
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif !important;
-
+  font-size: 12px;
   .news-product {
     list-style: none;
     background-color: white;

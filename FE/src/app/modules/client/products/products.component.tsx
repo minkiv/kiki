@@ -27,7 +27,8 @@ const Products: FunctionComponent<ProductProps> = () => {
   }, [])
   useEffect(() => {
      if (!keyword || keyword === "") {
-      setData(products)
+      const sortedData = [...products].sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setData(sortedData)
     }
   }, [products])
   useEffect(() => {
