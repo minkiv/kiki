@@ -122,8 +122,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
     getAllOrder().then((res) => {
       setDataOrder(res.data)
     })
-    console.log(dataOrder)
-    getAllProduct().then((res) => {
+     getAllProduct().then((res) => {
       setDataProduct(res.data)
       setListProduct(
         res.data.map((item: any) => {
@@ -424,8 +423,7 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
                                 options={listProduct}
                                 onChange={(value, label) => {
                                   handleProductChange(value)
-                                  console.log(value, label)
-                                }}
+                                                            }}
                               ></Select>
                             </Form.Item>
 

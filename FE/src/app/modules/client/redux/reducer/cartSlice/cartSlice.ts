@@ -75,7 +75,6 @@ const cartSlice = createSlice({
                 const findItemCart = state.carts.findIndex((item: any) => item._id === itemCart._id)
                 switch (action.payload.type) {
                     case 'INCREMENT':
-                        console.log(state.carts)
                         if (Number(itemCart.quantityOrder.quantity) < Number(quantityWithCondition)) {
                             state.carts[findItemCart].quantityOrder.quantity += 1
                         }
@@ -173,7 +172,7 @@ const cartSlice = createSlice({
         //     state.cartAccount = localStorage.setItem('cartNoAccount', JSON.stringify(state.cartAccount))
         // },
         selectAllProductBuy: (state) => {
-                if (state.carts.length > 0) {
+            if (state.carts.length > 0) {
                 const productIndex = state.listProductBuy.length == state.carts.length
                 if (productIndex) {
                     localStorage.removeItem("listSelectCart");
@@ -194,17 +193,17 @@ const cartSlice = createSlice({
                         state.listProductBuy = [...state.cartAccount];
                         localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy));
                     }
-                }else{
-                const productIndex = state.listProductBuy.length == state.cartAccount.length
-                if (productIndex) {
-                    localStorage.removeItem("listSelectCart");
-                    state.listProductBuy = [];
                 } else {
-                    state.listProductBuy = [...state.cartAccount];
-                    localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy));
+                    const productIndex = state.listProductBuy.length == state.cartAccount.length
+                    if (productIndex) {
+                        localStorage.removeItem("listSelectCart");
+                        state.listProductBuy = [];
+                    } else {
+                        state.listProductBuy = [...state.cartAccount];
+                        localStorage.setItem("listSelectCart", JSON.stringify(state.listProductBuy));
 
+                    }
                 }
-            }
             }
         },
 

@@ -29,8 +29,7 @@ const Register: FunctionComponent<RegisterProps> = () => {
     resolver: yupResolver(validateRegister)
   })
   const onSubmit = (data: any) => {
-    console.log(data)
-    registerSystem(data).then(
+      registerSystem(data).then(
       (res) => {
         if (res) {
           navigate('/customer/login')

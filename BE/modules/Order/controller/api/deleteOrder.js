@@ -6,7 +6,6 @@ import { deleteUsers } from '../../service/orderService.js';
 const getOrderStatusById = catchAsync(async (req, res) => {
     const orderId = req.params.id;
     const order = await Order.findById(orderId);
-    console.log(order)
     if (order) {
         const orderStatus = order.orderStatus;
         if (orderStatus == "huỷ đơn") {

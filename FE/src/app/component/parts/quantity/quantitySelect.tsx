@@ -126,8 +126,7 @@ const SelectQuantityCart: FunctionComponent<SelectQuantityCartProps> = ({
                 quantity: event.target.value == "" ? Number(1) : Number(event.target.value) || event.target.value > quantityWithCondition ? Number(quantityWithCondition) : Number(event.target.value)
             }
         }
-        console.log(requestObjectProduct, event.target.value)
-        await UpdateProductToCart(requestObjectProduct)
+          await UpdateProductToCart(requestObjectProduct)
     }
 
     return (

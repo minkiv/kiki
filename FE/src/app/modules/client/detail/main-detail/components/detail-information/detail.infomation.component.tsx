@@ -146,8 +146,6 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
         }];
 
         localStorage.setItem('cartNoAccount', JSON.stringify(newCart));
-
-        console.log('Giỏ hàng sau khi thêm sản phẩm mới:', newCart);
       }
     }
 
@@ -184,8 +182,7 @@ const DetailInformation: FunctionComponent<DetailInformation> = ({ }) => {
           message.success('thêm vào giỏ hàng thành công')
         }
       }, (err) => {
-        console.log(err)
-        message.error(err?.response?.data)
+           message.error(err?.response?.data)
       })
     }
   }
