@@ -29,7 +29,7 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem('Giới thiệu', 'sub1', [
-    getItem('Về IVY moda', '1'),
+    getItem('Về KiKi', '1'),
     getItem('Tuyển dụng', '2'),
     getItem('Hệ thống cửa hàng', '3'),
   ]),
@@ -90,7 +90,7 @@ const [openKeys, setOpenKeys] = useState(['']);
               <p><b>Số điện thoại: </b> 0243 205 2222/ 090 589 8683</p>
             </div>
             <div className='py-3'>
-              <p><b>Email: </b> cskh@ivy.com.vn</p>
+              <p><b>Email: </b> kiki@gmail.com</p>
             </div>
           </div>
 
@@ -109,7 +109,7 @@ const [openKeys, setOpenKeys] = useState(['']);
         <div className='column-two max-sm:hidden'>
           <h2 className='text-title'>Giới thiệu</h2>
           <div className='text-content' >
-            <p>Về IVY moda</p>
+            <p>Về KiKi</p>
             <p>Tuyển dụng</p>
             <p>Hệ thống cửa hàng</p>
           </div>
@@ -149,7 +149,7 @@ const [openKeys, setOpenKeys] = useState(['']);
        </div>
         <div className='column-five'>
           <div className='form'>
-            <h2 className='text-title'>Nhận thông tin các chương trình của IVY moda</h2>
+            <h2 className='text-title'>Nhận thông tin các chương trình của KiKi</h2>
             <form className='flex justify-between'>
               <input className='email' type="text" name="email" placeholder="Nhập địa chỉ email" />
               <ButtonSqua className='btnSqua'>
@@ -168,7 +168,7 @@ const [openKeys, setOpenKeys] = useState(['']);
         </div>
       </div>
       <div className='p-9'>
-        <div className='text-site'>©IVYmoda All rights reserved</div>
+        <div className='text-site'>©KiKi All rights reserved</div>
       </div>
     </footer>
   )

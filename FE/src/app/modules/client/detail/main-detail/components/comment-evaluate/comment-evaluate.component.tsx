@@ -46,7 +46,7 @@ const CommentEvaluateComponent: FunctionComponent<DetailInformation> = () => {
                 actions.getAllComments(id)
             }
         }, (err) => {
-            toast.error(err.response.data)
+            toast.error("không thành công")
         })
     }
     return (
