@@ -22,7 +22,7 @@ const CategoryManagement = () => {
     }, [reset])
     useEffect(() => {
         const columTemp: any = [];
-        const title = ['', 'Danh mục', 'Ngày tạo', 'Ngày cập nhật']
+        const title = ['', 'Danh mục', '','Ngày tạo', 'Ngày cập nhật']
         if (dataCategory.length > 0) {
             Object.keys(dataCategory[0]).forEach((itemKey, key = 0) => {
                 if (!['_id', '__v'].includes(itemKey)) {

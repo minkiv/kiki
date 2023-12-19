@@ -11,7 +11,7 @@ const { Option } = Select
 
 const { Title } = Typography
 
-interface OrderManagementProps {}
+interface OrderManagementProps { }
 
 const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
   const [orderStatus, setOrderStatus] = useState<string | number>('đang chờ duyệt')
@@ -265,9 +265,15 @@ const OrderManagement: FunctionComponent<OrderManagementProps> = () => {
         break
       case 'đang vận chuyển':
         return (
-          <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'hoàn thành')}>
-            Chuyển hoàn thành
-          </Button>
+          <Fragment>
+            <Button className='text-blue-700' onClick={() => handleUpdateStatusOrder(orderId, 'hoàn thành')}>
+              Chuyển hoàn thành
+            </Button>
+
+            <Button danger onClick={() => handleUpdateStatusOrder(orderId, 'huỷ đơn')}>
+              Khách hoàn đơn
+            </Button>
+          </Fragment>
         )
       case 'hoàn thành':
         break

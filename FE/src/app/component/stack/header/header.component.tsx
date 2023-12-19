@@ -186,7 +186,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
     </div>, 'sub5', null, [
       getItem(<Link onClick={onClose} to={'/general'} className='py-4 px-4 font-semibold'>
         {' '}
-        Về Ivy modar
+        Về KiKi
       </Link>, '9'),
       getItem(<Link onClick={onClose} to={'/Community-Activities'} className='py-4 px-4 font-semibold'>
         {' '}
@@ -252,7 +252,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
             <div className='news-product'>
               <Link to={'/general'} className='py-4 px-4 font-semibold'>
                 {' '}
-                Về Ivy modar
+                Về KiKi
               </Link>
               <Link to={'/Community-Activities'} className='py-4 px-4 font-semibold'>
                 {' '}
