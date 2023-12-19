@@ -112,8 +112,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         deleteFunc(record._id).then(
           (res: any) => {
             if (res) {
-              console.log(res)
-              setTimeout(() => {
+                    setTimeout(() => {
                 setTriggerLoadding(false)
                 message.success('Xóa thành công')
                 handelGetList()
@@ -154,8 +153,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
     deleteFunc(category._id).then(
       (res: any) => {
         if (res) {
-          console.log(res)
-          setTimeout(() => {
+              setTimeout(() => {
             setTriggerLoadding(false)
             message.success('Xóa thành công')
             handelGetList()
@@ -182,8 +180,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         deleteFunc(record._id).then(
           (res: any) => {
             if (res) {
-              console.log(res)
-              setTimeout(() => {
+                      setTimeout(() => {
                 setTriggerLoadding(false)
                 message.success('Xóa thành công')
                 handelGetList()
@@ -207,8 +204,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         deleteFunc(record._id).then(
           (res: any) => {
             if (res) {
-              console.log(res)
-              setTimeout(() => {
+                        setTimeout(() => {
                 setTriggerLoadding(false)
                 message.success('Xóa thành công')
                 handelGetList()
@@ -312,8 +308,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
         .validateFields()
         .then((values: any) => {
           form.resetFields()
-          console.log(defaultValue)
-          changeFunc(values, defaultValue._id).then(
+                changeFunc(values, defaultValue._id).then(
             (res: any) => {
               if (res) {
                 setIsModelOpen(false)
@@ -357,8 +352,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
       (err: any) => {
         setTimeout(() => {
           setTriggerLoadding(false)
-          console.log(err.response.data.message)
-          setErrorSearch(err.response.data.message)
+              setErrorSearch(err.response.data.message)
         }, 1000)
       }
     )

@@ -158,9 +158,7 @@ export const TableOrderDetail: FC<PropsTypes> = ({ buttonByStatus, dataTable, is
             title: 'Giá',
             key: 'Price',
             render: (_: any, record: any) => {
-                console.log(record);
-
-                return <strong className='block text-center'>{(record.quantityOrder.quantity * record.product.price).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</strong>
+                          return <strong className='block text-center'>{(record.quantityOrder.quantity * record.product.price).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</strong>
             }
         },
         // {

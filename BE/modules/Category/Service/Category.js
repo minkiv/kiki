@@ -20,7 +20,6 @@ export const addCategory = async (req) => {
 }
 
 export const updateCategory = async (req) => {
-    console.log(req)
     const id = req.params.id
     const update = await Category.updateOne({
         _id: id

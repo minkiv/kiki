@@ -21,7 +21,6 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     actions.getAllCart()
   }, [])
   useEffect(()=>{
-    console.log(listProductBuy,'hệ')
   },[cartAccount,listProductBuy])
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [showPopupSelect, setShowPopupSelect] = useState<any>({
@@ -165,8 +164,7 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   const isAllSelected =
     listProductBuy.length >= combinedData?.length &&
     listProductBuy.every((itemBuy: any) => combinedData.some((item: any) => item._id === itemBuy._id))
-    console.log(isAllSelected,combinedData.length,listProductBuy.length)
-  return (
+    return (
     <div css={cssLeftCart}>
       {contextHolder}
       <div className='flex'>

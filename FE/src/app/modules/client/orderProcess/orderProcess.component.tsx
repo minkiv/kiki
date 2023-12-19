@@ -17,6 +17,10 @@ const OrderProcess = () => {
     phoneNumber: "",
     productOrder: [],
     payment_methods: "",
+    district: "",
+    commune:"",
+    locationDetail:"",
+    city:"",
     totalprice: Number,
 })
   useEffect(()=>{
@@ -73,7 +77,11 @@ const OrderProcess = () => {
         phoneNumber: record?.phoneNumber,
         productOrder: record?.productOrder,
         totalprice: record?.totalprice,
-        payment_methods: record?.payment_methods
+        payment_methods: record?.payment_methods,
+        district: record?.district ,
+        commune: record?. commune,
+        locationDetail: record?.locationDetail,
+        city: record?.city,
     })
 }
 const items: DescriptionsProps['items'] = [
@@ -86,20 +94,40 @@ const items: DescriptionsProps['items'] = [
       key: '2',
       label: 'Số điện thoại',
       children: detailRecord?.phoneNumber
-  }
+  },
+  {
+    key: '3',
+    label: 'Thành phố / Tỉnh',
+    children: detailRecord?.city
+},
+{
+    key: '4',
+    label: 'Quận / huyện',
+    children: detailRecord?.district
+},
+{
+  key: '6',
+  label: 'Phường / Xã',
+  children: detailRecord?.commune
+},
+{
+  key: '7',
+  label: 'Địa chỉ chi tiết',
+  children: detailRecord?.locationDetail
+}
 ]
 const columnListProduct = [
   {
       title: 'Tên Sản Phẩm',
       key: 'name',
-      render: (_: any, record: any) => <div className=''>{record.product.name}</div>
+      render: (_: any, record: any) => <div className=''>{record?.product?.name}</div>
   },
   {
       title: 'Ảnh',
       key: 'images',
       render: (_: any, record: any) => (
           <div style={{ width: 70 }}>
-              {record?.product.images?.slice(0, 1).map((image: any) => image?.response || image?.url) ? <img src={record?.product.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} /> : 'Chưa có ảnh sản phẩm'}
+              {record?.product?.images?.slice(0, 1).map((image: any) => image?.response || image?.url) ? <img src={record?.product?.images?.slice(0, 1).map((image: any) => image?.response || image?.url)} /> : 'Chưa có ảnh sản phẩm'}
           </div>
       )
   },
@@ -107,8 +135,7 @@ const columnListProduct = [
       title: 'Giá',
       key: 'Price',
       render: (_: any, record: any) => {
-          console.log(record,'ủa');
-          return <strong className='block text-center'>{(record.quantityOrder.quantity * record.product.price).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</strong>
+                 return <strong className='block text-center'>{(record?.quantityOrder?.quantity * record?.product?.price)?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</strong>
       }
   },
   {
@@ -116,7 +143,7 @@ const columnListProduct = [
       key: 'quantityOrder',
       render: (_: any, record: any) => (
           <div className=''>
-              {record.quantityOrder.nameColor} | {record.quantityOrder.nameSize} | {record.quantityOrder.quantity}
+              {record?.quantityOrder?.nameColor} | {record?.quantityOrder?.nameSize} | {record?.quantityOrder?.quantity}
           </div>
       )
   }

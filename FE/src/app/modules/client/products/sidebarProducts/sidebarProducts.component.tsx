@@ -51,8 +51,7 @@ const SidebarProducts: FunctionComponent<SidebarProductsProps> = (props) => {
   };
   const onClose = () => {
     setOpen(false);
-    console.log(open)
-  };
+    };
   const { data, onDataUpdate, getPrices, sortPrices,sortNewProduct,sortSize , sortColor,
     listColor} = props
   const {

@@ -4,7 +4,6 @@ import status from 'http-status';
 import Pusher from 'pusher';
 
 const updateOders = catchAsync(async (req, res) => {
-    console.log(req.body.orderId)
     await updateOrder(req)
 
     const pusher = new Pusher({
