@@ -13,12 +13,13 @@ const Cart: FunctionComponent<CartProps> = () => {
   const cartAccount = localStorage.getItem('cartNoAccount')
   const cartNoLogin = JSON.parse(cartAccount || '[]');
   const {
-    data: { carts },
+    data: { carts,cartAccount:cartAccount1 },
     actions
   } = useCartRedux()
   useEffect(() => {
     actions.getAllCart()
-  }, [])
+    console.log("fix")
+  }, [cartAccount1])
   window.addEventListener('unload', function () {
     localStorage.removeItem('listSelectCart');
   });

@@ -6,7 +6,11 @@ const vorcherSchema = mongoose.Schema({
     type:String,
     code: String,
     startday: String,
-    endday: String
+    endday: String,
+    status: {
+        type: Boolean,
+        default: true
+    }
 },
     {
         timestamps: true

@@ -90,7 +90,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           }
         })
     }else{
-      if(component ==='products' || component === 'users'){
+      if(component ==='products' || component === 'users' || component==='voucher'){
         changeFunc({...record,status:false},record?._id).then(
           (res: any) => {
             if (res) {
@@ -241,7 +241,7 @@ const TemplateTable: FC<ITemplateTableProp> = ({
           }
         })
     }
-    if(component==='products' || component==='users'){
+    if(component==='products' || component==='users' || component ==='voucher'){
       changeFunc({...record,status:true}, record?._id).then(
         (res: any) => {
           if (res) {
@@ -408,8 +408,25 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             )
           }
           return
-        } else if (component === 'voucher' && !record?.status) {
+        } else if (component === 'voucher') {
           if (record.timeRemaining === 'Hết hạn') {
+            if(!record?.status){
+              return (
+                <Space size='middle' css={cssTemplateTable}>
+                  <Popconfirm
+                    title='Thông báo'
+                    description='Bạn có chắc muốn khôi phục không?'
+                    onConfirm={() => confirmReset(record)}
+                    onCancel={cancel}
+                    okText='Yes'
+                    cancelText='No'
+                  >
+                    <Button className='btn-edit'>Khôi phục</Button>
+                  </Popconfirm>
+                  {contextHolder}
+                </Space>
+              )
+            }
             return (
               <Space size='middle' css={cssTemplateTable}>
                 {!noEdit && (
@@ -475,7 +492,9 @@ const TemplateTable: FC<ITemplateTableProp> = ({
             )
           }else {
             if(component === 'users' && record.role === 'ADMIN'){
-              return
+              return <Button type='primary' onClick={() => showModel('CHANGE', record)}>
+              Sửa
+            </Button>
             }
             return <Space size='middle' css={cssTemplateTable}>
             {!noEdit && <Button type='primary' onClick={() => showModel('CHANGE', record)}>

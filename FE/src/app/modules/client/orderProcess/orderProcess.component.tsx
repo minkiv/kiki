@@ -41,12 +41,15 @@ const OrderProcess = () => {
   const handleSubmit=()=>{
     if(validatePhone(phoneNumber) && name!==''){
        searchOrder(name).then((res)=>{
+        console.log(res)
         const found = res.data.filter((order:any)=>order.user === null && order.phoneNumber == phoneNumber )
         if(found.length >0){
           setFoundOrder(found)
         }else{
           message.error('Không tìm thấy đơn hàng của bạn!')
         }
+      }).catch((error:any)=>{
+        message.error('Không tìm thấy đơn hàng của bạn!')
       })
     }
     else{

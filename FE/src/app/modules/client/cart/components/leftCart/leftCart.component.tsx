@@ -13,6 +13,7 @@ interface leftCartProps {
 
 const LeftCart: FunctionComponent<leftCartProps> = () => {
   const [messageApi, contextHolder] = message.useMessage()
+  const [accessToken,setAccessToken] = useState<any>()
   const {
     data: { carts, listProductBuy,cartAccount },
     actions
@@ -21,6 +22,11 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
     actions.getAllCart()
   }, [])
   useEffect(()=>{
+    const accessToken = localStorage.getItem('accessToken')
+  setAccessToken(accessToken);
+  },[cartAccount])
+  useEffect(()=>{
+    console.log(listProductBuy,'hệ')
   },[cartAccount,listProductBuy])
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [showPopupSelect, setShowPopupSelect] = useState<any>({
@@ -160,7 +166,8 @@ const LeftCart: FunctionComponent<leftCartProps> = () => {
   }
   const cartNoLoginData = localStorage.getItem("cartNoAccount");
   const cartNoLogin = JSON.parse(cartNoLoginData || '[]');
-  const combinedData = carts?.length > 0 ? carts : cartAccount;
+  // const combinedData = carts?.length > 0 ? carts : cartAccount;
+  const combinedData = accessToken ? carts : cartAccount;
   const isAllSelected =
     listProductBuy.length >= combinedData?.length &&
     listProductBuy.every((itemBuy: any) => combinedData.some((item: any) => item._id === itemBuy._id))

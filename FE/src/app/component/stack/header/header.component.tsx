@@ -124,6 +124,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
       localStorage.removeItem('voucherCode');
       localStorage.removeItem("sale");
       localStorage.removeItem("total");
+      actions.clearCartNoAccount();
       navigate('/customer/login')
     } else {
       navigate('/')
@@ -365,7 +366,7 @@ const HeaderComponent: FunctionComponent<HeaderComponentProps> = () => {
               if (item.hidden === "Hiển thị") {
                 return (
                   <p style={{ padding: "0px 300px" }} key={item._id} className='max-sm:text-[14px] max-sm:mt-[2px] text-[20px] text-black italic flex' >
-                    <img className='w-auto max-sm:h-[24px] h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" />
+                    {/* <img className='w-auto max-sm:h-[24px] h-[30px] px-3' src="https://pubcdn.ivymoda.com/ivy2/images/logo.png" alt="Logo" /> */}
                     {item.content}
                   </p>
                 );

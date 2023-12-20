@@ -168,6 +168,9 @@ const cartSlice = createSlice({
         clearCart: (state) => {
             state.listProductBuy = []
         },
+        clearCartNoAccount: (state) => {
+            state.cartAccount = []
+        },
         // callCart: (state) => {
         //     state.cartAccount = localStorage.setItem('cartNoAccount', JSON.stringify(state.cartAccount))
         // },

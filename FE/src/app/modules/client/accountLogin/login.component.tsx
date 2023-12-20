@@ -9,12 +9,16 @@ import { loginSystem } from '~/app/api/auth/auth.api';
 import { useAuthRedux } from '../redux/hook/useAuthReducer';
 import { message } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useCartRedux } from '../redux/hook/useCartReducer';
 
 interface LoginProps {
     props?: any
 }
 const Login: FunctionComponent<LoginProps> = () => {
     const [messageApi, contextHolder] = message.useMessage();
+    const {
+        actions
+      } = useCartRedux();
     let navigate = useNavigate()
     const { handleSubmit, control, formState: { errors } } = useForm({
         mode: 'onChange',
@@ -34,6 +38,7 @@ const Login: FunctionComponent<LoginProps> = () => {
                 });
             }
             localStorage.setItem("checkAuth", res.data.user.role)
+            actions.clearCartNoAccount();
         },
 
             (err) => {
